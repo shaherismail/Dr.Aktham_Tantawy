@@ -1,0 +1,10 @@
+{
+  "name": "dr-aktham-dental-clinic",
+  "version": "1.0.0",
+  "description": "Premium Dental Clinic website UI/UX mockups and interactive site for Dr. Aktham",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx -y http-server -p 8080"
+  },
+  "dependencies": {}
+}
