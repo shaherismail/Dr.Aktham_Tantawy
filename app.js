@@ -595,7 +595,58 @@ function initPatientProfile() {
             
             // Re-render profile lists
             updatePatientProfilePage();
+            
+            // Re-render testimonials if connected
+            initTestimonialsCarousel();
         });
+    }
+
+    // Connect Review submission form
+    const reviewForm = document.getElementById('addReviewForm');
+    if (reviewForm) {
+        if (!reviewForm.dataset.bound) {
+            reviewForm.dataset.bound = 'true';
+            reviewForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const profileJson = localStorage.getItem('current_patient_profile');
+                if (!profileJson) {
+                    alert('خطأ: لا يوجد ملف مريض نشط حالياً.');
+                    return;
+                }
+                
+                const p = JSON.parse(profileJson);
+                const starsRadio = reviewForm.querySelector('input[name="reviewStars"]:checked');
+                if (!starsRadio) {
+                    alert('يرجى تحديد تقييم بالنجوم أولاً.');
+                    return;
+                }
+                const starsVal = parseInt(starsRadio.value);
+                const textVal = document.getElementById('reviewText').value.trim();
+                
+                if (supabase) {
+                    supabase.from('testimonials').insert([{
+                        name: p.name,
+                        tag: 'مريض مـؤكّد ✓',
+                        stars: starsVal,
+                        text: textVal,
+                        status: 'approved'
+                    }]).then(({ error }) => {
+                        if (error) {
+                            console.error('Error saving testimonial:', error);
+                            alert('حدث خطأ أثناء إرسال التقييم. يرجى المحاولة لاحقاً.');
+                        } else {
+                            alert('🎉 شكراً لك! تم إرسال تقييمك بنجاح وسيظهر فوراً في الصفحة الرئيسية.');
+                            reviewForm.reset();
+                            initTestimonialsCarousel();
+                        }
+                    });
+                } else {
+                    alert('تم إرسال التقييم بنجاح (محاكاة محلية، يرجى ربط Supabase للحفظ الفعلي).');
+                    reviewForm.reset();
+                }
+            });
+        }
     }
 
     updatePatientProfilePage();
@@ -633,6 +684,17 @@ function updatePatientProfilePage() {
     noView.style.display = 'none';
 
     const renderBookings = (bookingsList) => {
+        // Show review section if at least one booking is confirmed
+        const reviewSection = document.getElementById('addReviewSection');
+        if (reviewSection) {
+            const hasConfirmed = bookingsList.some(b => b.status === 'confirmed');
+            if (hasConfirmed) {
+                reviewSection.style.display = 'block';
+            } else {
+                reviewSection.style.display = 'none';
+            }
+        }
+
         if (bookingsList.length === 0) {
             noView.style.display = 'flex';
             listView.style.display = 'none';
@@ -796,31 +858,40 @@ function checkUrlCallbacks() {
     }
 }
 
-// Testimonials Slider logic
+// Testimonials Slider logic (dynamic fetching from Supabase)
 function initTestimonialsCarousel() {
-    const track = document.querySelector('.testimonial-track');
-    if (!track) return;
+    const track = document.getElementById('testimonialsTrack');
+    const indicatorsContainer = document.getElementById('testimonialsIndicators');
+    if (!track || !indicatorsContainer) return;
 
-    const slides = Array.from(track.children);
-    const indicatorsContainer = document.querySelector('.carousel-indicators');
     let currentIndex = 0;
     let autoplayTimer;
+    let slides = [];
+    let dots = [];
 
-    // Create indicator dots dynamically
-    slides.forEach((_, idx) => {
-        const dot = document.createElement('div');
-        dot.classList.add('indicator-dot');
-        if (idx === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => {
-            goToSlide(idx);
-            resetAutoplay();
+    const setupSlider = () => {
+        slides = Array.from(track.children);
+        indicatorsContainer.innerHTML = '';
+
+        if (slides.length === 0) return;
+
+        slides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('indicator-dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                goToSlide(idx);
+                resetAutoplay();
+            });
+            indicatorsContainer.appendChild(dot);
         });
-        indicatorsContainer.appendChild(dot);
-    });
 
-    const dots = Array.from(indicatorsContainer.children);
+        dots = Array.from(indicatorsContainer.children);
+        resetAutoplay();
+    };
 
     const goToSlide = (index) => {
+        if (slides.length === 0) return;
         currentIndex = index;
         const percentage = -currentIndex * 100;
         track.style.transform = `translateX(${percentage}%)`;
@@ -835,6 +906,7 @@ function initTestimonialsCarousel() {
     };
 
     const nextSlide = () => {
+        if (slides.length === 0) return;
         let nextIndex = currentIndex + 1;
         if (nextIndex >= slides.length) {
             nextIndex = 0;
@@ -844,10 +916,70 @@ function initTestimonialsCarousel() {
 
     const resetAutoplay = () => {
         clearInterval(autoplayTimer);
-        autoplayTimer = setInterval(nextSlide, 5000);
+        if (slides.length > 1) {
+            autoplayTimer = setInterval(nextSlide, 5000);
+        }
     };
 
-    resetAutoplay();
+    // Load from local storage static fallback reviews
+    const fallbackReviews = [
+        { name: 'عبد الرحمن خالد', tag: 'مريض زراعة الأسنان', stars: 5, text: 'تجربة رائعة بمعنى الكلمة، قمت بعملية زراعة فك كاملة مع الدكتور أكثم طنطاوي، وبصراحة لم أشعر بأي ألم على الإطلاق والتعامل كان في منتهى الرقي. الابتسامة أعادت لي ثقتي بنفسي!' },
+        { name: 'سارة محمد', tag: 'مريضة تقويم الأسنان', stars: 5, text: 'كان لدي خوف شديد من طبيب الأسنان منذ الصغر، لكن الأسلوب المريح والمهنية العالية لدى الدكتور أكثم جعلتني أنجز تقويم الأسنان بدون أي قلق وبنتائج مذهلة فاقت توقعاتي.' }
+    ];
+
+    const renderTestimonials = (list) => {
+        track.innerHTML = '';
+        list.forEach(item => {
+            const slide = document.createElement('div');
+            slide.className = 'testimonial-card-slide';
+
+            let starsHtml = '';
+            for (let i = 0; i < 5; i++) {
+                starsHtml += `<i class="bx ${i < item.stars ? 'bxs-star' : 'bx-star'}"></i>`;
+            }
+
+            slide.innerHTML = `
+                <div class="glass-card testimonial-card">
+                    <div class="testimonial-quote-icon">“</div>
+                    <div class="testimonial-stars" style="color: #FBBF24; display: flex; justify-content: center; gap: 4px; font-size: 20px; margin-bottom: 24px;">
+                        ${starsHtml}
+                    </div>
+                    <p class="testimonial-text" style="font-size: 20px; font-weight: 500; line-height: 1.8; color: var(--text-main); margin-bottom: 30px;">
+                        ${item.text}
+                    </p>
+                    <div class="patient-profile" style="display: flex; align-items: center; justify-content: center; gap: 16px;">
+                        <div class="patient-avatar" style="width: 54px; height: 54px; background: var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--primary); font-size: 18px;">
+                            ${item.name.charAt(0)}
+                        </div>
+                        <div>
+                            <h4 class="patient-name" style="font-size: 16px; font-weight: 700; color: var(--text-main); text-align: right;">${item.name}</h4>
+                            <span class="patient-tag" style="font-size: 12px; color: var(--text-muted);">${item.tag}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            track.appendChild(slide);
+        });
+
+        setupSlider();
+    };
+
+    // Attempt to load from Supabase
+    if (supabase) {
+        supabase.from('testimonials')
+            .select('*')
+            .eq('status', 'approved')
+            .order('created_at', { ascending: false })
+            .then(({ data, error }) => {
+                if (error || !data || data.length === 0) {
+                    renderTestimonials(fallbackReviews);
+                } else {
+                    renderTestimonials(data);
+                }
+            });
+    } else {
+        renderTestimonials(fallbackReviews);
+    }
 }
 
 // Pricing Packages & Installments calculations
@@ -1016,17 +1148,33 @@ function initFigmaZoom() {
     });
 }
 
-// Newsletter sign-up feedback
+// Newsletter sign-up feedback (integrated with Supabase)
 function initNewsletter() {
     const newsForm = document.getElementById('newsForm');
     if (!newsForm) return;
 
     newsForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const emailVal = newsForm.querySelector('.newsletter-input').value;
+        const emailVal = newsForm.querySelector('.newsletter-input').value.trim();
         if (emailVal) {
-            alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح في النشرة الطبية للعيادة.`);
-            newsForm.reset();
+            if (supabase) {
+                supabase.from('newsletter_subscribers').insert([{ email: emailVal }])
+                    .then(({ error }) => {
+                        if (error) {
+                            if (error.code === '23505') {
+                                alert('أنت مسجل بالفعل في النشرة الطبية للعيادة!');
+                            } else {
+                                console.error('Newsletter Supabase save error:', error);
+                            }
+                        } else {
+                            alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح في النشرة الطبية السحابية للعيادة.`);
+                            newsForm.reset();
+                        }
+                    });
+            } else {
+                alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح في النشرة الطبية للعيادة (محلي).`);
+                newsForm.reset();
+            }
         }
     });
 }
