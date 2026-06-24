@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="معرض الحالات لعيادة الدكتور أكثم طنطاوي: صور حقيقية لنتائج قبل وبعد لتقويم الأسنان وابتسامة هوليود وزراعة الأسنان.">
+    <title>معرض الحالات - عيادة د. أكثم طنطاوي</title>
+    <!-- Boxicons CDN for premium icons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+    <!-- Mode Switcher Floating Panel -->
+    <div class="mode-switch-panel">
+        <div class="floating-switcher">
+            <button id="viewLiveBtn" class="switcher-btn active" onclick=\"window.location.href='gallery'\">
+                <i class="bx bx-world"></i> الموقع التفاعلي
+            </button>
+            <button id="viewFigmaBtn" class="switcher-btn" onclick=\"window.location.href='figma'\">
+                <i class="bx bx-palette"></i> Figma Mockups
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN APP ROOT -->
+    <div id="app-root">
+        <header id="header-nav"></header>
+
+        <main class="main-content">
+            <!-- PAGE 05: TREATMENTS GALLERY -->
+            <section id="gallery-page" class="page-view">
+                <div class="container gallery-section">
+                    <div class="section-header">
+                        <span class="section-label">معرض الحالات</span>
+                        <h2 class="section-title">قصص نجاح وابتسامات متجددة</h2>
+                        <p class="section-desc">شاهد نتائج العلاج الحقيقية لمرضانا قبل وبعد الإجراء التجميلي</p>
+                    </div>
+
+                    <div class="gallery-filters">
+                        <button class="filter-btn active">الكل</button>
+                        <button class="filter-btn">تجميل الأسنان</button>
+                        <button class="filter-btn">زراعة الأسنان</button>
+                        <button class="filter-btn">تقويم الأسنان</button>
+                    </div>
+
+                    <div class="gallery-grid">
+                        <!-- Case 1 (Real Clinic Braces Case) -->
+                        <div class="glass-card">
+                            <div style="position: relative; border-radius: var(--radius-md) var(--radius-md) 0 0; overflow: hidden; aspect-ratio: 1.1;">
+                                <img src="assets/case1.jpg" alt="حالة تقويم - سد الفراغات" style="width: 100%; height: 100%; object-fit: cover;">
+                                <span class="label-before" style="position: absolute; top: 12px; right: 12px; background: rgba(13, 110, 253, 0.9); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700;">حالة حقيقية</span>
+                            </div>
+                            <div class="case-info-card" style="padding: 20px;">
+                                <h4 class="case-title">تقويم إغلاق الفراغات الأمامية</h4>
+                                <p class="case-desc">إغلاق الفراغات الواسعة بين الأسنان الأمامية العلوية والسفلية وإعادة توجيهها بنجاح.</p>
+                            </div>
+                        </div>
+
+                        <!-- Case 2 (Real Clinic Braces Case) -->
+                        <div class="glass-card">
+                            <div style="position: relative; border-radius: var(--radius-md) var(--radius-md) 0 0; overflow: hidden; aspect-ratio: 1.1;">
+                                <img src="assets/case2.jpg" alt="حالة تقويم - تزاحم الأسنان" style="width: 100%; height: 100%; object-fit: cover;">
+                                <span class="label-before" style="position: absolute; top: 12px; right: 12px; background: rgba(13, 110, 253, 0.9); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700;">حالة حقيقية</span>
+                            </div>
+                            <div class="case-info-card" style="padding: 20px;">
+                                <h4 class="case-title">تعديل الازدحام وتطابق الفكين</h4>
+                                <p class="case-desc">علاج تزاحم الأسنان الشديد وتنسيق قوس الفك العلوي والسفلي لتحقيق ابتسامة متناسقة.</p>
+                            </div>
+                        </div>
+
+                        <!-- Case 3 -->
+                        <div class="glass-card">
+                            <div class="before-after-wrapper">
+                                <div class="before-img" style="background-image: url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=400&q=80');"></div>
+                                <div class="after-img" style="background-image: url('https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=400&q=80'); width: 65%;"></div>
+                                
+                                <div class="slider-handle" style="left: 65%;">
+                                    <div class="slider-button"><i class="bx bx-chevrons-left"></i></div>
+                                </div>
+                                <span class="label-before">قبل</span>
+                                <span class="label-after">بعد</span>
+                            </div>
+                            <div class="case-info-card" style="padding: 20px;">
+                                <h4 class="case-title">علاج التقويم الشفاف</h4>
+                                <p class="case-desc">تعديل اصطفاف الفك السفلي وعلاج تزاحم الأسنان خلال فترة 9 أشهر فقط.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer id="footer-wrapper"></footer>
+    </div>
+
+    <!-- Application Script Logic -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Application Script Logic -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="assets/js/app.js"></script>
+    <script type="module" src="assets/js/gallery.js"></script>
+</body>
+</html>

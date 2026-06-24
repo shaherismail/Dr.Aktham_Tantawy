@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="عذراً، الصفحة المطلوبة غير موجودة في موقع عيادة الدكتور أكثم طنطاوي.">
+    <title>الصفحة غير موجودة 404 - عيادة د. أكثم طنطاوي</title>
+    <!-- Boxicons CDN for premium icons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+    <!-- Mode Switcher Floating Panel -->
+    <div class="mode-switch-panel">
+        <div class="floating-switcher">
+            <button id="viewLiveBtn" class="switcher-btn active" onclick=\"window.location.href='index'\">
+                <i class="bx bx-world"></i> الموقع التفاعلي
+            </button>
+            <button id="viewFigmaBtn" class="switcher-btn" onclick=\"window.location.href='figma'\">
+                <i class="bx bx-palette"></i> Figma Mockups
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN APP ROOT -->
+    <div id="app-root">
+        <header id="header-nav"></header>
+
+        <main class="main-content">
+            <!-- PAGE 13: 404 ERROR PAGE -->
+            <section id="404-page" class="page-view">
+                <div class="container error-page-wrapper">
+                    <div class="glass-card error-card">
+                        <div class="error-illustration">
+                            <!-- 3D Broken Tooth SVG -->
+                            <svg width="100%" height="100%" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M70 50 C70 30, 130 30, 130 50 C135 60, 125 80, 135 120 C125 105, 115 115, 100 100 C85 115, 75 105, 65 120 C75 80, 65 60, 70 50 Z" fill="#CBD5E1"/>
+                                <!-- Crack line -->
+                                <path d="M100 50 L105 70 L95 90 L100 100" stroke="#EF4444" stroke-width="3" stroke-linecap="round" fill="none"/>
+                            </svg>
+                        </div>
+                        <h1 class="error-code">404</h1>
+                        <h2 class="error-title">الصفحة المطلوبة غير موجودة!</h2>
+                        <p class="error-desc">عذراً، قد يكون الرابط الذي اتبعته تالفاً أو تم نقل الصفحة لعنوان آخر.</p>
+                        <a href="index" class="btn btn-primary">العودة للرئيسية</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer id="footer-wrapper"></footer>
+    </div>
+
+    <!-- Application Script Logic -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Application Script Logic -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>

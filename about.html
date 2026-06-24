@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="تعرف على الدكتور أكثم إسماعيل طنطاوي، استشاري جراحة وزراعة وتجميل الأسنان، خبرته وشهاداته المهنية وزمالاته الدولية.">
+    <title>عن الدكتور - عيادة د. أكثم طنطاوي</title>
+    <!-- Boxicons CDN for premium icons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+    <!-- Mode Switcher Floating Panel -->
+    <div class="mode-switch-panel">
+        <div class="floating-switcher">
+            <button id="viewLiveBtn" class="switcher-btn active" onclick=\"window.location.href='about'\">
+                <i class="bx bx-world"></i> الموقع التفاعلي
+            </button>
+            <button id="viewFigmaBtn" class="switcher-btn" onclick=\"window.location.href='figma'\">
+                <i class="bx bx-palette"></i> Figma Mockups
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN APP ROOT -->
+    <div id="app-root">
+        <header id="header-nav"></header>
+
+        <main class="main-content">
+            <!-- PAGE 04: ABOUT DOCTOR -->
+            <section id="about-page" class="page-view">
+                <div class="container about-doctor-section">
+                    <div class="doctor-wrapper">
+                        <!-- Portrait Image Container -->
+                        <div class="doctor-image-container">
+                            <div class="illustration-bg-glow" style="width: 100%; height: 100%;"></div>
+                            <img src="assets/doctor.jpg" alt="د. أكثم طنطاوي" style="width: 100%; height: 100%; object-fit: cover; z-index: 2;">
+                            <div class="doctor-stats-badge">
+                                <i class="bx bx-award doctor-stats-icon"></i>
+                                <div>
+                                    <div class="tag-title">د. أكثم طنطاوي</div>
+                                    <div class="tag-subtitle">استشاري زراعة الأسنان</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Doctor Bio text -->
+                        <div class="doctor-info-content">
+                            <span class="section-label">عن الطبيب</span>
+                            <h2 class="doctor-bio-title">د. أكثم إسماعيل محمد علي طنطاوي</h2>
+                            <span class="doctor-specialty-tag">استشاري جراحة وزراعة وتجميل الأسنان</span>
+                            <p class="doctor-bio-text">
+                                استشاري رائد في مجال طب وجراحة الأسنان، يمتلك خبرة عملية وعلمية تتجاوز الـ 15 عاماً في زراعة الأسنان الفورية وتصميم الابتسامة الرقمية. حائز على العديد من الشهادات الأكاديمية والزمالات الدولية من أرقى الجامعات العالمية، ويسعى دائماً لتطبيق أحدث الابتكارات الطبية لراحة وسلامة مرضاه.
+                            </p>
+                            <div class="doctor-highlights" style="margin-bottom: 30px;">
+                                <div class="highlight-box">
+                                    <div class="highlight-icon"><i class="bx bx-check"></i></div>
+                                    <span class="highlight-text">دبلوم زراعة الأسنان من الكلية الملكية للجراحين</span>
+                                </div>
+                                <div class="highlight-box">
+                                    <div class="highlight-icon"><i class="bx bx-check"></i></div>
+                                    <span class="highlight-text">عضو الجمعية الألمانية لزراعة الأسنان (DGZI)</span>
+                                </div>
+                                <div class="highlight-box">
+                                    <div class="highlight-icon"><i class="bx bx-check"></i></div>
+                                    <span class="highlight-text">شهادة التجميل الرقمي من معهد السمات السويسري</span>
+                                </div>
+                                <div class="highlight-box">
+                                    <div class="highlight-icon"><i class="bx bx-check"></i></div>
+                                    <span class="highlight-text">أكثر من 8000 حالة زراعة أسنان ناجحة وموثقة</span>
+                                </div>
+                            </div>
+
+                            <!-- MOrth Congrats Certificate Card -->
+                            <div class="certificate-card glass-card" style="display: flex; gap: 16px; align-items: center; padding: 16px; margin: 24px 0; border-radius: var(--radius-md); text-align: right; box-shadow: var(--shadow-sm); border: 1.5px solid rgba(13, 110, 253, 0.1);">
+                                <img src="assets/congrats.jpg" alt="شهادة د. أكثم" style="width: 100px; height: 100px; object-fit: cover; border-radius: var(--radius-sm); border: 2px solid var(--primary-light); flex-shrink: 0;">
+                                <div>
+                                    <h4 style="font-size: 15px; font-weight: 800; color: var(--primary); margin-bottom: 6px;">حاصل على زمالة MOrth العريقة</h4>
+                                    <p style="font-size: 12px; color: var(--text-muted); line-height: 1.6; margin: 0;">اجتياز اختبار الكلية الملكية لتقويم الأسنان بنجاح باهر (MOrth Exam Part A) المعتمد دولياً.</p>
+                                </div>
+                            </div>
+
+                            <a href="booking" class="btn btn-primary">حجز استشارة خاصة</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer id="footer-wrapper"></footer>
+    </div>
+
+    <!-- Application Script Logic -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Application Script Logic -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>

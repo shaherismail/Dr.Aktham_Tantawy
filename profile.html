@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="الملف الشخصي للمريض - عيادة الدكتور أكثم طنطاوي لطب الأسنان. متابعة مواعيدك الطبية وإعدادات الربط.">
+    <title>الملف الشخصي - عيادة د. أكثم طنطاوي</title>
+    <!-- Boxicons CDN for premium icons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+    <!-- Mode Switcher Floating Panel -->
+    <div class="mode-switch-panel">
+        <div class="floating-switcher">
+            <button id="viewLiveBtn" class="switcher-btn active" onclick=\"window.location.href='profile'\">
+                <i class="bx bx-world"></i> الموقع التفاعلي
+            </button>
+            <button id="viewFigmaBtn" class="switcher-btn" onclick=\"window.location.href='figma'\">
+                <i class="bx bx-palette"></i> Figma Mockups
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN APP ROOT -->
+    <div id="app-root">
+        <header id="header-nav"></header>
+
+        <main class="main-content">
+            <!-- PAGE 16: PATIENT PROFILE PAGE -->
+            <section id="profile-page" class="page-view">
+                <div class="container profile-section">
+                    <div class="section-header">
+                        <span class="section-label">حسابك الطبي الموحد</span>
+                        <h2 class="section-title">الملف الشخصي للمريض</h2>
+                        <p class="section-desc">متابعة مواعيدك الطبية، تفاصيل الفحص الطبي، وإعدادات الربط المباشر مع العيادة</p>
+                    </div>
+
+                    <div class="profile-grid">
+                        <!-- Right Column: Medical Card & Info -->
+                        <div class="glass-card profile-card patient-info-card">
+                            <div class="patient-profile-header">
+                                <div class="profile-avatar-wrapper">
+                                    <div class="profile-avatar" id="profileAvatar">م</div>
+                                    <span class="avatar-ring"></span>
+                                </div>
+                                <div>
+                                    <h3 class="profile-name-title" id="profileNameDisplay">مريض افتراضي</h3>
+                                    <span class="profile-status-badge"><i class="bx bxs-circle status-online animate-pulse"></i> ملف نشط</span>
+                                </div>
+                            </div>
+                            
+                            <div class="patient-details-list">
+                                <div class="detail-item">
+                                    <span class="item-lbl"><i class="bx bx-phone"></i> رقم الجوال:</span>
+                                    <span class="item-val" id="profilePhoneDisplay">غير مسجل</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="item-lbl"><i class="bx bx-envelope"></i> البريد الإلكتروني:</span>
+                                    <span class="item-val" id="profileEmailDisplay">غير مسجل</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="item-lbl"><i class="bx bx-id-card"></i> معرف الملف الطبي:</span>
+                                    <span class="item-val" id="profileFileId">DK-0000</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="item-lbl"><i class="bx bx-calendar"></i> العمر:</span>
+                                    <span class="item-val" id="profileAgeDisplay">غير محدد</span>
+                                </div>
+                            </div>
+
+                            <hr class="profile-divider">
+
+                            <h4 class="profile-sub-title">إعدادات إشعارات تليجرام (للطبيب والمدير)</h4>
+                            <p class="profile-instructions-text">
+                                يمكنك ربط حساب تليجرام حقيقي لإرسال إشعارات الحجز وإتاحة تأكيد المواعيد أو رفضها مباشرة من تطبيق تليجرام.
+                            </p>
+                            
+                            <div class="tg-config-form">
+                                <div class="form-group">
+                                    <label class="form-label" for="tgBotToken">توكن البوت (Bot Token)</label>
+                                    <input type="password" id="tgBotToken" class="form-input" placeholder="مثال: 123456:ABC-def...">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="tgChatId">معرف الدردشة (Chat ID)</label>
+                                    <input type="text" id="tgChatId" class="form-input" placeholder="مثال: 987654321">
+                                </div>
+                                <div class="form-group-full">
+                                    <label class="form-label" for="tgMode">طريقة تشغيل نظام التليجرام</label>
+                                    <select id="tgMode" class="form-input">
+                                        <option value="simulated">محاكاة محلية فقط (دردشة تليجرام عائمة على الشاشة)</option>
+                                        <option value="real">إرسال إشعارات حقيقية لبوت تليجرام الخاص بك</option>
+                                        <option value="both">كلاهما معاً (إشعارات حقيقية + دردشة عائمة)</option>
+                                    </select>
+                                </div>
+                                <button type="button" id="saveTgSettingsBtn" class="btn btn-secondary" style="width: 100%; margin-top: 10px; padding: 12px;">
+                                    <i class="bx bx-save"></i> حفظ إعدادات التكامل
+                                </button>
+                            </div>
+
+                            <hr class="profile-divider">
+
+                            <h4 class="profile-sub-title">إعدادات قاعدة بيانات Supabase (سحابي حقيقي)</h4>
+                            <p class="profile-instructions-text">
+                                قم بربط قاعدة بيانات Supabase سحابية لحفظ واسترجاع المواعيد بشكل حقيقي ودائم بدلاً من المتصفح المحلي.
+                            </p>
+                            
+                            <div class="sb-config-form" style="display: flex; flex-direction: column; gap: 15px;">
+                                <div class="form-group">
+                                    <label class="form-label" for="sbUrl">رابط مشروع Supabase (Project URL)</label>
+                                    <input type="text" id="sbUrl" class="form-input" placeholder="https://xxxxxx.supabase.co">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="sbKey">مفتاح الوصول العام (Anon API Key)</label>
+                                    <input type="password" id="sbKey" class="form-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+                                </div>
+                                <button type="button" id="saveSbSettingsBtn" class="btn btn-primary" style="width: 100%; margin-top: 10px; padding: 12px;">
+                                    <i class="bx bx-cylinder"></i> حفظ إعدادات Supabase والربط
+                                </button>
+                            </div>
+
+                            <details class="sb-sql-guide" style="margin-top: 15px; background: rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 6px; border: 1px solid rgba(226, 232, 240, 0.2);">
+                                <summary style="cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-main);"><i class="bx bx-code-block"></i> كود SQL لتهيئة جدول Supabase</summary>
+                                <pre style="font-size: 11px; direction: ltr; text-align: left; background: #0F172A; color: #38BDF8; padding: 10px; border-radius: 4px; overflow-x: auto; margin-top: 8px;">
+create table bookings (
+  id text primary key,
+  name text not null,
+  phone text not null,
+  email text,
+  age integer,
+  service text,
+  date date,
+  time text,
+  chair text,
+  notes text,
+  status text default 'pending',
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table bookings enable row level security;
+create policy "Allow public access" on bookings for all using (true) with check (true);
+                                </pre>
+                            </details>
+                        </div>
+
+                        <!-- Left Column: Appointment List -->
+                        <div class="glass-card profile-card bookings-list-card">
+                            <h3 class="profile-box-title"><i class="bx bx-calendar-event"></i> سجل الحجوزات والمواعيد</h3>
+                            
+                            <div id="noBookingsView" class="no-bookings-placeholder">
+                                <i class="bx bx-calendar-x"></i>
+                                <h4>لا توجد مواعيد محجوزة حالياً</h4>
+                                <p>ابتسامتك لا يجب أن تنتظر! اختر خدمتك المفضلة الآن واحجز موعدك التفاعلي في دقائق.</p>
+                                <a href="booking" class="btn btn-primary" style="margin-top: 15px;">احجز موعد الآن</a>
+                            </div>
+
+                            <div id="bookingsListView" class="bookings-grid-list" style="display: none;">
+                                <!-- Active bookings will be generated here -->
+                            </div>
+
+                            <div id="addReviewSection" class="profile-review-box" style="display: none; margin-top: 30px; border-top: 2px dashed rgba(226,232,240,0.8); padding-top: 20px;">
+                                <h4 class="profile-sub-title"><i class="bx bx-star"></i> أضف تقييمك وتجربتك العلاجية</h4>
+                                <p class="profile-instructions-text">شارك الآخرين تجربتك العلاجية مع الدكتور أكثم لمساعدتنا في تقديم رعاية أفضل.</p>
+                                
+                                <form id="addReviewForm" style="display: flex; flex-direction: column; gap: 15px;">
+                                    <div class="form-group">
+                                        <label class="form-label">التقييم بالنجوم:</label>
+                                        <div class="star-rating-input">
+                                            <input type="radio" id="star5" name="reviewStars" value="5" required><label for="star5" title="ممتاز جداً"><i class="bx bxs-star"></i></label>
+                                            <input type="radio" id="star4" name="reviewStars" value="4"><label for="star4" title="ممتاز"><i class="bx bxs-star"></i></label>
+                                            <input type="radio" id="star3" name="reviewStars" value="3"><label for="star3" title="جيد جداً"><i class="bx bxs-star"></i></label>
+                                            <input type="radio" id="star2" name="reviewStars" value="2"><label for="star2" title="جيد"><i class="bx bxs-star"></i></label>
+                                            <input type="radio" id="star1" name="reviewStars" value="1"><label for="star1" title="مقبول"><i class="bx bxs-star"></i></label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="reviewText">ملاحظاتك وتفاصيل تجربتك:</label>
+                                        <textarea id="reviewText" class="form-input" rows="3" placeholder="اكتب هنا رأيك بكل أمانة حول الطبيب والخدمات..." required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">
+                                        <i class="bx bx-send"></i> إرسال التقييم ونشره بالرئيسية
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer id="footer-wrapper"></footer>
+    </div>
+
+    <!-- Application Script Logic -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Application Script Logic -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="assets/js/app.js"></script>
+    <script type="module" src="assets/js/profile.js"></script>
+</body>
+</html>

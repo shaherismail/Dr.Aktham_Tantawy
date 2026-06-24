@@ -1,0 +1,64 @@
+<!-- Mobile Drawer Menu -->
+<div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+        <div class="logo-section">
+            <img src="assets/logo.jpg" alt="شعار د. أكثم" style="width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--primary-light); object-fit: cover;">
+            <div class="logo-text">
+                <span class="logo-name">عيادة د. أكثم</span>
+            </div>
+        </div>
+        <button class="drawer-close-btn" id="closeDrawerBtn"><i class="bx bx-x"></i></button>
+    </div>
+    <ul class="drawer-links">
+        <li><a href="index">الرئيسية</a></li>
+        <li><a href="services">خدماتنا</a></li>
+        <li><a href="about">عن الدكتور</a></li>
+        <li><a href="gallery">معرض الحالات</a></li>
+        <li><a href="pricing">الأسعار</a></li>
+        <li><a href="team">فريق العمل</a></li>
+        <li><a href="faq">الأسئلة الشائعة</a></li>
+        <li><a href="upcoming">خدمات قادمة</a></li>
+        <li><a href="profile">الملف الشخصي</a></li>
+        <li><a href="contact">اتصل بنا</a></li>
+    </ul>
+    <div style="padding: 24px; margin-top: auto;">
+        <a href="booking" class="btn btn-primary" style="width: 100%;" id="drawerBookingBtn">احجز الآن</a>
+    </div>
+</div>
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- Sticky Navigation Header -->
+<header class="header-nav" id="stickyHeader">
+    <div class="container header-container">
+        <div class="logo-section" onclick="window.location.href='index'" style="cursor: pointer;">
+            <img src="assets/logo.jpg" alt="شعار د. أكثم" style="width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid var(--primary-light); object-fit: cover;">
+            <div class="logo-text">
+                <span class="logo-name">عيادة د. أكثم إسماعيل</span>
+                <span class="logo-sub">لطب وجراحة الأسنان</span>
+            </div>
+        </div>
+        
+        <nav>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="index">الرئيسية</a></li>
+                <li class="nav-item"><a href="services">خدماتنا</a></li>
+                <li class="nav-item"><a href="about">عن الدكتور</a></li>
+                <li class="nav-item"><a href="gallery">معرض الحالات</a></li>
+                <li class="nav-item"><a href="pricing">الأسعار</a></li>
+                <li class="nav-item"><a href="team">فريق العمل</a></li>
+                <li class="nav-item"><a href="faq">الأسئلة الشائعة</a></li>
+                <li class="nav-item"><a href="upcoming">خدمات قادمة</a></li>
+                <li class="nav-item"><a href="profile">الملف الشخصي</a></li>
+                <li class="nav-item"><a href="contact">اتصل بنا</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-cta">
+            <a href="booking" class="btn btn-primary">احجز الآن</a>
+        </div>
+
+        <button class="mobile-menu-btn" id="openDrawerBtn">
+            <i class="bx bx-menu"></i>
+        </button>
+    </div>
+</header>
