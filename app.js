@@ -45,6 +45,14 @@ const AppState = {
 };
 
 function initApp() {
+    // If inside an iframe, strip out Figma UI elements to prevent infinite nesting recursion
+    if (window.self !== window.top) {
+        const figmaCanvas = document.getElementById('figma-canvas');
+        if (figmaCanvas) figmaCanvas.remove();
+        const switcher = document.querySelector('.mode-switch-panel');
+        if (switcher) switcher.remove();
+    }
+
     initSupabaseClient();
     initRouter();
     initScrollHeader();
@@ -1113,6 +1121,12 @@ function initFigmaZoom() {
         websiteContainer.style.display = 'flex';
         figmaContainer.classList.remove('active');
         AppState.currentMode = 'live';
+        
+        // Unload iframes to free memory and prevent CPU spikes
+        const iframes = figmaContainer.querySelectorAll('iframe');
+        iframes.forEach(iframe => {
+            iframe.src = 'about:blank';
+        });
     });
 
     figmaBtn.addEventListener('click', () => {
@@ -1121,6 +1135,15 @@ function initFigmaZoom() {
         websiteContainer.style.display = 'none';
         figmaContainer.classList.add('active');
         AppState.currentMode = 'figma';
+
+        // Lazy-load iframes to prevent initial load overhead and recursion
+        const iframes = figmaContainer.querySelectorAll('iframe');
+        iframes.forEach(iframe => {
+            const dataSrc = iframe.getAttribute('data-src');
+            if (dataSrc && (!iframe.src || iframe.src === 'about:blank')) {
+                iframe.src = dataSrc;
+            }
+        });
     });
 
     const updateZoom = () => {

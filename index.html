@@ -30,9 +30,7 @@
         <div class="mobile-drawer" id="mobileDrawer">
             <div class="drawer-header">
                 <div class="logo-section">
-                    <div class="logo-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.5 2 6 4.5 6 8c0 4.5 6 12 6 12s6-7.5 6-12c0-3.5-2.5-6-6-6Z"/><path d="M12 6v6"/></svg>
-                    </div>
+                    <img src="assets/logo.jpg" alt="شعار د. أكثم" style="width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--primary-light); object-fit: cover;">
                     <div class="logo-text">
                         <span class="logo-name">عيادة د. أكثم</span>
                     </div>
@@ -60,9 +58,7 @@
         <header class="header-nav">
             <div class="container header-container">
                 <div class="logo-section">
-                    <div class="logo-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.5 2 6 4.5 6 8c0 4.5 6 12 6 12s6-7.5 6-12c0-3.5-2.5-6-6-6Z"/><path d="M12 6v6"/></svg>
-                    </div>
+                    <img src="assets/logo.jpg" alt="شعار د. أكثم" style="width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid var(--primary-light); object-fit: cover;">
                     <div class="logo-text">
                         <span class="logo-name">عيادة د. أكثم إسماعيل</span>
                         <span class="logo-sub">لطب وجراحة الأسنان</span>
@@ -348,19 +344,7 @@
                     <div class="doctor-wrapper">
                         <div class="doctor-image-container">
                             <div class="illustration-bg-glow" style="width: 100%; height: 100%;"></div>
-                            <!-- Styled Vector Doctor Outline SVG -->
-                            <svg class="doctor-avatar-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="100" cy="100" r="90" fill="#EBF3FF"/>
-                                <path d="M100 130 C125 130, 150 145, 150 170 L50 170 C50 145, 75 130, 100 130 Z" fill="#0D6EFD"/>
-                                <circle cx="100" cy="85" r="30" fill="#FFE0B2"/>
-                                <!-- Hair -->
-                                <path d="M70 80 C70 50, 130 50, 130 80 C130 85, 120 70, 100 70 C80 70, 70 85, 70 80 Z" fill="#3E2723"/>
-                                <!-- Doctor Coat V-neck -->
-                                <path d="M85 130 L100 150 L115 130" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
-                                <!-- Stethoscope -->
-                                <path d="M80 115 C80 140, 120 140, 120 115" stroke="#CBD5E1" stroke-width="4" fill="none"/>
-                                <circle cx="100" cy="140" r="8" fill="#FFD700"/>
-                            </svg>
+                            <img src="assets/doctor.jpg" alt="د. أكثم طنطاوي" style="width: 100%; height: 100%; object-fit: cover; z-index: 2;">
                             <div class="doctor-stats-badge">
                                 <i class="bx bx-award doctor-stats-icon"></i>
                                 <div>
@@ -395,6 +379,15 @@
                                     <span class="highlight-text">أكثر من 8000 حالة زراعة أسنان ناجحة وموثقة</span>
                                 </div>
                             </div>
+
+                            <div class="certificate-card glass-card" style="display: flex; gap: 16px; align-items: center; padding: 16px; margin: 24px 0; border-radius: var(--radius-md); text-align: right; box-shadow: var(--shadow-sm); border: 1.5px solid rgba(13, 110, 253, 0.1);">
+                                <img src="assets/congrats.jpg" alt="شهادة د. أكثم" style="width: 100px; height: 100px; object-fit: cover; border-radius: var(--radius-sm); border: 2px solid var(--primary-light); flex-shrink: 0;">
+                                <div>
+                                    <h4 style="font-size: 15px; font-weight: 800; color: var(--primary); margin-bottom: 6px;">حاصل على زمالة MOrth العريقة</h4>
+                                    <p style="font-size: 12px; color: var(--text-muted); line-height: 1.6; margin: 0;">اجتياز اختبار الكلية الملكية لتقويم الأسنان بنجاح باهر (MOrth Exam Part A) المعتمد دولياً.</p>
+                                </div>
+                            </div>
+
                             <a href="#booking" class="btn btn-primary">حجز استشارة خاصة</a>
                         </div>
                     </div>
@@ -418,41 +411,27 @@
                     </div>
 
                     <div class="gallery-grid">
-                        <!-- Case 1 (Before/After Slider inside Grid) -->
+                        <!-- Case 1 (Real Clinic Braces Case) -->
                         <div class="glass-card">
-                            <div class="before-after-wrapper">
-                                <!-- Base Image: Before Treatment -->
-                                <div class="before-img" style="background-image: url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=400&q=80');"></div>
-                                <!-- Overlay Image: After Treatment -->
-                                <div class="after-img" style="background-image: url('https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=400&q=80'); width: 50%;"></div>
-                                
-                                <div class="slider-handle" style="left: 50%;">
-                                    <div class="slider-button"><i class="bx bx-chevrons-left"></i></div>
-                                </div>
-                                <span class="label-before">قبل</span>
-                                <span class="label-after">بعد</span>
+                            <div style="position: relative; border-radius: var(--radius-md) var(--radius-md) 0 0; overflow: hidden; aspect-ratio: 1.1;">
+                                <img src="assets/case1.jpg" alt="حالة تقويم - سد الفراغات" style="width: 100%; height: 100%; object-fit: cover;">
+                                <span class="label-before" style="position: absolute; top: 12px; right: 12px; background: rgba(13, 110, 253, 0.9); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700;">حالة حقيقية</span>
                             </div>
-                            <div class="case-info-card">
-                                <h4 class="case-title">تصميم ابتسامة هوليود كاملة</h4>
-                                <p class="case-desc">علاج التصبغات والاعوجاج باستخدام 20 عدسة فينير إيماكس سويسرية فائقة الدقة.</p>
+                            <div class="case-info-card" style="padding: 20px;">
+                                <h4 class="case-title">تقويم إغلاق الفراغات الأمامية</h4>
+                                <p class="case-desc">إغلاق الفراغات الواسعة بين الأسنان الأمامية العلوية والسفلية وإعادة توجيهها بنجاح.</p>
                             </div>
                         </div>
 
-                        <!-- Case 2 -->
+                        <!-- Case 2 (Real Clinic Braces Case) -->
                         <div class="glass-card">
-                            <div class="before-after-wrapper">
-                                <div class="before-img" style="background-image: url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=400&q=80');"></div>
-                                <div class="after-img" style="background-image: url('https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=400&q=80'); width: 35%;"></div>
-                                
-                                <div class="slider-handle" style="left: 35%;">
-                                    <div class="slider-button"><i class="bx bx-chevrons-left"></i></div>
-                                </div>
-                                <span class="label-before">قبل</span>
-                                <span class="label-after">بعد</span>
+                            <div style="position: relative; border-radius: var(--radius-md) var(--radius-md) 0 0; overflow: hidden; aspect-ratio: 1.1;">
+                                <img src="assets/case2.jpg" alt="حالة تقويم - تزاحم الأسنان" style="width: 100%; height: 100%; object-fit: cover;">
+                                <span class="label-before" style="position: absolute; top: 12px; right: 12px; background: rgba(13, 110, 253, 0.9); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700;">حالة حقيقية</span>
                             </div>
-                            <div class="case-info-card">
-                                <h4 class="case-title">زراعة فكية فورية</h4>
-                                <p class="case-desc">تعويض الأسنان المفقودة في الفك العلوي في جلسة واحدة مع التركيب المؤقت.</p>
+                            <div class="case-info-card" style="padding: 20px;">
+                                <h4 class="case-title">تعديل الازدحام وتطابق الفكين</h4>
+                                <p class="case-desc">علاج تزاحم الأسنان الشديد وتنسيق قوس الفك العلوي والسفلي لتحقيق ابتسامة متناسقة.</p>
                             </div>
                         </div>
 
@@ -1234,9 +1213,7 @@ create policy "Allow public access" on bookings for all using (true) with check 
                     <!-- Col 1: Clinic details -->
                     <div class="footer-col">
                         <div class="logo-section">
-                            <div class="logo-icon" style="background: var(--primary-light);">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.5 2 6 4.5 6 8c0 4.5 6 12 6 12s6-7.5 6-12c0-3.5-2.5-6-6-6Z"/></svg>
-                            </div>
+                            <img src="assets/logo.jpg" alt="شعار د. أكثم" style="width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid var(--primary-light); object-fit: cover;">
                             <span class="logo-name" style="color: #FFFFFF;">د. أكثم طنطاوي</span>
                         </div>
                         <p style="font-size: 13px; line-height: 1.7; margin-top: 10px;">
