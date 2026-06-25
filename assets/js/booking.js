@@ -148,7 +148,6 @@ export function saveBookingToLocalStorage(bookingId) {
             status: 'pending'
         }]).then(({ error }) => {
             if (error) console.error('Supabase insert error:', error);
-            else console.log('Booking successfully inserted into Supabase cloud.');
         });
     }
 }
@@ -191,6 +190,14 @@ function showStep(step) {
     } else {
         if (nextBtn) nextBtn.style.display = 'inline-flex';
         if (submitBtn) submitBtn.style.display = 'none';
+    }
+
+    // Auto-scroll to top of form wrapper on mobile for native app guidelines
+    const bookingCard = document.querySelector('.booking-card');
+    if (bookingCard) {
+        const yOffset = -80; // height of mobile navigation header
+        const y = bookingCard.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
     }
 }
 

@@ -45,9 +45,6 @@ export function sendTelegramNotification(bookingId) {
             body: JSON.stringify(body)
         })
         .then(res => res.json())
-        .then(data => {
-            console.log('Telegram real notification sent', data);
-        })
         .catch(err => {
             console.error('Error sending real Telegram notification', err);
         });
@@ -102,7 +99,7 @@ export function sendTelegramNotification(bookingId) {
                         speechSynthesis.speak(utterance);
                     }
                 } catch(e) {
-                    console.log('Speech synthesis failed', e);
+                    // Speech synthesis failed silently in browsers without support
                 }
             }
         }
@@ -124,7 +121,6 @@ export function executeSimulatedConfirm(bookingId) {
             .eq('id', bookingId)
             .then(({ error }) => {
                 if (error) console.error('Supabase update error:', error);
-                else console.log(`Supabase booking ${bookingId} confirmed.`);
             });
     }
 

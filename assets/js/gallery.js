@@ -24,19 +24,23 @@ export function initBeforeAfterSliders() {
             afterImg.style.clipPath = `polygon(0 0, ${percentage}% 0, ${percentage}% 100%, 0 100%)`;
         };
 
-        const startDragging = () => { isDragging = true; };
+        const startDragging = (e) => { 
+            isDragging = true; 
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            updateSlider(clientX);
+        };
         const stopDragging = () => { isDragging = false; };
 
         // Mouse Events
-        handle.addEventListener('mousedown', startDragging);
+        slider.addEventListener('mousedown', startDragging);
         window.addEventListener('mouseup', stopDragging);
         window.addEventListener('mousemove', (e) => {
             if (!isDragging) return;
             updateSlider(e.clientX);
         });
 
-        // Touch Events (Mobile)
-        handle.addEventListener('touchstart', startDragging, { passive: true });
+        // Touch Events (Mobile) - bind on slider container to prevent thumb misses
+        slider.addEventListener('touchstart', startDragging, { passive: true });
         window.addEventListener('touchend', stopDragging);
         window.addEventListener('touchmove', (e) => {
             if (!isDragging) return;
@@ -79,8 +83,8 @@ export function initGalleryLightbox() {
 
     if (!lightbox || !lightboxImg) return;
 
-    // Trigger on clicking slider photos or standard case images
-    const triggerImages = document.querySelectorAll('.before-after-wrapper, .case-static-img');
+    // Trigger on clicking standard static case images only (to prevent conflict with slider dragging)
+    const triggerImages = document.querySelectorAll('.case-static-img');
     
     // Clear previous click handlers by cloning
     triggerImages.forEach(elem => {

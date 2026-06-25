@@ -155,7 +155,6 @@ export function cancelBooking(bookingId) {
             .eq('id', bookingId)
             .then(({ error }) => {
                 if (error) console.error('Supabase delete error:', error);
-                else console.log(`Supabase booking ${bookingId} deleted.`);
             });
     }
 

@@ -25,7 +25,6 @@ export function initLiveEditor(supabaseClient) {
             .then(({ data, error }) => {
                 if (data && !error && ['Super Admin', 'Doctor', 'Reception'].includes(data.role)) {
                     activeAdmin = session.user;
-                    console.log(`Live Editor unlocked for admin role: ${data.role}`);
                     injectLiveEditorDOM();
                 }
             });

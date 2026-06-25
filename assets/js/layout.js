@@ -69,6 +69,36 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => console.error('Error loading footer:', err));
     }
 
+    // Load Mobile Sticky Action Bar dynamically
+    fetch('components/floating-bar.html')
+        .then(res => {
+            if (res.ok) return res.text();
+        })
+        .then(html => {
+            if (html) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = html.trim();
+                document.body.appendChild(tempDiv.firstChild);
+                
+                // Dynamic replacement for phone and whatsapp custom settings
+                const savedSettings = localStorage.getItem('clinic_site_settings');
+                if (savedSettings) {
+                    try {
+                        const s = JSON.parse(savedSettings);
+                        document.querySelectorAll('.mobile-action-bar-wrapper .clinic-phone-link').forEach(el => {
+                            el.href = `tel:${s.phone}`;
+                        });
+                        document.querySelectorAll('.mobile-action-bar-wrapper .clinic-whatsapp-link').forEach(el => {
+                            el.href = `https://wa.me/${s.whatsapp.replace('+', '')}`;
+                        });
+                    } catch(e) {
+                        console.error('Error applying dynamic layouts to mobile action bar:', e);
+                    }
+                }
+            }
+        })
+        .catch(err => console.error('Error loading mobile action bar:', err));
+
     // Load Telegram Simulator component dynamically
     fetch('components/telegram.html')
         .then(res => {

@@ -25,7 +25,6 @@ export function initSupabaseClient() {
     if (sbUrl && sbKey && window.supabase) {
         try {
             supabaseClient = window.supabase.createClient(sbUrl, sbKey);
-            console.log('Supabase client initialized successfully!');
         } catch (e) {
             console.error('Failed to initialize Supabase client:', e);
         }
@@ -61,7 +60,6 @@ export function checkUrlCallbacks() {
                 .eq('id', id)
                 .then(({ error }) => {
                     if (error) console.error('Supabase url callback update error:', error);
-                    else console.log(`Supabase booking ${id} confirmed via URL.`);
                 });
         }
         
