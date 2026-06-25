@@ -12,18 +12,6 @@
 </head>
 <body>
 
-    <!-- Mode Switcher Floating Panel -->
-    <div class="mode-switch-panel">
-        <div class="floating-switcher">
-            <button id="viewLiveBtn" class="switcher-btn active" onclick=\"window.location.href='contact'\">
-                <i class="bx bx-world"></i> الموقع التفاعلي
-            </button>
-            <button id="viewFigmaBtn" class="switcher-btn" onclick=\"window.location.href='figma'\">
-                <i class="bx bx-palette"></i> Figma Mockups
-            </button>
-        </div>
-    </div>
-
     <!-- MAIN APP ROOT -->
     <div id="app-root">
         <header id="header-nav"></header>
@@ -31,45 +19,45 @@
         <main class="main-content">
             <!-- PAGE: CONTACT US -->
             <section id="contact-page" class="page-view">
-                <div class="container contact-section">
+                <div class="container contact-section" style="padding: 60px 0 100px 0;">
                     <div class="section-header">
                         <span class="section-label">تواصل معنا</span>
                         <h2 class="section-title">نحن هنا للإجابة على استفساراتكم</h2>
                         <p class="section-desc">يسعدنا تواصلكم معنا لحجز المواعيد أو الاستفسار عن العلاجات والأسعار المتاحة</p>
                     </div>
 
-                    <div class="profile-grid" style="margin-top: 40px;">
+                    <div class="profile-grid" style="margin-top: 48px;">
                         <!-- Right Column: Contact Details Cards -->
-                        <div class="glass-card profile-card" style="display: flex; flex-direction: column; gap: 24px; padding: 30px;">
-                            <h3 class="profile-box-title" style="margin-bottom: 10px;"><i class="bx bx-info-circle"></i> معلومات الاتصال</h3>
+                        <div class="glass-card patient-info-card" style="display: flex; flex-direction: column; gap: 24px;">
+                            <h3 class="profile-box-title" style="margin-bottom: 0; padding-bottom: 12px;"><i class="bx bx-info-circle"></i> معلومات الاتصال</h3>
                             
-                            <div class="patient-details-list" style="display: flex; flex-direction: column; gap: 20px;">
-                                <div class="detail-item" style="padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: 8px;">
-                                    <span class="item-lbl" style="font-size: 14px; font-weight: 700; color: var(--primary);"><i class="bx bx-phone"></i> أرقام الهاتف والجوال:</span>
-                                    <span class="item-val" style="direction: ltr; font-weight: 600;">+966 50 123 4567<br>011 123 4567</span>
+                            <div class="patient-details-list">
+                                <div class="detail-item">
+                                    <span class="item-lbl"><i class="bx bx-phone"></i> أرقام الهاتف والجوال:</span>
+                                    <span class="item-val" style="direction: ltr; font-family: 'Outfit';">+966 50 123 4567<br>011 123 4567</span>
                                 </div>
-                                <div class="detail-item" style="padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: 8px;">
-                                    <span class="item-lbl" style="font-size: 14px; font-weight: 700; color: var(--primary);"><i class="bx bx-envelope"></i> البريد الإلكتروني:</span>
-                                    <span class="item-val" style="font-weight: 600;">info@dr-aktham.com</span>
+                                <div class="detail-item">
+                                    <span class="item-lbl"><i class="bx bx-envelope"></i> البريد الإلكتروني:</span>
+                                    <span class="item-val" style="font-family: 'Outfit';">info@dr-aktham.com</span>
                                 </div>
-                                <div class="detail-item" style="padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: 8px;">
-                                    <span class="item-lbl" style="font-size: 14px; font-weight: 700; color: var(--primary);"><i class="bx bx-map"></i> موقع العيادة:</span>
-                                    <span class="item-val" style="font-weight: 600;">المملكة العربية السعودية، الرياض، شارع التخصصي</span>
+                                <div class="detail-item">
+                                    <span class="item-lbl"><i class="bx bx-map"></i> موقع العيادة:</span>
+                                    <span class="item-val">المملكة العربية السعودية، الرياض، شارع التخصصي</span>
                                 </div>
-                                <div class="detail-item" style="padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: 8px;">
-                                    <span class="item-lbl" style="font-size: 14px; font-weight: 700; color: var(--primary);"><i class="bx bx-time"></i> ساعات العمل الرسمية:</span>
-                                    <span class="item-val" style="font-weight: 600;">السبت - الخميس: ٩:٠٠ ص - ٩:٠٠ م</span>
+                                <div class="detail-item">
+                                    <span class="item-lbl"><i class="bx bx-time"></i> ساعات العمل الرسمية:</span>
+                                    <span class="item-val">السبت - الخميس: ٩:٠٠ ص - ٩:٠٠ م</span>
                                 </div>
                             </div>
 
-                            <a href="https://wa.me/966501234567" target="_blank" class="btn btn-secondary" style="width: 100%; text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px; background: #25D366; border-color: #25D366; color: #FFFFFF;">
-                                <i class="bx bxl-whatsapp" style="font-size: 20px;"></i> تواصل معنا عبر واتساب مباشرة
+                            <a href="https://wa.me/966501234567" target="_blank" class="btn btn-secondary" style="width: 100%; background: #25D366; border-color: #25D366; color: #FFFFFF; box-shadow: 0 8px 20px rgba(37, 211, 102, 0.25);">
+                                <i class="bx bxl-whatsapp" style="font-size: 22px;"></i> تواصل معنا عبر واتساب مباشرة
                             </a>
                         </div>
 
                         <!-- Left Column: Send Message Form -->
-                        <div class="glass-card profile-card" style="padding: 30px;">
-                            <h3 class="profile-box-title" style="margin-bottom: 20px;"><i class="bx bx-envelope-open"></i> أرسل لنا رسالة</h3>
+                        <div class="glass-card patient-info-card">
+                            <h3 class="profile-box-title" style="margin-bottom: 20px; padding-bottom: 12px;"><i class="bx bx-envelope-open"></i> أرسل لنا رسالة مباشرة</h3>
                             
                             <form id="contactForm" style="display: flex; flex-direction: column; gap: 20px;">
                                 <div class="form-group">
@@ -88,14 +76,14 @@
                                     <label class="form-label" for="contactMessage">تفاصيل الاستفسار أو الرسالة</label>
                                     <textarea id="contactMessage" class="form-input" rows="4" placeholder="اكتب استفسارك بالتفصيل هنا..." required></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">إرسال الاستفسار الآن</button>
+                                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">إرسال الاستفسار الآن <i class="bx bx-send"></i></button>
                             </form>
                         </div>
                     </div>
 
                     <!-- Map Section -->
-                    <div class="glass-card" style="margin-top: 40px; padding: 15px; border-radius: var(--radius-lg); overflow: hidden; height: 350px;">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14498.461622329388!2d46.66699625!3d24.6937402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f03328e1858bb%3A0xe54e6fa16b0810bd!2z2LTYp9ix2Lkg2KfZhNiq2K7Ytdi12Yog2KfZhNix2YrYp9i2!5e0!3m2!1sar!2ssa!4v1719266624000!5m2!1sar!2ssa" width="100%" height="100%" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="glass-card" style="margin-top: 40px; padding: 12px; overflow: hidden; height: 350px; border: 1.5px solid rgba(21, 101, 255, 0.05);">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14498.461622329388!2d46.66699625!3d24.6937402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f03328e1858bb%3A0xe54e6fa16b0810bd!2z2LTYp9ix2Lkg2KfZhNiq2K7Ytdi12Yog2KfZhNix2YrYp9i2!5e0!3m2!1sar!2ssa!4v1719266624000!5m2!1sar!2ssa" width="100%" height="100%" style="border:0; border-radius: 12px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                 </div>
             </section>
@@ -113,9 +101,6 @@
                 contactForm.addEventListener('submit', (e) => {
                     e.preventDefault();
                     const name = document.getElementById('contactName').value;
-                    const phone = document.getElementById('contactPhone').value;
-                    const email = document.getElementById('contactEmail').value;
-                    const msg = document.getElementById('contactMessage').value;
                     
                     alert(`شكراً لتواصلك معنا يا ${name}! تم إرسال رسالتك بنجاح وسنتواصل معك قريباً.`);
                     contactForm.reset();
@@ -123,9 +108,6 @@
             }
         });
     </script>
-
-    <!-- Application Script Logic -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module" src="assets/js/app.js"></script>
 </body>
 </html>

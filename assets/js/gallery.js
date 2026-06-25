@@ -1,4 +1,5 @@
-// Before/After interactive slider logic
+// Before/After interactive slider logic & Gallery page features
+
 export function initBeforeAfterSliders() {
     const sliders = document.querySelectorAll('.before-after-wrapper');
     
@@ -34,7 +35,7 @@ export function initBeforeAfterSliders() {
         });
 
         // Touch Events (Mobile)
-        handle.addEventListener('touchstart', startDragging);
+        handle.addEventListener('touchstart', startDragging, { passive: true });
         window.addEventListener('touchend', stopDragging);
         window.addEventListener('touchmove', (e) => {
             if (!isDragging) return;
@@ -43,7 +44,88 @@ export function initBeforeAfterSliders() {
     });
 }
 
+// Category Filtering logic
+export function initGalleryFilters() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const caseCards = document.querySelectorAll('.gallery-grid .glass-card');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from other buttons
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filterVal = btn.getAttribute('data-filter');
+
+            caseCards.forEach(card => {
+                if (filterVal === 'all' || card.getAttribute('data-category') === filterVal) {
+                    card.style.display = 'block';
+                    card.style.animation = 'pageFadeIn 0.5s ease forwards';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+}
+
+// Lightbox Modal logic
+export function initGalleryLightbox() {
+    const lightbox = document.getElementById('galleryLightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const closeBtn = document.getElementById('closeLightboxBtn');
+
+    if (!lightbox || !lightboxImg) return;
+
+    // Trigger on clicking slider photos or standard case images
+    const triggerImages = document.querySelectorAll('.before-after-wrapper, .case-static-img');
+    triggerImages.forEach(elem => {
+        elem.addEventListener('click', (e) => {
+            // If clicking the slider button or handle, do not trigger lightbox
+            if (e.target.closest('.slider-handle') || e.target.closest('.slider-button')) {
+                return;
+            }
+
+            // Find an image within this container
+            let src = '';
+            const img = elem.querySelector('img');
+            if (img) {
+                src = img.src;
+            } else {
+                // Check background-image
+                const beforeDiv = elem.querySelector('.before-img');
+                if (beforeDiv) {
+                    const bg = window.getComputedStyle(beforeDiv).backgroundImage;
+                    src = bg.replace(/url\(['"]?(.*?)['"]?\)/i, '$1');
+                }
+            }
+
+            if (src) {
+                lightboxImg.src = src;
+                lightbox.style.display = 'flex';
+            }
+        });
+    });
+
+    const closeLightbox = () => {
+        lightbox.style.display = 'none';
+        lightboxImg.src = '';
+    };
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeLightbox);
+    }
+
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            closeLightbox();
+        }
+    });
+}
+
 // Auto-run if element is on screen
 document.addEventListener('DOMContentLoaded', () => {
     initBeforeAfterSliders();
+    initGalleryFilters();
+    initGalleryLightbox();
 });

@@ -12,91 +12,195 @@
 </head>
 <body>
 
-    <!-- Mode Switcher Floating Panel -->
-    <div class="mode-switch-panel">
-        <div class="floating-switcher">
-            <button id="viewLiveBtn" class="switcher-btn active" onclick=\"window.location.href='about'\">
-                <i class="bx bx-world"></i> الموقع التفاعلي
-            </button>
-            <button id="viewFigmaBtn" class="switcher-btn" onclick=\"window.location.href='figma'\">
-                <i class="bx bx-palette"></i> Figma Mockups
-            </button>
-        </div>
-    </div>
-
     <!-- MAIN APP ROOT -->
     <div id="app-root">
         <header id="header-nav"></header>
 
         <main class="main-content">
-            <!-- PAGE 04: ABOUT DOCTOR -->
             <section id="about-page" class="page-view">
+                
+                <!-- BIOGRAPHY SECTION -->
                 <div class="container about-doctor-section">
                     <div class="doctor-wrapper">
                         <!-- Portrait Image Container -->
                         <div class="doctor-image-container">
                             <div class="illustration-bg-glow" style="width: 100%; height: 100%;"></div>
-                            <img src="assets/doctor.jpg" alt="د. أكثم طنطاوي" style="width: 100%; height: 100%; object-fit: cover; z-index: 2;">
+                            <img src="assets/doctor.jpg" alt="د. أكثم طنطاوي" style="width: 100%; height: auto; z-index: 2;">
                             <div class="doctor-stats-badge">
                                 <i class="bx bx-award doctor-stats-icon"></i>
                                 <div>
                                     <div class="tag-title">د. أكثم طنطاوي</div>
-                                    <div class="tag-subtitle">استشاري زراعة الأسنان</div>
+                                    <div class="tag-subtitle">استشاري أول معتمد</div>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Doctor Bio text -->
                         <div class="doctor-info-content">
-                            <span class="section-label">عن الطبيب</span>
-                            <h2 class="doctor-bio-title">د. أكثم إسماعيل محمد علي طنطاوي</h2>
+                            <span class="section-label">السيرة المهنية</span>
+                            <h2 class="doctor-bio-title">د. أكثم إسماعيل طنطاوي</h2>
                             <span class="doctor-specialty-tag">استشاري جراحة وزراعة وتجميل الأسنان</span>
                             <p class="doctor-bio-text">
-                                استشاري رائد في مجال طب وجراحة الأسنان، يمتلك خبرة عملية وعلمية تتجاوز الـ 15 عاماً في زراعة الأسنان الفورية وتصميم الابتسامة الرقمية. حائز على العديد من الشهادات الأكاديمية والزمالات الدولية من أرقى الجامعات العالمية، ويسعى دائماً لتطبيق أحدث الابتكارات الطبية لراحة وسلامة مرضاه.
+                                استشاري رائد ومتميز في مجال طب وجراحة الأسنان الرقمي وزراعة الأسنان الفورية، يمتلك مسيرة علمية وعملية حافلة تمتد لأكثر من 15 عاماً. كرس مسيرته المهنية لتطبيق أحدث الابتكارات الطبية وتصميم الابتسامة المعتمد على الذكاء الاصطناعي لتقديم رعاية فاخرة ونتائج تدوم مدى الحياة.
                             </p>
-                            <div class="doctor-highlights" style="margin-bottom: 30px;">
+                            
+                            <!-- Highlights Grid -->
+                            <div class="doctor-highlights">
                                 <div class="highlight-box">
                                     <div class="highlight-icon"><i class="bx bx-check"></i></div>
-                                    <span class="highlight-text">دبلوم زراعة الأسنان من الكلية الملكية للجراحين</span>
+                                    <span class="highlight-text">دبلوم زراعة الأسنان من الكلية الملكية للجراحين بإنجلترا</span>
                                 </div>
                                 <div class="highlight-box">
                                     <div class="highlight-icon"><i class="bx bx-check"></i></div>
-                                    <span class="highlight-text">عضو الجمعية الألمانية لزراعة الأسنان (DGZI)</span>
+                                    <span class="highlight-text">عضو فعال بالجمعية الألمانية لزراعة الأسنان (DGZI)</span>
                                 </div>
                                 <div class="highlight-box">
                                     <div class="highlight-icon"><i class="bx bx-check"></i></div>
-                                    <span class="highlight-text">شهادة التجميل الرقمي من معهد السمات السويسري</span>
+                                    <span class="highlight-text">حاصل على زمالة الكلية الملكية البريطانية لتقويم الأسنان (MOrth)</span>
                                 </div>
                                 <div class="highlight-box">
                                     <div class="highlight-icon"><i class="bx bx-check"></i></div>
-                                    <span class="highlight-text">أكثر من 8000 حالة زراعة أسنان ناجحة وموثقة</span>
+                                    <span class="highlight-text">أكثر من 8,000 حالة زراعة وتجميل ناجحة وموثقة بالعيادة</span>
                                 </div>
                             </div>
 
-                            <!-- MOrth Congrats Certificate Card -->
-                            <div class="certificate-card glass-card" style="display: flex; gap: 16px; align-items: center; padding: 16px; margin: 24px 0; border-radius: var(--radius-md); text-align: right; box-shadow: var(--shadow-sm); border: 1.5px solid rgba(13, 110, 253, 0.1);">
-                                <img src="assets/congrats.jpg" alt="شهادة د. أكثم" style="width: 100px; height: 100px; object-fit: cover; border-radius: var(--radius-sm); border: 2px solid var(--primary-light); flex-shrink: 0;">
+                            <!-- Certificate Card Info -->
+                            <div class="glass-card" style="display: flex; gap: 20px; align-items: center; padding: 20px; margin-top: 10px; border: 1.5px solid rgba(21, 101, 255, 0.1);">
+                                <img src="assets/congrats.jpg" alt="شهادة د. أكثم" style="width: 80px; height: 80px; object-fit: cover; border-radius: var(--radius-md); border: 2.5px solid var(--primary-light); flex-shrink: 0;">
                                 <div>
-                                    <h4 style="font-size: 15px; font-weight: 800; color: var(--primary); margin-bottom: 6px;">حاصل على زمالة MOrth العريقة</h4>
-                                    <p style="font-size: 12px; color: var(--text-muted); line-height: 1.6; margin: 0;">اجتياز اختبار الكلية الملكية لتقويم الأسنان بنجاح باهر (MOrth Exam Part A) المعتمد دولياً.</p>
+                                    <h4 style="font-size: 16px; font-weight: 800; color: var(--primary); margin-bottom: 4px;">الاعتمادات والزمالات الدولية</h4>
+                                    <p style="font-size: 13px; color: var(--text-muted); line-height: 1.7; margin: 0;">حاصل على اعتماد اختبار الكلية الملكية لتقويم الأسنان (MOrth Exam Part A) بنجاح باهر لتقديم أفضل رعاية لتقويم وتجميل الفكين.</p>
                                 </div>
                             </div>
-
-                            <a href="booking" class="btn btn-primary">حجز استشارة خاصة</a>
                         </div>
                     </div>
+
+                    <div style="margin-top: 80px;">
+                        <div class="section-header">
+                            <span class="section-label">مسيرة العطاء</span>
+                            <h2 class="section-title">التطور المهني والأكاديمي</h2>
+                            <p class="section-desc">أهم المحطات والشهادات الأكاديمية والمهنية للدكتور أكثم طنطاوي</p>
+                        </div>
+
+                        <!-- Interactive timeline -->
+                        <div class="experience-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-year">2011</div>
+                                <h4 class="timeline-title">بكالوريوس طب وجراحة الفم والأسنان</h4>
+                                <p class="timeline-desc">تخرج بمرتبة الشرف الأولى والبدء في الممارسة الإكلينيكية المتخصصة في جراحة اللثة والفم.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-year">2015</div>
+                                <h4 class="timeline-title">دبلوم زراعة الأسنان - الكلية الملكية للجراحين بإنجلترا</h4>
+                                <p class="timeline-desc">تخصص دقيق في زراعة الأسنان الفورية وتطبيقات الغرسات العظمية وجراحة الفم الصغرى.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-year">2019</div>
+                                <h4 class="timeline-title">عضوية الجمعية الألمانية لزراعة الأسنان (DGZI)</h4>
+                                <p class="timeline-desc">الحصول على عضوية البورد الألماني لزراعة الأسنان والمشاركة في الأبحاث والمؤتمرات الدولية.</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-year">2023</div>
+                                <h4 class="timeline-title">شهادة زمالة الكلية الملكية لتقويم الأسنان (MOrth)</h4>
+                                <p class="timeline-desc">اجتياز زمالة MOrth المرموقة لتقويم الأسنان وتعديل نمو الفكين للبالغين والأطفال بأحدث الوسائل غير المرئية.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VIDEO INTRODUCTION PLACEHOLDER -->
+                    <div style="margin-top: 80px;">
+                        <div class="section-header">
+                            <span class="section-label">جولة افتراضية</span>
+                            <h2 class="section-title">فيديو تعريفي بالعيادة والتجهيزات</h2>
+                            <p class="section-desc">شاهد التقنيات الطبية الرقمية المعتمدة لضمان أفضل تشخيص وراحة تامة لمرضانا</p>
+                        </div>
+                        <div class="video-wrapper">
+                            <!-- Premium Embedded video -->
+                            <iframe src="https://www.youtube.com/embed/5a1n3X3pP5A?autoplay=0&mute=1" title="Dental Clinic Tour" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    <!-- CLINIC INTERIOR GALLERY -->
+                    <div style="margin-top: 80px;">
+                        <div class="section-header">
+                            <span class="section-label">ألبوم الصور</span>
+                            <h2 class="section-title">بيئة علاجية فاخرة ومريحة</h2>
+                            <p class="section-desc">صممت عيادتنا خصيصاً لتوفر أجواء مريحة ومريحة تضمن تقليل التوتر أثناء العلاج</p>
+                        </div>
+                        <div class="clinic-gallery-grid">
+                            <div class="gallery-photo-card">
+                                <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=400&q=80" alt="غرفة الكشف والعيادة">
+                            </div>
+                            <div class="gallery-photo-card">
+                                <img src="https://images.unsplash.com/photo-1579684389782-64d84b5e905d?auto=format&fit=crop&w=400&q=80" alt="تجهيزات التعقيم والأدوات">
+                            </div>
+                            <div class="gallery-photo-card">
+                                <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=400&q=80" alt="صالة الاستقبال المريحة">
+                            </div>
+                            <div class="gallery-photo-card">
+                                <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=400&q=80" alt="جناح الكشف VIP">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA AREA -->
+                    <div style="text-align: center; margin-top: 64px;">
+                        <a href="booking.html" class="btn btn-primary">احجز استشارة مع الدكتور الآن</a>
+                    </div>
+
                 </div>
             </section>
         </main>
+
+        <!-- LIGHTBOX MODAL CONTAINER -->
+        <div class="lightbox-modal" id="galleryLightbox">
+            <div class="lightbox-content">
+                <button class="lightbox-close" id="closeLightboxBtn"><i class="bx bx-x"></i></button>
+                <img class="lightbox-img" id="lightboxImg" src="" alt="صورة مكبرة">
+            </div>
+        </div>
 
         <footer id="footer-wrapper"></footer>
     </div>
 
     <!-- Application Script Logic -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <!-- Application Script Logic -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module" src="assets/js/app.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const lightbox = document.getElementById('galleryLightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            const closeBtn = document.getElementById('closeLightboxBtn');
+            
+            document.querySelectorAll('.gallery-photo-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const img = card.querySelector('img');
+                    if (img && lightbox && lightboxImg) {
+                        lightboxImg.src = img.src;
+                        lightbox.style.display = 'flex';
+                    }
+                });
+            });
+            
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    if (lightbox) lightbox.style.display = 'none';
+                });
+            }
+            
+            if (lightbox) {
+                lightbox.addEventListener('click', (e) => {
+                    if (e.target === lightbox || e.target.closest('#closeLightboxBtn')) {
+                        lightbox.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

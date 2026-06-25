@@ -1,7 +1,5 @@
 // Layout component loader for Multi-Page application
 document.addEventListener('DOMContentLoaded', () => {
-    const isIframe = window.self !== window.top;
-    
     // Load Header component
     const headerPlaceholder = document.getElementById('header-nav');
     if (headerPlaceholder) {
@@ -32,39 +30,46 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(html => {
                 footerPlaceholder.outerHTML = html; // replace placeholder with template content
+                
+                // Lazy load Google Maps iframe in footer
+                const lazyIframes = document.querySelectorAll('.lazy-iframe');
+                lazyIframes.forEach(iframe => {
+                    const dataSrc = iframe.getAttribute('data-src');
+                    if (dataSrc) {
+                        iframe.src = dataSrc;
+                    }
+                });
             })
             .catch(err => console.error('Error loading footer:', err));
     }
 
     // Load Telegram Simulator component dynamically
-    if (!isIframe) {
-        fetch('components/telegram.html')
-            .then(res => {
-                if (res.ok) return res.text();
-            })
-            .then(html => {
-                if (html) {
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = html.trim();
-                    document.body.appendChild(tempDiv.firstChild);
-                    
-                    // Lazy import telegram logic
-                    import('./telegram.js').then(module => {
-                        if (typeof module.initTelegramSimulator === 'function') {
-                            module.initTelegramSimulator();
-                        }
-                    });
-                }
-            })
-            .catch(err => console.error('Error loading telegram simulator:', err));
-    }
+    fetch('components/telegram.html')
+        .then(res => {
+            if (res.ok) return res.text();
+        })
+        .then(html => {
+            if (html) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = html.trim();
+                document.body.appendChild(tempDiv.firstChild);
+                
+                // Lazy import telegram logic
+                import('./telegram.js').then(module => {
+                    if (typeof module.initTelegramSimulator === 'function') {
+                        module.initTelegramSimulator();
+                    }
+                });
+            }
+        })
+        .catch(err => console.error('Error loading telegram simulator:', err));
 });
 
 // Highlights current nav link based on location filename
 export function highlightActiveLink() {
     const path = window.location.pathname;
-    const page = path.split('/').pop() || 'index';
-    const cleanPage = page.replace('.html', '');
+    const page = path.split('/').pop() || 'index.html';
+    const cleanPage = page.endsWith('.html') ? page : page + '.html';
     
     // Desktop navbar item highlight
     const navItems = document.querySelectorAll('.nav-links .nav-item');
@@ -72,8 +77,7 @@ export function highlightActiveLink() {
         const link = item.querySelector('a');
         if (link) {
             const href = link.getAttribute('href');
-            const cleanHref = href.replace('.html', '');
-            if (cleanHref === cleanPage || (cleanPage === 'index' && cleanHref === '') || (cleanPage === '' && cleanHref === 'index')) {
+            if (href === cleanPage || (cleanPage === 'index.html' && href === 'index.html')) {
                 item.classList.add('active');
             } else {
                 item.classList.remove('active');
@@ -85,8 +89,7 @@ export function highlightActiveLink() {
     const drawerLinks = document.querySelectorAll('.drawer-links a');
     drawerLinks.forEach(link => {
         const href = link.getAttribute('href');
-        const cleanHref = href.replace('.html', '');
-        if (cleanHref === cleanPage || (cleanPage === 'index' && cleanHref === '') || (cleanPage === '' && cleanHref === 'index')) {
+        if (href === cleanPage || (cleanPage === 'index.html' && href === 'index.html')) {
             link.classList.add('active');
         } else {
             link.classList.remove('active');

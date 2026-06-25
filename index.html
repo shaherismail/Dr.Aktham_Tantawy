@@ -12,18 +12,6 @@
 </head>
 <body>
 
-    <!-- Mode Switcher Floating Panel (UX Presentation Mode) -->
-    <div class="mode-switch-panel">
-        <div class="floating-switcher">
-            <button id="viewLiveBtn" class="switcher-btn active" onclick=\"window.location.href='index'\">
-                <i class="bx bx-world"></i> الموقع التفاعلي
-            </button>
-            <button id="viewFigmaBtn" class="switcher-btn" onclick=\"window.location.href='figma'\">
-                <i class="bx bx-palette"></i> Figma Mockups
-            </button>
-        </div>
-    </div>
-
     <!-- MAIN APP ROOT -->
     <div id="app-root">
         <!-- Sticky Navigation Placeholders (Injected by layout.js) -->
@@ -32,6 +20,8 @@
         <!-- Main Home Page Content -->
         <main class="main-content">
             <section id="home-page" class="page-view">
+                
+                <!-- HERO SECTION -->
                 <div class="container">
                     <div class="hero-wrapper">
                         <!-- Hero Text Content -->
@@ -39,13 +29,13 @@
                             <div class="badge-new">
                                 <span class="badge-dot"></span> رعاية أسنان متكاملة بمقاييس عالمية
                             </div>
-                            <h1 class="hero-title">ابتسامتك تستحق <br><span>أفضل رعاية طبية</span></h1>
+                            <h1 class="hero-title">ابتسامتك تستحق <br><span class="text-gradient">أفضل رعاية طبية</span></h1>
                             <p class="hero-desc">
-                                نرحب بكم في عيادة الدكتور أكثم إسماعيل محمد علي طنطاوي، حيث نجمع بين أحدث التقنيات الطبية واللمسة الفنية لتوفير ابتسامة صحية وجذابة تدوم طويلاً.
+                                نرحب بكم في عيادة الدكتور أكثم إسماعيل طنطاوي، حيث نجمع بين التقنيات الطبية الرقمية المتطورة واللمسة الفنية لتوفير ابتسامة صحية وجذابة تدوم طويلاً.
                             </p>
                             <div class="hero-actions">
-                                <a href="booking" class="btn btn-primary">احجز موعدك الآن <i class="bx bx-calendar-check"></i></a>
-                                <a href="about" class="btn btn-secondary">تعرف على الدكتور</a>
+                                <a href="booking.html" class="btn btn-primary">احجز موعدك الآن <i class="bx bx-calendar-check"></i></a>
+                                <a href="tel:+966501234567" class="btn btn-secondary">اتصل بالعيادة <i class="bx bx-phone-call"></i></a>
                             </div>
                             <div class="hero-stats-row">
                                 <div class="stat-item">
@@ -53,7 +43,7 @@
                                     <span class="stat-label">سنة من الخبرة</span>
                                 </div>
                                 <div class="stat-item">
-                                    <span class="stat-num">+10,000</span>
+                                    <span class="stat-num">+10K</span>
                                     <span class="stat-label">ابتسامة سعيدة</span>
                                 </div>
                                 <div class="stat-item">
@@ -63,73 +53,46 @@
                             </div>
                         </div>
                         
-                        <!-- Hero Interactive Vector 3D Dental Chair SVG -->
+                        <!-- Hero Interactive Imagery & Badges -->
                         <div class="hero-image-container">
                             <div class="illustration-bg-glow"></div>
-                            <svg class="main-illustration-svg" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <linearGradient id="chairGrad" x1="150" y1="200" x2="350" y2="400" gradientUnits="userSpaceOnUse">
-                                        <stop offset="0%" stop-color="#0D6EFD" />
-                                        <stop offset="100%" stop-color="#4DA3FF" />
-                                    </linearGradient>
-                                    <linearGradient id="baseGrad" x1="200" y1="400" x2="300" y2="480" gradientUnits="userSpaceOnUse">
-                                        <stop offset="0%" stop-color="#E2E8F0" />
-                                        <stop offset="100%" stop-color="#CBD5E1" />
-                                    </linearGradient>
-                                    <filter id="shadow-illustration" x="50" y="50" width="400" height="400" filterUnits="userSpaceOnUse">
-                                        <feDropShadow dx="0" dy="15" stdDeviation="15" flood-color="#0F1728" flood-opacity="0.1"/>
-                                    </filter>
-                                </defs>
-                                <g filter="url(#shadow-illustration)">
-                                    <!-- Base of dental chair -->
-                                    <ellipse cx="250" cy="440" rx="140" ry="25" fill="url(#baseGrad)" />
-                                    <rect x="235" y="320" width="30" height="110" rx="15" fill="#94A3B8" />
-                                    
-                                    <!-- Main body chair curve -->
-                                    <path d="M120 220 C180 200, 220 280, 260 290 C300 300, 360 240, 400 310 C420 345, 410 380, 340 375 C280 370, 240 340, 180 330 Z" fill="url(#chairGrad)" />
-                                    
-                                    <!-- Headrest -->
-                                    <rect x="100" y="195" width="45" height="35" rx="12" fill="#0A58CA" />
-                                    <rect x="120" y="225" width="8" height="20" fill="#64748B" />
-                                    
-                                    <!-- Instrument Stand -->
-                                    <path d="M300 420 L350 250 L380 250" stroke="#CBD5E1" stroke-width="12" stroke-linecap="round" />
-                                    <rect x="360" y="220" width="55" height="35" rx="8" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2" />
-                                    <circle cx="375" cy="238" r="5" fill="#4DA3FF" />
-                                    <circle cx="395" cy="238" r="5" fill="#0D6EFD" />
-                                    
-                                    <!-- Overhead Lamp -->
-                                    <path d="M220 330 L200 120 L280 100" fill="none" stroke="#64748B" stroke-width="8" stroke-linecap="round" />
-                                    <ellipse cx="280" cy="100" rx="30" ry="18" transform="rotate(-15 280 100)" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2" />
-                                    <ellipse cx="280" cy="100" rx="20" ry="10" transform="rotate(-15 280 100)" fill="#FFF9DB" />
-                                    
-                                    <!-- Floating Sparkles -->
-                                    <path d="M150 120 L155 135 L170 140 L155 145 L150 160 L145 145 L130 140 L145 135 Z" fill="#FFD700" opacity="0.8" />
-                                    <path d="M330 150 L333 160 L343 163 L333 166 L330 176 L327 166 L317 163 L327 160 Z" fill="#4DA3FF" opacity="0.6" />
-                                </g>
-                            </svg>
                             
-                            <!-- Floating Tag 1 -->
+                            <!-- Main Portrait -->
+                            <img src="assets/doctor.jpg" alt="د. أكثم طنطاوي" class="doctor-portrait">
+                            
+                            <!-- Floating Badge 1: Certified -->
                             <div class="floating-tag floating-tag-1">
                                 <div class="tag-card">
                                     <div class="tag-icon-success">
-                                        <i class="bx bx-check"></i>
+                                        <i class="bx bx-badge-check"></i>
                                     </div>
                                     <div>
-                                        <div class="tag-title">معتمد دولياً</div>
-                                        <div class="tag-subtitle">د. أكثم طنطاوي</div>
+                                        <div class="tag-title">د. أكثم طنطاوي</div>
+                                        <div class="tag-subtitle">استشاري معتمد دولياً</div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Floating Tag 2 -->
+                            
+                            <!-- Floating Badge 2: Sterilization -->
                             <div class="floating-tag floating-tag-2">
                                 <div class="tag-card">
                                     <div class="tag-icon-primary">
                                         <i class="bx bx-shield-quarter"></i>
                                     </div>
                                     <div>
-                                        <div class="tag-title">حماية قصوى</div>
-                                        <div class="tag-subtitle">تعقيم طبي 100%</div>
+                                        <div class="tag-title">تعقيم 100%</div>
+                                        <div class="tag-subtitle">حماية وأمان معتمد</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Google Reviews Widget overlay -->
+                            <div class="glass-card" style="position: absolute; bottom: -20px; right: 20px; padding: 12px 18px; display: flex; align-items: center; gap: 10px; z-index: 5; border: 1.5px solid rgba(21, 101, 255, 0.1);">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google logo" style="width: 20px; height: 20px;">
+                                <div>
+                                    <div style="font-size: 13px; font-weight: 800; color: var(--dark);">تقييمات جوجل</div>
+                                    <div style="font-size: 11px; display: flex; align-items: center; gap: 4px; color: #FBBF24; font-family: 'Outfit';">
+                                        4.9 ★★★★★ <span style="color: var(--text-muted); font-size: 10px;">(540 مراجع)</span>
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +100,7 @@
                     </div>
                 </div>
 
-                <!-- PAGE 02: PROTECTION SHOWCASE -->
+                <!-- PROTECTION SHOWCASE -->
                 <div class="protection-section">
                     <div class="container">
                         <div class="protection-wrapper">
@@ -150,29 +113,28 @@
                                             <stop offset="100%" stop-color="#E2E8F0"/>
                                         </linearGradient>
                                         <linearGradient id="shieldGrad" x1="100" y1="50" x2="300" y2="280" gradientUnits="userSpaceOnUse">
-                                            <stop offset="0%" stop-color="rgba(13, 110, 253, 0.4)"/>
-                                            <stop offset="100%" stop-color="rgba(77, 163, 255, 0.05)"/>
+                                            <stop offset="0%" stop-color="rgba(21, 101, 255, 0.4)"/>
+                                            <stop offset="100%" stop-color="rgba(111, 168, 255, 0.05)"/>
                                         </linearGradient>
                                     </defs>
                                     <!-- Inner Shield Glow -->
-                                    <path d="M200 40 C300 40, 310 130, 290 220 C270 270, 200 300, 200 300 C200 300, 130 270, 110 220 C90 130, 100 40, 200 40 Z" fill="url(#shieldGrad)" stroke="#0D6EFD" stroke-width="3" stroke-dasharray="5 5"/>
+                                    <path d="M200 40 C300 40, 310 130, 290 220 C270 270, 200 300, 200 300 C200 300, 130 270, 110 220 C90 130, 100 40, 200 40 Z" fill="url(#shieldGrad)" stroke="#1565FF" stroke-width="3" stroke-dasharray="5 5"/>
                                     
                                     <!-- Stylized 3D Tooth -->
-                                    <g filter="url(#shadow-illustration)">
-                                        <path d="M160 110 C160 90, 240 90, 240 110 C250 110, 260 130, 255 170 C250 210, 235 240, 225 240 C215 240, 215 220, 200 220 C185 220, 185 240, 175 240 C165 240, 150 210, 145 170 C140 130, 150 110, 160 110 Z" fill="url(#toothGrad)"/>
-                                        <!-- Highlights -->
+                                    <g>
+                                        <path d="M160 110 C160 90, 240 90, 240 110 C250 110, 260 130, 255 170 C250 210, 235 240, 225 240 C215 240, 215 220, 200 220 C185 220, 185 240, 175 240 C165 240, 150 210, 145 170 C140 130, 150 110, 160 110 Z" fill="url(#toothGrad)" stroke="#E2E8F0" stroke-width="2"/>
                                         <path d="M160 115 C165 105, 190 105, 195 115" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
                                         <path d="M205 115 C210 105, 235 105, 240 115" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
                                     </g>
                                     
-                                    <!-- Sparkles & Shields -->
-                                    <circle cx="90" cy="100" r="4" fill="#0D6EFD" />
-                                    <circle cx="310" cy="180" r="6" fill="#4DA3FF" />
+                                    <!-- Sparkles & Particles -->
+                                    <circle cx="90" cy="100" r="4" fill="#1565FF" />
+                                    <circle cx="310" cy="180" r="6" fill="#6FA8FF" />
                                     <circle cx="120" cy="260" r="3" fill="#16A34A" />
                                 </svg>
                             </div>
                             <div class="protection-content">
-                                <div class="section-label">كل ما تحتاجه للوقاية والحماية</div>
+                                <span class="section-label">كل ما تحتاجه للوقاية والحماية</span>
                                 <h2 class="section-title">لماذا عيادتنا هي الخيار الأمثل؟</h2>
                                 <p class="section-desc" style="margin-top: 10px; margin-bottom: 24px;">
                                     نحن نهتم بأدق التفاصيل لنضمن لكم رحلة علاجية مريحة وآمنة خالية من الألم، معتمدين على أسس طبية علمية حديثة.
@@ -182,21 +144,21 @@
                                         <div class="protection-icon"><i class="bx bx-badge-check"></i></div>
                                         <div>
                                             <h4 class="protection-item-title">تعقيم فائق ومستمر</h4>
-                                            <p class="protection-item-desc">نطبق بروتوكولات تعقيم عالمية لجميع الأجهزة والأدوات الطبيّة.</p>
+                                            <p class="protection-item-desc">نطبق بروتوكولات تعقيم عالمية صارمة لجميع الأجهزة والأدوات الطبيّة.</p>
                                         </div>
                                     </div>
                                     <div class="protection-item">
                                         <div class="protection-icon"><i class="bx bx-heart"></i></div>
                                         <div>
                                             <h4 class="protection-item-title">علاج بدون ألم</h4>
-                                            <p class="protection-item-desc">استخدام أحدث تقنيات التخدير الموضعي لراحة تامة أثناء العلاج.</p>
+                                            <p class="protection-item-desc">استخدام أحدث تقنيات التخدير الموضعي الرقمي لراحة تامة أثناء العلاج.</p>
                                         </div>
                                     </div>
                                     <div class="protection-item">
                                         <div class="protection-icon"><i class="bx bx-check-double"></i></div>
                                         <div>
                                             <h4 class="protection-item-title">ضمان جودة المواد</h4>
-                                            <p class="protection-item-desc">نستورد أفضل الخامات الطبية من ألمانيا وسويسرا لضمان عمر أطول للتركيبات.</p>
+                                            <p class="protection-item-desc">نستورد أفضل الخامات الطبية من ألمانيا وسويسرا لضمان نتائج علاجية تدوم مدى الحياة.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -204,6 +166,124 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- TESTIMONIALS SECTION (MERGED) -->
+                <div class="testimonials-section">
+                    <div class="container">
+                        <div class="section-header">
+                            <span class="section-label">آراء المراجعين</span>
+                            <h2 class="section-title">نحن فخورون بثقتكم الغالية</h2>
+                            <p class="section-desc">ماذا يقول مرضانا عن تجربتهم العلاجية في عيادتنا؟</p>
+                        </div>
+                        
+                        <!-- Testimonials Grid with Loading/Dynamic injection -->
+                        <div class="testimonial-grid" id="testimonialsTrack">
+                            <!-- Injected dynamically by app.js, with solid fallback items -->
+                            <div style="text-align:center; padding:40px; grid-column: span 3; color:var(--primary);">
+                                <i class="bx bx-loader-alt animate-spin" style="font-size:35px; margin-bottom:10px; display:block; margin: 0 auto 12px auto;"></i> 
+                                جاري تحميل آراء المراجعين...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ SECTION (MERGED) -->
+                <div class="faq-section">
+                    <div class="container">
+                        <div class="section-header">
+                            <span class="section-label">الأسئلة المتكررة</span>
+                            <h2 class="section-title">إجابات وتوجيهات لجميع استفساراتكم</h2>
+                            <p class="section-desc">إليك أهم الأسئلة الشائعة التي تطرح علينا من قبل مراجعينا الأوفياء</p>
+                        </div>
+
+                        <div class="faq-wrapper">
+                            <!-- FAQ 1 -->
+                            <div class="faq-item">
+                                <button class="faq-header-btn">
+                                    <span>هل الفحص والاستشارة الأولية مجانية؟</span>
+                                    <i class="bx bx-chevron-down faq-icon-chevron"></i>
+                                </button>
+                                <div class="faq-body">
+                                    <div class="faq-body-inner">
+                                        نعم، الفحص والاستشارة الطبية الأولى للأسنان مجانية بالكامل. وهي تشمل فحص الحالة الإكلينيكي وتقديم خطة العلاج المناسبة وتحديد التكلفة التقديرية.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ 2 -->
+                            <div class="faq-item">
+                                <button class="faq-header-btn">
+                                    <span>كم من الوقت يستغرق إجراء زراعة السن الواحد؟</span>
+                                    <i class="bx bx-chevron-down faq-icon-chevron"></i>
+                                </button>
+                                <div class="faq-body">
+                                    <div class="faq-body-inner">
+                                        عملية زراعة السن الواحد بحد ذاتها كإجراء جراحي لا تستغرق أكثر من ١٥ إلى ٢٠ دقيقة باستخدام التخدير الموضعي وتتم بدون أي ألم. ويتبعها مرحلة التحام الغرسة بالفك التي تتراوح بين شهرين إلى ثلاثة أشهر قبل التركيب النهائي.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ 3 -->
+                            <div class="faq-item">
+                                <button class="faq-header-btn">
+                                    <span>ما هي مدة ثبات نتيجة تبييض الأسنان بالليزر؟</span>
+                                    <i class="bx bx-chevron-down faq-icon-chevron"></i>
+                                </button>
+                                <div class="faq-body">
+                                    <div class="faq-body-inner">
+                                        تستمر نتائج تبييض الأسنان بالليزر لفترة تتراوح بين سنة إلى ثلاث سنوات، وتعتمد هذه المدة بشكل أساسي على مدى العناية بالأسنان وتجنب التدخين والمشروبات الملونة كالقهوة والشاي.
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ 4 -->
+                            <div class="faq-item">
+                                <button class="faq-header-btn">
+                                    <span>هل توفر العيادة خيارات لتقسيط العلاج؟</span>
+                                    <i class="bx bx-chevron-down faq-icon-chevron"></i>
+                                </button>
+                                <div class="faq-body">
+                                    <div class="faq-body-inner">
+                                        نعم، توفر العيادة خيارات تقسيط مرنة بدون دفعة أولى وفائدة صفرية بالتعاون مع شركات تسيير التمويل الطبي المعتمدة على فترات سداد مريحة تمتد حتى ٢٤ شهراً.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- NEWSLETTER CARD -->
+                        <div class="glass-card newsletter-card" style="margin-top: 80px;">
+                            <div class="newsletter-grid">
+                                <div class="newsletter-content">
+                                    <h3 class="newsletter-title">اشترك في نشرتنا الطبية السنوية</h3>
+                                    <p class="newsletter-desc">احصل على أحدث النصائح الوقائية اليومية والعروض الحصرية للعيادة مباشرة في بريدك.</p>
+                                    <form id="newsForm" class="newsletter-form">
+                                        <input type="email" class="newsletter-input" placeholder="عنوان بريدك الإلكتروني" required>
+                                        <button type="submit" class="btn btn-primary">اشترك الآن</button>
+                                    </form>
+                                </div>
+                                <div class="newsletter-illustration">
+                                    <!-- 3D Envelope SVG -->
+                                    <svg class="newsletter-svg" viewBox="0 0 300 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <defs>
+                                            <linearGradient id="envGrad" x1="50" y1="50" x2="250" y2="180" gradientUnits="userSpaceOnUse">
+                                                <stop offset="0%" stop-color="#4DA3FF"/>
+                                                <stop offset="100%" stop-color="#1565FF"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <g>
+                                            <!-- Main Envelope Body -->
+                                            <rect x="30" y="40" width="240" height="130" rx="16" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="4"/>
+                                            <path d="M30 40 L150 110 L270 40" fill="none" stroke="url(#envGrad)" stroke-width="6" stroke-linejoin="round"/>
+                                            <path d="M30 170 L110 110" stroke="#CBD5E1" stroke-width="4"/>
+                                            <path d="M270 170 L190 110" stroke="#CBD5E1" stroke-width="4"/>
+                                        </g>
+                                        <!-- Sparkle -->
+                                        <circle cx="270" cy="50" r="6" fill="#16A34A"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </section>
         </main>
 
@@ -211,9 +291,6 @@
         <footer id="footer-wrapper"></footer>
     </div>
 
-    <!-- Application Script Logic -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
     <!-- Application Script Logic -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module" src="assets/js/app.js"></script>

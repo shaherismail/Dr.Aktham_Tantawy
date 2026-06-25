@@ -1,7 +1,10 @@
 import { AppState, supabaseClient } from './app.js';
 import { sendTelegramNotification } from './telegram.js';
 
-// Dynamics Seating Matrix Generator (Cinema seat style slots connected to Supabase)
+let currentStep = 1;
+const totalSteps = 5;
+
+// Dynamic Seating Matrix Generator (Replaces Cinema seating layout with clean time badge groups)
 export function generateSeatGrid(dateString) {
     const grid = document.getElementById('cinemaSeatsGrid');
     if (!grid) return;
@@ -14,7 +17,7 @@ export function generateSeatGrid(dateString) {
     ];
     const times = ["10:00 ص", "12:00 م", "04:00 م", "06:00 م", "08:00 م"];
 
-    // Generate random pre-booked seats based on date
+    // Generate random pre-booked seats based on date hash
     let seed = 0;
     if (dateString) {
         for (let i = 0; i < dateString.length; i++) {
@@ -26,8 +29,18 @@ export function generateSeatGrid(dateString) {
 
     const renderGrid = (reservedPairs) => {
         grid.innerHTML = '';
-        times.forEach(time => {
-            clinics.forEach(clinic => {
+        
+        clinics.forEach(clinic => {
+            // Create suite block
+            const suiteGroup = document.createElement('div');
+            suiteGroup.className = 'suite-booking-group';
+            suiteGroup.innerHTML = `
+                <h4 class="suite-header-title"><i class="bx bx-clinic"></i> ${clinic.name}</h4>
+                <div class="time-slots-group-grid"></div>
+            `;
+            const slotsGrid = suiteGroup.querySelector('.time-slots-group-grid');
+
+            times.forEach(time => {
                 let isReserved = false;
                 const matchesDb = reservedPairs.some(p => p.time === time && p.chair === clinic.name);
                 if (matchesDb) {
@@ -45,15 +58,10 @@ export function generateSeatGrid(dateString) {
                 seat.dataset.time = time;
                 seat.dataset.clinic = clinic.name;
                 
-                seat.innerHTML = `<i class="bx bx-chair"></i>`;
-
-                const timeLabel = document.createElement('span');
-                timeLabel.className = 'seat-time-lbl';
-                timeLabel.textContent = time;
+                seat.innerHTML = `<i class="bx ${isReserved ? 'bx-lock-alt' : 'bx-time-five'}"></i>`;
 
                 container.appendChild(seat);
-                container.appendChild(timeLabel);
-                grid.appendChild(container);
+                slotsGrid.appendChild(container);
 
                 if (!isReserved) {
                     seat.addEventListener('click', () => {
@@ -67,11 +75,13 @@ export function generateSeatGrid(dateString) {
                         const infoDetail = document.getElementById('selectedSeatDetail');
                         if (infoCard && infoDetail) {
                             infoCard.style.display = 'flex';
-                            infoDetail.textContent = `${clinic.name} في تمام الساعة ${time}`;
+                            infoDetail.textContent = `${clinic.name} - في تمام الساعة ${time}`;
                         }
                     });
                 }
             });
+
+            grid.appendChild(suiteGroup);
         });
     };
 
@@ -143,6 +153,83 @@ export function saveBookingToLocalStorage(bookingId) {
     }
 }
 
+// Populate summaries in Step 5
+function populateSummary() {
+    document.getElementById('summaryName').textContent = document.getElementById('bookingName').value || 'غير محدد';
+    document.getElementById('summaryPhone').textContent = document.getElementById('bookingPhone').value || 'غير محدد';
+    document.getElementById('summaryService').textContent = AppState.bookingData.service || 'غير محدد';
+    document.getElementById('summaryDate').textContent = document.getElementById('bookingDate').value || 'لم يتم الاختيار';
+    document.getElementById('summaryTime').textContent = AppState.bookingData.chair ? `${AppState.bookingData.chair} - ${AppState.bookingData.time}` : 'لم يتم تحديد وقت الحجز';
+}
+
+// Wizard Transitions
+function showStep(step) {
+    document.querySelectorAll('.wizard-step-panel').forEach(panel => panel.classList.remove('active'));
+    document.querySelectorAll('.step-indicator').forEach(ind => ind.classList.remove('active', 'completed'));
+    
+    document.getElementById(`stepPanel${step}`).classList.add('active');
+    
+    for (let i = 1; i <= totalSteps; i++) {
+        const ind = document.getElementById(`stepIndicator${i}`);
+        if (ind) {
+            if (i < step) ind.classList.add('completed');
+            if (i === step) ind.classList.add('active');
+        }
+    }
+    
+    const prevBtn = document.getElementById('prevStepBtn');
+    const nextBtn = document.getElementById('nextStepBtn');
+    const submitBtn = document.getElementById('submitBookingBtn');
+    
+    if (prevBtn) prevBtn.style.visibility = step === 1 ? 'hidden' : 'visible';
+    
+    if (step === totalSteps) {
+        if (nextBtn) nextBtn.style.display = 'none';
+        if (submitBtn) submitBtn.style.display = 'inline-flex';
+        populateSummary();
+    } else {
+        if (nextBtn) nextBtn.style.display = 'inline-flex';
+        if (submitBtn) submitBtn.style.display = 'none';
+    }
+}
+
+function validateStep(step) {
+    if (step === 1) {
+        const name = document.getElementById('bookingName').value.trim();
+        const phone = document.getElementById('bookingPhone').value.trim();
+        const age = document.getElementById('bookingAge').value.trim();
+        
+        if (!name || !phone || !age) {
+            alert('الرجاء تعبئة كافة الحقول المطلوبة (الاسم الكامل، رقم الجوال، والعمر).');
+            return false;
+        }
+        return true;
+    }
+    if (step === 2) {
+        if (!AppState.bookingData.service) {
+            alert('الرجاء اختيار الخدمة المطلوبة.');
+            return false;
+        }
+        return true;
+    }
+    if (step === 3) {
+        const date = document.getElementById('bookingDate').value;
+        if (!date) {
+            alert('الرجاء اختيار تاريخ الحجز.');
+            return false;
+        }
+        return true;
+    }
+    if (step === 4) {
+        if (!AppState.bookingData.chair || !AppState.bookingData.time) {
+            alert('الرجاء اختيار الجناح ووقت المراجعة المفضل من لوحة المواعيد.');
+            return false;
+        }
+        return true;
+    }
+    return true;
+}
+
 export function initBookingFlow() {
     const bookingForm = document.getElementById('bookingForm');
     const dateInput = document.getElementById('bookingDate');
@@ -153,27 +240,61 @@ export function initBookingFlow() {
     const today = new Date().toISOString().split('T')[0];
     dateInput.min = today;
 
-    // Set default select to VIP slot index
+    // Default AppState service setup
+    AppState.bookingData.service = 'تنظيف الأسنان';
     AppState.bookingData.chair = '';
     AppState.bookingData.time = '';
 
+    // Handle Date Input changes
     dateInput.addEventListener('change', (e) => {
         generateSeatGrid(e.target.value);
     });
 
+    // Handle Visual Services Selector click
+    const serviceItems = document.querySelectorAll('.service-select-item');
+    const hiddenSelect = document.getElementById('bookingService');
+    serviceItems.forEach(item => {
+        item.addEventListener('click', () => {
+            serviceItems.forEach(i => i.classList.remove('selected'));
+            item.classList.add('selected');
+            
+            const serviceValue = item.getAttribute('data-value');
+            AppState.bookingData.service = serviceValue;
+            if (hiddenSelect) {
+                hiddenSelect.value = serviceValue;
+            }
+        });
+    });
+
+    // Next/Prev Buttons Controllers
+    const nextBtn = document.getElementById('nextStepBtn');
+    const prevBtn = document.getElementById('prevStepBtn');
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            if (validateStep(currentStep)) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        });
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            currentStep--;
+            showStep(currentStep);
+        });
+    }
+
     bookingForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        if (!AppState.bookingData.chair || !AppState.bookingData.time) {
-            alert('الرجاء اختيار العيادة ووقت الفحص المفضل من لوحة المقاعد قبل التأكيد.');
-            return;
-        }
+        if (!validateStep(4)) return;
 
         AppState.bookingData.name = document.getElementById('bookingName').value;
         AppState.bookingData.phone = document.getElementById('bookingPhone').value;
         AppState.bookingData.email = document.getElementById('bookingEmail').value || 'لا يوجد';
         AppState.bookingData.age = document.getElementById('bookingAge').value;
-        AppState.bookingData.service = document.getElementById('bookingService').value;
         AppState.bookingData.date = document.getElementById('bookingDate').value;
         AppState.bookingData.notes = document.getElementById('bookingNotes').value || 'لا توجد ملاحظات';
 
@@ -181,14 +302,14 @@ export function initBookingFlow() {
         const bookingId = 'DK-' + Math.floor(1000 + Math.random() * 9000);
         AppState.bookingData.id = bookingId;
 
-        // Save to LocalStorage
+        // Save to LocalStorage & Supabase
         saveBookingToLocalStorage(bookingId);
 
         // Send Notification to Telegram
         sendTelegramNotification(bookingId);
 
         // Transition to success page
-        window.location.href = 'success';
+        window.location.href = 'success.html';
     });
 }
 

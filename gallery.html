@@ -12,18 +12,6 @@
 </head>
 <body>
 
-    <!-- Mode Switcher Floating Panel -->
-    <div class="mode-switch-panel">
-        <div class="floating-switcher">
-            <button id="viewLiveBtn" class="switcher-btn active" onclick=\"window.location.href='gallery'\">
-                <i class="bx bx-world"></i> الموقع التفاعلي
-            </button>
-            <button id="viewFigmaBtn" class="switcher-btn" onclick=\"window.location.href='figma'\">
-                <i class="bx bx-palette"></i> Figma Mockups
-            </button>
-        </div>
-    </div>
-
     <!-- MAIN APP ROOT -->
     <div id="app-root">
         <header id="header-nav"></header>
@@ -35,69 +23,99 @@
                     <div class="section-header">
                         <span class="section-label">معرض الحالات</span>
                         <h2 class="section-title">قصص نجاح وابتسامات متجددة</h2>
-                        <p class="section-desc">شاهد نتائج العلاج الحقيقية لمرضانا قبل وبعد الإجراء التجميلي</p>
+                        <p class="section-desc">شاهد نتائج العلاج الحقيقية لمرضانا قبل وبعد الإجراء الطبي والتجميلي</p>
                     </div>
 
+                    <!-- Category Filters -->
                     <div class="gallery-filters">
-                        <button class="filter-btn active">الكل</button>
-                        <button class="filter-btn">تجميل الأسنان</button>
-                        <button class="filter-btn">زراعة الأسنان</button>
-                        <button class="filter-btn">تقويم الأسنان</button>
+                        <button class="filter-btn active" data-filter="all">الكل</button>
+                        <button class="filter-btn" data-filter="cosmetics">تجميل وتبييض</button>
+                        <button class="filter-btn" data-filter="implants">زراعة الأسنان</button>
+                        <button class="filter-btn" data-filter="braces">تقويم الأسنان</button>
                     </div>
 
+                    <!-- Cases Grid -->
                     <div class="gallery-grid">
                         <!-- Case 1 (Real Clinic Braces Case) -->
-                        <div class="glass-card">
-                            <div style="position: relative; border-radius: var(--radius-md) var(--radius-md) 0 0; overflow: hidden; aspect-ratio: 1.1;">
+                        <div class="glass-card" data-category="braces">
+                            <div class="before-after-wrapper case-static-img" style="cursor: zoom-in;">
                                 <img src="assets/case1.jpg" alt="حالة تقويم - سد الفراغات" style="width: 100%; height: 100%; object-fit: cover;">
-                                <span class="label-before" style="position: absolute; top: 12px; right: 12px; background: rgba(13, 110, 253, 0.9); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700;">حالة حقيقية</span>
+                                <span class="label-before" style="background: var(--primary);">حالة حقيقية</span>
                             </div>
-                            <div class="case-info-card" style="padding: 20px;">
+                            <div class="case-info-card">
                                 <h4 class="case-title">تقويم إغلاق الفراغات الأمامية</h4>
-                                <p class="case-desc">إغلاق الفراغات الواسعة بين الأسنان الأمامية العلوية والسفلية وإعادة توجيهها بنجاح.</p>
+                                <p class="case-desc">إغلاق الفراغات الواسعة بين الأسنان الأمامية العلوية والسفلية وتعديل الإطباق بنجاح باهر.</p>
                             </div>
                         </div>
 
                         <!-- Case 2 (Real Clinic Braces Case) -->
-                        <div class="glass-card">
-                            <div style="position: relative; border-radius: var(--radius-md) var(--radius-md) 0 0; overflow: hidden; aspect-ratio: 1.1;">
+                        <div class="glass-card" data-category="braces">
+                            <div class="before-after-wrapper case-static-img" style="cursor: zoom-in;">
                                 <img src="assets/case2.jpg" alt="حالة تقويم - تزاحم الأسنان" style="width: 100%; height: 100%; object-fit: cover;">
-                                <span class="label-before" style="position: absolute; top: 12px; right: 12px; background: rgba(13, 110, 253, 0.9); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700;">حالة حقيقية</span>
+                                <span class="label-before" style="background: var(--primary);">حالة حقيقية</span>
                             </div>
-                            <div class="case-info-card" style="padding: 20px;">
+                            <div class="case-info-card">
                                 <h4 class="case-title">تعديل الازدحام وتطابق الفكين</h4>
-                                <p class="case-desc">علاج تزاحم الأسنان الشديد وتنسيق قوس الفك العلوي والسفلي لتحقيق ابتسامة متناسقة.</p>
+                                <p class="case-desc">علاج تزاحم الأسنان الشديد وتنسيق قوس الفك العلوي والسفلي لتحقيق ابتسامة متناسقة بدون خلع.</p>
                             </div>
                         </div>
 
-                        <!-- Case 3 -->
-                        <div class="glass-card">
+                        <!-- Case 3 (Whitening Slider) -->
+                        <div class="glass-card" data-category="cosmetics">
                             <div class="before-after-wrapper">
-                                <div class="before-img" style="background-image: url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=400&q=80');"></div>
-                                <div class="after-img" style="background-image: url('https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=400&q=80'); width: 65%;"></div>
+                                <div class="before-img" style="background-image: url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=600&q=80');"></div>
+                                <div class="after-img" style="background-image: url('https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600&q=80');"></div>
                                 
-                                <div class="slider-handle" style="left: 65%;">
+                                <div class="slider-handle">
                                     <div class="slider-button"><i class="bx bx-chevrons-left"></i></div>
                                 </div>
                                 <span class="label-before">قبل</span>
-                                <span class="label-after">بعد</span>
+                                <span class="label-after">بعد العلاج</span>
                             </div>
-                            <div class="case-info-card" style="padding: 20px;">
-                                <h4 class="case-title">علاج التقويم الشفاف</h4>
-                                <p class="case-desc">تعديل اصطفاف الفك السفلي وعلاج تزاحم الأسنان خلال فترة 9 أشهر فقط.</p>
+                            <div class="case-info-card">
+                                <h4 class="case-title">تبييض الأسنان بالليزر وجلسات القوالب</h4>
+                                <p class="case-desc">علاج تصبغات الأسنان العميقة وتفتيح لون السن بمقدار 4 درجات في جلسة ليزر واحدة مدتها 45 دقيقة.</p>
                             </div>
                         </div>
+
+                        <!-- Case 4 (Implant Slider) -->
+                        <div class="glass-card" data-category="implants">
+                            <div class="before-after-wrapper">
+                                <div class="before-img" style="background-image: url('https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=600&q=80');"></div>
+                                <div class="after-img" style="background-image: url('https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=600&q=80');"></div>
+                                
+                                <div class="slider-handle">
+                                    <div class="slider-button"><i class="bx bx-chevrons-left"></i></div>
+                                </div>
+                                <span class="label-before">قبل</span>
+                                <span class="label-after">بعد العلاج</span>
+                            </div>
+                            <div class="case-info-card">
+                                <h4 class="case-title">تعويض سن مفقود بالزراعة الألمانية الفورية</h4>
+                                <p class="case-desc">زراعة غرسة عظمية تيتانيوم للضاحك الأول العلوي وتركيب التاج الزركوني لانسجام تام مع الأسنان الطبيعية.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA AREA -->
+                    <div style="text-align: center; margin-top: 64px;">
+                        <a href="booking.html" class="btn btn-primary">احصل على تشخيص لحالتك الآن</a>
                     </div>
                 </div>
             </section>
         </main>
 
+        <!-- LIGHTBOX MODAL CONTAINER -->
+        <div class="lightbox-modal" id="galleryLightbox">
+            <div class="lightbox-content">
+                <button class="lightbox-close" id="closeLightboxBtn"><i class="bx bx-x"></i></button>
+                <img class="lightbox-img" id="lightboxImg" src="" alt="صورة مكبرة">
+            </div>
+        </div>
+
         <footer id="footer-wrapper"></footer>
     </div>
 
-    <!-- Application Script Logic -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
     <!-- Application Script Logic -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module" src="assets/js/app.js"></script>

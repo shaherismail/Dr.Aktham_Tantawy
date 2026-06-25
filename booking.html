@@ -12,148 +12,223 @@
 </head>
 <body>
 
-    <!-- Mode Switcher Floating Panel -->
-    <div class="mode-switch-panel">
-        <div class="floating-switcher">
-            <button id="viewLiveBtn" class="switcher-btn active" onclick=\"window.location.href='booking'\">
-                <i class="bx bx-world"></i> الموقع التفاعلي
-            </button>
-            <button id="viewFigmaBtn" class="switcher-btn" onclick=\"window.location.href='figma'\">
-                <i class="bx bx-palette"></i> Figma Mockups
-            </button>
-        </div>
-    </div>
-
     <!-- MAIN APP ROOT -->
     <div id="app-root">
         <header id="header-nav"></header>
 
         <main class="main-content">
-            <!-- APPOINTMENT BOOKING & DETAILED FORM -->
+            <!-- APPOINTMENT BOOKING & WIZARD FORM -->
             <section id="booking-page" class="page-view">
                 <div class="container booking-section">
                     <div class="booking-wrapper">
+                        
+                        <!-- Illustration or Info Column -->
                         <div class="booking-illustration">
+                            <div class="illustration-bg-glow" style="width: 100%; height: 100%;"></div>
                             <!-- 3D Calendar Vector SVG -->
-                            <svg width="100%" height="340" viewBox="0 0 400 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="100%" height="340" viewBox="0 0 400 340" fill="none" xmlns="http://www.w3.org/2000/svg" style="z-index: 2; position: relative;">
                                 <defs>
                                     <linearGradient id="calGrad" x1="120" y1="60" x2="280" y2="280" gradientUnits="userSpaceOnUse">
-                                        <stop offset="0%" stop-color="#0D6EFD"/>
-                                        <stop offset="100%" stop-color="#0056cc"/>
+                                        <stop offset="0%" stop-color="#1565FF"/>
+                                        <stop offset="100%" stop-color="#004ecc"/>
                                     </linearGradient>
                                     <linearGradient id="paperGrad" x1="100" y1="100" x2="300" y2="300" gradientUnits="userSpaceOnUse">
                                         <stop offset="0%" stop-color="#FFFFFF"/>
-                                        <stop offset="100%" stop-color="#F1F5F9"/>
+                                        <stop offset="100%" stop-color="#F7FAFF"/>
                                     </linearGradient>
                                 </defs>
-                                <g filter="url(#shadow-illustration)">
+                                <g>
                                     <!-- 3D Calendar Body -->
-                                    <rect x="80" y="80" width="240" height="200" rx="20" fill="url(#paperGrad)" stroke="#CBD5E1" stroke-width="4"/>
-                                    <rect x="80" y="80" width="240" height="60" rx="20" fill="url(#calGrad)"/>
+                                    <rect x="80" y="80" width="240" height="200" rx="24" fill="url(#paperGrad)" stroke="#E5E7EB" stroke-width="4"/>
+                                    <rect x="80" y="80" width="240" height="60" rx="24" fill="url(#calGrad)"/>
                                     <!-- Top Rings -->
-                                    <rect x="120" y="55" width="20" height="40" rx="10" fill="#94A3B8"/>
-                                    <rect x="260" y="55" width="20" height="40" rx="10" fill="#94A3B8"/>
+                                    <rect x="120" y="55" width="20" height="40" rx="10" fill="#CBD5E1"/>
+                                    <rect x="260" y="55" width="20" height="40" rx="10" fill="#CBD5E1"/>
                                     
                                     <!-- Grid Blocks -->
-                                    <rect x="110" y="160" width="35" height="30" rx="6" fill="#0D6EFD"/>
-                                    <rect x="160" y="160" width="35" height="30" rx="6" fill="#E2E8F0"/>
-                                    <rect x="210" y="160" width="35" height="30" rx="6" fill="#E2E8F0"/>
-                                    <rect x="260" y="160" width="35" height="30" rx="6" fill="#E2E8F0"/>
+                                    <rect x="110" y="160" width="35" height="30" rx="8" fill="#1565FF"/>
+                                    <rect x="160" y="160" width="35" height="30" rx="8" fill="#E5E7EB"/>
+                                    <rect x="210" y="160" width="35" height="30" rx="8" fill="#E5E7EB"/>
+                                    <rect x="260" y="160" width="35" height="30" rx="8" fill="#E5E7EB"/>
                                     
-                                    <rect x="110" y="210" width="35" height="30" rx="6" fill="#E2E8F0"/>
-                                    <rect x="160" y="210" width="35" height="30" rx="6" fill="#E2E8F0"/>
-                                    <rect x="210" y="210" width="35" height="30" rx="6" fill="#16A34A"/>
-                                    <rect x="260" y="210" width="35" height="30" rx="6" fill="#E2E8F0"/>
+                                    <rect x="110" y="210" width="35" height="30" rx="8" fill="#E5E7EB"/>
+                                    <rect x="160" y="210" width="35" height="30" rx="8" fill="#E5E7EB"/>
+                                    <rect x="210" y="210" width="35" height="30" rx="8" fill="#16A34A"/>
+                                    <rect x="260" y="210" width="35" height="30" rx="8" fill="#E5E7EB"/>
                                 </g>
                                 <!-- Floating Clock Icon -->
-                                <circle cx="310" cy="100" r="30" fill="#FFFFFF" stroke="#0D6EFD" stroke-width="4" filter="url(#shadow-illustration)"/>
-                                <path d="M310 85 L310 100 L320 105" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
+                                <g filter="drop-shadow(0 8px 16px rgba(21,101,255,0.15))">
+                                    <circle cx="320" cy="100" r="28" fill="#FFFFFF" stroke="#1565FF" stroke-width="3"/>
+                                    <path d="M320 88 L320 100 L328 106" stroke="#111827" stroke-width="3" stroke-linecap="round"/>
+                                </g>
                             </svg>
                         </div>
                         
+                        <!-- Form Wizard Column -->
                         <div class="glass-card booking-card">
+                            <!-- Progress Bar Indicators -->
                             <div class="booking-steps-nav">
-                                <div class="step-indicator active" id="stepIndicator1">1</div>
-                                <div class="step-indicator" id="stepIndicator2">2</div>
-                                <div class="step-indicator" id="stepIndicator3">3</div>
+                                <div class="step-indicator active" id="stepIndicator1">
+                                    1
+                                    <span class="step-label-nav">المعلومات</span>
+                                </div>
+                                <div class="step-indicator" id="stepIndicator2">
+                                    2
+                                    <span class="step-label-nav">الخدمة</span>
+                                </div>
+                                <div class="step-indicator" id="stepIndicator3">
+                                    3
+                                    <span class="step-label-nav">التاريخ</span>
+                                </div>
+                                <div class="step-indicator" id="stepIndicator4">
+                                    4
+                                    <span class="step-label-nav">الوقت</span>
+                                </div>
+                                <div class="step-indicator" id="stepIndicator5">
+                                    5
+                                    <span class="step-label-nav">التأكيد</span>
+                                </div>
                             </div>
                             
-                            <h2 class="doctor-bio-title" style="font-size: 24px; text-align: center; margin-bottom: 24px;">حجز موعد إلكتروني مباشر</h2>
-                            
                             <form id="bookingForm" class="booking-form-grid">
-                                <div class="form-group">
-                                    <label class="form-label" for="bookingName">الاسم الكامل</label>
-                                    <input type="text" id="bookingName" class="form-input" placeholder="مثال: أحمد محمد" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="bookingPhone">رقم الجوال</label>
-                                    <input type="tel" id="bookingPhone" class="form-input" placeholder="05xxxxxxxx" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="bookingEmail">البريد الإلكتروني</label>
-                                    <input type="email" id="bookingEmail" class="form-input" placeholder="name@domain.com">
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="bookingAge">العمر</label>
-                                    <input type="number" id="bookingAge" class="form-input" placeholder="العمر بالسنوات" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="bookingService">الخدمة المطلوبة</label>
-                                    <select id="bookingService" class="form-input">
-                                        <option value="تنظيف الأسنان">تنظيف الأسنان</option>
-                                        <option value="تبييض الأسنان">تبييض الأسنان</option>
-                                        <option value="زراعة الأسنان">زراعة الأسنان</option>
-                                        <option value="تقويم الأسنان">تقويم الأسنان</option>
-                                        <option value="ابتسامة هوليود">ابتسامة هوليود</option>
-                                        <option value="أخرى">أخرى</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label" for="bookingDate">تاريخ الحجز</label>
-                                    <input type="date" id="bookingDate" class="form-input" required>
-                                </div>
                                 
-                                <div class="form-group-full">
-                                    <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px;">
-                                        <span>اختر الجناح والوقت المفضل (حجز مقاعد السينما التفاعلي):</span>
-                                        <span class="booking-legend-mini">
-                                            <span class="legend-item"><span class="legend-dot available"></span> متاح</span>
-                                            <span class="legend-item"><span class="legend-dot reserved"></span> محجوز</span>
-                                            <span class="legend-item"><span class="legend-dot selected"></span> اختيارك</span>
-                                        </span>
-                                    </label>
-                                    <div class="cinema-booking-container">
-                                        <div class="cinema-screen-wrapper">
-                                            <div class="cinema-screen">شاشة العيادة الذكية (منطقة الكشف)</div>
-                                            <div class="screen-glow"></div>
+                                <!-- STEP 1: Patient Information -->
+                                <div class="wizard-step-panel active" id="stepPanel1">
+                                    <h3 class="profile-sub-title" style="margin-bottom: 24px;"><i class="bx bx-user"></i> البيانات الشخصية للمريض</h3>
+                                    <div style="display: flex; flex-direction: column; gap: 20px;">
+                                        <div class="form-group">
+                                            <label class="form-label" for="bookingName">الاسم الكامل</label>
+                                            <input type="text" id="bookingName" class="form-input" placeholder="مثال: أحمد محمد طنطاوي" required>
                                         </div>
-                                        <div class="cinema-clinic-headers">
-                                            <div class="clinic-header-col">جناح VIP 💎</div>
-                                            <div class="clinic-header-col">تقويم الأسنان 🦷</div>
-                                            <div class="clinic-header-col">تجميل وزراعة 💺</div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="bookingPhone">رقم الجوال</label>
+                                            <input type="tel" id="bookingPhone" class="form-input" placeholder="05xxxxxxxx" required>
                                         </div>
-                                        <div class="cinema-seats-grid" id="cinemaSeatsGrid">
-                                            <!-- Seats will be generated dynamically by JavaScript -->
+                                        <div class="form-group">
+                                            <label class="form-label" for="bookingEmail">البريد الإلكتروني (اختياري)</label>
+                                            <input type="email" id="bookingEmail" class="form-input" placeholder="name@domain.com">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="bookingAge">العمر</label>
+                                            <input type="number" id="bookingAge" class="form-input" placeholder="العمر بالسنوات" required>
                                         </div>
                                     </div>
-                                    <!-- Selected Slot Alert info -->
+                                </div>
+                                
+                                <!-- STEP 2: Choose Service -->
+                                <div class="wizard-step-panel" id="stepPanel2">
+                                    <h3 class="profile-sub-title" style="margin-bottom: 24px;"><i class="bx bx-check-shield"></i> حدد الخدمة الطبية المطلوبة</h3>
+                                    
+                                    <!-- Hidden default select for keeping integration logic -->
+                                    <select id="bookingService" class="form-input" style="display: none;">
+                                        <option value="تنظيف الأسنان" selected>تنظيف وتلميع الأسنان</option>
+                                        <option value="تبييض الأسنان">تبييض الأسنان بالليزر</option>
+                                        <option value="زراعة الأسنان">زراعة الأسنان الرقمية</option>
+                                        <option value="تقويم الأسنان">تقويم الأسنان الحديث</option>
+                                        <option value="علاج الجذور والأعصاب">علاج الجذور والأعصاب</option>
+                                        <option value="ابتسامة هوليود">ابتسامة هوليود (فينير)</option>
+                                    </select>
+                                    
+                                    <!-- Visual Service Cards Selector -->
+                                    <div class="services-selector-grid">
+                                        <div class="service-select-item selected" data-value="تنظيف الأسنان">
+                                            <i class="bx bx-clean"></i>
+                                            <span>تنظيف وتلميع الأسنان</span>
+                                        </div>
+                                        <div class="service-select-item" data-value="تبييض الأسنان">
+                                            <i class="bx bx-sun"></i>
+                                            <span>تبييض الأسنان بالليزر</span>
+                                        </div>
+                                        <div class="service-select-item" data-value="زراعة الأسنان">
+                                            <i class="bx bx-outline"></i>
+                                            <span>زراعة الأسنان الرقمية</span>
+                                        </div>
+                                        <div class="service-select-item" data-value="تقويم الأسنان">
+                                            <i class="bx bx-bracket"></i>
+                                            <span>تقويم الأسنان الحديث</span>
+                                        </div>
+                                        <div class="service-select-item" data-value="علاج الجذور والأعصاب">
+                                            <i class="bx bx-pulse"></i>
+                                            <span>علاج الجذور والأعصاب</span>
+                                        </div>
+                                        <div class="service-select-item" data-value="ابتسامة هوليود">
+                                            <i class="bx bx-star"></i>
+                                            <span>ابتسامة هوليود (فينير)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- STEP 3: Choose Date -->
+                                <div class="wizard-step-panel" id="stepPanel3">
+                                    <h3 class="profile-sub-title" style="margin-bottom: 24px;"><i class="bx bx-calendar"></i> حدد تاريخ الحجز المفضل</h3>
+                                    <div class="form-group date-picker-container">
+                                        <label class="form-label" for="bookingDate">تاريخ الفحص والمراجعة</label>
+                                        <input type="date" id="bookingDate" class="form-input" required>
+                                    </div>
+                                </div>
+                                
+                                <!-- STEP 4: Choose Time Slot -->
+                                <div class="wizard-step-panel" id="stepPanel4">
+                                    <h3 class="profile-sub-title" style="margin-bottom: 8px;"><i class="bx bx-time-five"></i> اختر الجناح والوقت المفضل</h3>
+                                    <p class="profile-instructions-text" style="margin-bottom: 20px;">توليد مواعيد فورية ومزامنتها مباشرة مع جدول الطبيب السحابي</p>
+                                    
+                                    <div class="cinema-booking-container">
+                                        <div class="cinema-seats-grid" id="cinemaSeatsGrid">
+                                            <!-- Time slot suite groups injected by JS -->
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Selected Slot Info Card -->
                                     <div class="selected-seat-info-card" id="selectedSeatInfoCard" style="display: none;">
                                         <i class="bx bx-calendar-star animate-bounce-custom"></i>
                                         <div>
-                                            <strong>العيادة والوقت المحدد:</strong> 
+                                            <strong>الموعد المحدد:</strong> 
                                             <span id="selectedSeatDetail">لم يتم الاختيار بعد</span>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="form-group-full">
-                                    <label class="form-label" for="bookingNotes">ملاحظات أو شكوى طبية</label>
-                                    <textarea id="bookingNotes" class="form-input" rows="3" placeholder="اكتب أي معلومات إضافية تود إخبار الطبيب بها..."></textarea>
+                                
+                                <!-- STEP 5: Final Confirmation -->
+                                <div class="wizard-step-panel" id="stepPanel5">
+                                    <h3 class="profile-sub-title" style="margin-bottom: 24px;"><i class="bx bx-list-check"></i> مراجعة وتأكيد تفاصيل الحجز</h3>
+                                    
+                                    <!-- Summary details card -->
+                                    <div class="glass-card" style="padding: 24px; display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; border: 1.5px solid rgba(21, 101, 255, 0.1); background: rgba(255, 255, 255, 0.9);">
+                                        <div class="detail-item">
+                                            <span class="item-lbl"><i class="bx bx-user"></i> اسم المريض:</span>
+                                            <span class="item-val" id="summaryName">-</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="item-lbl"><i class="bx bx-phone"></i> الجوال:</span>
+                                            <span class="item-val" id="summaryPhone">-</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="item-lbl"><i class="bx bx-purchase-tag"></i> الخدمة:</span>
+                                            <span class="item-val" id="summaryService">-</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="item-lbl"><i class="bx bx-calendar"></i> تاريخ الموعد:</span>
+                                            <span class="item-val" id="summaryDate">-</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="item-lbl"><i class="bx bx-time-five"></i> الوقت والعيادة:</span>
+                                            <span class="item-val" id="summaryTime">-</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="form-label" for="bookingNotes">هل لديك أي ملاحظات أو شكوى طبية للطبيب؟ (اختياري)</label>
+                                        <textarea id="bookingNotes" class="form-input" rows="3" placeholder="اكتب هنا أي تفاصيل إضافية تود إطلاع الدكتور عليها قبل موعدك..."></textarea>
+                                    </div>
                                 </div>
                                 
-                                <div class="form-group-full" style="margin-top: 10px;">
-                                    <button type="submit" class="btn btn-primary" style="width: 100%;">تأكيد موعد الحجز وإرسال البيانات</button>
+                                <!-- Wizard navigation actions buttons -->
+                                <div class="wizard-actions-row">
+                                    <button type="button" class="btn btn-secondary" id="prevStepBtn" style="visibility: hidden;"><i class="bx bx-right-arrow-alt"></i> السابق</button>
+                                    <button type="button" class="btn btn-primary" id="nextStepBtn">التالي <i class="bx bx-left-arrow-alt"></i></button>
+                                    <button type="submit" class="btn btn-primary" id="submitBookingBtn" style="display: none; background: linear-gradient(135deg, var(--success), #128c3e); box-shadow: 0 10px 25px -5px rgba(22, 163, 74, 0.3);">تأكيد الحجز النهائي <i class="bx bx-check-circle"></i></button>
                                 </div>
+                                
                             </form>
                         </div>
                     </div>
@@ -164,9 +239,6 @@
         <footer id="footer-wrapper"></footer>
     </div>
 
-    <!-- Application Script Logic -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
     <!-- Application Script Logic -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module" src="assets/js/app.js"></script>

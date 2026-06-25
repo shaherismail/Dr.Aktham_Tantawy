@@ -3,8 +3,6 @@
 export let supabaseClient = null;
 
 export const AppState = {
-    currentMode: 'live', // 'live' or 'figma'
-    zoomLevel: 1, // Figma mockup zoom level
     bookingData: {
         id: '',
         name: '',
@@ -16,15 +14,6 @@ export const AppState = {
         time: '',
         chair: '',
         notes: ''
-    },
-    pricing: {
-        package: 'standard', // 'basic', 'standard', 'premium'
-        termMonths: 12,
-        basePrices: {
-            basic: 499,
-            standard: 999,
-            premium: 1999
-        }
     }
 };
 
@@ -78,7 +67,7 @@ export function checkUrlCallbacks() {
             const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
             window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
         } else {
-            window.location.href = 'profile';
+            window.location.href = 'profile.html';
             return;
         }
 
@@ -100,7 +89,7 @@ export function initScrollHeader() {
     const header = document.querySelector('.header-nav');
     if (!header) return;
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
+        if (window.scrollY > 30) {
             header.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
@@ -115,53 +104,77 @@ export function initFAQAccordions() {
         const header = item.querySelector('.faq-header-btn');
         const body = item.querySelector('.faq-body');
 
-        header.addEventListener('click', () => {
-            const isOpen = item.classList.contains('active');
+        if (header && body) {
+            header.addEventListener('click', () => {
+                const isOpen = item.classList.contains('active');
 
-            // Close other items
-            faqItems.forEach(otherItem => {
-                otherItem.classList.remove('active');
-                otherItem.querySelector('.faq-body').style.maxHeight = null;
+                // Close other items
+                faqItems.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                    const otherBody = otherItem.querySelector('.faq-body');
+                    if (otherBody) otherBody.style.maxHeight = null;
+                });
+
+                if (!isOpen) {
+                    item.classList.add('active');
+                    body.style.maxHeight = `${body.scrollHeight}px`;
+                }
             });
-
-            if (!isOpen) {
-                item.classList.add('active');
-                body.style.maxHeight = `${body.scrollHeight}px`;
-            }
-        });
+        }
     });
 }
 
-// Upcoming Page countdown timer logic
-export function initCountdownTimer() {
-    const daysVal = document.getElementById('countDays');
-    if (!daysVal) return;
+// Testimonials Carousel / Loader
+export function initTestimonials() {
+    const track = document.getElementById('testimonialsTrack');
+    if (!track) return;
 
-    const hoursVal = document.getElementById('countHours');
-    const minsVal = document.getElementById('countMins');
-    const secsVal = document.getElementById('countSecs');
+    const defaultTestimonials = [
+        { name: "سلطان العتيبي", tag: "مريض مـؤكّد ✓", stars: 5, text: "تجربة رائعة جداً في عيادة الدكتور أكثم، قمت بعمل زراعة لثلاثة أسنان وكانت العملية بدون أي ألم تذكر وبمنتهى الاحترافية والتعقيم الفائق. أنصح الجميع بالتعامل معه." },
+        { name: "سارة الشمري", tag: "مريض مـؤكّد ✓", stars: 5, text: "الدكتور أكثم متميز جداً وخلوق، قمت بتركيب التقويم الشفاف ومتابعة العلاج لديه، والنتائج تظهر بشكل مذهل أسرع مما كنت أتوقع. العيادة مجهزة بأحدث التقنيات." },
+        { name: "فيصل الحربي", tag: "مريض مـؤكّد ✓", stars: 5, text: "خدمة تنظيف وتبييض الأسنان بالليزر كانت ممتازة وسريعة، والنتيجة مذهلة جداً! تعامل راقٍ جداً من الاستقبال وحتى الطبيب. العيادة نظيفة للغاية والتعقيم 100%." }
+    ];
 
-    // Launch date set to 45 days from current load
-    const launchDate = new Date();
-    launchDate.setDate(launchDate.getDate() + 45);
+    const render = (list) => {
+        track.innerHTML = '';
+        list.forEach(t => {
+            const card = document.createElement('div');
+            card.className = 'glass-card testimonial-card';
+            
+            let starsHtml = '';
+            for (let i = 0; i < 5; i++) {
+                starsHtml += `<i class="bx ${i < t.stars ? 'bxs-star' : 'bx-star'}"></i>`;
+            }
 
-    const updateTimer = () => {
-        const now = new Date().getTime();
-        const diff = launchDate - now;
-
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        daysVal.textContent = days.toString().padStart(2, '0');
-        hoursVal.textContent = hours.toString().padStart(2, '0');
-        minsVal.textContent = minutes.toString().padStart(2, '0');
-        secsVal.textContent = seconds.toString().padStart(2, '0');
+            card.innerHTML = `
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">${t.name.charAt(0)}</div>
+                    <div class="stars-row">${starsHtml}</div>
+                </div>
+                <p class="testimonial-text">"${t.text}"</p>
+                <div class="testimonial-footer">
+                    <span class="testimonial-name">${t.name}</span>
+                    <span class="testimonial-tag">${t.tag || 'مريض مـؤكّد ✓'}</span>
+                </div>
+            `;
+            track.appendChild(card);
+        });
     };
 
-    updateTimer();
-    setInterval(updateTimer, 1000);
+    if (supabaseClient) {
+        supabaseClient.from('testimonials')
+            .select('*')
+            .order('id', { ascending: false })
+            .then(({ data, error }) => {
+                if (error || !data || data.length === 0) {
+                    render(defaultTestimonials);
+                } else {
+                    render(data);
+                }
+            });
+    } else {
+        render(defaultTestimonials);
+    }
 }
 
 // Newsletter sign-up feedback (integrated with Supabase)
@@ -171,7 +184,9 @@ export function initNewsletter() {
 
     newsForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const emailVal = newsForm.querySelector('.newsletter-input').value.trim();
+        const emailInput = newsForm.querySelector('.newsletter-input');
+        if (!emailInput) return;
+        const emailVal = emailInput.value.trim();
         if (emailVal) {
             if (supabaseClient) {
                 supabaseClient.from('newsletter_subscribers').insert([{ email: emailVal }])
@@ -183,78 +198,25 @@ export function initNewsletter() {
                                 console.error('Newsletter Supabase save error:', error);
                             }
                         } else {
-                            alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح في النشرة الطبية السحابية للعيادة.`);
+                            alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح في النشرة الطبية للعيادة.`);
                             newsForm.reset();
                         }
                     });
             } else {
-                alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح في النشرة الطبية للعيادة (محلي).`);
+                alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح في النشرة الطبية للعيادة.`);
                 newsForm.reset();
             }
         }
     });
 }
 
-// Figma presentation mockups zoom dashboard controls
-export function initFigmaZoom() {
-    const zoomInBtn = document.getElementById('zoomIn');
-    const zoomOutBtn = document.getElementById('zoomOut');
-    const zoomResetBtn = document.getElementById('zoomReset');
-    const zoomText = document.getElementById('zoomVal');
-    const artboardGrid = document.querySelector('.figma-artboards-grid');
-
-    if (!zoomInBtn || !artboardGrid) return;
-
-    const updateZoom = () => {
-        artboardGrid.style.transform = `scale(${AppState.zoomLevel})`;
-        zoomText.textContent = `${Math.round(AppState.zoomLevel * 100)}%`;
-    };
-
-    zoomInBtn.addEventListener('click', () => {
-        if (AppState.zoomLevel < 1.5) {
-            AppState.zoomLevel += 0.1;
-            updateZoom();
-        }
-    });
-
-    zoomOutBtn.addEventListener('click', () => {
-        if (AppState.zoomLevel > 0.4) {
-            AppState.zoomLevel -= 0.1;
-            updateZoom();
-        }
-    });
-
-    zoomResetBtn.addEventListener('click', () => {
-        AppState.zoomLevel = 1.0;
-        updateZoom();
-    });
-
-    // Lazy load all iframes since they are in grid on figma.html
-    setTimeout(() => {
-        const iframes = document.querySelectorAll('.artboard-frame');
-        iframes.forEach(iframe => {
-            const dataSrc = iframe.getAttribute('data-src');
-            if (dataSrc && (!iframe.src || iframe.src === 'about:blank')) {
-                iframe.src = dataSrc;
-            }
-        });
-    }, 300);
-}
-
 // Main App Initialization
 export function initApp() {
-    // If inside an iframe on figma.html, check to block loading recursive frames
-    if (window.self !== window.top && window.location.pathname.includes('figma')) {
-        document.body.innerHTML = '';
-        return;
-    }
-
     initSupabaseClient();
     initScrollHeader();
     initFAQAccordions();
-    initCountdownTimer();
+    initTestimonials();
     initNewsletter();
-    initFigmaZoom();
     checkUrlCallbacks();
 }
 

@@ -19,6 +19,27 @@ export function updatePatientProfilePage() {
         if (ageDisp) ageDisp.textContent = p.age ? `${p.age} سنة` : 'غير محدد';
         if (fileIdDisp) fileIdDisp.textContent = p.id;
         if (avatarDisp && p.name) avatarDisp.textContent = p.name.charAt(0);
+        
+        // Dynamically update Treatment progress panel details
+        const progressTitle = document.getElementById('progressServiceTitle');
+        const progressFill = document.getElementById('progressBarFill');
+        const progressPct = document.getElementById('progressPctText');
+        
+        let activeBookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
+        if (activeBookings.length > 0) {
+            const latest = activeBookings[0];
+            if (progressTitle) progressTitle.textContent = `خطة العلاج النشطة: ${latest.service}`;
+            
+            // Set dummy percentages based on service type
+            let pct = '60%';
+            if (latest.service.includes('زراعة')) pct = '20%';
+            if (latest.service.includes('تقويم')) pct = '45%';
+            if (latest.service.includes('تنظيف')) pct = '80%';
+            if (latest.service.includes('تبييض')) pct = '100%';
+            
+            if (progressFill) progressFill.style.width = pct;
+            if (progressPct) progressPct.textContent = pct;
+        }
     }
 
     const noView = document.getElementById('noBookingsView');
@@ -27,7 +48,7 @@ export function updatePatientProfilePage() {
     if (!listView || !noView) return;
 
     // Show loading indicator
-    listView.innerHTML = '<div style="text-align:center; padding:30px; color:var(--primary);"><i class="bx bx-loader-alt animate-spin" style="font-size:30px; margin-bottom:10px; display:block;"></i>جاري تحميل المواعيد من قاعدة البيانات...</div>';
+    listView.innerHTML = '<div style="text-align:center; padding:30px; color:var(--primary);"><i class="bx bx-loader-alt animate-spin" style="font-size:30px; margin-bottom:10px; display:block; margin:0 auto;"></i>جاري تحميل المواعيد من قاعدة البيانات...</div>';
     listView.style.display = 'flex';
     noView.style.display = 'none';
 
@@ -141,6 +162,98 @@ export function cancelBooking(bookingId) {
     updatePatientProfilePage();
 }
 
+// Interactive tab switching
+export function initDashboardTabs() {
+    const tabButtons = [
+        document.getElementById('tabBtn1'),
+        document.getElementById('tabBtn2'),
+        document.getElementById('tabBtn3'),
+        document.getElementById('tabBtn4')
+    ];
+    const tabPanels = [
+        document.getElementById('tabPanel1'),
+        document.getElementById('tabPanel2'),
+        document.getElementById('tabPanel3'),
+        document.getElementById('tabPanel4')
+    ];
+
+    tabButtons.forEach((btn, idx) => {
+        if (!btn || !tabPanels[idx]) return;
+        btn.addEventListener('click', () => {
+            // Remove active status from buttons
+            tabButtons.forEach(b => {
+                if (b) {
+                    b.style.background = 'transparent';
+                    b.style.color = 'var(--text-muted)';
+                }
+            });
+            // Style active button
+            btn.style.background = 'var(--secondary)';
+            btn.style.color = 'var(--primary)';
+
+            // Switch panel views
+            tabPanels.forEach(panel => {
+                if (panel) panel.style.display = 'none';
+            });
+            tabPanels[idx].style.display = 'block';
+        });
+    });
+}
+
+// Reveal credentials settings via ?admin=true url query or double tapping avatar
+export function initAdminPanelBackdoor() {
+    const adminSection = document.getElementById('adminConfigSection');
+    const avatar = document.getElementById('profileAvatar');
+    const params = new URLSearchParams(window.location.search);
+
+    const showAdmin = () => {
+        if (adminSection) {
+            adminSection.style.display = 'block';
+            adminSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    if (params.get('admin') === 'true') {
+        showAdmin();
+    }
+
+    if (avatar) {
+        avatar.addEventListener('dblclick', () => {
+            if (adminSection) {
+                const isHidden = window.getComputedStyle(adminSection).display === 'none';
+                adminSection.style.display = isHidden ? 'block' : 'none';
+                if (isHidden) {
+                    adminSection.scrollIntoView({ behavior: 'smooth' });
+                    alert('⚙️ تم إظهار إعدادات الربط الفنية السحابية للمطور!');
+                }
+            }
+        });
+    }
+}
+
+// Interactive stars rating for patient testimonials form
+export function initStarsSelector() {
+    const stars = document.querySelectorAll('.star-icon');
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            const val = parseInt(star.getAttribute('data-star'));
+            const radio = document.getElementById(`star${val}`);
+            if (radio) radio.checked = true;
+
+            stars.forEach(s => {
+                const sVal = parseInt(s.getAttribute('data-star'));
+                if (sVal <= val) {
+                    s.className = 'bx bxs-star star-icon';
+                    s.style.color = '#FBBF24';
+                } else {
+                    s.className = 'bx bx-star star-icon';
+                    s.style.color = '#CBD5E1';
+                }
+            });
+        });
+    });
+}
+
 export function initPatientProfile() {
     const saveBtn = document.getElementById('saveTgSettingsBtn');
     if (saveBtn) {
@@ -217,16 +330,29 @@ export function initPatientProfile() {
                         } else {
                             alert('🎉 شكراً لك! تم إرسال تقييمك بنجاح وسيظهر فوراً في الصفحة الرئيسية.');
                             reviewForm.reset();
+                            
+                            // Reset stars to empty icons
+                            document.querySelectorAll('.star-icon').forEach(s => {
+                                s.className = 'bx bx-star star-icon';
+                                s.style.color = '#CBD5E1';
+                            });
                         }
                     });
                 } else {
                     alert('تم إرسال التقييم بنجاح (محاكاة محلية، يرجى ربط Supabase للحفظ الفعلي).');
                     reviewForm.reset();
+                    document.querySelectorAll('.star-icon').forEach(s => {
+                        s.className = 'bx bx-star star-icon';
+                        s.style.color = '#CBD5E1';
+                    });
                 }
             });
         }
     }
 
+    initDashboardTabs();
+    initAdminPanelBackdoor();
+    initStarsSelector();
     updatePatientProfilePage();
 }
 
