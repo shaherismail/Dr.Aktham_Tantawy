@@ -39,6 +39,32 @@ document.addEventListener('DOMContentLoaded', () => {
                         iframe.src = dataSrc;
                     }
                 });
+
+                // Apply dynamic CMS site settings to layout links
+                const savedSettings = localStorage.getItem('clinic_site_settings');
+                if (savedSettings) {
+                    try {
+                        const s = JSON.parse(savedSettings);
+                        document.querySelectorAll('.clinic-phone-link').forEach(el => {
+                            el.href = `tel:${s.phone}`;
+                            el.textContent = s.phone;
+                        });
+                        document.querySelectorAll('.clinic-whatsapp-link').forEach(el => {
+                            el.href = `https://wa.me/${s.whatsapp.replace('+', '')}`;
+                        });
+                        
+                        const mapIframe = document.querySelector('.lazy-iframe');
+                        if (mapIframe && s.google_maps_iframe) {
+                            let src = s.google_maps_iframe;
+                            if (src.includes('src="')) {
+                                src = src.split('src="')[1].split('"')[0];
+                            }
+                            mapIframe.src = src;
+                        }
+                    } catch(e) {
+                        console.error('Error applying dynamic layout settings:', e);
+                    }
+                }
             })
             .catch(err => console.error('Error loading footer:', err));
     }
