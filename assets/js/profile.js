@@ -33,7 +33,7 @@ export function updatePatientProfilePage() {
             // Set dummy percentages based on service type
             let pct = '60%';
             if (latest.service.includes('زراعة')) pct = '20%';
-            if (latest.service.includes('تقويم')) pct = '45%';
+            if (latest.service.includes('تقويم')) pct = '65%';
             if (latest.service.includes('تنظيف')) pct = '80%';
             if (latest.service.includes('تبييض')) pct = '100%';
             

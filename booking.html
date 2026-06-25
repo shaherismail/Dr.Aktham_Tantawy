@@ -3,12 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="حجز موعد إلكتروني مباشر لعيادة الدكتور أكثم إسماعيل طنطاوي لطب وجراحة الفم والأسنان.">
+    <meta name="description" content="حجز موعد إلكتروني مباشر لعيادة الدكتور أكثم إسماعيل طنطاوي لتقويم وتجميل وجراحة الأسنان.">
     <title>حجز موعد - عيادة د. أكثم طنطاوي</title>
     <!-- Boxicons CDN for premium icons -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="assets/css/app.css">
+    <style>
+        .doctor-select-card {
+            position: relative;
+            border: 1.5px solid rgba(21, 101, 255, 0.1);
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .doctor-select-card:hover {
+            border-color: rgba(21, 101, 255, 0.3);
+            background: rgba(255, 255, 255, 0.85);
+            transform: translateY(-4px);
+        }
+        .doctor-select-card.selected {
+            border-color: var(--primary) !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+            box-shadow: var(--shadow-premium) !important;
+            border-width: 2px !important;
+        }
+        .doctor-select-card img {
+            width: 90px;
+            height: 90px;
+            border-radius: var(--radius-full);
+            object-fit: cover;
+            margin-bottom: 16px;
+            border: 3px solid #E2E8F0;
+            transition: var(--transition-smooth);
+        }
+        .doctor-select-card.selected img {
+            border-color: var(--primary-light);
+        }
+        .doctor-badge-ribbon {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--text-white);
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            box-shadow: 0 4px 10px rgba(21, 101, 255, 0.15);
+        }
+    </style>
 </head>
 <body>
 
@@ -78,14 +128,18 @@
                                 </div>
                                 <div class="step-indicator" id="stepIndicator3">
                                     3
-                                    <span class="step-label-nav">التاريخ</span>
+                                    <span class="step-label-nav">الطبيب</span>
                                 </div>
                                 <div class="step-indicator" id="stepIndicator4">
                                     4
-                                    <span class="step-label-nav">الوقت</span>
+                                    <span class="step-label-nav">التاريخ</span>
                                 </div>
                                 <div class="step-indicator" id="stepIndicator5">
                                     5
+                                    <span class="step-label-nav">الوقت</span>
+                                </div>
+                                <div class="step-indicator" id="stepIndicator6">
+                                    6
                                     <span class="step-label-nav">التأكيد</span>
                                 </div>
                             </div>
@@ -157,9 +211,34 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <!-- STEP 3: Choose Date -->
+
+                                <!-- STEP 3: Choose Doctor (Orthodontic Focus) -->
                                 <div class="wizard-step-panel" id="stepPanel3">
+                                    <h3 class="profile-sub-title" style="margin-bottom: 8px;"><i class="bx bx-user-voice"></i> اختر الطبيب المعالج</h3>
+                                    <p class="profile-instructions-text" style="margin-bottom: 24px;">نتميز بتخصص تقويم الأسنان الفريد تحت إشراف مباشر للدكتور أكثم</p>
+                                    
+                                    <div class="doctors-selector-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+                                        <!-- Doctor 1: Dr. Aktham (Signature) -->
+                                        <div class="doctor-select-card selected" data-doctor="د. أكثم طنطاوي">
+                                            <span class="doctor-badge-ribbon">الاستشاري الرئيسي</span>
+                                            <img src="assets/doctor.jpg" alt="د. أكثم طنطاوي">
+                                            <h4 style="font-size: 16px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">د. أكثم طنطاوي</h4>
+                                            <p style="font-size: 12px; color: var(--primary); font-weight: 600; margin-bottom: 8px;">استشاري تقويم الأسنان والفكين</p>
+                                            <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5; margin: 0;">زمالة الكلية الملكية، خبير التقويم الشفاف ومعدلات نمو الفكين.</p>
+                                        </div>
+                                        
+                                        <!-- Doctor 2: Dr. Sara -->
+                                        <div class="doctor-select-card" data-doctor="د. سارة الأحمد">
+                                            <img src="https://images.unsplash.com/photo-1594824813573-246434de83fb?auto=format&fit=crop&w=200&q=80" alt="د. سارة الأحمد">
+                                            <h4 style="font-size: 16px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">د. سارة الأحمد</h4>
+                                            <p style="font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px;">أخصائية الأسنان العامة والزراعة</p>
+                                            <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5; margin: 0;">عضو البورد الألماني، متخصصة في العلاج العام والحشوات التجميلية.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- STEP 4: Choose Date -->
+                                <div class="wizard-step-panel" id="stepPanel4">
                                     <h3 class="profile-sub-title" style="margin-bottom: 24px;"><i class="bx bx-calendar"></i> حدد تاريخ الحجز المفضل</h3>
                                     <div class="form-group date-picker-container">
                                         <label class="form-label" for="bookingDate">تاريخ الفحص والمراجعة</label>
@@ -167,8 +246,8 @@
                                     </div>
                                 </div>
                                 
-                                <!-- STEP 4: Choose Time Slot -->
-                                <div class="wizard-step-panel" id="stepPanel4">
+                                <!-- STEP 5: Choose Time Slot -->
+                                <div class="wizard-step-panel" id="stepPanel5">
                                     <h3 class="profile-sub-title" style="margin-bottom: 8px;"><i class="bx bx-time-five"></i> اختر الجناح والوقت المفضل</h3>
                                     <p class="profile-instructions-text" style="margin-bottom: 20px;">توليد مواعيد فورية ومزامنتها مباشرة مع جدول الطبيب السحابي</p>
                                     
@@ -188,8 +267,8 @@
                                     </div>
                                 </div>
                                 
-                                <!-- STEP 5: Final Confirmation -->
-                                <div class="wizard-step-panel" id="stepPanel5">
+                                <!-- STEP 6: Final Confirmation -->
+                                <div class="wizard-step-panel" id="stepPanel6">
                                     <h3 class="profile-sub-title" style="margin-bottom: 24px;"><i class="bx bx-list-check"></i> مراجعة وتأكيد تفاصيل الحجز</h3>
                                     
                                     <!-- Summary details card -->
@@ -205,6 +284,10 @@
                                         <div class="detail-item">
                                             <span class="item-lbl"><i class="bx bx-purchase-tag"></i> الخدمة:</span>
                                             <span class="item-val" id="summaryService">-</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="item-lbl"><i class="bx bx-user-voice"></i> الطبيب المعالج:</span>
+                                            <span class="item-val" id="summaryDoctor">-</span>
                                         </div>
                                         <div class="detail-item">
                                             <span class="item-lbl"><i class="bx bx-calendar"></i> تاريخ الموعد:</span>
@@ -229,7 +312,7 @@
                                     <button type="submit" class="btn btn-primary" id="submitBookingBtn" style="display: none; background: linear-gradient(135deg, var(--success), #128c3e); box-shadow: 0 10px 25px -5px rgba(22, 163, 74, 0.3);">تأكيد الحجز النهائي <i class="bx bx-check-circle"></i></button>
                                 </div>
                                 
-                            </form>
+                             </form>
                         </div>
                     </div>
                 </div>

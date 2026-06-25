@@ -2,7 +2,7 @@ import { AppState, supabaseClient } from './app.js';
 import { sendTelegramNotification } from './telegram.js';
 
 let currentStep = 1;
-const totalSteps = 5;
+const totalSteps = 6;
 
 // Dynamic Seating Matrix Generator (Replaces Cinema seating layout with clean time badge groups)
 export function generateSeatGrid(dateString) {
@@ -153,11 +153,12 @@ export function saveBookingToLocalStorage(bookingId) {
     }
 }
 
-// Populate summaries in Step 5
+// Populate summaries in Step 6
 function populateSummary() {
     document.getElementById('summaryName').textContent = document.getElementById('bookingName').value || 'غير محدد';
     document.getElementById('summaryPhone').textContent = document.getElementById('bookingPhone').value || 'غير محدد';
     document.getElementById('summaryService').textContent = AppState.bookingData.service || 'غير محدد';
+    document.getElementById('summaryDoctor').textContent = AppState.bookingData.doctor || 'د. أكثم طنطاوي';
     document.getElementById('summaryDate').textContent = document.getElementById('bookingDate').value || 'لم يتم الاختيار';
     document.getElementById('summaryTime').textContent = AppState.bookingData.chair ? `${AppState.bookingData.chair} - ${AppState.bookingData.time}` : 'لم يتم تحديد وقت الحجز';
 }
@@ -213,6 +214,13 @@ function validateStep(step) {
         return true;
     }
     if (step === 3) {
+        if (!AppState.bookingData.doctor) {
+            alert('الرجاء اختيار الطبيب المفضل.');
+            return false;
+        }
+        return true;
+    }
+    if (step === 4) {
         const date = document.getElementById('bookingDate').value;
         if (!date) {
             alert('الرجاء اختيار تاريخ الحجز.');
@@ -220,7 +228,7 @@ function validateStep(step) {
         }
         return true;
     }
-    if (step === 4) {
+    if (step === 5) {
         if (!AppState.bookingData.chair || !AppState.bookingData.time) {
             alert('الرجاء اختيار الجناح ووقت المراجعة المفضل من لوحة المواعيد.');
             return false;
@@ -242,6 +250,7 @@ export function initBookingFlow() {
 
     // Default AppState service setup
     AppState.bookingData.service = 'تنظيف الأسنان';
+    AppState.bookingData.doctor = 'د. أكثم طنطاوي'; // Default Doctor
     AppState.bookingData.chair = '';
     AppState.bookingData.time = '';
 
@@ -263,6 +272,16 @@ export function initBookingFlow() {
             if (hiddenSelect) {
                 hiddenSelect.value = serviceValue;
             }
+        });
+    });
+
+    // Handle Visual Doctors Selector click
+    const doctorCards = document.querySelectorAll('.doctor-select-card');
+    doctorCards.forEach(card => {
+        card.addEventListener('click', () => {
+            doctorCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            AppState.bookingData.doctor = card.getAttribute('data-doctor');
         });
     });
 
@@ -289,14 +308,18 @@ export function initBookingFlow() {
     bookingForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        if (!validateStep(4)) return;
+        if (!validateStep(5)) return;
 
         AppState.bookingData.name = document.getElementById('bookingName').value;
         AppState.bookingData.phone = document.getElementById('bookingPhone').value;
         AppState.bookingData.email = document.getElementById('bookingEmail').value || 'لا يوجد';
         AppState.bookingData.age = document.getElementById('bookingAge').value;
         AppState.bookingData.date = document.getElementById('bookingDate').value;
-        AppState.bookingData.notes = document.getElementById('bookingNotes').value || 'لا توجد ملاحظات';
+        
+        // Compile Doctor and Notes together
+        const selectedDoctor = AppState.bookingData.doctor || 'د. أكثم طنطاوي';
+        const userNotes = document.getElementById('bookingNotes').value || 'لا توجد ملاحظات';
+        AppState.bookingData.notes = `الطبيب المختار: ${selectedDoctor} | ملاحظات المريض: ${userNotes}`;
 
         // Generate Booking ID
         const bookingId = 'DK-' + Math.floor(1000 + Math.random() * 9000);

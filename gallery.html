@@ -9,6 +9,83 @@
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="assets/css/app.css">
+    <style>
+        /* Premium segment filters and case card metadata styling */
+        .gallery-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(21, 101, 255, 0.08);
+            color: var(--text-muted);
+            padding: 8px 20px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        
+        .filter-btn:hover {
+            background: rgba(21, 101, 255, 0.04);
+            border-color: rgba(21, 101, 255, 0.2);
+            color: var(--primary);
+        }
+        
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--text-white);
+            box-shadow: 0 4px 15px rgba(21, 101, 255, 0.2);
+        }
+
+        .case-info-card {
+            padding: 24px;
+        }
+
+        .case-meta-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(21, 101, 255, 0.08);
+            font-size: 13px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+        }
+
+        .meta-item i {
+            color: var(--primary);
+            font-size: 16px;
+        }
+
+        .meta-item span strong {
+            color: var(--dark);
+        }
+
+        .case-badge {
+            background: var(--secondary);
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,50 +99,199 @@
                 <div class="container gallery-section">
                     <div class="section-header">
                         <span class="section-label">معرض الحالات</span>
-                        <h2 class="section-title">قصص نجاح وابتسامات متجددة</h2>
-                        <p class="section-desc">شاهد نتائج العلاج الحقيقية لمرضانا قبل وبعد الإجراء الطبي والتجميلي</p>
+                        <h2 class="section-title">حالات واقعية.. ونتائج استثنائية</h2>
+                        <p class="section-desc">تصفح نتائج رحلة العلاج والتقويم لمرضانا، والتحولات الحقيقية في إطباق وجمال الابتسامات.</p>
                     </div>
 
                     <!-- Category Filters -->
                     <div class="gallery-filters">
                         <button class="filter-btn active" data-filter="all">الكل</button>
-                        <button class="filter-btn" data-filter="cosmetics">تجميل وتبييض</button>
-                        <button class="filter-btn" data-filter="implants">زراعة الأسنان</button>
-                        <button class="filter-btn" data-filter="braces">تقويم الأسنان</button>
+                        <button class="filter-btn" data-filter="crowding">تزاحم الأسنان</button>
+                        <button class="filter-btn" data-filter="spacing">فراغات الأسنان</button>
+                        <button class="filter-btn" data-filter="overbite">العضة العميقة</button>
+                        <button class="filter-btn" data-filter="crossbite">العضة المعكوسة</button>
+                        <button class="filter-btn" data-filter="openbite">العضة المفتوحة</button>
+                        <button class="filter-btn" data-filter="aligners">التقويم الشفاف</button>
+                        <button class="filter-btn" data-filter="other">علاجات أخرى</button>
                     </div>
 
                     <!-- Cases Grid -->
                     <div class="gallery-grid">
-                        <!-- Case 1 (Real Clinic Braces Case) -->
-                        <div class="glass-card" data-category="braces">
-                            <div class="before-after-wrapper case-static-img" style="cursor: zoom-in;">
-                                <img src="assets/case1.jpg" alt="حالة تقويم - سد الفراغات" style="width: 100%; height: 100%; object-fit: cover;">
-                                <span class="label-before" style="background: var(--primary);">حالة حقيقية</span>
-                            </div>
-                            <div class="case-info-card">
-                                <h4 class="case-title">تقويم إغلاق الفراغات الأمامية</h4>
-                                <p class="case-desc">إغلاق الفراغات الواسعة بين الأسنان الأمامية العلوية والسفلية وتعديل الإطباق بنجاح باهر.</p>
-                            </div>
-                        </div>
-
-                        <!-- Case 2 (Real Clinic Braces Case) -->
-                        <div class="glass-card" data-category="braces">
+                        <!-- Case 1 (Crowding - Real Clinic Case) -->
+                        <div class="glass-card" data-category="crowding">
                             <div class="before-after-wrapper case-static-img" style="cursor: zoom-in;">
                                 <img src="assets/case2.jpg" alt="حالة تقويم - تزاحم الأسنان" style="width: 100%; height: 100%; object-fit: cover;">
-                                <span class="label-before" style="background: var(--primary);">حالة حقيقية</span>
+                                <span class="label-before" style="background: var(--primary);">حالة واقعية للعيادة</span>
                             </div>
                             <div class="case-info-card">
-                                <h4 class="case-title">تعديل الازدحام وتطابق الفكين</h4>
-                                <p class="case-desc">علاج تزاحم الأسنان الشديد وتنسيق قوس الفك العلوي والسفلي لتحقيق ابتسامة متناسقة بدون خلع.</p>
+                                <span class="case-badge">تقويم الأسنان المعدني</span>
+                                <h4 class="case-title">تعديل الازدحام الشديد وتطابق الفكين</h4>
+                                <p class="case-desc">علاج تزاحم الأسنان الحاد وتوسيع القوس السني دون الحاجة لخلع أي أسنان دائمية، مع ضبط مالي للإطباق.</p>
+                                <div class="case-meta-row">
+                                    <div class="meta-item">
+                                        <i class="bx bx-purchase-tag-alt"></i>
+                                        <span><strong>الحالة:</strong> تزاحم بالفكين</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-user"></i>
+                                        <span><strong>العمر:</strong> 18 عاماً</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-time-five"></i>
+                                        <span><strong>المدة:</strong> 14 شهراً</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-calendar-check"></i>
+                                        <span><strong>الزيارات:</strong> 12 زيارة</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Case 3 (Whitening Slider) -->
-                        <div class="glass-card" data-category="cosmetics">
+                        <!-- Case 2 (Spacing - Real Clinic Case) -->
+                        <div class="glass-card" data-category="spacing">
+                            <div class="before-after-wrapper case-static-img" style="cursor: zoom-in;">
+                                <img src="assets/case1.jpg" alt="حالة تقويم - سد الفراغات" style="width: 100%; height: 100%; object-fit: cover;">
+                                <span class="label-before" style="background: var(--primary);">حالة واقعية للعيادة</span>
+                            </div>
+                            <div class="case-info-card">
+                                <span class="case-badge">تقويم الأسنان التجميلي</span>
+                                <h4 class="case-title">إغلاق الفراغات الأمامية وتصحيح المحاذاة</h4>
+                                <p class="case-desc">علاج الفراغات الواسعة (الستيرما) بين الثنايا والرباعيات العلوية وإعادة بناء تماثل خط الابتسامة بنجاح تام.</p>
+                                <div class="case-meta-row">
+                                    <div class="meta-item">
+                                        <i class="bx bx-purchase-tag-alt"></i>
+                                        <span><strong>الحالة:</strong> فراغات متفرقة</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-user"></i>
+                                        <span><strong>العمر:</strong> 22 عاماً</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-time-five"></i>
+                                        <span><strong>المدة:</strong> 11 شهراً</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-calendar-check"></i>
+                                        <span><strong>الزيارات:</strong> 9 زيارات</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Case 3 (Overbite - Slider) -->
+                        <div class="glass-card" data-category="overbite">
+                            <div class="before-after-wrapper">
+                                <div class="before-img" style="background-image: url('https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=600&q=80');"></div>
+                                <div class="after-img" style="background-image: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=600&q=80');"></div>
+                                <div class="slider-handle">
+                                    <div class="slider-button"><i class="bx bx-chevrons-left"></i></div>
+                                </div>
+                                <span class="label-before">قبل</span>
+                                <span class="label-after">بعد العلاج</span>
+                            </div>
+                            <div class="case-info-card">
+                                <span class="case-badge">تعديل الإطباق الهيكلي</span>
+                                <h4 class="case-title">تصحيح العضة العميقة (Overbite)</h4>
+                                <p class="case-desc">علاج التغطية الزائدة للأسنان السفلية ورفع العضة وتقديم الفك السفلي لتحسين المظهر الجانبي للوجه والابتسامة.</p>
+                                <div class="case-meta-row">
+                                    <div class="meta-item">
+                                        <i class="bx bx-purchase-tag-alt"></i>
+                                        <span><strong>الحالة:</strong> عضة عميقة</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-user"></i>
+                                        <span><strong>العمر:</strong> 25 عاماً</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-time-five"></i>
+                                        <span><strong>المدة:</strong> 18 شهراً</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-calendar-check"></i>
+                                        <span><strong>الزيارات:</strong> 15 زيارة</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Case 4 (Crossbite - Slider) -->
+                        <div class="glass-card" data-category="crossbite">
+                            <div class="before-after-wrapper">
+                                <div class="before-img" style="background-image: url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=600&q=80');"></div>
+                                <div class="after-img" style="background-image: url('https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=600&q=80');"></div>
+                                <div class="slider-handle">
+                                    <div class="slider-button"><i class="bx bx-chevrons-left"></i></div>
+                                </div>
+                                <span class="label-before">قبل</span>
+                                <span class="label-after">بعد العلاج</span>
+                            </div>
+                            <div class="case-info-card">
+                                <span class="case-badge">تقويم وقائي وعلاجي</span>
+                                <h4 class="case-title">تصحيح العضة المعكوسة الجانبية</h4>
+                                <p class="case-desc">تصحيح انطباق الأسنان العلوية خلف السفلية جانبياً، وتحقيق محاذاة سليمة تمنع تآكل المفصل الصدغي.</p>
+                                <div class="case-meta-row">
+                                    <div class="meta-item">
+                                        <i class="bx bx-purchase-tag-alt"></i>
+                                        <span><strong>الحالة:</strong> عضة معكوسة</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-user"></i>
+                                        <span><strong>العمر:</strong> 16 عاماً</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-time-five"></i>
+                                        <span><strong>المدة:</strong> 16 شهراً</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-calendar-check"></i>
+                                        <span><strong>الزيارات:</strong> 14 زيارة</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Case 5 (Openbite - Slider) -->
+                        <div class="glass-card" data-category="openbite">
+                            <div class="before-after-wrapper">
+                                <div class="before-img" style="background-image: url('https://images.unsplash.com/photo-1513415277900-a62401e50853?auto=format&fit=crop&w=600&q=80');"></div>
+                                <div class="after-img" style="background-image: url('https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600&q=80');"></div>
+                                <div class="slider-handle">
+                                    <div class="slider-button"><i class="bx bx-chevrons-left"></i></div>
+                                </div>
+                                <span class="label-before">قبل</span>
+                                <span class="label-after">بعد العلاج</span>
+                            </div>
+                            <div class="case-info-card">
+                                <span class="case-badge">تقويم الأسنان المتقدم</span>
+                                <h4 class="case-title">علاج العضة المفتوحة الأمامية (Open Bite)</h4>
+                                <p class="case-desc">إعادة توجيه الأسنان الأمامية وتنزيلها لتتطابق بشكل سليم، وتصحيح وظائف التحدث والمضغ لثقة متجددة.</p>
+                                <div class="case-meta-row">
+                                    <div class="meta-item">
+                                        <i class="bx bx-purchase-tag-alt"></i>
+                                        <span><strong>الحالة:</strong> عضة مفتوحة</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-user"></i>
+                                        <span><strong>العمر:</strong> 20 عاماً</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-time-five"></i>
+                                        <span><strong>المدة:</strong> 20 شهراً</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-calendar-check"></i>
+                                        <span><strong>الزيارات:</strong> 18 زيارة</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Case 6 (Aligners - Slider) -->
+                        <div class="glass-card" data-category="aligners">
                             <div class="before-after-wrapper">
                                 <div class="before-img" style="background-image: url('https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=600&q=80');"></div>
                                 <div class="after-img" style="background-image: url('https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600&q=80');"></div>
-                                
                                 <div class="slider-handle">
                                     <div class="slider-button"><i class="bx bx-chevrons-left"></i></div>
                                 </div>
@@ -73,17 +299,35 @@
                                 <span class="label-after">بعد العلاج</span>
                             </div>
                             <div class="case-info-card">
-                                <h4 class="case-title">تبييض الأسنان بالليزر وجلسات القوالب</h4>
-                                <p class="case-desc">علاج تصبغات الأسنان العميقة وتفتيح لون السن بمقدار 4 درجات في جلسة ليزر واحدة مدتها 45 دقيقة.</p>
+                                <span class="case-badge">التقويم الشفاف (ألاينرز)</span>
+                                <h4 class="case-title">تقويم غير مرئي لمشكلة الفراغات والاعوجاج</h4>
+                                <p class="case-desc">علاج تجميلي ووظيفي بالكامل باستخدام قوالب الألاينرز الشفافة سريعة الفك والتركيب والمصممة رقمياً بالكامل.</p>
+                                <div class="case-meta-row">
+                                    <div class="meta-item">
+                                        <i class="bx bx-purchase-tag-alt"></i>
+                                        <span><strong>الحالة:</strong> تقويم شفاف</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-user"></i>
+                                        <span><strong>العمر:</strong> 28 عاماً</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-time-five"></i>
+                                        <span><strong>المدة:</strong> 12 شهراً</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-calendar-check"></i>
+                                        <span><strong>الزيارات:</strong> 8 زيارات</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Case 4 (Implant Slider) -->
-                        <div class="glass-card" data-category="implants">
+                        <!-- Case 7 (Other - Slider) -->
+                        <div class="glass-card" data-category="other">
                             <div class="before-after-wrapper">
                                 <div class="before-img" style="background-image: url('https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=600&q=80');"></div>
                                 <div class="after-img" style="background-image: url('https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=600&q=80');"></div>
-                                
                                 <div class="slider-handle">
                                     <div class="slider-button"><i class="bx bx-chevrons-left"></i></div>
                                 </div>
@@ -91,8 +335,27 @@
                                 <span class="label-after">بعد العلاج</span>
                             </div>
                             <div class="case-info-card">
-                                <h4 class="case-title">تعويض سن مفقود بالزراعة الألمانية الفورية</h4>
-                                <p class="case-desc">زراعة غرسة عظمية تيتانيوم للضاحك الأول العلوي وتركيب التاج الزركوني لانسجام تام مع الأسنان الطبيعية.</p>
+                                <span class="case-badge">زراعة وتجميل الأسنان</span>
+                                <h4 class="case-title">زراعة فورية وتجميل فينير للأسنان الأمامية</h4>
+                                <p class="case-desc">تعويض سن مفقود بالزراعة الألمانية الفورية وتركيب عدسات الفينير الرقيقة لبقية الأسنان لابتسامة هوليودية متناسقة.</p>
+                                <div class="case-meta-row">
+                                    <div class="meta-item">
+                                        <i class="bx bx-purchase-tag-alt"></i>
+                                        <span><strong>الحالة:</strong> زراعة + تجميل</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-user"></i>
+                                        <span><strong>العمر:</strong> 35 عاماً</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-time-five"></i>
+                                        <span><strong>المدة:</strong> 3 أشهر</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="bx bx-calendar-check"></i>
+                                        <span><strong>الزيارات:</strong> 4 زيارات</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
