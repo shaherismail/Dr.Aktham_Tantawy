@@ -20,11 +20,8 @@ export const AppState = {
 };
 
 export function initSupabaseClient() {
-    const defaultUrl = 'https://uryssoojjljplseaxamn.supabase.co';
-    const defaultKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVyeXNzb29qamxqcGxzZWF4YW1uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzMjE0NjgsImV4cCI6MjA5Nzg5NzQ2OH0.VmSSd3_7we4ZNOcHSaklHAN05Bnx9dCiTHjY_UI7c_k'; // anon key from PASSWORD
-
-    const sbUrl = localStorage.getItem('supabase_url') || defaultUrl;
-    const sbKey = localStorage.getItem('supabase_key') || defaultKey;
+    const sbUrl = localStorage.getItem('supabase_url') || '';
+    const sbKey = localStorage.getItem('supabase_key') || '';
     if (sbUrl && sbKey && window.supabase) {
         try {
             supabaseClient = window.supabase.createClient(sbUrl, sbKey);
@@ -263,60 +260,6 @@ export function initNewsletter() {
     });
 }
 
-// Contact Form Integration (saves to Supabase contact_messages table)
-export function initContactForm() {
-    const contactForm = document.getElementById('contactForm');
-    if (!contactForm) return;
-
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('contactName').value.trim();
-        const phone = document.getElementById('contactPhone').value.trim();
-        const email = document.getElementById('contactEmail').value.trim();
-        const message = document.getElementById('contactMessage').value.trim();
-
-        if (!name || !phone || !message) {
-            alert('الرجاء تعبئة كافة الحقول الإلزامية (الاسم، رقم الهاتف، والرسالة).');
-            return;
-        }
-
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalBtnText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="bx bx-loader-alt animate-spin"></i> جاري الإرسال...';
-
-        const payload = {
-            name,
-            email: email || null,
-            phone,
-            subject: 'استفسار عام',
-            message,
-            status: 'unread'
-        };
-
-        if (supabaseClient) {
-            supabaseClient.from('contact_messages').insert([payload])
-                .then(({ error }) => {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalBtnText;
-
-                    if (error) {
-                        console.error('Supabase contact save error:', error);
-                        alert('حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة لاحقاً.');
-                    } else {
-                        alert(`شكراً لتواصلك معنا يا ${name}! تم إرسال رسالتك بنجاح وسنتواصل معك قريباً.`);
-                        contactForm.reset();
-                    }
-                });
-        } else {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalBtnText;
-            alert(`شكراً لتواصلك معنا يا ${name}! تم إرسال رسالتك بنجاح وسنتواصل معك قريباً (محاكاة محلية).`);
-            contactForm.reset();
-        }
-    });
-}
-
 // Dynamic Theme Settings applicator
 export function applyThemeSettings() {
     if (!supabaseClient) return;
@@ -529,7 +472,6 @@ export async function initApp() {
     initFAQAccordions();
     initTestimonials();
     initNewsletter();
-    initContactForm();
     checkUrlCallbacks();
 
     // Lazy load and launch the Live Visual Editor if admin session is detected
