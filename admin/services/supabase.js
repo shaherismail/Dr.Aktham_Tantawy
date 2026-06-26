@@ -2,7 +2,7 @@
 // Supabase Client Factory — initializes and provides the client instance.
 // The UI and feature modules must never call window.supabase directly.
 
-import { AppState } from '../state/AppState.js';
+import { AppState } from './db.js';
 
 /**
  * Creates and stores the Supabase client in AppState.

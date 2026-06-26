@@ -132,9 +132,9 @@ export function saveBookingToLocalStorage(bookingId) {
         id: bookingId
     }));
 
-    // If Supabase is active, save to cloud and return the Promise
+    // If Supabase is active, save to cloud
     if (supabaseClient) {
-        return supabaseClient.from('bookings').insert([{
+        supabaseClient.from('bookings').insert([{
             id: bookingId,
             name: AppState.bookingData.name,
             phone: AppState.bookingData.phone,
@@ -146,9 +146,10 @@ export function saveBookingToLocalStorage(bookingId) {
             chair: AppState.bookingData.chair,
             notes: AppState.bookingData.notes,
             status: 'pending'
-        }]);
+        }]).then(({ error }) => {
+            if (error) console.error('Supabase insert error:', error);
+        });
     }
-    return Promise.resolve({ data: null, error: null });
 }
 
 // Populate summaries in Step 6
@@ -397,11 +398,6 @@ export function initBookingFlow() {
 
         if (!validateStep(5)) return;
 
-        const submitBtn = document.getElementById('submitBookingBtn');
-        const originalBtnText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="bx bx-loader-alt animate-spin"></i> جاري تأكيد الحجز...';
-
         AppState.bookingData.name = document.getElementById('bookingName').value;
         AppState.bookingData.phone = document.getElementById('bookingPhone').value;
         AppState.bookingData.email = document.getElementById('bookingEmail').value || 'لا يوجد';
@@ -417,24 +413,14 @@ export function initBookingFlow() {
         const bookingId = 'DK-' + Math.floor(1000 + Math.random() * 9000);
         AppState.bookingData.id = bookingId;
 
-        // Save to LocalStorage & Supabase, then wait for completion before page redirect
-        saveBookingToLocalStorage(bookingId)
-            .then(({ error }) => {
-                if (error) {
-                    console.error('Booking save error:', error);
-                    alert('فشل حفظ الموعد في خادم السحابة، تم حفظ الحجز محلياً فقط.');
-                }
-                
-                // Send Notification to Telegram
-                sendTelegramNotification(bookingId);
+        // Save to LocalStorage & Supabase
+        saveBookingToLocalStorage(bookingId);
 
-                // Transition to success page
-                window.location.href = 'success.html';
-            })
-            .catch(err => {
-                console.error('Booking save exception:', err);
-                window.location.href = 'success.html';
-            });
+        // Send Notification to Telegram
+        sendTelegramNotification(bookingId);
+
+        // Transition to success page
+        window.location.href = 'success.html';
     });
 }
 

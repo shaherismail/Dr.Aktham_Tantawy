@@ -1,11 +1,4 @@
 {
   "version": 2,
-  "cleanUrls": true,
-  "redirects": [
-    {
-      "source": "/admin",
-      "destination": "/admin/",
-      "permanent": true
-    }
-  ]
+  "cleanUrls": true
 }
