@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم الطبيب - عيادة د. أكثم طنطاوي</title>
+    <!-- Boxicons CDN -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/app.css?v=1.0.2">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+    <!-- AUTHENTICATION DIALOG (Login Screen) -->
+    <div id="adminLoginOverlay" class="admin-auth-overlay">
+        <div class="glass-card auth-card">
+            <div class="auth-header">
+                <img src="../assets/logo.jpg" alt="Logo" class="auth-logo">
+                <h2>بوابة الإدارة الآمنة</h2>
+                <p>عيادة د. أكثم إسماعيل لتقويم الأسنان</p>
+            </div>
+            <form id="adminLoginForm" class="auth-form">
+                <div class="form-group">
+                    <label class="form-label" for="adminPassword">رمز الدخول الآمن للمنصة</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="adminPassword" class="form-input" placeholder="••••••••••••••••" required autocomplete="current-password">
+                        <i class="bx bx-hide toggle-pwd-btn" id="togglePwd"></i>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">تسجيل الدخول للنظام <i class="bx bx-log-in-circle"></i></button>
+                <div id="loginError" class="auth-error-msg" style="display: none;">
+                    <i class="bx bx-error-circle"></i> الرمز السري غير صحيح، يرجى المحاولة مرة أخرى.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN ADMIN PANEL WRAPPER -->
+    <div id="adminPanelRoot" class="admin-layout" style="display: none;">
+        
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-brand">
+                <img src="../assets/logo.jpg" alt="Dr. Aktham Logo">
+                <div class="brand-text">
+                    <span class="brand-name">عيادة د. أكثم</span>
+                    <span class="brand-status"><i class="bx bxs-circle"></i> لوحة التحكم v1.1</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-menu-wrapper">
+                
+                <!-- GROUP 1: MAIN -->
+                <div class="menu-group">
+                    <span class="group-title">الرئيسية والتحليلات</span>
+                    <ul class="menu-list">
+                        <li class="menu-item active" data-tab="dashboard">
+                            <i class="bx bx-grid-alt"></i> <span>لوحة القيادة</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- GROUP 2: CLINIC MANAGEMENT -->
+                <div class="menu-group">
+                    <span class="group-title">إدارة العيادة</span>
+                    <ul class="menu-list">
+                        <li class="menu-item" data-tab="appointments">
+                            <i class="bx bx-calendar-check"></i> <span>المواعيد والحجوزات</span>
+                        </li>
+                        <li class="menu-item" data-tab="patients">
+                            <i class="bx bx-group"></i> <span>سجلات المرضى</span>
+                        </li>
+                        <li class="menu-item" data-tab="booking-settings">
+                            <i class="bx bx-time-five"></i> <span>إعدادات الحجز</span>
+                        </li>
+                        <li class="menu-item" data-tab="services">
+                            <i class="bx bx-wrench"></i> <span>إدارة الخدمات</span>
+                        </li>
+                        <li class="menu-item" data-tab="doctor-profile">
+                            <i class="bx bx-user-pin"></i> <span>ملف الطبيب</span>
+                        </li>
+                        <li class="menu-item" data-tab="testimonials">
+                            <i class="bx bx-star"></i> <span>آراء المرضى</span>
+                        </li>
+                        <li class="menu-item" data-tab="faq">
+                            <i class="bx bx-help-circle"></i> <span>الأسئلة الشائعة</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- GROUP 3: CONTENT & CMS -->
+                <div class="menu-group">
+                    <span class="group-title">إدارة المحتوى والصفحات</span>
+                    <ul class="menu-list">
+                        <li class="menu-item" data-tab="gallery">
+                            <i class="bx bx-images"></i> <span>معرض الابتسامات</span>
+                        </li>
+                        <li class="menu-item" data-tab="homepage-cms">
+                            <i class="bx bx-desktop"></i> <span>الصفحة الرئيسية CMS</span>
+                        </li>
+                        <li class="menu-item" data-tab="media-library">
+                            <i class="bx bx-folder"></i> <span>مكتبة الوسائط</span>
+                        </li>
+                        <li class="menu-item" data-tab="contact-messages">
+                            <i class="bx bx-envelope"></i> <span>رسائل التواصل</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- GROUP 4: SYSTEM SETTINGS -->
+                <div class="menu-group">
+                    <span class="group-title">إعدادات النظام</span>
+                    <ul class="menu-list">
+                        <li class="menu-item" data-tab="theme-manager">
+                            <i class="bx bx-palette"></i> <span>المظهر والألوان</span>
+                        </li>
+                        <li class="menu-item" data-tab="site-settings">
+                            <i class="bx bx-cog"></i> <span>إعدادات المنصة</span>
+                        </li>
+                        <li class="menu-item" data-tab="users-rbac">
+                            <i class="bx bx-shield-quarter"></i> <span>الصلاحيات والمستخدمين</span>
+                        </li>
+                        <li class="menu-item" data-tab="notifications">
+                            <i class="bx bx-bell"></i> <span>مركز التنبيهات</span>
+                        </li>
+                        <li class="menu-item" data-tab="telegram-manager">
+                            <i class="bx bxl-telegram"></i> <span>تكامل تليجرام</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- GROUP 5: SECURITY & OPERATIONS -->
+                <div class="menu-group">
+                    <span class="group-title">الأمان والتشغيل</span>
+                    <ul class="menu-list">
+                        <li class="menu-item" data-tab="audit-logs">
+                            <i class="bx bx-list-ul"></i> <span>سجل العمليات</span>
+                        </li>
+                        <li class="menu-item" data-tab="version-history">
+                            <i class="bx bx-history"></i> <span>سجل الإصدارات</span>
+                        </li>
+                        <li class="menu-item" data-tab="backup-center">
+                            <i class="bx bx-cloud-download"></i> <span>النسخ الاحتياطي</span>
+                        </li>
+                        <li class="menu-item" data-tab="storage-manager">
+                            <i class="bx bx-data"></i> <span>إدارة الملفات</span>
+                        </li>
+                        <li class="menu-item" data-tab="ai-assistant">
+                            <i class="bx bx-brain"></i> <span>مساعد الذكاء الاصطناعي</span>
+                        </li>
+                        <li class="menu-item" data-tab="system-monitor">
+                            <i class="bx bx-pulse"></i> <span>مراقب النظام</span>
+                        </li>
+                        <li class="menu-item" data-tab="recycle-bin">
+                            <i class="bx bx-trash"></i> <span>سلة المهملات</span>
+                        </li>
+                        <li class="menu-item" data-tab="admin-profile">
+                            <i class="bx bx-user-circle"></i> <span>حساب الإدارة</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            
+            <div class="sidebar-footer">
+                <button type="button" class="btn btn-outline" id="adminLogoutBtn" style="width: 100%; border-color: rgba(220, 38, 38, 0.3); color: #EF4444; background: rgba(220, 38, 38, 0.05);">
+                    <i class="bx bx-log-out"></i> تسجيل الخروج
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="admin-main">
+            
+            <!-- HEADER TOP BAR -->
+            <header class="admin-header">
+                <div class="header-search-box">
+                    <i class="bx bx-search"></i>
+                    <input type="text" id="globalSearchInput" placeholder="بحث سريع في الحجوزات، المرضى، أو التنبيهات...">
+                </div>
+                
+                <div class="header-actions">
+                    <div class="db-status-badge" id="supabaseStatusIndicator">
+                        <span class="status-dot green"></span>
+                        <span class="status-lbl">Supabase: متصل</span>
+                    </div>
+                    
+                    <button class="header-action-btn" id="openQuickBackupBtn" title="نسخ احتياطي سريع للبيانات">
+                        <i class="bx bx-cloud-download"></i>
+                    </button>
+                    
+                    <button class="header-action-btn" id="btnToggleDarkMode" title="تبديل المظهر الداكن/المضيء">
+                        <i class="bx bx-moon"></i>
+                    </button>
+                    
+                    <div class="admin-profile-menu" onclick="document.querySelector('[data-tab=admin-profile]').click()">
+                        <div class="avatar-circle">أ</div>
+                        <span class="admin-username">أكثم طنطاوي</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- DYNAMIC PANELS CONTENT CONTAINER -->
+            <div class="admin-container" id="adminPanelsContainer">
+                
+                <!-- 1. DASHBOARD PANEL -->
+                <section class="admin-panel active-panel" id="panel-dashboard">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-grid-alt"></i> لوحة القيادة العامة</h2>
+                        <span class="panel-subtitle">مؤشرات الأداء وتحليلات العيادة المباشرة اليوم</span>
+                    </div>
+
+                    <!-- Grid Stats -->
+                    <div class="dashboard-stats-grid">
+                        <div class="stat-card glass-card">
+                            <div class="stat-header">
+                                <span class="stat-label">حجوزات اليوم</span>
+                                <i class="bx bx-calendar-check stat-icon color-primary"></i>
+                            </div>
+                            <span class="stat-number" id="statTodayBookings">12</span>
+                            <span class="stat-trend green"><i class="bx bx-trending-up"></i> +20% عن الأسبوع الماضي</span>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-header">
+                                <span class="stat-label">حجوزات هذا الأسبوع</span>
+                                <i class="bx bx-calendar stat-icon color-success"></i>
+                            </div>
+                            <span class="stat-number" id="statWeeklyBookings">48</span>
+                            <span class="stat-trend green"><i class="bx bx-trending-up"></i> +12% معدل نمو</span>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-header">
+                                <span class="stat-label">المرضى الجدد</span>
+                                <i class="bx bx-user-plus stat-icon color-warning"></i>
+                            </div>
+                            <span class="stat-number" id="statNewPatients">18</span>
+                            <span class="stat-trend green"><i class="bx bx-trending-up"></i> +8 مرضى هذا الشهر</span>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-header">
+                                <span class="stat-label">متوسط تقييم Google</span>
+                                <i class="bx bxs-star stat-icon color-danger"></i>
+                            </div>
+                            <span class="stat-number">4.9 / 5</span>
+                            <span class="stat-trend green"><i class="bx bx-check-shield"></i> بناءً على +350 تقييم حقيقي</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions and System Status -->
+                    <div class="dashboard-details-grid">
+                        <!-- Left: Graphs and Activity -->
+                        <div class="details-left">
+                            <div class="glass-card analytics-chart-card">
+                                <h3 class="box-title"><i class="bx bx-bar-chart-alt-2"></i> إحصائيات الحجوزات الأسبوعية</h3>
+                                <div class="chart-container" id="bookingsChartContainer">
+                                    <!-- Programmatic SVG graph injected here -->
+                                </div>
+                            </div>
+
+                            <div class="glass-card recent-activities-card">
+                                <h3 class="box-title"><i class="bx bx-list-ul"></i> آخر نشاطات النظام والعمليات</h3>
+                                <ul class="activity-timeline" id="recentActivitiesList">
+                                    <!-- Dynamic Activity log -->
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Right: System Health & Quick Operations -->
+                        <div class="details-right">
+                            <div class="glass-card quick-actions-card">
+                                <h3 class="box-title"><i class="bx bx-bolt-circle"></i> إجراءات سريعة</h3>
+                                <div class="quick-buttons-row">
+                                    <button class="btn btn-primary" onclick="document.querySelector('[data-tab=appointments]').click()"><i class="bx bx-plus"></i> حجز موعد جديد</button>
+                                    <button class="btn btn-outline" onclick="document.querySelector('[data-tab=patients]').click()"><i class="bx bx-user-plus"></i> إضافة مريض جديد</button>
+                                    <button class="btn btn-outline" onclick="document.querySelector('[data-tab=gallery]').click()"><i class="bx bx-upload"></i> رفع حالة جديدة</button>
+                                    <button class="btn btn-outline" onclick="document.querySelector('[data-tab=backup-center]').click()"><i class="bx bx-cloud-download"></i> تصدير نسخة احتياطية</button>
+                                </div>
+                            </div>
+
+                            <div class="glass-card sys-status-card">
+                                <h3 class="box-title"><i class="bx bx-broadcast"></i> حالة الاتصال بالخوادم</h3>
+                                <div class="sys-status-list">
+                                    <div class="status-row">
+                                        <span>قاعدة البيانات (Supabase Client):</span>
+                                        <span class="status-val connected" id="statValSb"><i class="bx bx-check-circle"></i> متصل</span>
+                                    </div>
+                                    <div class="status-row">
+                                        <span>سحابة الملفات (Supabase Storage):</span>
+                                        <span class="status-val connected" id="statValStorage"><i class="bx bx-check-circle"></i> متصل</span>
+                                    </div>
+                                    <div class="status-row">
+                                        <span>بوت التنبيهات (Telegram Bot Hook):</span>
+                                        <span class="status-val connected" id="statValTg"><i class="bx bx-check-circle"></i> متصل</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. APPOINTMENTS PANEL -->
+                <section class="admin-panel" id="panel-appointments">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-calendar-check"></i> إدارة الحجوزات والمواعيد</h2>
+                        <div class="header-action-buttons">
+                            <button class="btn btn-primary" id="btnAddNewAppointment"><i class="bx bx-plus"></i> إضافة حجز يدوي</button>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card table-card">
+                        <div class="table-filters-row">
+                            <div class="filter-group">
+                                <label for="filterApptStatus">حالة الحجز:</label>
+                                <select id="filterApptStatus" class="form-input">
+                                    <option value="all">كل الحالات</option>
+                                    <option value="pending">قيد التأكيد (Pending)</option>
+                                    <option value="confirmed">مؤكد (Confirmed)</option>
+                                    <option value="cancelled">ملغى (Cancelled)</option>
+                                </select>
+                            </div>
+                            <input type="text" id="searchApptName" class="form-input" placeholder="بحث باسم المريض أو الجوال...">
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>معرف الحجز</th>
+                                        <th>المريض</th>
+                                        <th>الجوال</th>
+                                        <th>الخدمة</th>
+                                        <th>التاريخ والوقت</th>
+                                        <th>العيادة/الكرسي</th>
+                                        <th>الحالة</th>
+                                        <th>إجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="appointmentsTableBody">
+                                    <!-- Dynamic bookings lists -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. PATIENTS PANEL -->
+                <section class="admin-panel" id="panel-patients">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-group"></i> سجلات ملفات المرضى</h2>
+                        <button class="btn btn-primary" id="btnAddNewPatient"><i class="bx bx-user-plus"></i> مريض جديد</button>
+                    </div>
+
+                    <div class="glass-card table-card">
+                        <div class="table-filters-row">
+                            <input type="text" id="searchPatientName" class="form-input" style="max-width: 320px;" placeholder="بحث باسم المريض، الجوال، البريد...">
+                        </div>
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>الاسم</th>
+                                        <th>رقم الجوال</th>
+                                        <th>البريد الإلكتروني</th>
+                                        <th>العمر</th>
+                                        <th>تاريخ التسجيل</th>
+                                        <th>زيارات الحجز</th>
+                                        <th>الملف الطبي</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="patientsTableBody">
+                                    <!-- Dynamic patient profiles list -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. BOOKING SETTINGS PANEL -->
+                <section class="admin-panel" id="panel-booking-settings">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-time-five"></i> إعدادات نظام الحجز والمواعيد</h2>
+                        <button class="btn btn-primary" id="saveBookingSettingsBtn"><i class="bx bx-save"></i> حفظ الإعدادات</button>
+                    </div>
+                    
+                    <div class="glass-card" style="padding: 32px;">
+                        <form id="bookingSettingsForm" style="display: flex; flex-direction: column; gap: 24px;">
+                            <div class="settings-grid">
+                                <div class="form-group">
+                                    <label class="form-label">أيام العمل الأسبوعية:</label>
+                                    <div class="checkbox-group">
+                                        <label><input type="checkbox" name="workdays" value="Saturday" checked> السبت</label>
+                                        <label><input type="checkbox" name="workdays" value="Sunday" checked> الأحد</label>
+                                        <label><input type="checkbox" name="workdays" value="Monday" checked> الإثنين</label>
+                                        <label><input type="checkbox" name="workdays" value="Tuesday" checked> الثلاثاء</label>
+                                        <label><input type="checkbox" name="workdays" value="Wednesday" checked> الأربعاء</label>
+                                        <label><input type="checkbox" name="workdays" value="Thursday" checked> الخميس</label>
+                                        <label><input type="checkbox" name="workdays" value="Friday"> الجمعة (إجازة)</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="settingChairs">عدد كراسي العلاج النشطة</label>
+                                    <input type="number" id="settingChairs" class="form-input" value="3">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="settingMaxBookings">الحد الأقصى لحجوزات اليوم لكل كرسي</label>
+                                    <input type="number" id="settingMaxBookings" class="form-input" value="5">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="settingConfirmMode">طريقة تأكيد الحجوزات</label>
+                                    <select id="settingConfirmMode" class="form-input">
+                                        <option value="manual">تأكيد يدوي من لوحة التحكم وموافقة الطبيب (موصى به)</option>
+                                        <option value="auto">تأكيد تلقائي فوري وحجز الكرسي بالكامل</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- 5. SERVICES PANEL -->
+                <section class="admin-panel" id="panel-services">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-wrench"></i> إدارة الخدمات الطبية والعلاجية</h2>
+                        <button class="btn btn-primary" id="btnAddNewService"><i class="bx bx-plus"></i> إضافة خدمة علاجية</button>
+                    </div>
+
+                    <div class="glass-card table-card">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>الخدمة</th>
+                                        <th>الوصف</th>
+                                        <th>السعر المرجعي</th>
+                                        <th>المدة المتوقعة</th>
+                                        <th>الأيقونة</th>
+                                        <th>الحالة</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="servicesTableBody">
+                                    <!-- Dynamic services list -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. SMILE GALLERY PANEL -->
+                <section class="admin-panel" id="panel-gallery">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-images"></i> معرض الحالات والابتسامات (قبل وبعد)</h2>
+                        <button class="btn btn-primary" id="btnAddNewGalleryCase"><i class="bx bx-plus"></i> إضافة حالة جديدة</button>
+                    </div>
+
+                    <div class="gallery-cases-grid" id="galleryCasesContainer">
+                        <!-- Dynamic case preview blocks with delete buttons -->
+                    </div>
+                </section>
+
+                <!-- 7. MEDIA LIBRARY PANEL -->
+                <section class="admin-panel" id="panel-media-library">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-folder"></i> مكتبة الوسائط ورفع الملفات</h2>
+                        <div class="media-upload-area">
+                            <input type="file" id="mediaUploadFileInput" style="display: none;" multiple accept="image/*,video/*">
+                            <button class="btn btn-primary" onclick="document.getElementById('mediaUploadFileInput').click()"><i class="bx bx-cloud-upload"></i> رفع ملفات جديدة</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-card media-dashboard-card" style="padding: 24px; margin-bottom: 24px;">
+                        <h4 class="box-title"><i class="bx bx-calculator"></i> إحصائيات مكتبة الصور</h4>
+                        <p style="font-size: 14px; color: var(--text-muted);">تحويل الصور تلقائياً إلى تنسيق WebP خفيف الحجم لتحسين أداء تحميل صفحات الموقع بنسبة 70%.</p>
+                    </div>
+
+                    <div class="media-files-grid" id="mediaLibraryContainer">
+                        <!-- Dynamic images files preview list -->
+                    </div>
+                </section>
+
+                <!-- 8. HOMEPAGE CMS PANEL -->
+                <section class="admin-panel" id="panel-homepage-cms">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-desktop"></i> نظام إدارة المحتوى (CMS) للصفحة الرئيسية</h2>
+                        <button class="btn btn-primary" id="btnSaveCmsSettings"><i class="bx bx-save"></i> حفظ وتحديث الموقع</button>
+                    </div>
+
+                    <div class="cms-editor-grid">
+                        <!-- Editor Controls Form -->
+                        <div class="glass-card cms-controls-card">
+                            <h3 class="box-title"><i class="bx bx-edit"></i> تعديل نصوص أقسام الموقع الرئيسية</h3>
+                            <form id="cmsSettingsForm" style="display: flex; flex-direction: column; gap: 20px;">
+                                <div class="form-group">
+                                    <label class="form-label" for="cmsHeroTitle">عنوان قسم الـ Hero الرئيسي</label>
+                                    <input type="text" id="cmsHeroTitle" class="form-input" value="تغيير حياة الآخرين بابتسامة متناسقة مبهرة">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="cmsHeroSub">الوصف الفرعي لقسم الـ Hero</label>
+                                    <textarea id="cmsHeroSub" class="form-input" rows="3">عيادة الدكتور أكثم طنطاوي الاستشارية المعتمدة لتقويم الأسنان وتعديل نمو الفكين بالرياض. نقدم الرعاية السويسرية الراقية.</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="cmsCtaPhone">رقم هاتف الاتصال السريع المباشر</label>
+                                    <input type="text" id="cmsCtaPhone" class="form-input" value="+966 50 123 4567">
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <!-- Visual Sections List -->
+                        <div class="glass-card cms-sections-toggles">
+                            <h3 class="box-title"><i class="bx bx-show"></i> تفعيل وإخفاء أقسام الصفحة الرئيسية</h3>
+                            <div class="sections-toggle-list">
+                                <label class="toggle-row">
+                                    <span>قسم الغطاء الترحيبي (Hero Section)</span>
+                                    <input type="checkbox" class="cms-toggle-switch" data-section="hero" checked>
+                                </label>
+                                <label class="toggle-row">
+                                    <span>قسم مميزات العيادة (Features Section)</span>
+                                    <input type="checkbox" class="cms-toggle-switch" data-section="features" checked>
+                                </label>
+                                <label class="toggle-row">
+                                    <span>قسم استعراض الخدمات (Services Preview)</span>
+                                    <input type="checkbox" class="cms-toggle-switch" data-section="services" checked>
+                                </label>
+                                <label class="toggle-row">
+                                    <span>معرض آراء وتقييمات المرضى (Testimonials)</span>
+                                    <input type="checkbox" class="cms-toggle-switch" data-section="testimonials" checked>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 9. DOCTOR PROFILE PANEL -->
+                <section class="admin-panel" id="panel-doctor-profile">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-user-pin"></i> إدارة السيرة الذاتية وملف الطبيب</h2>
+                        <button class="btn btn-primary" id="btnSaveDoctorProfile"><i class="bx bx-save"></i> حفظ البيانات</button>
+                    </div>
+
+                    <div class="glass-card" style="padding: 32px;">
+                        <form id="doctorProfileForm" class="settings-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="docName">الاسم واللقب الطبي الرسمي</label>
+                                <input type="text" id="docName" class="form-input" value="د. أكثم إسماعيل طنطاوي">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="docTitle">المسمى الوظيفي</label>
+                                <input type="text" id="docTitle" class="form-input" value="استشاري تقويم أسنان أول وتعديل نمو الفكين">
+                            </div>
+                            <div class="form-group-full">
+                                <label class="form-label" for="docBio">النبذة التعريفية التفصيلية عن الدكتور</label>
+                                <textarea id="docBio" class="form-input" rows="5">طبيب واستشاري تخرج وعمل في أرقى المستشفيات الاستشارية في السويد والمانيا والمملكة العربية السعودية. متخصص في معالجة أصعب حالات تقويم الأسنان بمختلف التقنيات الحديثة (المعدني الخارجي والداخلي المخفي والتقويم الشفاف الحديث).</textarea>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- 10. TESTIMONIALS PANEL -->
+                <section class="admin-panel" id="panel-testimonials">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-star"></i> إدارة ومراجعة آراء وتقييمات المرضى</h2>
+                    </div>
+
+                    <div class="glass-card table-card">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>الاسم</th>
+                                        <th>التفاصيل والعلاج</th>
+                                        <th>التقييم بالنجوم</th>
+                                        <th>التعليق المكتوب</th>
+                                        <th>الحالة</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="testimonialsTableBody">
+                                    <!-- Dynamic list of testimonials -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 11. FAQ PANEL -->
+                <section class="admin-panel" id="panel-faq">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-help-circle"></i> إدارة الأسئلة الشائعة FAQ</h2>
+                        <button class="btn btn-primary" id="btnAddNewFaq"><i class="bx bx-plus"></i> إضافة سؤال جديد</button>
+                    </div>
+
+                    <div class="glass-card table-card">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>السؤال المقترح</th>
+                                        <th>الإجابة المعتمدة</th>
+                                        <th>الفئة</th>
+                                        <th>الترتيب</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="faqTableBody">
+                                    <!-- FAQ list table -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 12. CONTACT MESSAGES PANEL -->
+                <section class="admin-panel" id="panel-contact-messages">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-envelope"></i> رسائل البريد واستفسارات التواصل الواردة</h2>
+                    </div>
+
+                    <div class="glass-card table-card">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>الاسم</th>
+                                        <th>الجوال</th>
+                                        <th>البريد</th>
+                                        <th>الرسالة</th>
+                                        <th>الوقت</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="contactMessagesTableBody">
+                                    <!-- Dynamic list of contact messages -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 13. THEME MANAGER PANEL -->
+                <section class="admin-panel" id="panel-theme-manager">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-palette"></i> لوحة التحكم بمظهر وثيم الموقع</h2>
+                        <button class="btn btn-primary" id="saveThemeBtn"><i class="bx bx-save"></i> حفظ المظهر الجديد</button>
+                    </div>
+
+                    <div class="theme-manager-grid">
+                        <div class="glass-card" style="padding: 24px;">
+                            <h4 class="box-title">الألوان الرئيسية للعيادة</h4>
+                            <div class="theme-colors-editor" style="display: flex; flex-direction: column; gap: 16px; margin-top: 16px;">
+                                <div class="color-picker-row">
+                                    <label for="themePrimaryColor">اللون الأساسي (Primary Blue)</label>
+                                    <input type="color" id="themePrimaryColor" value="#1565FF">
+                                </div>
+                                <div class="color-picker-row">
+                                    <label for="themeSecondaryColor">اللون الثانوي (Secondary Light Blue)</label>
+                                    <input type="color" id="themeSecondaryColor" value="#EBF3FF">
+                                </div>
+                                <div class="color-picker-row">
+                                    <label for="themeHoverColor">لون التفاعل عند التمرير (Primary Hover)</label>
+                                    <input type="color" id="themeHoverColor" value="#004ecc">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card theme-live-preview-card" style="padding: 24px; display: flex; flex-direction: column; gap: 16px;">
+                            <h4 class="box-title">معاينة تفاعلية حية للعنصر</h4>
+                            <div class="preview-element-box" style="padding: 20px; border-radius: var(--radius-md); background: var(--secondary); text-align: center; border: 1.5px solid var(--border);">
+                                <span style="font-weight: 700; color: var(--primary); display: block; margin-bottom: 8px;">مظهر زر العيادة المعتمد</span>
+                                <button class="btn btn-primary" style="pointer-events: none;">احجز موعداً علاجياً</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 14. SITE SETTINGS PANEL -->
+                <section class="admin-panel" id="panel-site-settings">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-cog"></i> إعدادات المنصة والهوية الرسمية</h2>
+                        <button class="btn btn-primary" id="btnSaveSiteSettings"><i class="bx bx-save"></i> حفظ الإعدادات</button>
+                    </div>
+
+                    <div class="glass-card" style="padding: 32px;">
+                        <form id="siteSettingsForm" class="settings-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="siteClinicName">اسم العيادة الرسمي</label>
+                                <input type="text" id="siteClinicName" class="form-input" value="مركز الدكتور أكثم طنطاوي لتقويم الأسنان">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="siteEmail">البريد الإلكتروني للعيادة</label>
+                                <input type="email" id="siteEmail" class="form-input" value="info@dr-aktham.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="sitePhone">رقم الجوال الرسمي</label>
+                                <input type="text" id="sitePhone" class="form-input" value="+966 50 123 4567">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="siteAddress">العنوان المكتوب</label>
+                                <input type="text" id="siteAddress" class="form-input" value="الرياض، شارع التخصصي">
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- 15. USERS & RBAC PANEL -->
+                <section class="admin-panel" id="panel-users-rbac">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-shield-quarter"></i> صلاحيات المستخدمين وأدوار الإدارة (RBAC)</h2>
+                        <button class="btn btn-primary" id="btnAddNewUser"><i class="bx bx-user-plus"></i> إضافة حساب موظف</button>
+                    </div>
+
+                    <div class="glass-card table-card">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>اسم المستخدم</th>
+                                        <th>البريد الإلكتروني</th>
+                                        <th>الدور والصلاحية</th>
+                                        <th>الحالة</th>
+                                        <th>آخر دخول</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rbacUsersTableBody">
+                                    <!-- List of admin system users -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 16. NOTIFICATIONS CENTER PANEL -->
+                <section class="admin-panel" id="panel-notifications">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-bell"></i> مركز التنبيهات وإعداد قوالب الإرسال</h2>
+                    </div>
+
+                    <div class="glass-card" style="padding: 24px; margin-bottom: 24px;">
+                        <h4 class="box-title"><i class="bx bx-message-alt-detail"></i> تعديل قالب رسالة التأكيد عبر تليجرام</h4>
+                        <div class="form-group" style="margin-top: 16px;">
+                            <label class="form-label" for="tgConfirmTemplate">نص قالب التأكيد (Confirmed Booking Template)</label>
+                            <textarea id="tgConfirmTemplate" class="form-input" rows="4">🔔 تم تأكيد حجز موعدك بنجاح!
+مرحباً يا {name}، تم تأكيد موعد مراجعتك لخدمة {service} مع الدكتور أكثم طنطاوي.
+التاريخ: {date}
+الوقت: {time}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="glass-card" style="padding: 24px;">
+                        <h4 class="box-title"><i class="bx bx-history"></i> سجل إرسال التنبيهات المباشر</h4>
+                        <div class="table-responsive" style="margin-top: 16px;">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>رقم الحجز</th>
+                                        <th>المريض</th>
+                                        <th>نوع الإشعار</th>
+                                        <th>الحالة</th>
+                                        <th>التوقيت</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="notificationLogsTableBody">
+                                    <!-- Dynamic alert notifications log -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 17. AUDIT LOGS PANEL -->
+                <section class="admin-panel" id="panel-audit-logs">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-list-ul"></i> سجل عمليات وأنشطة الإدارة (Audit Logs)</h2>
+                        <button class="btn btn-outline" id="clearAuditLogsBtn" style="color: #EF4444; border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05);"><i class="bx bx-trash"></i> تصفية السجل</button>
+                    </div>
+
+                    <div class="glass-card table-card">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>المسؤول</th>
+                                        <th>العملية المنفذة</th>
+                                        <th>التفاصيل والتغيير</th>
+                                        <th>توقيت العملية</th>
+                                        <th>عنوان الـ IP</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="auditLogsTableBody">
+                                    <!-- Audit logs dynamic injection -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 18. VERSION HISTORY PANEL -->
+                <section class="admin-panel" id="panel-version-history">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-history"></i> سجل مسودات وإصدارات النظام المنشورة</h2>
+                    </div>
+
+                    <div class="glass-card table-card">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>الإصدار</th>
+                                        <th>حالة الإصدار</th>
+                                        <th>تاريخ التحديث</th>
+                                        <th>منفذ التعديل</th>
+                                        <th>ملخص التغيير</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="versionHistoryTableBody">
+                                    <!-- Dynamic system updates version lists -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 19. BACKUP CENTER PANEL -->
+                <section class="admin-panel" id="panel-backup-center">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-cloud-download"></i> مركز حفظ واسترجاع النسخ الاحتياطية</h2>
+                    </div>
+
+                    <div class="backup-center-grid">
+                        <div class="glass-card" style="padding: 28px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px;">
+                            <i class="bx bx-cloud-upload" style="font-size: 54px; color: var(--primary);"></i>
+                            <h4>إنشاء نسخة احتياطية محلية فورية</h4>
+                            <p style="font-size: 13px; color: var(--text-muted);">تحميل كامل بيانات العيادة (الحجوزات، المرضى، الخدمات، التقييمات) في ملف JSON آمن للكمبيوتر الخاص بك.</p>
+                            <button type="button" class="btn btn-primary" id="btnDownloadBackupJson"><i class="bx bx-download"></i> تحميل نسخة الاحتياط (JSON)</button>
+                        </div>
+
+                        <div class="glass-card" style="padding: 28px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px;">
+                            <i class="bx bx-cloud-download" style="font-size: 54px; color: var(--success);"></i>
+                            <h4>استعادة قاعدة البيانات من ملف</h4>
+                            <p style="font-size: 13px; color: var(--text-muted);">رفع ملف JSON لنسخة قديمة لاستعادتها بالكامل ومزامنتها مع قاعدة بيانات Supabase الحالية.</p>
+                            <input type="file" id="restoreBackupFileInput" style="display: none;" accept=".json">
+                            <button type="button" class="btn btn-outline" onclick="document.getElementById('restoreBackupFileInput').click()"><i class="bx bx-upload"></i> رفع واستعادة النسخة</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 20. STORAGE MANAGER PANEL -->
+                <section class="admin-panel" id="panel-storage-manager">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-data"></i> مدير سحابة تخزين الملفات (Supabase Storage)</h2>
+                    </div>
+
+                    <div class="glass-card" style="padding: 24px; margin-bottom: 24px;">
+                        <h4 class="box-title">حالة مساحات التخزين (Buckets)</h4>
+                        <div class="storage-buckets-list" style="margin-top: 16px; display: flex; flex-direction: column; gap: 14px;">
+                            <div class="bucket-stat-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+                                <span>حاوية الصور العامة (gallery-cases)</span>
+                                <span>المساحة المستهلكة: <strong>4.8 MB</strong> (12 ملف)</span>
+                            </div>
+                            <div class="bucket-stat-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+                                <span>ملفات المرضى والأشعة (patient-files)</span>
+                                <span>المساحة المستهلكة: <strong>12.5 MB</strong> (8 ملفات)</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 21. TELEGRAM MANAGER PANEL -->
+                <section class="admin-panel" id="panel-telegram-manager">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bxl-telegram"></i> إعدادات وبوت تكامل تليجرام</h2>
+                    </div>
+
+                    <div class="glass-card" style="padding: 32px; display: flex; flex-direction: column; gap: 24px;">
+                        <h3 class="box-title"><i class="bx bx-plug"></i> فحص كفاءة ربط تليجرام بالعيادة</h3>
+                        <p style="font-size: 14px; color: var(--text-muted);">عند حجز مريض جديد لموعد، يرسل النظام رسالة تأكيد للطبيب على تليجرام. يتيح الزر التالي محاكاة فحص الربط.</p>
+                        
+                        <div style="display: flex; gap: 16px;">
+                            <button class="btn btn-primary" id="btnTestTgAlert"><i class="bx bxl-telegram"></i> إرسال رسالة تجريبية للبوت</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 22. AI ASSISTANT PANEL -->
+                <section class="admin-panel" id="panel-ai-assistant">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-brain"></i> مساعد العيادة الذكي بالذكاء الاصطناعي (AI)</h2>
+                    </div>
+
+                    <div class="ai-assistant-container">
+                        <div class="glass-card" style="padding: 24px; margin-bottom: 24px;">
+                            <h4 class="box-title"><i class="bx bx-message-square-edit"></i> توليد مقالات ووصف خدمات ذكية للعيادة</h4>
+                            <div class="form-group" style="margin-top: 16px;">
+                                <label class="form-label" for="aiPromptText">صف الخدمة أو المقال المطلوب للعيادة:</label>
+                                <input type="text" id="aiPromptText" class="form-input" placeholder="اكتب مثلاً: وصف للتقويم الشفاف ومميزاته للبالغين...">
+                            </div>
+                            <button class="btn btn-primary" id="btnGenerateAiText" style="margin-top: 14px;"><i class="bx bx-magic-wand"></i> توليد المحتوى بالذكاء الاصطناعي</button>
+                        </div>
+
+                        <div class="glass-card" style="padding: 24px;">
+                            <h4 class="box-title">النتيجة المولدة والمقترحة</h4>
+                            <div id="aiGeneratedResult" class="ai-result-box" style="padding: 16px; border-radius: var(--radius-md); background: rgba(21, 101, 255, 0.02); min-height: 120px; font-size: 15px; border: 1.5px dashed var(--primary-light); margin-top: 16px;">
+                                سيتم إظهار نصوص الذكاء الاصطناعي المقترحة هنا فور كتابة طلبك بالأعلى...
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 23. SYSTEM MONITOR PANEL -->
+                <section class="admin-panel" id="panel-system-monitor">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-pulse"></i> مراقبة صحة وأداء خوادم العيادة</h2>
+                    </div>
+
+                    <div class="glass-card" style="padding: 24px;">
+                        <h4 class="box-title"><i class="bx bx-check-shield"></i> مؤشرات الأداء الحالية وسرعة الاستجابة</h4>
+                        <div class="sys-performance-list" style="margin-top: 16px; display: flex; flex-direction: column; gap: 14px;">
+                            <div class="perf-row" style="display: flex; justify-content: space-between;">
+                                <span>سرعة استجابة قاعدة البيانات (Database Ping):</span>
+                                <span style="font-weight: 700; color: var(--success);" id="sysPingDb">14 ms (ممتاز)</span>
+                            </div>
+                            <div class="perf-row" style="display: flex; justify-content: space-between;">
+                                <span>استهلاك الذاكرة العشوائية السحابية (RAM):</span>
+                                <span><strong>35%</strong> من إجمالي الحصة المتاحة</span>
+                            </div>
+                            <div class="perf-row" style="display: flex; justify-content: space-between;">
+                                <span>معدل تحميل الصفحات للزوار (Page Load Time):</span>
+                                <span style="font-weight: 700; color: var(--success);">0.9s (سريع جداً)</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 24. RECYCLE BIN PANEL -->
+                <section class="admin-panel" id="panel-recycle-bin">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-trash"></i> سلة مهملات العناصر المحذوفة مؤقتاً</h2>
+                        <button class="btn btn-outline" id="emptyTrashBtn" style="color: #EF4444; border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.05);"><i class="bx bx-trash"></i> إفراغ السلة بالكامل</button>
+                    </div>
+
+                    <div class="glass-card table-card">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>نوع العنصر</th>
+                                        <th>تفاصيل العنصر المحذوف</th>
+                                        <th>تاريخ الحذف</th>
+                                        <th>المسؤول عن الحذف</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recycleBinTableBody">
+                                    <!-- Dynamic deleted entries list -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 25. ADMIN PROFILE PANEL -->
+                <section class="admin-panel" id="panel-admin-profile">
+                    <div class="panel-header-row">
+                        <h2 class="panel-title"><i class="bx bx-user-circle"></i> إدارة حساب مسؤول المنصة</h2>
+                        <button class="btn btn-primary" id="saveAdminProfileBtn"><i class="bx bx-save"></i> حفظ التغييرات</button>
+                    </div>
+
+                    <div class="glass-card" style="padding: 32px;">
+                        <form id="adminProfileForm" class="settings-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="profileAdminName">الاسم والكنية</label>
+                                <input type="text" id="profileAdminName" class="form-input" value="أكثم إسماعيل طنطاوي">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="profileAdminEmail">البريد الإلكتروني للإدارة</label>
+                                <input type="email" id="profileAdminEmail" class="form-input" value="admin@dr-aktham.com">
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+            </div>
+            
+        </main>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="adminToastContainer" class="admin-toast-container"></div>
+
+    <script type="module" src="admin.js"></script>
+</body>
+</html>
