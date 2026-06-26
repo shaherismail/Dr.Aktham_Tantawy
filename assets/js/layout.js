@@ -153,26 +153,31 @@ function initMobileMenu() {
     const overlay   = document.getElementById('drawerOverlay');
     const closeBtn  = document.getElementById('drawerCloseBtn');
 
-    if (!menuBtn || !drawer || !overlay) return;
+    if (!drawer || !overlay) return;
 
     function openDrawer() {
         drawer.classList.add('active');
+        drawer.setAttribute('aria-hidden', 'false');
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden'; // prevent background scroll
-        // Toggle icon
-        const icon = menuBtn.querySelector('i');
-        if (icon) { icon.className = 'bx bx-x'; }
+        if (menuBtn) {
+            const icon = menuBtn.querySelector('i');
+            if (icon) { icon.className = 'bx bx-x'; }
+        }
     }
 
     function closeDrawer() {
         drawer.classList.remove('active');
+        drawer.setAttribute('aria-hidden', 'true');
         overlay.classList.remove('active');
         document.body.style.overflow = '';
-        const icon = menuBtn.querySelector('i');
-        if (icon) { icon.className = 'bx bx-menu'; }
+        if (menuBtn) {
+            const icon = menuBtn.querySelector('i');
+            if (icon) { icon.className = 'bx bx-menu'; }
+        }
     }
 
-    menuBtn.addEventListener('click', openDrawer);
+    if (menuBtn) menuBtn.addEventListener('click', openDrawer);
     if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
     overlay.addEventListener('click', closeDrawer);
 
@@ -185,6 +190,13 @@ function initMobileMenu() {
     // Close drawer on resize back to desktop
     window.addEventListener('resize', () => {
         if (window.innerWidth > 991) {
+            closeDrawer();
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && drawer.classList.contains('active')) {
             closeDrawer();
         }
     });
@@ -223,8 +235,10 @@ function highlightBottomNav() {
         const itemPage = href.split('/').pop();
         if (itemPage === cleanPage || (cleanPage === 'index.html' && itemPage === 'index.html')) {
             item.classList.add('active');
+            item.setAttribute('aria-current', 'page');
         } else {
             item.classList.remove('active');
+            item.removeAttribute('aria-current');
         }
     });
 }
