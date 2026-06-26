@@ -260,111 +260,30 @@ export function initBookingFlow() {
     });
 
     // Handle Visual Services Selector click
-    const servicesGrid = document.getElementById('bookingServicesGrid');
+    const serviceItems = document.querySelectorAll('.service-select-item');
     const hiddenSelect = document.getElementById('bookingService');
-    
-    const bindServiceClicks = () => {
-        const serviceItems = document.querySelectorAll('.service-select-item');
-        serviceItems.forEach(item => {
-            item.addEventListener('click', () => {
-                serviceItems.forEach(i => i.classList.remove('selected'));
-                item.classList.add('selected');
-                
-                const serviceValue = item.getAttribute('data-value');
-                AppState.bookingData.service = serviceValue;
-                if (hiddenSelect) {
-                    hiddenSelect.value = serviceValue;
-                }
-            });
+    serviceItems.forEach(item => {
+        item.addEventListener('click', () => {
+            serviceItems.forEach(i => i.classList.remove('selected'));
+            item.classList.add('selected');
+            
+            const serviceValue = item.getAttribute('data-value');
+            AppState.bookingData.service = serviceValue;
+            if (hiddenSelect) {
+                hiddenSelect.value = serviceValue;
+            }
         });
-    };
-
-    if (supabaseClient && servicesGrid) {
-        supabaseClient.from('component_content')
-            .select('*')
-            .eq('component_id', 'f088192a-fa13-4c91-a20c-c603b10bcf2e') // service_card component ID
-            .eq('is_visible', true)
-            .order('display_order', { ascending: true })
-            .then(({ data, error }) => {
-                if (data && data.length > 0 && !error) {
-                    servicesGrid.innerHTML = '';
-                    if (hiddenSelect) hiddenSelect.innerHTML = '';
-                    
-                    data.forEach((item, idx) => {
-                        const s = item.published_data;
-                        if (hiddenSelect) {
-                            const opt = document.createElement('option');
-                            opt.value = s.title;
-                            opt.textContent = s.title;
-                            if (idx === 0) opt.selected = true;
-                            hiddenSelect.appendChild(opt);
-                        }
-
-                        const div = document.createElement('div');
-                        div.className = `service-select-item ${idx === 0 ? 'selected' : ''}`;
-                        div.setAttribute('data-value', s.title);
-                        div.innerHTML = `
-                            <i class="bx ${s.icon || 'bx-smile'}"></i>
-                            <span>${s.title}</span>
-                        `;
-                        servicesGrid.appendChild(div);
-                        
-                        if (idx === 0) {
-                            AppState.bookingData.service = s.title;
-                        }
-                    });
-                }
-                bindServiceClicks();
-            });
-    } else {
-        bindServiceClicks();
-    }
+    });
 
     // Handle Visual Doctors Selector click
-    const doctorsGrid = document.getElementById('bookingDoctorsGrid');
-    const bindDoctorClicks = () => {
-        const doctorCards = document.querySelectorAll('.doctor-select-card');
-        doctorCards.forEach(card => {
-            card.addEventListener('click', () => {
-                doctorCards.forEach(c => c.classList.remove('selected'));
-                card.classList.add('selected');
-                AppState.bookingData.doctor = card.getAttribute('data-doctor');
-            });
+    const doctorCards = document.querySelectorAll('.doctor-select-card');
+    doctorCards.forEach(card => {
+        card.addEventListener('click', () => {
+            doctorCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            AppState.bookingData.doctor = card.getAttribute('data-doctor');
         });
-    };
-
-    if (supabaseClient && doctorsGrid) {
-        supabaseClient.from('page_sections')
-            .select('published_content')
-            .eq('section_type', 'doctor')
-            .single()
-            .then(({ data, error }) => {
-                if (data && !error) {
-                    const doc = data.published_content || {};
-                    doctorsGrid.innerHTML = `
-                        <!-- Doctor 1: Principal -->
-                        <div class="doctor-select-card selected" data-doctor="${doc.name || 'د. أكثم طنطاوي'}">
-                            <span class="doctor-badge-ribbon">الاستشاري الرئيسي</span>
-                            <img src="${doc.photo_url || 'assets/doctor.jpg'}" alt="${doc.name || 'د. أكثم طنطاوي'}">
-                            <h4 style="font-size: 16px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">${doc.name || 'د. أكثم طنطاوي'}</h4>
-                            <p style="font-size: 12px; color: var(--primary); font-weight: 600; margin-bottom: 8px;">استشاري تقويم الأسنان والفكين</p>
-                            <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5; margin: 0;">${(doc.bio || '').substr(0, 80)}...</p>
-                        </div>
-                        <!-- Doctor 2: Associate -->
-                        <div class="doctor-select-card" data-doctor="د. سارة الأحمد">
-                            <img src="https://images.unsplash.com/photo-1594824813573-246434de83fb?auto=format&fit=crop&w=200&q=80" alt="د. سارة الأحمد">
-                            <h4 style="font-size: 16px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">د. سارة الأحمد</h4>
-                            <p style="font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px;">أخصائية الأسنان العامة والزراعة</p>
-                            <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5; margin: 0;">عضو البورد الألماني، متخصصة في العلاج العام والحشوات التجميلية.</p>
-                        </div>
-                    `;
-                    AppState.bookingData.doctor = doc.name || 'د. أكثم طنطاوي';
-                }
-                bindDoctorClicks();
-            });
-    } else {
-        bindDoctorClicks();
-    }
+    });
 
     // Next/Prev Buttons Controllers
     const nextBtn = document.getElementById('nextStepBtn');
