@@ -90,7 +90,7 @@ export function publishComponentContent(itemId, callback) {
  * @param {Function} [onSuccess] - Optional callback after publish
  */
 export function publishSectionCMS(sectionId, onSuccess) {
-    import('../assets/js/db-service.js').then(({ DBService }) => {
+    import('../../assets/js/db-service.js').then(({ DBService }) => {
         DBService.publishSection(sectionId, AppState.supabaseClient, AppState.currentUser.email)
             .then(({ error }) => {
                 if (error) {
