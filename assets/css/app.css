@@ -2659,14 +2659,14 @@ h1, h2, h3, h4, h5, h6 {
         padding: 60px 0 80px 0;
         text-align: center;
     }
+    .hero-image-container { order: -1; max-width: 400px; margin: 0 auto; width: 100%; } /* صورة فوق */
+    .hero-content { order: 0; align-items: center; }               /* نص تحت */
     .hero-title { font-size: 48px; }
     .section-title { font-size: 34px; }
-    .hero-content { align-items: center; }
     .badge-new { align-self: center; }
     .hero-desc { max-width: 100%; text-align: center; }
     .hero-actions { justify-content: center; }
     .hero-stats-row { justify-content: center; }
-    .hero-image-container { max-width: 400px; margin: 0 auto; width: 100%; }
     .floating-tag-1 { right: -10px; }
     .floating-tag-2 { left: -10px; }
 
