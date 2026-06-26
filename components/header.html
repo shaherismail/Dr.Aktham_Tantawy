@@ -1,18 +1,40 @@
+<!-- Mobile Drawer Menu -->
+<div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+        <div class="logo-section">
+            <img src="assets/logo.jpg" alt="شعار د. أكثم" style="width: 36px; height: 36px; object-fit: cover;">
+            <div class="logo-text">
+                <span class="logo-name">عيادة د. أكثم</span>
+            </div>
+        </div>
+        <button class="drawer-close-btn" id="closeDrawerBtn"><i class="bx bx-x"></i></button>
+    </div>
+    <ul class="drawer-links">
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="services.html">خدماتنا</a></li>
+        <li><a href="about.html">عن الدكتور</a></li>
+        <li><a href="gallery.html">معرض الحالات</a></li>
+        <li><a href="profile.html">الملف الشخصي</a></li>
+        <li><a href="contact.html">اتصل بنا</a></li>
+    </ul>
+    <div style="padding: 24px; margin-top: auto;">
+        <a href="booking.html" class="btn btn-primary" style="width: 100%;" id="drawerBookingBtn">احجز الآن</a>
+    </div>
+</div>
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
 <!-- Sticky Navigation Header -->
-<header class="header-nav" id="stickyHeader" role="banner">
+<header class="header-nav" id="stickyHeader">
     <div class="container header-container">
-        <a href="index.html" class="logo-section" aria-label="الصفحة الرئيسية - عيادة د. أكثم طنطاوي" style="text-decoration:none;">
-            <img src="assets/logo.jpg" alt="شعار عيادة د. أكثم طنطاوي" 
-                 style="width: 40px; height: 40px; object-fit: cover;"
-                 width="40" height="40">
+        <div class="logo-section" onclick="window.location.href='index.html'" style="cursor: pointer;">
+            <img src="assets/logo.jpg" alt="شعار د. أكثم" style="width: 40px; height: 40px; object-fit: cover;">
             <div class="logo-text">
                 <span class="logo-name">عيادة د. أكثم إسماعيل</span>
                 <span class="logo-sub">لطب وجراحة الأسنان</span>
             </div>
-        </a>
+        </div>
         
-        <!-- Desktop Navigation -->
-        <nav aria-label="التنقل الرئيسي">
+        <nav>
             <ul class="nav-links">
                 <li class="nav-item"><a href="index.html">الرئيسية</a></li>
                 <li class="nav-item"><a href="services.html">خدماتنا</a></li>
@@ -23,58 +45,12 @@
             </ul>
         </nav>
 
-        <!-- Desktop CTA -->
         <div class="header-cta">
             <a href="booking.html" class="btn btn-primary">احجز الآن</a>
         </div>
 
-        <!-- Mobile App Header Actions (shows on mobile — bottom nav is primary nav) -->
-        <div class="mobile-header-actions" role="toolbar" aria-label="الإجراءات السريعة">
-            <a href="tel:+966501234567" 
-               class="mobile-header-icon-btn" 
-               aria-label="اتصل بنا الآن"
-               title="اتصل بنا">
-                <i class="bx bx-phone-call" aria-hidden="true"></i>
-            </a>
-            <a href="profile.html" 
-               class="mobile-header-icon-btn" 
-               aria-label="حسابي الشخصي"
-               title="حسابي">
-                <i class="bx bx-user-circle" aria-hidden="true"></i>
-            </a>
-        </div>
-    </div>
-</header>
-
-<!-- Mobile Drawer (secondary nav for extra pages) -->
-<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-label="قائمة التنقل" aria-hidden="true">
-    <div class="drawer-header">
-        <div class="logo-section">
-            <img src="assets/logo.jpg" alt="شعار د. أكثم" 
-                 style="width: 36px; height: 36px; object-fit: cover; border-radius: 8px;"
-                 width="36" height="36">
-            <div class="logo-text">
-                <span class="logo-name">عيادة د. أكثم</span>
-                <span class="logo-sub">لطب وجراحة الأسنان</span>
-            </div>
-        </div>
-        <button class="drawer-close-btn" id="drawerCloseBtn" 
-                aria-label="إغلاق القائمة"
-                style="min-width:44px; min-height:44px;">
-            <i class="bx bx-x" aria-hidden="true"></i>
+        <button class="mobile-menu-btn" id="openDrawerBtn">
+            <i class="bx bx-menu"></i>
         </button>
     </div>
-    <ul class="drawer-links">
-        <li><a href="index.html"><i class="bx bx-home" aria-hidden="true"></i> الرئيسية</a></li>
-        <li><a href="services.html"><i class="bx bx-list-ul" aria-hidden="true"></i> خدماتنا</a></li>
-        <li><a href="about.html"><i class="bx bx-user" aria-hidden="true"></i> عن الدكتور</a></li>
-        <li><a href="gallery.html"><i class="bx bx-images" aria-hidden="true"></i> معرض الحالات</a></li>
-        <li><a href="profile.html"><i class="bx bx-id-card" aria-hidden="true"></i> الملف الشخصي</a></li>
-        <li><a href="contact.html"><i class="bx bx-phone" aria-hidden="true"></i> اتصل بنا</a></li>
-        <li><a href="blog.html"><i class="bx bx-news" aria-hidden="true"></i> المدونة</a></li>
-    </ul>
-    <a href="booking.html" class="btn btn-primary" style="margin-top: auto; text-align: center;">
-        <i class="bx bx-calendar-check" aria-hidden="true"></i> احجز موعدك الآن
-    </a>
-</div>
-<div class="drawer-overlay" id="drawerOverlay"></div>
+</header>

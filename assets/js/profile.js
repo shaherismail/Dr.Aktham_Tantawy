@@ -155,6 +155,7 @@ export function cancelBooking(bookingId) {
             .eq('id', bookingId)
             .then(({ error }) => {
                 if (error) console.error('Supabase delete error:', error);
+                else console.log(`Supabase booking ${bookingId} deleted.`);
             });
     }
 
@@ -316,22 +317,12 @@ export function initPatientProfile() {
                 const textVal = document.getElementById('reviewText').value.trim();
                 
                 if (supabaseClient) {
-                    supabaseClient.from('component_content').insert([{
-                        component_id: 'd508192a-fa13-4c91-a20c-c603b10bcfff',
-                        draft_data: {
-                            name: p.name,
-                            tag: 'مريض مـؤكّد ✓',
-                            stars: starsVal,
-                            text: textVal
-                        },
-                        published_data: {
-                            name: p.name,
-                            tag: 'مريض مـؤكّد ✓',
-                            stars: starsVal,
-                            text: textVal
-                        },
-                        status: 'published',
-                        is_visible: true
+                    supabaseClient.from('testimonials').insert([{
+                        name: p.name,
+                        tag: 'مريض مـؤكّد ✓',
+                        stars: starsVal,
+                        text: textVal,
+                        status: 'approved'
                     }]).then(({ error }) => {
                         if (error) {
                             console.error('Error saving testimonial:', error);

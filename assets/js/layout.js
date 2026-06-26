@@ -14,11 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Highlight active nav item
                 highlightActiveLink();
                 
-                // Initialize mobile menu after header is in DOM
-                initMobileMenu();
-
-                // Initialize scroll shrink effect
-                initScrollEffect();
+                // Initialize drawer events
+                initMobileDrawerHandlers();
             })
             .catch(err => console.error('Error loading header:', err));
     }
@@ -42,37 +39,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         iframe.src = dataSrc;
                     }
                 });
-
-                // Apply dynamic CMS site settings to layout links
-                const savedSettings = localStorage.getItem('clinic_site_settings');
-                if (savedSettings) {
-                    try {
-                        const s = JSON.parse(savedSettings);
-                        document.querySelectorAll('.clinic-phone-link').forEach(el => {
-                            el.href = `tel:${s.phone}`;
-                            el.textContent = s.phone;
-                        });
-                        document.querySelectorAll('.clinic-whatsapp-link').forEach(el => {
-                            el.href = `https://wa.me/${s.whatsapp.replace('+', '')}`;
-                        });
-                        
-                        const mapIframe = document.querySelector('.lazy-iframe');
-                        if (mapIframe && s.google_maps_iframe) {
-                            let src = s.google_maps_iframe;
-                            if (src.includes('src="')) {
-                                src = src.split('src="')[1].split('"')[0];
-                            }
-                            mapIframe.src = src;
-                        }
-                    } catch(e) {
-                        console.error('Error applying dynamic layout settings:', e);
-                    }
-                }
             })
             .catch(err => console.error('Error loading footer:', err));
     }
-
-
 
     // Load Telegram Simulator component dynamically
     fetch('components/telegram.html')
@@ -94,22 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
         .catch(err => console.error('Error loading telegram simulator:', err));
-
-    // Load Bottom Navigation Bar (mobile app experience)
-    fetch('components/bottom-nav.html')
-        .then(res => {
-            if (res.ok) return res.text();
-        })
-        .then(html => {
-            if (html) {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = html.trim();
-                document.body.appendChild(tempDiv.firstChild);
-                // Highlight active bottom nav item
-                highlightBottomNav();
-            }
-        })
-        .catch(err => console.error('Error loading bottom nav:', err));
 });
 
 // Highlights current nav link based on location filename
@@ -132,7 +85,7 @@ export function highlightActiveLink() {
         }
     });
 
-    // Drawer links highlight
+    // Mobile drawer links highlight
     const drawerLinks = document.querySelectorAll('.drawer-links a');
     drawerLinks.forEach(link => {
         const href = link.getAttribute('href');
@@ -144,101 +97,35 @@ export function highlightActiveLink() {
     });
 }
 
-/**
- * Initialize mobile drawer open/close behavior
- */
-function initMobileMenu() {
-    const menuBtn   = document.getElementById('mobileMenuBtn');
-    const drawer    = document.getElementById('mobileDrawer');
-    const overlay   = document.getElementById('drawerOverlay');
-    const closeBtn  = document.getElementById('drawerCloseBtn');
+function initMobileDrawerHandlers() {
+    const openBtn = document.getElementById('openDrawerBtn');
+    const closeBtn = document.getElementById('closeDrawerBtn');
+    const drawer = document.getElementById('mobileDrawer');
+    const overlay = document.getElementById('drawerOverlay');
+    const links = document.querySelectorAll('.drawer-links a');
+    const bookingBtn = document.getElementById('drawerBookingBtn');
 
-    if (!drawer || !overlay) return;
+    if (!openBtn || !drawer) return;
 
-    function openDrawer() {
+    const openDrawer = () => {
         drawer.classList.add('active');
-        drawer.setAttribute('aria-hidden', 'false');
         overlay.classList.add('active');
-        document.body.style.overflow = 'hidden'; // prevent background scroll
-        if (menuBtn) {
-            const icon = menuBtn.querySelector('i');
-            if (icon) { icon.className = 'bx bx-x'; }
-        }
-    }
+    };
 
-    function closeDrawer() {
+    const closeDrawer = () => {
         drawer.classList.remove('active');
-        drawer.setAttribute('aria-hidden', 'true');
         overlay.classList.remove('active');
-        document.body.style.overflow = '';
-        if (menuBtn) {
-            const icon = menuBtn.querySelector('i');
-            if (icon) { icon.className = 'bx bx-menu'; }
-        }
-    }
+    };
 
-    if (menuBtn) menuBtn.addEventListener('click', openDrawer);
-    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    openBtn.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
     overlay.addEventListener('click', closeDrawer);
 
-    // Close drawer when any drawer link is clicked
-    const drawerLinks = document.querySelectorAll('.drawer-links a');
-    drawerLinks.forEach(link => {
+    links.forEach(link => {
         link.addEventListener('click', closeDrawer);
     });
 
-    // Close drawer on resize back to desktop
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 991) {
-            closeDrawer();
-        }
-    });
-
-    // Close on Escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && drawer.classList.contains('active')) {
-            closeDrawer();
-        }
-    });
-}
-
-/**
- * Initialize scroll shrink effect on header
- */
-function initScrollEffect() {
-    const header = document.getElementById('stickyHeader');
-    if (!header) return;
-
-    function onScroll() {
-        if (window.scrollY > 40) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
+    if (bookingBtn) {
+        bookingBtn.addEventListener('click', closeDrawer);
     }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll(); // run once on load
-}
-
-/**
- * Highlight the active item in the bottom navigation bar
- */
-function highlightBottomNav() {
-    const path = window.location.pathname;
-    const page = path.split('/').pop() || 'index.html';
-    const cleanPage = page.endsWith('.html') ? page : page + '.html';
-
-    const items = document.querySelectorAll('.bottom-nav-item, .bottom-nav-fab');
-    items.forEach(item => {
-        const href = item.getAttribute('href') || item.getAttribute('data-page') || '';
-        const itemPage = href.split('/').pop();
-        if (itemPage === cleanPage || (cleanPage === 'index.html' && itemPage === 'index.html')) {
-            item.classList.add('active');
-            item.setAttribute('aria-current', 'page');
-        } else {
-            item.classList.remove('active');
-            item.removeAttribute('aria-current');
-        }
-    });
 }

@@ -1,20 +1,15 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="الملف الشخصي للمريض - عيادة الدكتور أكثم طنطاوي لطب الأسنان. متابعة مواعيدك الطبية وسجلك العلاجي.">
+    <meta name="description" content="الملف الشخصي للمريض - عيادة الدكتور أكثم طنطاوي لطب الأسنان. متابعة مواعيدك الطبية وسجلك العلاجي.">
     <title>الملف الشخصي - عيادة د. أكثم طنطاوي</title>
     <!-- Boxicons CDN for premium icons -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="assets/css/app.css">
-    <!-- Mobile UX Layer (desktop untouched) -->
-    <link rel="stylesheet" href="assets/css/mobile.css">
 </head>
-
 <body>
 
     <!-- MAIN APP ROOT -->
@@ -28,31 +23,27 @@
                     <div class="section-header">
                         <span class="section-label">البوابة الرقمية للمريض</span>
                         <h2 class="section-title">ملف المريض الموحد</h2>
-                        <p class="section-desc font-ar">متابعة مواعيدك، فواتيرك، توصيات الطبيب، والتقدم العلاجي لحالتك
-                        </p>
+                        <p class="section-desc font-ar">متابعة مواعيدك، فواتيرك، توصيات الطبيب، والتقدم العلاجي لحالتك</p>
                     </div>
 
                     <div class="profile-grid">
-
+                        
                         <!-- Right Column: Medical Card & Dashboard Tabs -->
                         <div style="display: flex; flex-direction: column; gap: 28px;">
-
+                            
                             <!-- Profile Header -->
                             <div class="glass-card patient-info-card">
                                 <div class="patient-profile-header">
                                     <div class="profile-avatar-wrapper">
-                                        <div class="profile-avatar" id="profileAvatar" style="cursor: pointer;"
-                                            title="انقر مرتين كمدير لإظهار الإعدادات الفنية">م</div>
+                                        <div class="profile-avatar" id="profileAvatar" style="cursor: pointer;" title="انقر مرتين كمدير لإظهار الإعدادات الفنية">م</div>
                                         <span class="avatar-ring"></span>
                                     </div>
                                     <div>
                                         <h3 class="profile-name-title" id="profileNameDisplay">مريض افتراضي</h3>
-                                        <span class="profile-status-badge"><i
-                                                class="bx bxs-circle status-online animate-pulse"></i> ملف طبي
-                                            نشط</span>
+                                        <span class="profile-status-badge"><i class="bx bxs-circle status-online animate-pulse"></i> ملف طبي نشط</span>
                                     </div>
                                 </div>
-
+                                
                                 <div class="patient-details-list">
                                     <div class="detail-item">
                                         <span class="item-lbl"><i class="bx bx-phone"></i> رقم الجوال:</span>
@@ -64,8 +55,7 @@
                                     </div>
                                     <div class="detail-item">
                                         <span class="item-lbl"><i class="bx bx-id-card"></i> معرف الملف الطبي:</span>
-                                        <span class="item-val" id="profileFileId"
-                                            style="font-family: 'Outfit';">DK-0000</span>
+                                        <span class="item-val" id="profileFileId" style="font-family: 'Outfit';">DK-0000</span>
                                     </div>
                                     <div class="detail-item">
                                         <span class="item-lbl"><i class="bx bx-calendar"></i> العمر:</span>
@@ -73,47 +63,38 @@
                                     </div>
                                 </div>
                             </div>
-
+                            
                             <!-- Sidebar Tabs list navigation -->
-                            <div class="glass-card profile-tabs-nav"
-                                style="padding: 20px; display: flex; flex-direction: column; gap: 8px;">
+                            <div class="glass-card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;">
                                 <h4 class="profile-sub-title"><i class="bx bx-menu"></i> أقسام الحساب</h4>
-                                <button type="button" class="btn btn-outline active-tab-btn" id="tabBtn1"
-                                    style="justify-content: flex-start; padding: 12px 20px; font-size: 15px; width: 100%; border-radius: var(--radius-sm); border: none; background: var(--secondary); color: var(--primary);">
+                                <button type="button" class="btn btn-outline active-tab-btn" id="tabBtn1" style="justify-content: flex-start; padding: 12px 20px; font-size: 15px; width: 100%; border-radius: var(--radius-sm); border: none; background: var(--secondary); color: var(--primary);">
                                     <i class="bx bx-calendar-event" style="font-size: 18px;"></i> المواعيد والحجوزات
                                 </button>
-                                <button type="button" class="btn btn-outline" id="tabBtn2"
-                                    style="justify-content: flex-start; padding: 12px 20px; font-size: 15px; width: 100%; border-radius: var(--radius-sm); border: none; background: transparent;">
+                                <button type="button" class="btn btn-outline" id="tabBtn2" style="justify-content: flex-start; padding: 12px 20px; font-size: 15px; width: 100%; border-radius: var(--radius-sm); border: none; background: transparent;">
                                     <i class="bx bx-pulse" style="font-size: 18px;"></i> الملف الطبي والخطط
                                 </button>
-                                <button type="button" class="btn btn-outline" id="tabBtn3"
-                                    style="justify-content: flex-start; padding: 12px 20px; font-size: 15px; width: 100%; border-radius: var(--radius-sm); border: none; background: transparent;">
+                                <button type="button" class="btn btn-outline" id="tabBtn3" style="justify-content: flex-start; padding: 12px 20px; font-size: 15px; width: 100%; border-radius: var(--radius-sm); border: none; background: transparent;">
                                     <i class="bx bx-receipt" style="font-size: 18px;"></i> الفواتير والمدفوعات
                                 </button>
-                                <button type="button" class="btn btn-outline" id="tabBtn4"
-                                    style="justify-content: flex-start; padding: 12px 20px; font-size: 15px; width: 100%; border-radius: var(--radius-sm); border: none; background: transparent;">
+                                <button type="button" class="btn btn-outline" id="tabBtn4" style="justify-content: flex-start; padding: 12px 20px; font-size: 15px; width: 100%; border-radius: var(--radius-sm); border: none; background: transparent;">
                                     <i class="bx bx-star" style="font-size: 18px;"></i> توصيات الطبيب المعالج
                                 </button>
                             </div>
 
                             <!-- HIDDEN DEVELOPER CONFIG SECTION (Accessible via ?admin=true or double tap profileAvatar) -->
                             <div class="glass-card patient-info-card developer-config-section" id="adminConfigSection">
-                                <h3 class="profile-box-title" style="margin-bottom: 12px;"><i class="bx bx-cog"></i>
-                                    إعدادات المطور والربط</h3>
-                                <p class="profile-instructions-text">إعدادات تكامل تليجرام وبوت التنبيهات وقاعدة بيانات
-                                    Supabase السحابية.</p>
-
+                                <h3 class="profile-box-title" style="margin-bottom: 12px;"><i class="bx bx-cog"></i> إعدادات المطور والربط</h3>
+                                <p class="profile-instructions-text">إعدادات تكامل تليجرام وبوت التنبيهات وقاعدة بيانات Supabase السحابية.</p>
+                                
                                 <h4 class="profile-sub-title">إعدادات تليجرام</h4>
                                 <div class="tg-config-form" style="display: flex; flex-direction: column; gap: 15px;">
                                     <div class="form-group">
                                         <label class="form-label" for="tgBotToken">توكن البوت (Bot Token)</label>
-                                        <input type="password" id="tgBotToken" class="form-input"
-                                            placeholder="توكن بوت تليجرام">
+                                        <input type="password" id="tgBotToken" class="form-input" placeholder="توكن بوت تليجرام">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="tgChatId">معرف الدردشة (Chat ID)</label>
-                                        <input type="text" id="tgChatId" class="form-input"
-                                            placeholder="معرف دردشة تليجرام">
+                                        <input type="text" id="tgChatId" class="form-input" placeholder="معرف دردشة تليجرام">
                                     </div>
                                     <div class="form-group-full">
                                         <label class="form-label" for="tgMode">طريقة التشغيل</label>
@@ -123,35 +104,27 @@
                                             <option value="both">كلاهما معاً (إشعارات حقيقية + دردشة عائمة)</option>
                                         </select>
                                     </div>
-                                    <button type="button" id="saveTgSettingsBtn" class="btn btn-secondary"
-                                        style="width: 100%; padding: 10px;">حفظ إعدادات تليجرام</button>
+                                    <button type="button" id="saveTgSettingsBtn" class="btn btn-secondary" style="width: 100%; padding: 10px;">حفظ إعدادات تليجرام</button>
                                 </div>
-
+                                
                                 <hr class="profile-divider">
-
+                                
                                 <h4 class="profile-sub-title">إعدادات Supabase</h4>
                                 <div class="sb-config-form" style="display: flex; flex-direction: column; gap: 15px;">
                                     <div class="form-group">
                                         <label class="form-label" for="sbUrl">رابط المشروع (URL)</label>
-                                        <input type="text" id="sbUrl" class="form-input"
-                                            placeholder="https://xxxxxx.supabase.co">
+                                        <input type="text" id="sbUrl" class="form-input" placeholder="https://xxxxxx.supabase.co">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="sbKey">مفتاح Anon API Key</label>
-                                        <input type="password" id="sbKey" class="form-input"
-                                            placeholder="مفتاح Anon key">
+                                        <input type="password" id="sbKey" class="form-input" placeholder="مفتاح Anon key">
                                     </div>
-                                    <button type="button" id="saveSbSettingsBtn" class="btn btn-primary"
-                                        style="width: 100%; padding: 10px;">حفظ ومزامنة Supabase</button>
+                                    <button type="button" id="saveSbSettingsBtn" class="btn btn-primary" style="width: 100%; padding: 10px;">حفظ ومزامنة Supabase</button>
                                 </div>
 
-                                <details
-                                    style="margin-top: 15px; padding: 10px; background: var(--secondary); border-radius: var(--radius-sm);">
-                                    <summary
-                                        style="cursor: pointer; font-size: 13px; font-weight: 700; color: var(--primary);">
-                                        كود SQL لجدول bookings</summary>
-                                    <pre
-                                        style="font-size: 10px; font-family: 'Outfit'; direction: ltr; text-align: left; background: #0F172A; color: #38BDF8; padding: 10px; border-radius: 4px; overflow-x: auto; margin-top: 8px;">
+                                <details style="margin-top: 15px; padding: 10px; background: var(--secondary); border-radius: var(--radius-sm);">
+                                    <summary style="cursor: pointer; font-size: 13px; font-weight: 700; color: var(--primary);">كود SQL لجدول bookings</summary>
+                                    <pre style="font-size: 10px; font-family: 'Outfit'; direction: ltr; text-align: left; background: #0F172A; color: #38BDF8; padding: 10px; border-radius: 4px; overflow-x: auto; margin-top: 8px;">
 create table bookings (
   id text primary key,
   name text not null,
@@ -171,26 +144,23 @@ create policy "Allow public access" on bookings for all using (true) with check 
                                     </pre>
                                 </details>
                             </div>
-
+                            
                         </div>
 
                         <!-- Left Column: Dashboard Tab contents -->
                         <div class="dashboard-content-box">
-
+                            
                             <!-- TAB 1: BOOKING & APPOINTMENT LISTS -->
                             <div class="tab-panel active" id="tabPanel1">
                                 <div class="glass-card bookings-list-card">
-                                    <h3 class="profile-box-title"><i class="bx bx-calendar-event"></i> سجل الحجوزات
-                                        والمواعيد</h3>
-
+                                    <h3 class="profile-box-title"><i class="bx bx-calendar-event"></i> سجل الحجوزات والمواعيد</h3>
+                                    
                                     <!-- No bookings visual placeholder -->
                                     <div id="noBookingsView" class="no-bookings-placeholder">
                                         <i class="bx bx-calendar-x"></i>
                                         <h4>لا توجد مواعيد نشطة حالياً</h4>
-                                        <p>ابتسامتك المشرقة لا يجب أن تنتظر! احجز موعدك التفاعلي مع الدكتور أكثم الآن في
-                                            دقائق.</p>
-                                        <a href="booking.html" class="btn btn-primary" style="margin-top: 15px;">احجز
-                                            موعد الآن</a>
+                                        <p>ابتسامتك المشرقة لا يجب أن تنتظر! احجز موعدك التفاعلي مع الدكتور أكثم الآن في دقائق.</p>
+                                        <a href="booking.html" class="btn btn-primary" style="margin-top: 15px;">احجز موعد الآن</a>
                                     </div>
 
                                     <!-- Active Bookings Lists container -->
@@ -199,51 +169,26 @@ create policy "Allow public access" on bookings for all using (true) with check 
                                     </div>
 
                                     <!-- Review Form Section (only shown if has confirmed appointments) -->
-                                    <div id="addReviewSection" class="profile-review-box"
-                                        style="display: none; margin-top: 32px; border-top: 2px dashed var(--border); padding-top: 24px;">
-                                        <h4 class="profile-sub-title"><i class="bx bx-edit-alt"></i> قيم تجربتك العلاجية
-                                            بالعيادة</h4>
-                                        <p class="profile-instructions-text">ملاحظاتك تساعدنا في تحسين الرعاية وتقديم
-                                            خدمة تليق بمرضانا.</p>
-
-                                        <form id="addReviewForm"
-                                            style="display: flex; flex-direction: column; gap: 16px;">
+                                    <div id="addReviewSection" class="profile-review-box" style="display: none; margin-top: 32px; border-top: 2px dashed var(--border); padding-top: 24px;">
+                                        <h4 class="profile-sub-title"><i class="bx bx-edit-alt"></i> قيم تجربتك العلاجية بالعيادة</h4>
+                                        <p class="profile-instructions-text">ملاحظاتك تساعدنا في تحسين الرعاية وتقديم خدمة تليق بمرضانا.</p>
+                                        
+                                        <form id="addReviewForm" style="display: flex; flex-direction: column; gap: 16px;">
                                             <div class="form-group">
                                                 <label class="form-label">التقييم بالنجوم:</label>
-                                                <div class="star-rating-input"
-                                                    style="display: flex; gap: 8px; font-size: 24px; color: #CBD5E1; direction: ltr;">
-                                                    <input type="radio" id="star5" name="reviewStars" value="5" required
-                                                        style="display: none;"><label for="star5"
-                                                        style="cursor: pointer;"><i class="bx bx-star star-icon"
-                                                            data-star="5"></i></label>
-                                                    <input type="radio" id="star4" name="reviewStars" value="4"
-                                                        style="display: none;"><label for="star4"
-                                                        style="cursor: pointer;"><i class="bx bx-star star-icon"
-                                                            data-star="4"></i></label>
-                                                    <input type="radio" id="star3" name="reviewStars" value="3"
-                                                        style="display: none;"><label for="star3"
-                                                        style="cursor: pointer;"><i class="bx bx-star star-icon"
-                                                            data-star="3"></i></label>
-                                                    <input type="radio" id="star2" name="reviewStars" value="2"
-                                                        style="display: none;"><label for="star2"
-                                                        style="cursor: pointer;"><i class="bx bx-star star-icon"
-                                                            data-star="2"></i></label>
-                                                    <input type="radio" id="star1" name="reviewStars" value="1"
-                                                        style="display: none;"><label for="star1"
-                                                        style="cursor: pointer;"><i class="bx bx-star star-icon"
-                                                            data-star="1"></i></label>
+                                                <div class="star-rating-input" style="display: flex; gap: 8px; font-size: 24px; color: #CBD5E1; direction: ltr;">
+                                                    <input type="radio" id="star5" name="reviewStars" value="5" required style="display: none;"><label for="star5" style="cursor: pointer;"><i class="bx bx-star star-icon" data-star="5"></i></label>
+                                                    <input type="radio" id="star4" name="reviewStars" value="4" style="display: none;"><label for="star4" style="cursor: pointer;"><i class="bx bx-star star-icon" data-star="4"></i></label>
+                                                    <input type="radio" id="star3" name="reviewStars" value="3" style="display: none;"><label for="star3" style="cursor: pointer;"><i class="bx bx-star star-icon" data-star="3"></i></label>
+                                                    <input type="radio" id="star2" name="reviewStars" value="2" style="display: none;"><label for="star2" style="cursor: pointer;"><i class="bx bx-star star-icon" data-star="2"></i></label>
+                                                    <input type="radio" id="star1" name="reviewStars" value="1" style="display: none;"><label for="star1" style="cursor: pointer;"><i class="bx bx-star star-icon" data-star="1"></i></label>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="form-label" for="reviewText">تفاصيل تجربتك
-                                                    العلاجية:</label>
-                                                <textarea id="reviewText" class="form-input" rows="3"
-                                                    placeholder="شارِكنا رأيك بكل أمانة حول الدكتور وتجهيزات العيادة..."
-                                                    required></textarea>
+                                                <label class="form-label" for="reviewText">تفاصيل تجربتك العلاجية:</label>
+                                                <textarea id="reviewText" class="form-input" rows="3" placeholder="شارِكنا رأيك بكل أمانة حول الدكتور وتجهيزات العيادة..." required></textarea>
                                             </div>
-                                            <button type="submit" class="btn btn-primary"
-                                                style="width: 100%; padding: 12px;">إرسال التقييم ونشره
-                                                بالرئيسية</button>
+                                            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px;">إرسال التقييم ونشره بالرئيسية</button>
                                         </form>
                                     </div>
                                 </div>
@@ -251,139 +196,80 @@ create policy "Allow public access" on bookings for all using (true) with check 
 
                             <!-- TAB 2: MEDICAL FILE & PROGRESS -->
                             <div class="tab-panel" id="tabPanel2" style="display: none;">
-                                <div class="glass-card bookings-list-card"
-                                    style="display: flex; flex-direction: column; gap: 28px;">
-
+                                <div class="glass-card bookings-list-card" style="display: flex; flex-direction: column; gap: 28px;">
+                                    
                                     <!-- Treatment progress bar tracker -->
                                     <div>
-                                        <h3 class="profile-box-title"><i class="bx bx-pulse"></i> خطة العلاج والتقدم
-                                            الإكلينيكي</h3>
-                                        <div class="progress-card"
-                                            style="margin-bottom: 12px; background: rgba(21, 101, 255, 0.03); padding: 20px; border-radius: var(--radius-lg); border: 1.5px solid rgba(21, 101, 255, 0.06);">
-                                            <div class="progress-header"
-                                                style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                                <span class="progress-title" id="progressServiceTitle"
-                                                    style="font-weight: 700; color: var(--dark);">خطة تقويم الأسنان
-                                                    الشفاف (Invisalign)</span>
-                                                <span class="progress-pct" id="progressPctText"
-                                                    style="font-weight: 800; color: var(--primary);">65%</span>
+                                        <h3 class="profile-box-title"><i class="bx bx-pulse"></i> خطة العلاج والتقدم الإكلينيكي</h3>
+                                        <div class="progress-card" style="margin-bottom: 12px; background: rgba(21, 101, 255, 0.03); padding: 20px; border-radius: var(--radius-lg); border: 1.5px solid rgba(21, 101, 255, 0.06);">
+                                            <div class="progress-header" style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                                <span class="progress-title" id="progressServiceTitle" style="font-weight: 700; color: var(--dark);">خطة تقويم الأسنان الشفاف (Invisalign)</span>
+                                                <span class="progress-pct" id="progressPctText" style="font-weight: 800; color: var(--primary);">65%</span>
                                             </div>
-                                            <div class="progress-bar-bg"
-                                                style="height: 8px; background: #E2E8F0; border-radius: var(--radius-full); overflow: hidden;">
-                                                <div class="progress-bar-fill" id="progressBarFill"
-                                                    style="width: 65%; height: 100%; background: linear-gradient(135deg, var(--primary), var(--primary-light)); transition: var(--transition-smooth);">
-                                                </div>
+                                            <div class="progress-bar-bg" style="height: 8px; background: #E2E8F0; border-radius: var(--radius-full); overflow: hidden;">
+                                                <div class="progress-bar-fill" id="progressBarFill" style="width: 65%; height: 100%; background: linear-gradient(135deg, var(--primary), var(--primary-light)); transition: var(--transition-smooth);"></div>
                                             </div>
-                                            <p
-                                                style="font-size: 13px; color: var(--text-muted); margin-top: 10px; line-height: 1.5;">
-                                                التقويم في الشهر 8 من أصل 12 شهراً. تم إنجاز 16 قالباً علاجياً بنجاح،
-                                                قوس الإطباق يتحسن بمعدل ممتاز.</p>
+                                            <p style="font-size: 13px; color: var(--text-muted); margin-top: 10px; line-height: 1.5;">التقويم في الشهر 8 من أصل 12 شهراً. تم إنجاز 16 قالباً علاجياً بنجاح، قوس الإطباق يتحسن بمعدل ممتاز.</p>
                                         </div>
                                     </div>
 
                                     <!-- Monthly Follow-up Tracker -->
                                     <div>
-                                        <h4 class="profile-sub-title"><i class="bx bx-check-double"></i> جدول المتابعات
-                                            الدورية والزيارات</h4>
-                                        <div
-                                            style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
-                                            <div
-                                                style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(22, 163, 74, 0.05); border: 1px solid rgba(22, 163, 74, 0.1); border-radius: var(--radius-md);">
-                                                <span
-                                                    style="font-size: 14px; font-weight: 700; color: var(--success);"><i
-                                                        class="bx bx-check-circle"></i> الشهر الأول: أخذ قياسات ومحاكاة
-                                                    الابتسامة</span>
-                                                <span style="font-size: 12px; color: var(--text-muted);">مكتمل -
-                                                    ٢٠٢٦/٠١/١٠</span>
+                                        <h4 class="profile-sub-title"><i class="bx bx-check-double"></i> جدول المتابعات الدورية والزيارات</h4>
+                                        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px;">
+                                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(22, 163, 74, 0.05); border: 1px solid rgba(22, 163, 74, 0.1); border-radius: var(--radius-md);">
+                                                <span style="font-size: 14px; font-weight: 700; color: var(--success);"><i class="bx bx-check-circle"></i> الشهر الأول: أخذ قياسات ومحاكاة الابتسامة</span>
+                                                <span style="font-size: 12px; color: var(--text-muted);">مكتمل - ٢٠٢٦/٠١/١٠</span>
                                             </div>
-                                            <div
-                                                style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(22, 163, 74, 0.05); border: 1px solid rgba(22, 163, 74, 0.1); border-radius: var(--radius-md);">
-                                                <span
-                                                    style="font-size: 14px; font-weight: 700; color: var(--success);"><i
-                                                        class="bx bx-check-circle"></i> الشهر الرابع: تسليم الدفعة
-                                                    الثانية من القوالب</span>
-                                                <span style="font-size: 12px; color: var(--text-muted);">مكتمل -
-                                                    ٢٠٢٦/٠٤/١٢</span>
+                                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(22, 163, 74, 0.05); border: 1px solid rgba(22, 163, 74, 0.1); border-radius: var(--radius-md);">
+                                                <span style="font-size: 14px; font-weight: 700; color: var(--success);"><i class="bx bx-check-circle"></i> الشهر الرابع: تسليم الدفعة الثانية من القوالب</span>
+                                                <span style="font-size: 12px; color: var(--text-muted);">مكتمل - ٢٠٢٦/٠٤/١٢</span>
                                             </div>
-                                            <div
-                                                style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(21, 101, 255, 0.05); border: 1px solid rgba(21, 101, 255, 0.1); border-radius: var(--radius-md);">
-                                                <span
-                                                    style="font-size: 14px; font-weight: 700; color: var(--primary);"><i
-                                                        class="bx bx-loader-circle animate-spin"></i> الشهر الثامن:
-                                                    مراجعة المسافة وتوسيع الفك (الزيارة الحالية)</span>
-                                                <span style="font-size: 12px; color: var(--text-muted);">قيد التنفيذ -
-                                                    ٢٠٢٦/٠٦/٢٤</span>
+                                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(21, 101, 255, 0.05); border: 1px solid rgba(21, 101, 255, 0.1); border-radius: var(--radius-md);">
+                                                <span style="font-size: 14px; font-weight: 700; color: var(--primary);"><i class="bx bx-loader-circle animate-spin"></i> الشهر الثامن: مراجعة المسافة وتوسيع الفك (الزيارة الحالية)</span>
+                                                <span style="font-size: 12px; color: var(--text-muted);">قيد التنفيذ - ٢٠٢٦/٠٦/٢٤</span>
                                             </div>
-                                            <div
-                                                style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(0, 0, 0, 0.02); border: 1px solid rgba(0, 0, 0, 0.05); border-radius: var(--radius-md); opacity: 0.6;">
-                                                <span
-                                                    style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i
-                                                        class="bx bx-time-five"></i> الشهر الثاني عشر: التقييم النهائي
-                                                    وفك التقويم وتثبيت الأسنان</span>
-                                                <span style="font-size: 12px; color: var(--text-muted);">قيد الانتظار -
-                                                    ٢٠٢٦/١٠/١٥</span>
+                                            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(0, 0, 0, 0.02); border: 1px solid rgba(0, 0, 0, 0.05); border-radius: var(--radius-md); opacity: 0.6;">
+                                                <span style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i class="bx bx-time-five"></i> الشهر الثاني عشر: التقييم النهائي وفك التقويم وتثبيت الأسنان</span>
+                                                <span style="font-size: 12px; color: var(--text-muted);">قيد الانتظار - ٢٠٢٦/١٠/١٥</span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- Digital X-rays Grid -->
                                     <div>
-                                        <h4 class="profile-sub-title" style="margin-bottom: 12px;"><i
-                                                class="bx bx-images"></i> أرشيف الأشعة والفحوصات ثلاثية الأبعاد</h4>
-                                        <div
-                                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
-                                            <div class="xray-card"
-                                                style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: #FFF; transition: var(--transition-smooth); cursor: pointer;"
-                                                onclick="window.open('https://images.unsplash.com/photo-1579684389782-64d84b5e905d?auto=format&fit=crop&w=800&q=80')">
-                                                <div
-                                                    style="height: 120px; background: #000; display: flex; align-items: center; justify-content: center; position: relative;">
+                                        <h4 class="profile-sub-title" style="margin-bottom: 12px;"><i class="bx bx-images"></i> أرشيف الأشعة والفحوصات ثلاثية الأبعاد</h4>
+                                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
+                                            <div class="xray-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: #FFF; transition: var(--transition-smooth); cursor: pointer;" onclick="window.open('https://images.unsplash.com/photo-1579684389782-64d84b5e905d?auto=format&fit=crop&w=800&q=80')">
+                                                <div style="height: 120px; background: #000; display: flex; align-items: center; justify-content: center; position: relative;">
                                                     <i class="bx bx-scan" style="font-size: 40px; color: #38BDF8;"></i>
-                                                    <span
-                                                        style="position: absolute; bottom: 6px; left: 8px; background: rgba(0,0,0,0.6); color: #FFF; font-size: 10px; padding: 2px 6px; border-radius: 4px;">PNG</span>
+                                                    <span style="position: absolute; bottom: 6px; left: 8px; background: rgba(0,0,0,0.6); color: #FFF; font-size: 10px; padding: 2px 6px; border-radius: 4px;">PNG</span>
                                                 </div>
                                                 <div style="padding: 12px; text-align: center;">
-                                                    <h5
-                                                        style="font-size: 13px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">
-                                                        أشعة بانورامية كاملة</h5>
-                                                    <span style="font-size: 11px; color: var(--text-muted);">تاريخ:
-                                                        ٢٠٢٦/٠٦/٢٤</span>
+                                                    <h5 style="font-size: 13px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">أشعة بانورامية كاملة</h5>
+                                                    <span style="font-size: 11px; color: var(--text-muted);">تاريخ: ٢٠٢٦/٠٦/٢٤</span>
                                                 </div>
                                             </div>
-
-                                            <div class="xray-card"
-                                                style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: #FFF; transition: var(--transition-smooth); cursor: pointer;"
-                                                onclick="window.open('https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=800&q=80')">
-                                                <div
-                                                    style="height: 120px; background: #000; display: flex; align-items: center; justify-content: center; position: relative;">
+                                            
+                                            <div class="xray-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: #FFF; transition: var(--transition-smooth); cursor: pointer;" onclick="window.open('https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=800&q=80')">
+                                                <div style="height: 120px; background: #000; display: flex; align-items: center; justify-content: center; position: relative;">
                                                     <i class="bx bx-image" style="font-size: 40px; color: #A855F7;"></i>
-                                                    <span
-                                                        style="position: absolute; bottom: 6px; left: 8px; background: rgba(0,0,0,0.6); color: #FFF; font-size: 10px; padding: 2px 6px; border-radius: 4px;">DICOM</span>
+                                                    <span style="position: absolute; bottom: 6px; left: 8px; background: rgba(0,0,0,0.6); color: #FFF; font-size: 10px; padding: 2px 6px; border-radius: 4px;">DICOM</span>
                                                 </div>
                                                 <div style="padding: 12px; text-align: center;">
-                                                    <h5
-                                                        style="font-size: 13px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">
-                                                        أشعة سيفالومترية جانبية</h5>
-                                                    <span style="font-size: 11px; color: var(--text-muted);">تاريخ:
-                                                        ٢٠٢٦/٠٦/٢٤</span>
+                                                    <h5 style="font-size: 13px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">أشعة سيفالومترية جانبية</h5>
+                                                    <span style="font-size: 11px; color: var(--text-muted);">تاريخ: ٢٠٢٦/٠٦/٢٤</span>
                                                 </div>
                                             </div>
 
-                                            <div class="xray-card"
-                                                style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: #FFF; transition: var(--transition-smooth); cursor: pointer;"
-                                                onclick="window.open('https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=800&q=80')">
-                                                <div
-                                                    style="height: 120px; background: #000; display: flex; align-items: center; justify-content: center; position: relative;">
+                                            <div class="xray-card" style="border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; background: #FFF; transition: var(--transition-smooth); cursor: pointer;" onclick="window.open('https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=800&q=80')">
+                                                <div style="height: 120px; background: #000; display: flex; align-items: center; justify-content: center; position: relative;">
                                                     <i class="bx bx-cube" style="font-size: 40px; color: #10B981;"></i>
-                                                    <span
-                                                        style="position: absolute; bottom: 6px; left: 8px; background: rgba(0,0,0,0.6); color: #FFF; font-size: 10px; padding: 2px 6px; border-radius: 4px;">3D
-                                                        SCAN</span>
+                                                    <span style="position: absolute; bottom: 6px; left: 8px; background: rgba(0,0,0,0.6); color: #FFF; font-size: 10px; padding: 2px 6px; border-radius: 4px;">3D SCAN</span>
                                                 </div>
                                                 <div style="padding: 12px; text-align: center;">
-                                                    <h5
-                                                        style="font-size: 13px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">
-                                                        مسح رقمي ثلاثي الأبعاد</h5>
-                                                    <span style="font-size: 11px; color: var(--text-muted);">تاريخ:
-                                                        ٢٠٢٦/٠٦/٢٤</span>
+                                                    <h5 style="font-size: 13px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">مسح رقمي ثلاثي الأبعاد</h5>
+                                                    <span style="font-size: 11px; color: var(--text-muted);">تاريخ: ٢٠٢٦/٠٦/٢٤</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -391,109 +277,55 @@ create policy "Allow public access" on bookings for all using (true) with check 
 
                                     <!-- Smile Photo Progress Grid -->
                                     <div>
-                                        <h4 class="profile-sub-title" style="margin-bottom: 12px;"><i
-                                                class="bx bx-select-multiple"></i> ألبوم تطور محاذاة الأسنان والابتسامة
-                                        </h4>
+                                        <h4 class="profile-sub-title" style="margin-bottom: 12px;"><i class="bx bx-select-multiple"></i> ألبوم تطور محاذاة الأسنان والابتسامة</h4>
                                         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
-                                            <div class="progress-photo"
-                                                style="border-radius: var(--radius-md); overflow: hidden; border: 1.5px solid var(--border); text-align: center; background: #FFF;">
-                                                <img src="assets/WhatsApp Image 2026-06-24 at 10.52.22 PM.jpeg"
-                                                    alt="قبل البدء"
-                                                    style="width: 100%; height: 80px; object-fit: cover;">
-                                                <div
-                                                    style="padding: 6px; font-size: 10px; font-weight: 700; color: var(--text-muted);">
-                                                    قبل العلاج</div>
+                                            <div class="progress-photo" style="border-radius: var(--radius-md); overflow: hidden; border: 1.5px solid var(--border); text-align: center; background: #FFF;">
+                                                <img src="assets/WhatsApp Image 2026-06-24 at 10.52.22 PM.jpeg" alt="قبل البدء" style="width: 100%; height: 80px; object-fit: cover;">
+                                                <div style="padding: 6px; font-size: 10px; font-weight: 700; color: var(--text-muted);">قبل العلاج</div>
                                             </div>
-                                            <div class="progress-photo"
-                                                style="border-radius: var(--radius-md); overflow: hidden; border: 1.5px solid var(--border); text-align: center; background: #FFF;">
-                                                <img src="assets/WhatsApp Image 2026-06-24 at 10.52.22 PM (1).jpeg"
-                                                    alt="الشهر ٣" style="width: 100%; height: 80px; object-fit: cover;">
-                                                <div
-                                                    style="padding: 6px; font-size: 10px; font-weight: 700; color: var(--text-muted);">
-                                                    الشهر ٣</div>
+                                            <div class="progress-photo" style="border-radius: var(--radius-md); overflow: hidden; border: 1.5px solid var(--border); text-align: center; background: #FFF;">
+                                                <img src="assets/WhatsApp Image 2026-06-24 at 10.52.22 PM (1).jpeg" alt="الشهر ٣" style="width: 100%; height: 80px; object-fit: cover;">
+                                                <div style="padding: 6px; font-size: 10px; font-weight: 700; color: var(--text-muted);">الشهر ٣</div>
                                             </div>
-                                            <div class="progress-photo"
-                                                style="border-radius: var(--radius-md); overflow: hidden; border: 1.5px solid var(--border); text-align: center; background: #FFF;">
-                                                <img src="assets/WhatsApp Image 2026-06-24 at 10.52.22 PM (2).jpeg"
-                                                    alt="الشهر ٦" style="width: 100%; height: 80px; object-fit: cover;">
-                                                <div
-                                                    style="padding: 6px; font-size: 10px; font-weight: 700; color: var(--text-muted);">
-                                                    الشهر ٦</div>
+                                            <div class="progress-photo" style="border-radius: var(--radius-md); overflow: hidden; border: 1.5px solid var(--border); text-align: center; background: #FFF;">
+                                                <img src="assets/WhatsApp Image 2026-06-24 at 10.52.22 PM (2).jpeg" alt="الشهر ٦" style="width: 100%; height: 80px; object-fit: cover;">
+                                                <div style="padding: 6px; font-size: 10px; font-weight: 700; color: var(--text-muted);">الشهر ٦</div>
                                             </div>
-                                            <div class="progress-photo"
-                                                style="border-radius: var(--radius-md); overflow: hidden; border: 2.5px solid var(--primary-light); text-align: center; background: #FFF;">
-                                                <img src="assets/WhatsApp Image 2026-06-24 at 10.52.21 PM (1).jpeg"
-                                                    alt="اليوم" style="width: 100%; height: 80px; object-fit: cover;">
-                                                <div
-                                                    style="padding: 6px; font-size: 10px; font-weight: 700; color: var(--primary);">
-                                                    اليوم (الشهر ٨)</div>
+                                            <div class="progress-photo" style="border-radius: var(--radius-md); overflow: hidden; border: 2.5px solid var(--primary-light); text-align: center; background: #FFF;">
+                                                <img src="assets/WhatsApp Image 2026-06-24 at 10.52.21 PM (1).jpeg" alt="اليوم" style="width: 100%; height: 80px; object-fit: cover;">
+                                                <div style="padding: 6px; font-size: 10px; font-weight: 700; color: var(--primary);">اليوم (الشهر ٨)</div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- Medical Clinical Notes records list -->
                                     <div class="medical-file-records">
-                                        <h4 class="profile-sub-title"><i class="bx bx-notepad"></i> سجل الملاحظات
-                                            السريرية بالملف</h4>
-                                        <div
-                                            style="display: flex; flex-direction: column; gap: 16px; margin-top: 12px;">
-                                            <div class="medical-record-row"
-                                                style="display: flex; gap: 16px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1.5px solid var(--border-light);">
-                                                <div class="record-icon"
-                                                    style="width: 40px; height: 40px; border-radius: var(--radius-sm); background: var(--secondary); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
-                                                    <i class="bx bx-file"></i></div>
+                                        <h4 class="profile-sub-title"><i class="bx bx-notepad"></i> سجل الملاحظات السريرية بالملف</h4>
+                                        <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 12px;">
+                                            <div class="medical-record-row" style="display: flex; gap: 16px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1.5px solid var(--border-light);">
+                                                <div class="record-icon" style="width: 40px; height: 40px; border-radius: var(--radius-sm); background: var(--secondary); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;"><i class="bx bx-file"></i></div>
                                                 <div class="record-details">
-                                                    <span class="record-title"
-                                                        style="font-size: 15px; font-weight: 800; color: var(--dark); display: block; margin-bottom: 4px;">الفحص
-                                                        السريري والاستشارة المجانية الأولى</span>
-                                                    <span class="record-date"
-                                                        style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 8px;">مكتمل
-                                                        - ٢٠٢٦/٠١/١٠</span>
-                                                    <p class="record-desc"
-                                                        style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">
-                                                        تشخيص تزاحم الأسنان بالفك العلوي بمعدل 4.5 مم. الفك السفلي سليم
-                                                        عموماً مع إطباق زائد من فئة Class II div 1. تقرر البدء ببرنامج
-                                                        التقويم الشفاف Invisalign بمعدل 24 قالباً علاجياً.</p>
+                                                    <span class="record-title" style="font-size: 15px; font-weight: 800; color: var(--dark); display: block; margin-bottom: 4px;">الفحص السريري والاستشارة المجانية الأولى</span>
+                                                    <span class="record-date" style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 8px;">مكتمل - ٢٠٢٦/٠١/١٠</span>
+                                                    <p class="record-desc" style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">تشخيص تزاحم الأسنان بالفك العلوي بمعدل 4.5 مم. الفك السفلي سليم عموماً مع إطباق زائد من فئة Class II div 1. تقرر البدء ببرنامج التقويم الشفاف Invisalign بمعدل 24 قالباً علاجياً.</p>
                                                 </div>
                                             </div>
-
-                                            <div class="medical-record-row"
-                                                style="display: flex; gap: 16px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1.5px solid var(--border-light);">
-                                                <div class="record-icon"
-                                                    style="width: 40px; height: 40px; border-radius: var(--radius-sm); background: var(--secondary); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
-                                                    <i class="bx bx-shield-plus"></i></div>
+                                            
+                                            <div class="medical-record-row" style="display: flex; gap: 16px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1.5px solid var(--border-light);">
+                                                <div class="record-icon" style="width: 40px; height: 40px; border-radius: var(--radius-sm); background: var(--secondary); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;"><i class="bx bx-shield-plus"></i></div>
                                                 <div class="record-details">
-                                                    <span class="record-title"
-                                                        style="font-size: 15px; font-weight: 800; color: var(--dark); display: block; margin-bottom: 4px;">جلسة
-                                                        تسليم وتركيب قوالب التقويم</span>
-                                                    <span class="record-date"
-                                                        style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 8px;">مكتمل
-                                                        - ٢٠٢٦/٠٤/١٢</span>
-                                                    <p class="record-desc"
-                                                        style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">
-                                                        تركيب المرفقات التجميلية (Attachments) على الضواحك العلوية
-                                                        والرباعيات، تسليم القوالب من ١ إلى ١٢ والتأكيد على المريض
-                                                        بالارتداء لمدة ٢٢ ساعة يومياً.</p>
+                                                    <span class="record-title" style="font-size: 15px; font-weight: 800; color: var(--dark); display: block; margin-bottom: 4px;">جلسة تسليم وتركيب قوالب التقويم</span>
+                                                    <span class="record-date" style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 8px;">مكتمل - ٢٠٢٦/٠٤/١٢</span>
+                                                    <p class="record-desc" style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">تركيب المرفقات التجميلية (Attachments) على الضواحك العلوية والرباعيات، تسليم القوالب من ١ إلى ١٢ والتأكيد على المريض بالارتداء لمدة ٢٢ ساعة يومياً.</p>
                                                 </div>
                                             </div>
-
-                                            <div class="medical-record-row"
-                                                style="display: flex; gap: 16px; align-items: flex-start; opacity: 0.6;">
-                                                <div class="record-icon"
-                                                    style="width: 40px; height: 40px; border-radius: var(--radius-sm); background: var(--secondary); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
-                                                    <i class="bx bx-hourglass"></i></div>
+                                            
+                                            <div class="medical-record-row" style="display: flex; gap: 16px; align-items: flex-start; opacity: 0.6;">
+                                                <div class="record-icon" style="width: 40px; height: 40px; border-radius: var(--radius-sm); background: var(--secondary); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;"><i class="bx bx-hourglass"></i></div>
                                                 <div class="record-details">
-                                                    <span class="record-title"
-                                                        style="font-size: 15px; font-weight: 800; color: var(--dark); display: block; margin-bottom: 4px;">جلسة
-                                                        فك المرفقات والتثبيت النهائي</span>
-                                                    <span class="record-date"
-                                                        style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 8px;">قيد
-                                                        الانتظار لمرحلة لاحقة</span>
-                                                    <p class="record-desc"
-                                                        style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">
-                                                        إزالة المرفقات التجميلية وتلميع الأسنان بجهاز بروفي، أخذ طبعة
-                                                        رقمية للمثبت النهائي (Vivera Retainers) لضمان المحافظة على نتيجة
-                                                        المحاذاة الممتازة.</p>
+                                                    <span class="record-title" style="font-size: 15px; font-weight: 800; color: var(--dark); display: block; margin-bottom: 4px;">جلسة فك المرفقات والتثبيت النهائي</span>
+                                                    <span class="record-date" style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 8px;">قيد الانتظار لمرحلة لاحقة</span>
+                                                    <p class="record-desc" style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">إزالة المرفقات التجميلية وتلميع الأسنان بجهاز بروفي، أخذ طبعة رقمية للمثبت النهائي (Vivera Retainers) لضمان المحافظة على نتيجة المحاذاة الممتازة.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -504,9 +336,8 @@ create policy "Allow public access" on bookings for all using (true) with check 
                             <!-- TAB 3: INVOICES & PAYMENTS -->
                             <div class="tab-panel" id="tabPanel3" style="display: none;">
                                 <div class="glass-card bookings-list-card">
-                                    <h3 class="profile-box-title"><i class="bx bx-receipt"></i> سجل الفواتير والمستندات
-                                        المالية</h3>
-
+                                    <h3 class="profile-box-title"><i class="bx bx-receipt"></i> سجل الفواتير والمستندات المالية</h3>
+                                    
                                     <div class="invoices-list-grid">
                                         <div class="invoice-item">
                                             <div class="invoice-meta">
@@ -515,8 +346,7 @@ create policy "Allow public access" on bookings for all using (true) with check 
                                             </div>
                                             <div style="display: flex; align-items: center; gap: 16px;">
                                                 <span class="invoice-price" style="color: var(--success);">0 ريال</span>
-                                                <i class="bx bx-download invoice-btn-download"
-                                                    title="تحميل بصيغة PDF"></i>
+                                                <i class="bx bx-download invoice-btn-download" title="تحميل بصيغة PDF"></i>
                                             </div>
                                         </div>
                                         <div class="invoice-item">
@@ -526,8 +356,7 @@ create policy "Allow public access" on bookings for all using (true) with check 
                                             </div>
                                             <div style="display: flex; align-items: center; gap: 16px;">
                                                 <span class="invoice-price">250 ريال</span>
-                                                <i class="bx bx-download invoice-btn-download"
-                                                    title="تحميل بصيغة PDF"></i>
+                                                <i class="bx bx-download invoice-btn-download" title="تحميل بصيغة PDF"></i>
                                             </div>
                                         </div>
                                         <div class="invoice-item" style="opacity: 0.7;">
@@ -536,10 +365,8 @@ create policy "Allow public access" on bookings for all using (true) with check 
                                                 <span class="invoice-title">قالب تبييض منزلي وقائي مخصص</span>
                                             </div>
                                             <div style="display: flex; align-items: center; gap: 16px;">
-                                                <span class="invoice-price" style="color: var(--text-muted);">قيد
-                                                    الجدولة</span>
-                                                <i class="bx bx-time invoice-btn-download"
-                                                    style="color: var(--text-muted);" title="فاتورة لم تصدر بعد"></i>
+                                                <span class="invoice-price" style="color: var(--text-muted);">قيد الجدولة</span>
+                                                <i class="bx bx-time invoice-btn-download" style="color: var(--text-muted);" title="فاتورة لم تصدر بعد"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -549,32 +376,23 @@ create policy "Allow public access" on bookings for all using (true) with check 
                             <!-- TAB 4: DOCTOR RECOMMENDATIONS -->
                             <div class="tab-panel" id="tabPanel4" style="display: none;">
                                 <div class="glass-card bookings-list-card">
-                                    <h3 class="profile-box-title"><i class="bx bx-star"></i> توصيات الطبيب المعالج
-                                        اليومية</h3>
-
+                                    <h3 class="profile-box-title"><i class="bx bx-star"></i> توصيات الطبيب المعالج اليومية</h3>
+                                    
                                     <div class="doc-recs-box">
-                                        <p
-                                            style="font-size: 15px; line-height: 1.8; margin-bottom: 20px; font-weight: 700; color: var(--primary);">
-                                            مرحباً بك! يرجى الالتزام بالتعليمات والخطوات الوقائية التالية الموصى بها من
-                                            قبل الدكتور أكثم طنطاوي لضمان سلامة أسنانك وسرعة استجابة اللثة للعلاج:
+                                        <p style="font-size: 15px; line-height: 1.8; margin-bottom: 20px; font-weight: 700; color: var(--primary);">
+                                            مرحباً بك! يرجى الالتزام بالتعليمات والخطوات الوقائية التالية الموصى بها من قبل الدكتور أكثم طنطاوي لضمان سلامة أسنانك وسرعة استجابة اللثة للعلاج:
                                         </p>
                                         <ul class="rec-list">
-                                            <li class="rec-item"><i class="bx bx-check-circle"></i> استخدام فرشاة أسنان
-                                                ناعمة مخصصة للثة مرتين يومياً على الأقل لمدة دقيقتين.</li>
-                                            <li class="rec-item"><i class="bx bx-check-circle"></i> استخدام معجون أسنان
-                                                غني بالفلورايد ومقاوم للتكلس لحماية المينا من الأحماض.</li>
-                                            <li class="rec-item"><i class="bx bx-check-circle"></i> التخفيف قدر الإمكان
-                                                من تناول المشروبات السكرية والقهوة والشاي لثبات بياض الأسنان.</li>
-                                            <li class="rec-item"><i class="bx bx-check-circle"></i> استخدام خيط الأسنان
-                                                الطبي (المائي أو الحريري) للتنظيف بين الأسنان مرة كل مساء.</li>
-                                            <li class="rec-item"><i class="bx bx-check-circle"></i> في حال الشعور بأي
-                                                ألم طارئ أو نزيف لثوي، يرجى تفعيل طلب اتصال عاجل من قسم الاتصال بنا
-                                                فوراً.</li>
+                                            <li class="rec-item"><i class="bx bx-check-circle"></i> استخدام فرشاة أسنان ناعمة مخصصة للثة مرتين يومياً على الأقل لمدة دقيقتين.</li>
+                                            <li class="rec-item"><i class="bx bx-check-circle"></i> استخدام معجون أسنان غني بالفلورايد ومقاوم للتكلس لحماية المينا من الأحماض.</li>
+                                            <li class="rec-item"><i class="bx bx-check-circle"></i> التخفيف قدر الإمكان من تناول المشروبات السكرية والقهوة والشاي لثبات بياض الأسنان.</li>
+                                            <li class="rec-item"><i class="bx bx-check-circle"></i> استخدام خيط الأسنان الطبي (المائي أو الحريري) للتنظيف بين الأسنان مرة كل مساء.</li>
+                                            <li class="rec-item"><i class="bx bx-check-circle"></i> في حال الشعور بأي ألم طارئ أو نزيف لثوي، يرجى تفعيل طلب اتصال عاجل من قسم الاتصال بنا فوراً.</li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-
+                            
                         </div>
 
                     </div>
@@ -590,5 +408,4 @@ create policy "Allow public access" on bookings for all using (true) with check 
     <script type="module" src="assets/js/app.js"></script>
     <script type="module" src="assets/js/profile.js"></script>
 </body>
-
 </html>

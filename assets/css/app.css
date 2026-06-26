@@ -292,33 +292,6 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--primary);
 }
 
-/* Mobile App Header Action Icons */
-.mobile-header-actions {
-    display: none;
-    align-items: center;
-    gap: 4px;
-}
-
-.mobile-header-icon-btn {
-    width: 38px;
-    height: 38px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 22px;
-    color: var(--text-muted);
-    background: transparent;
-    transition: var(--transition-fast);
-    text-decoration: none;
-}
-
-.mobile-header-icon-btn:hover,
-.mobile-header-icon-btn:active {
-    background: var(--secondary);
-    color: var(--primary);
-}
-
 /* Premium Buttons */
 .btn {
     display: inline-flex;
@@ -495,7 +468,6 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     gap: 18px;
     margin-top: 8px;
-    grid-column: 1; /* stay in text column on desktop */
 }
 
 .hero-stats-row {
@@ -504,7 +476,6 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 32px;
     border-top: 1px solid rgba(21, 101, 255, 0.08);
     padding-top: 32px;
-    grid-column: 1; /* stay in text column on desktop */
 }
 
 .stat-item {
@@ -533,7 +504,6 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: center;
     align-items: center;
     border-radius: var(--radius-xl);
-    overflow: visible;
 }
 
 .hero-image-container img.doctor-portrait {
@@ -2601,564 +2571,139 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-.hero-actions, .hero-stats-row {
-    grid-column: 1;
-}
-
-
-
-/* CMS Page Builder Dynamic Layout Helpers */
-.padding-small {
-    padding-top: 40px !important;
-    padding-bottom: 40px !important;
-}
-.padding-medium {
-    padding-top: 80px !important;
-    padding-bottom: 80px !important;
-}
-.padding-large {
-    padding-top: 140px !important;
-    padding-bottom: 140px !important;
-}
-
-.bg-glass {
-    background: rgba(255, 255, 255, 0.45) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    border-bottom: 1px solid rgba(21, 101, 255, 0.05) !important;
-}
-.bg-light {
-    background: var(--bg) !important;
-}
-.bg-dark {
-    background: var(--dark) !important;
-    color: var(--text-white) !important;
-}
-.bg-dark .section-title, 
-.bg-dark .section-desc, 
-.bg-dark h2, 
-.bg-dark p, 
-.bg-dark span {
-    color: var(--text-white) !important;
-}
-.bg-accent {
-    background: var(--secondary) !important;
-}
-
-
-/* ============================================
-   RESPONSIVE DESIGN - ALL SCREEN SIZES
-   ============================================ */
-
-/* Large Desktop (1400px+) */
-@media (min-width: 1400px) {
-    :root { --max-width: 1320px; }
-    .hero-title { font-size: 76px; }
-}
-
-/* Desktop (1200px - 1399px) — already the default styles */
-
-/* Laptop / Small Desktop (992px - 1199px) */
-@media (max-width: 1199px) {
-    .container { padding: 0 20px; }
-    .hero-title { font-size: 56px; }
-    .section-title { font-size: 38px; }
-    .hero-wrapper { gap: 48px; padding: 70px 0 90px 0; }
-    .doctor-bio-title { font-size: 32px; }
-    .grid-4 { grid-template-columns: repeat(2, 1fr); }
-    .footer-top { grid-template-columns: 1.1fr 0.9fr 1fr; }
-    .footer-top .footer-col:last-child { display: none; }
-    .newsletter-card { padding: 48px; }
-    .booking-card { padding: 36px; }
-    .stat-num { font-size: 32px; }
-}
-
-/* Tablet Landscape (768px - 991px) */
-@media (max-width: 991px) {
-    /* Navigation — replaced by bottom nav bar */
-    .nav-links, .header-cta { display: none; }
-    .mobile-menu-btn { display: none; }               /* hidden — bottom nav used instead */
-    .mobile-header-actions { display: flex; }          /* show app-style icon buttons */
-
-    /* Hero */
+/* Responsive Overrides */
+@media (max-width: 1024px) {
     .hero-wrapper {
         grid-template-columns: 1fr;
-        gap: 40px;
-        padding: 60px 0 80px 0;
+        text-align: center;
+        gap: 48px;
+    }
+    
+    .hero-content {
+        align-items: center;
+    }
+    
+    .badge-new {
+        align-self: center;
+    }
+    
+    .hero-desc {
+        margin: 0 auto;
+    }
+    
+    .hero-stats-row {
+        justify-content: center;
+    }
+    
+    .hero-image-container img.doctor-portrait {
+        max-width: 320px;
+    }
+    
+    .protection-wrapper {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+    
+    .doctor-wrapper {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+    
+    .doctor-image-container {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .booking-wrapper {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+    
+    .profile-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+    
+    .footer-top {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+    
+    .hero-title {
+        font-size: 42px;
+    }
+    
+    .section-title {
+        font-size: 30px;
+    }
+    
+    .nav-links,
+    .header-cta {
+        display: none;
+    }
+    
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .grid-4,
+    .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .newsletter-card {
+        padding: 32px;
+    }
+    
+    .newsletter-grid {
+        grid-template-columns: 1fr;
         text-align: center;
     }
-    .hero-image-container { order: -1; max-width: 400px; margin: 0 auto; width: 100%; } /* صورة فوق */
-    .hero-content { order: 0; align-items: center; }               /* نص تحت */
-    .hero-title { font-size: 48px; }
-    .section-title { font-size: 34px; }
-    .badge-new { align-self: center; }
-    .hero-desc { max-width: 100%; text-align: center; }
-    .hero-actions { justify-content: center; }
-    .hero-stats-row { justify-content: center; }
-    .floating-tag-1 { right: -10px; }
-    .floating-tag-2 { left: -10px; }
-
-    /* Layout grids */
-    .grid-3 { grid-template-columns: repeat(2, 1fr); }
-    .grid-2 { grid-template-columns: 1fr; gap: 32px; }
-    .grid-4 { grid-template-columns: repeat(2, 1fr); }
-
-    /* Sections */
-    .protection-wrapper { grid-template-columns: 1fr; gap: 40px; }
-    .doctor-wrapper { grid-template-columns: 1fr; gap: 40px; }
-    .doctor-image-container { max-width: 380px; margin: 0 auto; }
-    .booking-wrapper { grid-template-columns: 1fr; gap: 32px; }
-    .profile-grid { grid-template-columns: 1fr; gap: 28px; }
-    .newsletter-grid { grid-template-columns: 1fr; gap: 32px; text-align: center; }
-    .newsletter-illustration { display: none; }
-    .newsletter-form { flex-direction: column; }
-    .newsletter-card { padding: 40px 28px; }
-
-    /* Footer */
-    .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
-    .footer-bottom { flex-direction: column; text-align: center; }
-
-    /* Misc */
-    .booking-card { padding: 28px; }
-    .section-header { margin-bottom: 48px; }
-    .doctor-bio-title { font-size: 28px; }
-    .doctor-highlights { grid-template-columns: 1fr; }
-    .gallery-grid { grid-template-columns: 1fr; gap: 24px; }
-    .gallery-filters { flex-wrap: wrap; }
-    .testimonial-grid { grid-template-columns: 1fr; }
-    .clinic-gallery-grid { grid-template-columns: repeat(3, 1fr); }
-    .hero-stats-row { gap: 32px; }
-    .tg-sim-chatbox { width: 290px; }
-}
-
-/* Tablet Portrait (600px - 767px) */
-@media (max-width: 767px) {
-    body { font-size: 16px; }
-
-    /* Navigation */
-    .nav-links, .header-cta { display: none; }
-    .mobile-menu-btn { display: none; }
-    .mobile-header-actions { display: flex; }
-    .header-nav { height: 58px; }
-    .main-content { padding-top: 58px; }
-
-    /* Typography */
-    .hero-title { font-size: 40px; line-height: 1.2; }
-    .section-title { font-size: 28px; }
-    .card-title { font-size: 20px; }
-    .doctor-bio-title { font-size: 26px; }
-
-    /* Hero */
-    .hero-wrapper { padding: 48px 0 64px 0; gap: 32px; }
-    .hero-desc { font-size: 16px; }
-    .hero-actions { flex-direction: column; align-items: center; gap: 12px; }
-    .hero-actions .btn { width: 100%; max-width: 300px; }
-    .hero-stats-row { gap: 24px; flex-wrap: wrap; justify-content: center; }
-    .stat-num { font-size: 28px; }
-    .stat-label { font-size: 13px; }
-
-    /* Floating tags — hide on small screens to prevent overlap */
-    .floating-tag { display: none; }
-
-    /* Sections */
-    .services-section,
-    .about-doctor-section,
-    .gallery-section,
-    .faq-section,
-    .testimonials-section,
-    .protection-section { padding: 72px 0; }
-
-    /* Grids */
-    .grid-3 { grid-template-columns: 1fr; }
-    .grid-4 { grid-template-columns: 1fr; }
-    .services-selector-grid { grid-template-columns: 1fr; }
-    .booking-meta-grid { grid-template-columns: 1fr; gap: 8px; }
-    .doctor-highlights { grid-template-columns: 1fr; gap: 14px; }
-    .time-slots-group-grid { grid-template-columns: repeat(2, 1fr); }
-
-    /* Booking wizard */
-    .booking-card { padding: 20px; }
-    .booking-section { padding: 48px 0; }
-    .step-label-nav { display: none; }
-    .booking-steps-nav { padding: 0; }
-
-    /* Profile grid */
-    .profile-grid { grid-template-columns: 1fr; }
-    .profile-section { padding: 40px 0 72px 0; }
-
-    /* Gallery */
-    .gallery-grid { grid-template-columns: 1fr; }
-    .clinic-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .before-after-wrapper { height: 240px; }
-
-    /* Newsletter */
-    .newsletter-card { padding: 32px 20px; }
-    .newsletter-title { font-size: 22px; }
-    .newsletter-form { flex-direction: column; }
-
-    /* Footer */
-    .footer-top { grid-template-columns: 1fr; gap: 32px; }
-    .footer-wrapper { padding: 56px 0 24px 0; }
-    .footer-bottom { flex-direction: column; text-align: center; gap: 12px; }
-
-    /* Telegram widget */
-    .tg-sim-chatbox { width: calc(100vw - 48px); left: 0; }
-    .tg-simulator-widget { bottom: 16px; left: 16px; }
-
-    /* Section header */
-    .section-header { margin-bottom: 36px; gap: 10px; }
-
-    /* Testimonials */
-    .testimonial-grid { grid-template-columns: 1fr; }
-
-    /* Protection */
-    .protection-wrapper { grid-template-columns: 1fr; gap: 32px; }
-
-    /* Misc card padding */
-    .patient-info-card,
-    .bookings-list-card { padding: 20px; }
-    .booking-item-card { padding: 18px; }
-}
-
-/* Mobile (480px - 599px) */
-@media (max-width: 599px) {
-    .hero-title { font-size: 34px; }
-    .section-title { font-size: 25px; }
-    .container { padding: 0 16px; }
-    .tag-card { padding: 10px 14px; }
-    .service-card { padding: 24px 20px; }
-    .stat-num { font-size: 26px; }
-    .profile-avatar { width: 56px; height: 56px; font-size: 22px; }
-    .newsletter-card { padding: 28px 16px; }
-    .time-slots-group-grid { grid-template-columns: repeat(2, 1fr); }
-    .faq-header-btn { font-size: 15px; padding: 16px 18px; }
-}
-
-/* Small Mobile (< 480px) */
-@media (max-width: 479px) {
-    body { font-size: 15px; }
-    .hero-title { font-size: 30px; }
-    .section-title { font-size: 23px; }
-    .container { padding: 0 14px; }
-    .btn { padding: 12px 22px; font-size: 14px; }
-    .hero-wrapper { padding: 40px 0 56px 0; }
-    .hero-stats-row { flex-direction: column; gap: 16px; align-items: center; }
-    .stat-item { align-items: center; text-align: center; }
-    .clinic-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    .gallery-photo-card { aspect-ratio: 1; }
-    .mobile-drawer { width: 100%; right: -100%; }
-    .mobile-drawer.active { right: 0; }
-    .doctor-stats-badge { padding: 12px 16px; gap: 10px; }
-    .booking-steps-nav { gap: 0; }
-    .step-indicator { width: 32px; height: 32px; font-size: 13px; }
-    .time-slots-group-grid { grid-template-columns: 1fr 1fr; }
-    .profile-name-title { font-size: 17px; }
-    .tg-sim-chatbox { width: calc(100vw - 28px); }
-    .footer-social-row { flex-wrap: wrap; }
-    .booking-item-card { padding: 14px; }
-    .booking-service-title { font-size: 16px; }
-    .section-header { margin-bottom: 28px; }
-}
-
-/* Mobile Menu Drawer — Responsive Touch Scrollable Links */
-@media (max-width: 991px) {
-    .drawer-links a {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 17px;
-    }
-    .drawer-links a i {
-        font-size: 20px;
-        color: var(--primary);
-    }
-    .mobile-drawer {
-        overflow-y: auto;
-    }
-}
-
-/* High DPI / Retina Screens */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .logo-section img { image-rendering: -webkit-optimize-contrast; }
-}
-
-/* Print Styles */
-@media print {
-    .header-nav,
-    .footer-wrapper,
-    .tg-simulator-widget,
-    .mobile-drawer,
-    .drawer-overlay,
-    .floating-tag { display: none !important; }
-    body { font-size: 14px; color: #000; background: #fff; }
-    .container { max-width: 100%; }
-}
-
-
-/* ============================================================
-   📱 MOBILE APP-LIKE EXPERIENCE
-   Full native-feel UI for screens ≤ 991px
-   ============================================================ */
-
-/* ── Bottom Navigation Bar ── */
-.mobile-bottom-nav {
-    display: none; /* hidden on desktop */
-}
-
-@media (max-width: 991px) {
-
-    /* Show bottom nav */
-    .mobile-bottom-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 64px;
-        background: rgba(255, 255, 255, 0.96);
-        backdrop-filter: blur(24px) saturate(180%);
-        -webkit-backdrop-filter: blur(24px) saturate(180%);
-        border-top: 1px solid rgba(21, 101, 255, 0.08);
-        z-index: 1200;
-        box-shadow: 0 -8px 32px rgba(21, 101, 255, 0.08);
-        /* Safe area for iPhone X+ home bar */
-        padding-bottom: env(safe-area-inset-bottom, 0px);
-    }
-
-    /* Hide old desktop header on mobile — show minimal version */
-    .header-nav {
-        height: 58px !important;
-        background: rgba(255, 255, 255, 0.97) !important;
-        box-shadow: 0 1px 12px rgba(21, 101, 255, 0.07) !important;
-    }
-
-    .header-nav.scrolled {
-        height: 54px !important;
-    }
-
-    .main-content {
-        padding-top: 58px;
-        /* Extra bottom padding so content isn't hidden behind bottom nav */
-        padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
-    }
-
-    /* Hide footer on mobile — bottom nav replaces it */
-    .footer-wrapper { display: none; }
-
-    /* ── Bottom Nav Items ── */
-    .bottom-nav-item {
-        display: flex;
+    
+    .newsletter-form {
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 3px;
-        flex: 1;
-        text-decoration: none;
-        color: #9CA3AF;
-        font-size: 10px;
-        font-weight: 700;
-        transition: color 0.2s ease;
-        padding: 6px 4px;
-        position: relative;
-        min-width: 0;
     }
-
-    .bottom-nav-item span {
-        font-size: 10px;
-        font-weight: 700;
-        line-height: 1;
-        white-space: nowrap;
+    
+    .footer-top {
+        grid-template-columns: 1fr;
+        gap: 32px;
     }
+}
 
-    .bottom-nav-icon-wrap {
-        width: 28px;
-        height: 28px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 10px;
-        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+@media (max-width: 480px) {
+    .grid-4,
+    .grid-3,
+    .grid-2 {
+        grid-template-columns: 1fr;
     }
-
-    .bottom-nav-icon-wrap i {
-        font-size: 22px;
-        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    
+    .services-selector-grid {
+        grid-template-columns: 1fr;
     }
-
-    /* Active state */
-    .bottom-nav-item.active {
-        color: var(--primary);
+    
+    .time-slots-group-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
-
-    .bottom-nav-item.active .bottom-nav-icon-wrap {
-        background: var(--secondary);
-        transform: translateY(-2px);
-    }
-
-    .bottom-nav-item.active .bottom-nav-icon-wrap i {
-        transform: scale(1.15);
-    }
-
-    /* Active indicator dot */
-    .bottom-nav-item.active::after {
-        content: '';
-        position: absolute;
-        bottom: 2px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 4px;
-        height: 4px;
-        background: var(--primary);
-        border-radius: 50%;
-        animation: navDotAppear 0.3s ease forwards;
-    }
-
-    @keyframes navDotAppear {
-        from { opacity: 0; transform: translateX(-50%) scale(0); }
-        to   { opacity: 1; transform: translateX(-50%) scale(1); }
-    }
-
-    /* ── Center FAB (Book Now) ── */
-    .bottom-nav-fab {
-        display: flex;
+    
+    .hero-stats-row {
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 3px;
-        text-decoration: none;
-        position: relative;
-        flex: 1;
-        padding-bottom: 4px;
+        gap: 20px;
     }
-
-    .bottom-nav-fab i {
-        width: 52px;
-        height: 52px;
-        background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-        color: white;
-        border-radius: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px;
-        box-shadow: 0 8px 20px rgba(21, 101, 255, 0.4);
-        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        margin-top: -18px; /* lift above bar */
-        border: 3px solid white;
+    
+    .floating-tag-1 {
+        right: -10px;
     }
-
-    .bottom-nav-fab:active i,
-    .bottom-nav-fab:hover i {
-        transform: scale(1.08) rotate(-5deg);
-        box-shadow: 0 12px 28px rgba(21, 101, 255, 0.55);
-    }
-
-    .fab-label {
-        font-size: 10px;
-        font-weight: 800;
-        color: var(--primary);
-        line-height: 1;
-        margin-top: 2px;
-    }
-
-    .bottom-nav-fab.active i {
-        background: linear-gradient(135deg, var(--primary-hover), #0040bb);
-    }
-
-    /* ── Mobile Header — App Style ── */
-    .logo-name { font-size: 15px; }
-    .logo-sub  { font-size: 10px; }
-
-    /* ── App-Style Card Upgrades ── */
-    .glass-card {
-        border-radius: 20px;
-        box-shadow: 0 4px 20px rgba(21, 101, 255, 0.06);
-    }
-
-    .service-card {
-        border-radius: 20px;
-    }
-
-    .booking-item-card {
-        border-radius: 16px;
-    }
-
-    /* ── Touch Ripple Effect ── */
-    .btn,
-    .bottom-nav-item,
-    .bottom-nav-fab,
-    .service-card,
-    .faq-header-btn,
-    .filter-btn {
-        -webkit-tap-highlight-color: transparent;
-        touch-action: manipulation;
-    }
-
-    /* ── Smooth page scroll ── */
-    html {
-        scroll-behavior: smooth;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    /* ── Hero section on mobile app ── */
-    .hero-title {
-        font-size: 36px !important;
-        line-height: 1.25;
-    }
-
-    /* ── Hide drawer on mobile when bottom nav is present ── */
-    /* (Drawer still usable for extra links if needed) */
-
-    /* ── Telegram widget — move up above bottom nav ── */
-    .tg-simulator-widget {
-        bottom: calc(76px + env(safe-area-inset-bottom, 0px));
-        left: 16px;
-    }
-
-    /* ── Floating bar (if exists) ── */
-    .floating-contact-bar {
-        bottom: calc(72px + env(safe-area-inset-bottom, 0px));
-    }
-
-    /* ── Section spacing on mobile ── */
-    .services-section,
-    .about-doctor-section,
-    .protection-section,
-    .gallery-section,
-    .faq-section,
-    .testimonials-section { padding: 56px 0; }
-
-    /* ── Newsletter hidden on mobile (promoted via bottom nav) ── */
-    .newsletter-section { display: none; }
-}
-
-/* ── Extra small — smoother app feel ── */
-@media (max-width: 479px) {
-    .bottom-nav-item span { display: none; }  /* icon-only on tiny screens */
-    .bottom-nav-item { gap: 0; }
-    .bottom-nav-icon-wrap { width: 32px; height: 32px; }
-    .bottom-nav-icon-wrap i { font-size: 24px; }
-    .fab-label { font-size: 9px; }
-    .mobile-bottom-nav { height: 60px; }
-    .main-content { padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px)); }
-}
-
-/* ── Page entrance animation (App feel) ── */
-@keyframes appSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(24px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@media (max-width: 991px) {
-    .page-view {
-        animation: appSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+    
+    .floating-tag-2 {
+        left: -10px;
     }
 }

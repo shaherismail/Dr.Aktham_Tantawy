@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,10 +9,7 @@
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="assets/css/app.css">
-    <!-- Mobile UX Layer (desktop untouched) -->
-    <link rel="stylesheet" href="assets/css/mobile.css">
 </head>
-
 <body>
 
     <!-- MAIN APP ROOT -->
@@ -23,69 +19,37 @@
         <main class="main-content">
             <!-- PAGE 15: SUCCESS CONFIRMATION PAGE -->
             <section id="success-page" class="page-view">
-                <div class="container"
-                    style="padding: 100px 0; display: flex; justify-content: center; align-items: center;">
-                    <div class="glass-card success-card"
-                        style="max-width: 550px; width: 100%; padding: 48px; display: flex; flex-direction: column; align-items: center; text-align: center; border: 1.5px solid rgba(22, 163, 74, 0.15);">
-                        <div class="success-icon-wrapper"
-                            style="width: 72px; height: 72px; background: var(--success-light); color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin-bottom: 24px; box-shadow: 0 8px 24px -4px rgba(22, 163, 74, 0.25);">
+                <div class="container" style="padding: 100px 0; display: flex; justify-content: center; align-items: center;">
+                    <div class="glass-card success-card" style="max-width: 550px; width: 100%; padding: 48px; display: flex; flex-direction: column; align-items: center; text-align: center; border: 1.5px solid rgba(22, 163, 74, 0.15);">
+                        <div class="success-icon-wrapper" style="width: 72px; height: 72px; background: var(--success-light); color: var(--success); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin-bottom: 24px; box-shadow: 0 8px 24px -4px rgba(22, 163, 74, 0.25);">
                             <i class="bx bx-check-circle"></i>
                         </div>
-                        <h2 class="doctor-bio-title" style="font-size: 28px; margin-bottom: 12px;">تم تأكيد موعدك بنجاح!
-                        </h2>
-                        <p class="doctor-bio-text"
-                            style="font-size: 15px; line-height: 1.7; margin-bottom: 28px; color: var(--text-muted);">
-                            شكراً لثقتكم بعيادتنا. تم جدولة الموعد بنجاح وحفظه بملفك الطبي. سيتصل بك موظف الاستقبال
-                            لتأكيد التفاصيل النهائية عبر الجوال قريباً.
+                        <h2 class="doctor-bio-title" style="font-size: 28px; margin-bottom: 12px;">تم تأكيد موعدك بنجاح!</h2>
+                        <p class="doctor-bio-text" style="font-size: 15px; line-height: 1.7; margin-bottom: 28px; color: var(--text-muted);">
+                            شكراً لثقتكم بعيادتنا. تم جدولة الموعد بنجاح وحفظه بملفك الطبي. سيتصل بك موظف الاستقبال لتأكيد التفاصيل النهائية عبر الجوال قريباً.
                         </p>
-
+                        
                         <!-- Confirmation summary details -->
-                        <div class="success-details-card"
-                            style="width: 100%; display: flex; flex-direction: column; gap: 14px; padding: 20px; background: rgba(21,101,255,0.01); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 32px; text-align: right;">
-                            <div class="detail-row"
-                                style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
-                                <span class="detail-label"
-                                    style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i
-                                        class="bx bx-user" style="color: var(--primary); margin-left: 6px;"></i> اسم
-                                    المريض:</span>
-                                <span class="detail-val" id="confirmName"
-                                    style="font-size: 14px; font-weight: 800; color: var(--dark);">-</span>
+                        <div class="success-details-card" style="width: 100%; display: flex; flex-direction: column; gap: 14px; padding: 20px; background: rgba(21,101,255,0.01); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 32px; text-align: right;">
+                            <div class="detail-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
+                                <span class="detail-label" style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i class="bx bx-user" style="color: var(--primary); margin-left: 6px;"></i> اسم المريض:</span>
+                                <span class="detail-val" id="confirmName" style="font-size: 14px; font-weight: 800; color: var(--dark);">-</span>
                             </div>
-                            <div class="detail-row"
-                                style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
-                                <span class="detail-label"
-                                    style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i
-                                        class="bx bx-phone" style="color: var(--primary); margin-left: 6px;"></i> رقم
-                                    الجوال:</span>
-                                <span class="detail-val" id="confirmPhone"
-                                    style="font-size: 14px; font-weight: 800; color: var(--dark); font-family: 'Outfit';">-</span>
+                            <div class="detail-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
+                                <span class="detail-label" style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i class="bx bx-phone" style="color: var(--primary); margin-left: 6px;"></i> رقم الجوال:</span>
+                                <span class="detail-val" id="confirmPhone" style="font-size: 14px; font-weight: 800; color: var(--dark); font-family: 'Outfit';">-</span>
                             </div>
-                            <div class="detail-row"
-                                style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
-                                <span class="detail-label"
-                                    style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i
-                                        class="bx bx-purchase-tag" style="color: var(--primary); margin-left: 6px;"></i>
-                                    الخدمة المطلوبة:</span>
-                                <span class="detail-val" id="confirmService"
-                                    style="font-size: 14px; font-weight: 800; color: var(--dark);">-</span>
+                            <div class="detail-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
+                                <span class="detail-label" style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i class="bx bx-purchase-tag" style="color: var(--primary); margin-left: 6px;"></i> الخدمة المطلوبة:</span>
+                                <span class="detail-val" id="confirmService" style="font-size: 14px; font-weight: 800; color: var(--dark);">-</span>
                             </div>
-                            <div class="detail-row"
-                                style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
-                                <span class="detail-label"
-                                    style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i
-                                        class="bx bx-calendar" style="color: var(--primary); margin-left: 6px;"></i>
-                                    تاريخ الحجز:</span>
-                                <span class="detail-val" id="confirmDate"
-                                    style="font-size: 14px; font-weight: 800; color: var(--dark); font-family: 'Outfit';">-</span>
+                            <div class="detail-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
+                                <span class="detail-label" style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i class="bx bx-calendar" style="color: var(--primary); margin-left: 6px;"></i> تاريخ الحجز:</span>
+                                <span class="detail-val" id="confirmDate" style="font-size: 14px; font-weight: 800; color: var(--dark); font-family: 'Outfit';">-</span>
                             </div>
-                            <div class="detail-row"
-                                style="display: flex; justify-content: space-between; padding-bottom: 0;">
-                                <span class="detail-label"
-                                    style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i
-                                        class="bx bx-time" style="color: var(--primary); margin-left: 6px;"></i> الوقت
-                                    والعيادة:</span>
-                                <span class="detail-val" id="confirmTime"
-                                    style="font-size: 14px; font-weight: 800; color: var(--dark);">-</span>
+                            <div class="detail-row" style="display: flex; justify-content: space-between; padding-bottom: 0;">
+                                <span class="detail-label" style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i class="bx bx-time" style="color: var(--primary); margin-left: 6px;"></i> الوقت والعيادة:</span>
+                                <span class="detail-val" id="confirmTime" style="font-size: 14px; font-weight: 800; color: var(--dark);">-</span>
                             </div>
                         </div>
 
@@ -106,5 +70,4 @@
     <script type="module" src="assets/js/app.js"></script>
     <script type="module" src="assets/js/booking.js"></script>
 </body>
-
 </html>
