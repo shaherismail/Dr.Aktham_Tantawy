@@ -172,7 +172,7 @@ export function openServiceForm(item) {
 
     import('./ai-assistant-init.js').catch(() => {
         // Lazy-load AI assistant; silently skip if unavailable
-        import('../../assets/js/ai-assistant.js').then(({ attachAIAssistant }) => {
+        import('../assets/js/ai-assistant.js').then(({ attachAIAssistant }) => {
             document.querySelectorAll('#serviceForm input[type="text"], #serviceForm textarea').forEach(field => {
                 const id = field.id || '';
                 if (!id.includes('Url') && !id.includes('Icon') && !id.includes('Id') && !id.includes('Color') && !id.includes('Price') && !id.includes('Duration')) {

@@ -43,7 +43,7 @@ export function loadHomepageCMS() {
                     _populateStatsInputs(sections);
                     _renderSectionsOrderList(sections);
 
-                    import('../../assets/js/ai-assistant.js').then(({ attachAIAssistant }) => {
+                    import('../assets/js/ai-assistant.js').then(({ attachAIAssistant }) => {
                         document.querySelectorAll('#homepageCMSSection input[type="text"], #homepageCMSSection textarea').forEach(field => {
                             attachAIAssistant(field);
                         });
