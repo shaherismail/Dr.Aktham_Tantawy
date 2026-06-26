@@ -22,13 +22,6 @@ export function initConnectionKeys() {
     const savedUrl = localStorage.getItem('supabase_url') || defaultUrl;
     const savedKey = localStorage.getItem('supabase_key') || defaultKey;
 
-    // Show configuration options only in local development mode
-    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const configArea = document.getElementById('configArea');
-    if (configArea) {
-        configArea.style.display = isLocal ? 'block' : 'none';
-    }
-
     document.getElementById('configUrl').value = savedUrl;
     document.getElementById('configKey').value = savedKey;
 
@@ -177,7 +170,7 @@ export function initBackupRestoreListeners() {
 
             alert('جاري توليد ملف النسخة الاحتياطية...');
 
-            import('../../assets/js/db-service.js').then(({ DBService }) => {
+            import('../assets/js/db-service.js').then(({ DBService }) => {
                 DBService.generateBackupPayload(AppState.supabaseClient).then(jsonStr => {
                     if (!jsonStr) {
                         alert('فشل توليد النسخة الاحتياطية.');
@@ -212,7 +205,7 @@ export function initBackupRestoreListeners() {
                 const reader = new FileReader();
                 reader.onload = (evt) => {
                     const payloadStr = evt.target.result;
-                    import('../../assets/js/db-service.js').then(({ DBService }) => {
+                    import('../assets/js/db-service.js').then(({ DBService }) => {
                         DBService.restoreBackupPayload(payloadStr, AppState.supabaseClient, AppState.currentUser.email)
                             .then(res => {
                                 if (res.error) {

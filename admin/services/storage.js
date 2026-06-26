@@ -44,11 +44,22 @@ export function uploadMediaFileDirectly(file, folder = 'general') {
     });
 }
 
+/**
+ * Saves file metadata record to the media_library table.
+ *
+ * @param {string} filename - Original filename
+ * @param {string} url      - Public URL or base64 data URL
+ * @param {number} size     - File size in bytes
+ * @param {string} mime     - MIME type (e.g. 'image/webp')
+ * @param {string} folder   - Folder name tag for categorization
+ * @returns {Promise<string>} - Resolves with the URL
+ */
 export function saveMediaMetadataToTable(filename, url, size, mime, folder) {
     const { supabaseClient } = AppState;
+    const id = 'med_' + Math.random().toString(36).substr(2, 9);
 
     return supabaseClient.from('media_library').insert([{
-        filename, url, size_bytes: size, mime_type: mime, folder,
+        id, filename, url, size_bytes: size, mime_type: mime, folder,
     }]).then(({ error }) => {
         if (error) throw error;
         return url;
