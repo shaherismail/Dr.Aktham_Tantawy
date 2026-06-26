@@ -170,7 +170,7 @@ export function initBackupRestoreListeners() {
 
             alert('جاري توليد ملف النسخة الاحتياطية...');
 
-            import('../assets/js/db-service.js').then(({ DBService }) => {
+            import('../../assets/js/db-service.js').then(({ DBService }) => {
                 DBService.generateBackupPayload(AppState.supabaseClient).then(jsonStr => {
                     if (!jsonStr) {
                         alert('فشل توليد النسخة الاحتياطية.');
@@ -205,7 +205,7 @@ export function initBackupRestoreListeners() {
                 const reader = new FileReader();
                 reader.onload = (evt) => {
                     const payloadStr = evt.target.result;
-                    import('../assets/js/db-service.js').then(({ DBService }) => {
+                    import('../../assets/js/db-service.js').then(({ DBService }) => {
                         DBService.restoreBackupPayload(payloadStr, AppState.supabaseClient, AppState.currentUser.email)
                             .then(res => {
                                 if (res.error) {

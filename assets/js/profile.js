@@ -316,12 +316,22 @@ export function initPatientProfile() {
                 const textVal = document.getElementById('reviewText').value.trim();
                 
                 if (supabaseClient) {
-                    supabaseClient.from('testimonials').insert([{
-                        name: p.name,
-                        tag: 'مريض مـؤكّد ✓',
-                        stars: starsVal,
-                        text: textVal,
-                        status: 'approved'
+                    supabaseClient.from('component_content').insert([{
+                        component_id: 'd508192a-fa13-4c91-a20c-c603b10bcfff',
+                        draft_data: {
+                            name: p.name,
+                            tag: 'مريض مـؤكّد ✓',
+                            stars: starsVal,
+                            text: textVal
+                        },
+                        published_data: {
+                            name: p.name,
+                            tag: 'مريض مـؤكّد ✓',
+                            stars: starsVal,
+                            text: textVal
+                        },
+                        status: 'published',
+                        is_visible: true
                     }]).then(({ error }) => {
                         if (error) {
                             console.error('Error saving testimonial:', error);
