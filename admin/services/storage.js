@@ -3,7 +3,7 @@
 // All file upload logic flows through here — UI modules must not call
 // supabase.storage directly.
 
-import { AppState } from '../state/AppState.js';
+import { AppState } from './db.js';
 
 /**
  * Uploads a file to the Supabase storage bucket ('media').

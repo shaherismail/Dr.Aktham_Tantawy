@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (savedSettings) {
                     try {
                         const s = JSON.parse(savedSettings);
-                        document.querySelectorAll('.mobile-action-bar-wrapper .floating-phone-link').forEach(el => {
+                        document.querySelectorAll('.mobile-action-bar-wrapper .clinic-phone-link').forEach(el => {
                             el.href = `tel:${s.phone}`;
                         });
                         document.querySelectorAll('.mobile-action-bar-wrapper .clinic-whatsapp-link').forEach(el => {
