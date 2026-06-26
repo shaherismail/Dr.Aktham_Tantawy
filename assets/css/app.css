@@ -2574,29 +2574,59 @@ h1, h2, h3, h4, h5, h6 {
 /* Responsive Overrides */
 @media (max-width: 1024px) {
     .hero-wrapper {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
         text-align: center;
-        gap: 48px;
-    }
-    
-    .hero-content {
+        gap: 32px;
         align-items: center;
     }
     
-    .badge-new {
-        align-self: center;
+    .hero-content {
+        display: contents;
     }
     
-    .hero-desc {
+    .badge-new {
+        order: 1;
         margin: 0 auto;
     }
     
-    .hero-stats-row {
+    .hero-title {
+        order: 2;
+        margin: 0 auto;
+    }
+    
+    .hero-desc {
+        order: 3;
+        margin: 0 auto;
+        max-width: 100%;
+    }
+    
+    .hero-image-container {
+        order: 4;
+        width: 100%;
+        display: flex;
         justify-content: center;
+        align-items: center;
     }
     
     .hero-image-container img.doctor-portrait {
         max-width: 320px;
+    }
+    
+    .hero-actions {
+        order: 5;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    
+    .hero-stats-row {
+        order: 6;
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
     
     .protection-wrapper {
@@ -2650,13 +2680,15 @@ h1, h2, h3, h4, h5, h6 {
     }
     
     .mobile-menu-btn {
-        display: block !important;
+        display: flex !important;
         width: 48px;
         height: 48px;
-        display: flex;
         align-items: center;
         justify-content: center;
         font-size: 30px;
+        background: none;
+        border: none;
+        color: var(--dark);
     }
 
     /* Premium mobile header changes */
