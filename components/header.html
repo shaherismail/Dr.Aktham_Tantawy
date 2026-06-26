@@ -23,5 +23,38 @@
         <div class="header-cta">
             <a href="booking.html" class="btn btn-primary">احجز الآن</a>
         </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="فتح القائمة">
+            <i class="bx bx-menu"></i>
+        </button>
     </div>
 </header>
+
+<!-- Mobile Drawer -->
+<div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+        <div class="logo-section">
+            <img src="assets/logo.jpg" alt="شعار د. أكثم" style="width: 36px; height: 36px; object-fit: cover; border-radius: 8px;">
+            <div class="logo-text">
+                <span class="logo-name">عيادة د. أكثم</span>
+                <span class="logo-sub">لطب وجراحة الأسنان</span>
+            </div>
+        </div>
+        <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="إغلاق القائمة">
+            <i class="bx bx-x"></i>
+        </button>
+    </div>
+    <ul class="drawer-links">
+        <li><a href="index.html"><i class="bx bx-home"></i> الرئيسية</a></li>
+        <li><a href="services.html"><i class="bx bx-list-ul"></i> خدماتنا</a></li>
+        <li><a href="about.html"><i class="bx bx-user"></i> عن الدكتور</a></li>
+        <li><a href="gallery.html"><i class="bx bx-images"></i> معرض الحالات</a></li>
+        <li><a href="profile.html"><i class="bx bx-id-card"></i> الملف الشخصي</a></li>
+        <li><a href="contact.html"><i class="bx bx-phone"></i> اتصل بنا</a></li>
+    </ul>
+    <a href="booking.html" class="btn btn-primary" style="margin-top: auto; text-align: center;">
+        <i class="bx bx-calendar-check"></i> احجز موعدك الآن
+    </a>
+</div>
+<div class="drawer-overlay" id="drawerOverlay"></div>

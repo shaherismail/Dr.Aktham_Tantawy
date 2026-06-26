@@ -14,7 +14,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Highlight active nav item
                 highlightActiveLink();
                 
+                // Initialize mobile menu after header is in DOM
+                initMobileMenu();
 
+                // Initialize scroll shrink effect
+                initScrollEffect();
             })
             .catch(err => console.error('Error loading header:', err));
     }
@@ -112,6 +116,79 @@ export function highlightActiveLink() {
         }
     });
 
+    // Drawer links highlight
+    const drawerLinks = document.querySelectorAll('.drawer-links a');
+    drawerLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === cleanPage || (cleanPage === 'index.html' && href === 'index.html')) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
 }
 
+/**
+ * Initialize mobile drawer open/close behavior
+ */
+function initMobileMenu() {
+    const menuBtn   = document.getElementById('mobileMenuBtn');
+    const drawer    = document.getElementById('mobileDrawer');
+    const overlay   = document.getElementById('drawerOverlay');
+    const closeBtn  = document.getElementById('drawerCloseBtn');
 
+    if (!menuBtn || !drawer || !overlay) return;
+
+    function openDrawer() {
+        drawer.classList.add('active');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // prevent background scroll
+        // Toggle icon
+        const icon = menuBtn.querySelector('i');
+        if (icon) { icon.className = 'bx bx-x'; }
+    }
+
+    function closeDrawer() {
+        drawer.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+        const icon = menuBtn.querySelector('i');
+        if (icon) { icon.className = 'bx bx-menu'; }
+    }
+
+    menuBtn.addEventListener('click', openDrawer);
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    // Close drawer when any drawer link is clicked
+    const drawerLinks = document.querySelectorAll('.drawer-links a');
+    drawerLinks.forEach(link => {
+        link.addEventListener('click', closeDrawer);
+    });
+
+    // Close drawer on resize back to desktop
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 991) {
+            closeDrawer();
+        }
+    });
+}
+
+/**
+ * Initialize scroll shrink effect on header
+ */
+function initScrollEffect() {
+    const header = document.getElementById('stickyHeader');
+    if (!header) return;
+
+    function onScroll() {
+        if (window.scrollY > 40) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); // run once on load
+}

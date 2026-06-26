@@ -2618,3 +2618,249 @@ h1, h2, h3, h4, h5, h6 {
     background: var(--secondary) !important;
 }
 
+
+/* ============================================
+   RESPONSIVE DESIGN - ALL SCREEN SIZES
+   ============================================ */
+
+/* Large Desktop (1400px+) */
+@media (min-width: 1400px) {
+    :root { --max-width: 1320px; }
+    .hero-title { font-size: 76px; }
+}
+
+/* Desktop (1200px - 1399px) — already the default styles */
+
+/* Laptop / Small Desktop (992px - 1199px) */
+@media (max-width: 1199px) {
+    .container { padding: 0 20px; }
+    .hero-title { font-size: 56px; }
+    .section-title { font-size: 38px; }
+    .hero-wrapper { gap: 48px; padding: 70px 0 90px 0; }
+    .doctor-bio-title { font-size: 32px; }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .footer-top { grid-template-columns: 1.1fr 0.9fr 1fr; }
+    .footer-top .footer-col:last-child { display: none; }
+    .newsletter-card { padding: 48px; }
+    .booking-card { padding: 36px; }
+    .stat-num { font-size: 32px; }
+}
+
+/* Tablet Landscape (768px - 991px) */
+@media (max-width: 991px) {
+    /* Navigation */
+    .nav-links, .header-cta { display: none; }
+    .mobile-menu-btn { display: flex; }
+
+    /* Hero */
+    .hero-wrapper {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 60px 0 80px 0;
+        text-align: center;
+    }
+    .hero-title { font-size: 48px; }
+    .section-title { font-size: 34px; }
+    .hero-content { align-items: center; }
+    .badge-new { align-self: center; }
+    .hero-desc { max-width: 100%; text-align: center; }
+    .hero-actions { justify-content: center; }
+    .hero-stats-row { justify-content: center; }
+    .hero-image-container { max-width: 400px; margin: 0 auto; width: 100%; }
+    .floating-tag-1 { right: -10px; }
+    .floating-tag-2 { left: -10px; }
+
+    /* Layout grids */
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .grid-2 { grid-template-columns: 1fr; gap: 32px; }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+
+    /* Sections */
+    .protection-wrapper { grid-template-columns: 1fr; gap: 40px; }
+    .doctor-wrapper { grid-template-columns: 1fr; gap: 40px; }
+    .doctor-image-container { max-width: 380px; margin: 0 auto; }
+    .booking-wrapper { grid-template-columns: 1fr; gap: 32px; }
+    .profile-grid { grid-template-columns: 1fr; gap: 28px; }
+    .newsletter-grid { grid-template-columns: 1fr; gap: 32px; text-align: center; }
+    .newsletter-illustration { display: none; }
+    .newsletter-form { flex-direction: column; }
+    .newsletter-card { padding: 40px 28px; }
+
+    /* Footer */
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+
+    /* Misc */
+    .booking-card { padding: 28px; }
+    .section-header { margin-bottom: 48px; }
+    .doctor-bio-title { font-size: 28px; }
+    .doctor-highlights { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr; gap: 24px; }
+    .gallery-filters { flex-wrap: wrap; }
+    .testimonial-grid { grid-template-columns: 1fr; }
+    .clinic-gallery-grid { grid-template-columns: repeat(3, 1fr); }
+    .hero-stats-row { gap: 32px; }
+    .tg-sim-chatbox { width: 290px; }
+}
+
+/* Tablet Portrait (600px - 767px) */
+@media (max-width: 767px) {
+    body { font-size: 16px; }
+
+    /* Navigation */
+    .nav-links, .header-cta { display: none; }
+    .mobile-menu-btn { display: flex; }
+    .header-nav { height: 64px; }
+    .main-content { padding-top: 64px; }
+
+    /* Typography */
+    .hero-title { font-size: 40px; line-height: 1.2; }
+    .section-title { font-size: 28px; }
+    .card-title { font-size: 20px; }
+    .doctor-bio-title { font-size: 26px; }
+
+    /* Hero */
+    .hero-wrapper { padding: 48px 0 64px 0; gap: 32px; }
+    .hero-desc { font-size: 16px; }
+    .hero-actions { flex-direction: column; align-items: center; gap: 12px; }
+    .hero-actions .btn { width: 100%; max-width: 300px; }
+    .hero-stats-row { gap: 24px; flex-wrap: wrap; justify-content: center; }
+    .stat-num { font-size: 28px; }
+    .stat-label { font-size: 13px; }
+
+    /* Floating tags — hide on small screens to prevent overlap */
+    .floating-tag { display: none; }
+
+    /* Sections */
+    .services-section,
+    .about-doctor-section,
+    .gallery-section,
+    .faq-section,
+    .testimonials-section,
+    .protection-section { padding: 72px 0; }
+
+    /* Grids */
+    .grid-3 { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: 1fr; }
+    .services-selector-grid { grid-template-columns: 1fr; }
+    .booking-meta-grid { grid-template-columns: 1fr; gap: 8px; }
+    .doctor-highlights { grid-template-columns: 1fr; gap: 14px; }
+    .time-slots-group-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Booking wizard */
+    .booking-card { padding: 20px; }
+    .booking-section { padding: 48px 0; }
+    .step-label-nav { display: none; }
+    .booking-steps-nav { padding: 0; }
+
+    /* Profile grid */
+    .profile-grid { grid-template-columns: 1fr; }
+    .profile-section { padding: 40px 0 72px 0; }
+
+    /* Gallery */
+    .gallery-grid { grid-template-columns: 1fr; }
+    .clinic-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .before-after-wrapper { height: 240px; }
+
+    /* Newsletter */
+    .newsletter-card { padding: 32px 20px; }
+    .newsletter-title { font-size: 22px; }
+    .newsletter-form { flex-direction: column; }
+
+    /* Footer */
+    .footer-top { grid-template-columns: 1fr; gap: 32px; }
+    .footer-wrapper { padding: 56px 0 24px 0; }
+    .footer-bottom { flex-direction: column; text-align: center; gap: 12px; }
+
+    /* Telegram widget */
+    .tg-sim-chatbox { width: calc(100vw - 48px); left: 0; }
+    .tg-simulator-widget { bottom: 16px; left: 16px; }
+
+    /* Section header */
+    .section-header { margin-bottom: 36px; gap: 10px; }
+
+    /* Testimonials */
+    .testimonial-grid { grid-template-columns: 1fr; }
+
+    /* Protection */
+    .protection-wrapper { grid-template-columns: 1fr; gap: 32px; }
+
+    /* Misc card padding */
+    .patient-info-card,
+    .bookings-list-card { padding: 20px; }
+    .booking-item-card { padding: 18px; }
+}
+
+/* Mobile (480px - 599px) */
+@media (max-width: 599px) {
+    .hero-title { font-size: 34px; }
+    .section-title { font-size: 25px; }
+    .container { padding: 0 16px; }
+    .tag-card { padding: 10px 14px; }
+    .service-card { padding: 24px 20px; }
+    .stat-num { font-size: 26px; }
+    .profile-avatar { width: 56px; height: 56px; font-size: 22px; }
+    .newsletter-card { padding: 28px 16px; }
+    .time-slots-group-grid { grid-template-columns: repeat(2, 1fr); }
+    .faq-header-btn { font-size: 15px; padding: 16px 18px; }
+}
+
+/* Small Mobile (< 480px) */
+@media (max-width: 479px) {
+    body { font-size: 15px; }
+    .hero-title { font-size: 30px; }
+    .section-title { font-size: 23px; }
+    .container { padding: 0 14px; }
+    .btn { padding: 12px 22px; font-size: 14px; }
+    .hero-wrapper { padding: 40px 0 56px 0; }
+    .hero-stats-row { flex-direction: column; gap: 16px; align-items: center; }
+    .stat-item { align-items: center; text-align: center; }
+    .clinic-gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .gallery-photo-card { aspect-ratio: 1; }
+    .mobile-drawer { width: 100%; right: -100%; }
+    .mobile-drawer.active { right: 0; }
+    .doctor-stats-badge { padding: 12px 16px; gap: 10px; }
+    .booking-steps-nav { gap: 0; }
+    .step-indicator { width: 32px; height: 32px; font-size: 13px; }
+    .time-slots-group-grid { grid-template-columns: 1fr 1fr; }
+    .profile-name-title { font-size: 17px; }
+    .tg-sim-chatbox { width: calc(100vw - 28px); }
+    .footer-social-row { flex-wrap: wrap; }
+    .booking-item-card { padding: 14px; }
+    .booking-service-title { font-size: 16px; }
+    .section-header { margin-bottom: 28px; }
+}
+
+/* Mobile Menu Drawer — Responsive Touch Scrollable Links */
+@media (max-width: 991px) {
+    .drawer-links a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 17px;
+    }
+    .drawer-links a i {
+        font-size: 20px;
+        color: var(--primary);
+    }
+    .mobile-drawer {
+        overflow-y: auto;
+    }
+}
+
+/* High DPI / Retina Screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .logo-section img { image-rendering: -webkit-optimize-contrast; }
+}
+
+/* Print Styles */
+@media print {
+    .header-nav,
+    .footer-wrapper,
+    .tg-simulator-widget,
+    .mobile-drawer,
+    .drawer-overlay,
+    .floating-tag { display: none !important; }
+    body { font-size: 14px; color: #000; background: #fff; }
+    .container { max-width: 100%; }
+}
