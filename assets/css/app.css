@@ -43,13 +43,16 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+html, body {
+    overflow-x: hidden;
+}
+
 body {
     background-color: var(--bg);
     color: var(--text-main);
     direction: rtl;
     text-align: right;
     min-height: 100vh;
-    overflow-x: hidden;
     line-height: 1.7;
     font-size: 18px; /* Target Design: Body 18px */
 }
@@ -355,14 +358,19 @@ h1, h2, h3, h4, h5, h6 {
     backdrop-filter: blur(20px);
     z-index: 1010;
     box-shadow: var(--shadow-lg);
-    transition: var(--transition-smooth);
+    transition: var(--transition-smooth), visibility 0s 0.5s;
     display: flex;
     flex-direction: column;
     padding: 24px;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .mobile-drawer.active {
     right: 0;
+    visibility: visible;
+    pointer-events: auto;
+    transition: var(--transition-smooth);
 }
 
 .drawer-header {
