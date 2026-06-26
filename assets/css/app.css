@@ -292,6 +292,33 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--primary);
 }
 
+/* Mobile App Header Action Icons */
+.mobile-header-actions {
+    display: none;
+    align-items: center;
+    gap: 4px;
+}
+
+.mobile-header-icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: var(--text-muted);
+    background: transparent;
+    transition: var(--transition-fast);
+    text-decoration: none;
+}
+
+.mobile-header-icon-btn:hover,
+.mobile-header-icon-btn:active {
+    background: var(--secondary);
+    color: var(--primary);
+}
+
 /* Premium Buttons */
 .btn {
     display: inline-flex;
@@ -2648,9 +2675,10 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Tablet Landscape (768px - 991px) */
 @media (max-width: 991px) {
-    /* Navigation */
+    /* Navigation — replaced by bottom nav bar */
     .nav-links, .header-cta { display: none; }
-    .mobile-menu-btn { display: flex; }
+    .mobile-menu-btn { display: none; }               /* hidden — bottom nav used instead */
+    .mobile-header-actions { display: flex; }          /* show app-style icon buttons */
 
     /* Hero */
     .hero-wrapper {
@@ -2709,9 +2737,10 @@ h1, h2, h3, h4, h5, h6 {
 
     /* Navigation */
     .nav-links, .header-cta { display: none; }
-    .mobile-menu-btn { display: flex; }
-    .header-nav { height: 64px; }
-    .main-content { padding-top: 64px; }
+    .mobile-menu-btn { display: none; }
+    .mobile-header-actions { display: flex; }
+    .header-nav { height: 58px; }
+    .main-content { padding-top: 58px; }
 
     /* Typography */
     .hero-title { font-size: 40px; line-height: 1.2; }
@@ -2863,4 +2892,273 @@ h1, h2, h3, h4, h5, h6 {
     .floating-tag { display: none !important; }
     body { font-size: 14px; color: #000; background: #fff; }
     .container { max-width: 100%; }
+}
+
+
+/* ============================================================
+   📱 MOBILE APP-LIKE EXPERIENCE
+   Full native-feel UI for screens ≤ 991px
+   ============================================================ */
+
+/* ── Bottom Navigation Bar ── */
+.mobile-bottom-nav {
+    display: none; /* hidden on desktop */
+}
+
+@media (max-width: 991px) {
+
+    /* Show bottom nav */
+    .mobile-bottom-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 64px;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        border-top: 1px solid rgba(21, 101, 255, 0.08);
+        z-index: 1200;
+        box-shadow: 0 -8px 32px rgba(21, 101, 255, 0.08);
+        /* Safe area for iPhone X+ home bar */
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    /* Hide old desktop header on mobile — show minimal version */
+    .header-nav {
+        height: 58px !important;
+        background: rgba(255, 255, 255, 0.97) !important;
+        box-shadow: 0 1px 12px rgba(21, 101, 255, 0.07) !important;
+    }
+
+    .header-nav.scrolled {
+        height: 54px !important;
+    }
+
+    .main-content {
+        padding-top: 58px;
+        /* Extra bottom padding so content isn't hidden behind bottom nav */
+        padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* Hide footer on mobile — bottom nav replaces it */
+    .footer-wrapper { display: none; }
+
+    /* ── Bottom Nav Items ── */
+    .bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        flex: 1;
+        text-decoration: none;
+        color: #9CA3AF;
+        font-size: 10px;
+        font-weight: 700;
+        transition: color 0.2s ease;
+        padding: 6px 4px;
+        position: relative;
+        min-width: 0;
+    }
+
+    .bottom-nav-item span {
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 1;
+        white-space: nowrap;
+    }
+
+    .bottom-nav-icon-wrap {
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .bottom-nav-icon-wrap i {
+        font-size: 22px;
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Active state */
+    .bottom-nav-item.active {
+        color: var(--primary);
+    }
+
+    .bottom-nav-item.active .bottom-nav-icon-wrap {
+        background: var(--secondary);
+        transform: translateY(-2px);
+    }
+
+    .bottom-nav-item.active .bottom-nav-icon-wrap i {
+        transform: scale(1.15);
+    }
+
+    /* Active indicator dot */
+    .bottom-nav-item.active::after {
+        content: '';
+        position: absolute;
+        bottom: 2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 4px;
+        background: var(--primary);
+        border-radius: 50%;
+        animation: navDotAppear 0.3s ease forwards;
+    }
+
+    @keyframes navDotAppear {
+        from { opacity: 0; transform: translateX(-50%) scale(0); }
+        to   { opacity: 1; transform: translateX(-50%) scale(1); }
+    }
+
+    /* ── Center FAB (Book Now) ── */
+    .bottom-nav-fab {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        text-decoration: none;
+        position: relative;
+        flex: 1;
+        padding-bottom: 4px;
+    }
+
+    .bottom-nav-fab i {
+        width: 52px;
+        height: 52px;
+        background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+        color: white;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        box-shadow: 0 8px 20px rgba(21, 101, 255, 0.4);
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        margin-top: -18px; /* lift above bar */
+        border: 3px solid white;
+    }
+
+    .bottom-nav-fab:active i,
+    .bottom-nav-fab:hover i {
+        transform: scale(1.08) rotate(-5deg);
+        box-shadow: 0 12px 28px rgba(21, 101, 255, 0.55);
+    }
+
+    .fab-label {
+        font-size: 10px;
+        font-weight: 800;
+        color: var(--primary);
+        line-height: 1;
+        margin-top: 2px;
+    }
+
+    .bottom-nav-fab.active i {
+        background: linear-gradient(135deg, var(--primary-hover), #0040bb);
+    }
+
+    /* ── Mobile Header — App Style ── */
+    .logo-name { font-size: 15px; }
+    .logo-sub  { font-size: 10px; }
+
+    /* ── App-Style Card Upgrades ── */
+    .glass-card {
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(21, 101, 255, 0.06);
+    }
+
+    .service-card {
+        border-radius: 20px;
+    }
+
+    .booking-item-card {
+        border-radius: 16px;
+    }
+
+    /* ── Touch Ripple Effect ── */
+    .btn,
+    .bottom-nav-item,
+    .bottom-nav-fab,
+    .service-card,
+    .faq-header-btn,
+    .filter-btn {
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+
+    /* ── Smooth page scroll ── */
+    html {
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* ── Hero section on mobile app ── */
+    .hero-title {
+        font-size: 36px !important;
+        line-height: 1.25;
+    }
+
+    /* ── Hide drawer on mobile when bottom nav is present ── */
+    /* (Drawer still usable for extra links if needed) */
+
+    /* ── Telegram widget — move up above bottom nav ── */
+    .tg-simulator-widget {
+        bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+        left: 16px;
+    }
+
+    /* ── Floating bar (if exists) ── */
+    .floating-contact-bar {
+        bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* ── Section spacing on mobile ── */
+    .services-section,
+    .about-doctor-section,
+    .protection-section,
+    .gallery-section,
+    .faq-section,
+    .testimonials-section { padding: 56px 0; }
+
+    /* ── Newsletter hidden on mobile (promoted via bottom nav) ── */
+    .newsletter-section { display: none; }
+}
+
+/* ── Extra small — smoother app feel ── */
+@media (max-width: 479px) {
+    .bottom-nav-item span { display: none; }  /* icon-only on tiny screens */
+    .bottom-nav-item { gap: 0; }
+    .bottom-nav-icon-wrap { width: 32px; height: 32px; }
+    .bottom-nav-icon-wrap i { font-size: 24px; }
+    .fab-label { font-size: 9px; }
+    .mobile-bottom-nav { height: 60px; }
+    .main-content { padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* ── Page entrance animation (App feel) ── */
+@keyframes appSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 991px) {
+    .page-view {
+        animation: appSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
 }

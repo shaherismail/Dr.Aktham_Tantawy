@@ -94,6 +94,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         })
         .catch(err => console.error('Error loading telegram simulator:', err));
+
+    // Load Bottom Navigation Bar (mobile app experience)
+    fetch('components/bottom-nav.html')
+        .then(res => {
+            if (res.ok) return res.text();
+        })
+        .then(html => {
+            if (html) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = html.trim();
+                document.body.appendChild(tempDiv.firstChild);
+                // Highlight active bottom nav item
+                highlightBottomNav();
+            }
+        })
+        .catch(err => console.error('Error loading bottom nav:', err));
 });
 
 // Highlights current nav link based on location filename
@@ -191,4 +207,24 @@ function initScrollEffect() {
 
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll(); // run once on load
+}
+
+/**
+ * Highlight the active item in the bottom navigation bar
+ */
+function highlightBottomNav() {
+    const path = window.location.pathname;
+    const page = path.split('/').pop() || 'index.html';
+    const cleanPage = page.endsWith('.html') ? page : page + '.html';
+
+    const items = document.querySelectorAll('.bottom-nav-item, .bottom-nav-fab');
+    items.forEach(item => {
+        const href = item.getAttribute('href') || item.getAttribute('data-page') || '';
+        const itemPage = href.split('/').pop();
+        if (itemPage === cleanPage || (cleanPage === 'index.html' && itemPage === 'index.html')) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
+    });
 }
