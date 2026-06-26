@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
     <!-- ChartJS for stats -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
     <!-- Auth Module Screen -->
@@ -23,15 +25,19 @@
                 <h2 class="auth-title">بوابة الإدارة الطبية</h2>
                 <p class="auth-subtitle">عيادة د. أكثم طنطاوي لتقويم الأسنان</p>
             </div>
-            
+
             <!-- Connection configuration backdoor for developers/users -->
-            <div id="configArea" style="margin-bottom: 20px; padding: 12px; background: rgba(2, 132, 199, 0.05); border: 1px dashed var(--border-color); border-radius: 8px;">
-                <h4 style="font-size: 12px; margin-bottom: 8px;"><i class="bx bx-cog"></i> إعدادات الاتصال بقاعدة البيانات (مزامنة)</h4>
+            <div id="configArea"
+                style="margin-bottom: 20px; padding: 12px; background: rgba(2, 132, 199, 0.05); border: 1px dashed var(--border-color); border-radius: 8px;">
+                <h4 style="font-size: 12px; margin-bottom: 8px;"><i class="bx bx-cog"></i> إعدادات الاتصال بقاعدة
+                    البيانات (مزامنة)</h4>
                 <div class="form-group" style="margin-bottom: 8px;">
-                    <input type="text" id="configUrl" class="form-input" style="font-size: 11px; padding: 6px;" placeholder="Supabase URL">
+                    <input type="text" id="configUrl" class="form-input" style="font-size: 11px; padding: 6px;"
+                        placeholder="Supabase URL">
                 </div>
                 <div class="form-group">
-                    <input type="password" id="configKey" class="form-input" style="font-size: 11px; padding: 6px;" placeholder="Supabase Anon/Service Key">
+                    <input type="password" id="configKey" class="form-input" style="font-size: 11px; padding: 6px;"
+                        placeholder="Supabase Anon/Service Key">
                 </div>
             </div>
 
@@ -53,7 +59,7 @@
 
     <!-- Main Dashboard Framework -->
     <div id="appScreen" class="app-container">
-        
+
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -108,7 +114,8 @@
                         <div class="user-name" id="adminUserEmail">admin@draktham.com</div>
                         <div class="user-role" id="adminUserRole">Super Admin</div>
                     </div>
-                    <button class="nav-action-btn" id="logoutBtn" style="border: none; background: transparent; color: white;" title="تسجيل الخروج">
+                    <button class="nav-action-btn" id="logoutBtn"
+                        style="border: none; background: transparent; color: white;" title="تسجيل الخروج">
                         <i class="bx bx-log-out"></i>
                     </button>
                 </div>
@@ -117,14 +124,17 @@
 
         <!-- Main Content Area Wrapper -->
         <main class="main-wrapper">
-            
+
             <!-- Top Navigation Bar -->
             <header class="top-navbar">
                 <div class="search-bar-wrapper">
-                    <input type="text" id="globalSearchInput" class="search-bar-input" placeholder="بحث شامل عبر المرضى، المواعيد، الخدمات...">
+                    <input type="text" id="globalSearchInput" class="search-bar-input"
+                        placeholder="بحث شامل عبر المرضى، المواعيد، الخدمات...">
                     <i class="bx bx-search"></i>
                     <!-- Dynamic Search Dropdown Results -->
-                    <div id="searchDropdown" style="display: none; position: absolute; top: 100%; right: 0; width: 100%; max-height: 300px; overflow-y: auto; background: white; border: 1px solid var(--border-color); border-radius: 8px; z-index: 1000; box-shadow: var(--shadow-lg); padding: 12px; margin-top: 6px;"></div>
+                    <div id="searchDropdown"
+                        style="display: none; position: absolute; top: 100%; right: 0; width: 100%; max-height: 300px; overflow-y: auto; background: white; border: 1px solid var(--border-color); border-radius: 8px; z-index: 1000; box-shadow: var(--shadow-lg); padding: 12px; margin-top: 6px;">
+                    </div>
                 </div>
                 <div class="nav-actions">
                     <button class="nav-action-btn" id="themeToggleBtn" title="تغيير المظهر">
@@ -141,7 +151,7 @@
             </header>
 
             <!-- Dashboard Content Panels -->
-            
+
             <!-- 1. SUMMARY VIEW -->
             <section id="view-dashboard" class="page-view active">
                 <div class="page-header">
@@ -150,7 +160,7 @@
                         <p class="page-subtitle">إليك ملخص أداء العيادة والحجوزات الحالية اليوم.</p>
                     </div>
                 </div>
-                
+
                 <div class="dashboard-grid">
                     <div class="stat-card">
                         <div>
@@ -171,7 +181,8 @@
                             <div class="stat-label">الحجوزات المعلقة</div>
                             <div class="stat-number" id="statPendingBookings">0</div>
                         </div>
-                        <div class="stat-icon" style="background: rgba(245,158,11,0.1); color: #f59e0b;"><i class="bx bx-hourglass"></i></div>
+                        <div class="stat-icon" style="background: rgba(245,158,11,0.1); color: #f59e0b;"><i
+                                class="bx bx-hourglass"></i></div>
                     </div>
                     <div class="stat-card">
                         <div>
@@ -193,28 +204,35 @@
                     <!-- Conversion/Appointments Chart -->
                     <div class="glass-panel">
                         <div class="panel-header">
-                            <span class="panel-title"><i class="bx bx-line-chart"></i> إحصائيات نمو الحالات والحجوزات</span>
+                            <span class="panel-title"><i class="bx bx-line-chart"></i> إحصائيات نمو الحالات
+                                والحجوزات</span>
                         </div>
                         <div style="height: 300px; position: relative;">
                             <canvas id="conversionChart"></canvas>
                         </div>
                     </div>
-                    
+
                     <!-- Quick Actions -->
                     <div class="glass-panel">
                         <div class="panel-header">
                             <span class="panel-title"><i class="bx bx-zap"></i> إجراءات سريعة</span>
                         </div>
                         <div style="display: flex; flex-direction: column; gap: 12px;">
-                            <button class="btn btn-primary" onclick="location.hash='#/appointments'"><i class="bx bx-plus-circle"></i> جدولة موعد جديد</button>
-                            <button class="btn btn-secondary" onclick="location.hash='#/homepage'"><i class="bx bx-edit-alt"></i> تعديل عنوان الهيرو</button>
-                            <button class="btn btn-secondary" onclick="location.hash='#/media'"><i class="bx bx-upload"></i> رفع صور في المعرض</button>
+                            <button class="btn btn-primary" onclick="location.hash='#/appointments'"><i
+                                    class="bx bx-plus-circle"></i> جدولة موعد جديد</button>
+                            <button class="btn btn-secondary" onclick="location.hash='#/homepage'"><i
+                                    class="bx bx-edit-alt"></i> تعديل عنوان الهيرو</button>
+                            <button class="btn btn-secondary" onclick="location.hash='#/media'"><i
+                                    class="bx bx-upload"></i> رفع صور في المعرض</button>
                         </div>
-                        
+
                         <div style="margin-top: 24px;">
-                            <h4 style="font-size: 13px; margin-bottom: 12px; color: var(--text-muted);">التنبيهات السريعة</h4>
-                            <div id="quickNotificationsList" style="font-size: 12px; display: flex; flex-direction: column; gap: 8px;">
-                                <div style="padding: 8px; background: rgba(2,132,199,0.05); border-radius: 6px;">لا توجد إشعارات جديدة حالياً.</div>
+                            <h4 style="font-size: 13px; margin-bottom: 12px; color: var(--text-muted);">التنبيهات
+                                السريعة</h4>
+                            <div id="quickNotificationsList"
+                                style="font-size: 12px; display: flex; flex-direction: column; gap: 8px;">
+                                <div style="padding: 8px; background: rgba(2,132,199,0.05); border-radius: 6px;">لا توجد
+                                    إشعارات جديدة حالياً.</div>
                             </div>
                         </div>
                     </div>
@@ -228,20 +246,27 @@
                         <h2 class="page-title">إدارة المواعيد والجدول</h2>
                         <p class="page-subtitle">استعرض المواعيد اليومية، الأسبوعية والشهرية وقم بتحديث الحالات.</p>
                     </div>
-                    <button class="btn btn-primary" id="openAddApptModalBtn"><i class="bx bx-plus"></i> إضافة حجز يدوي</button>
+                    <button class="btn btn-primary" id="openAddApptModalBtn"><i class="bx bx-plus"></i> إضافة حجز
+                        يدوي</button>
                 </div>
-                
+
                 <div class="glass-panel">
                     <div class="calendar-view-header">
                         <div style="display: flex; gap: 8px; align-items: center;">
-                            <button class="btn btn-secondary btn-sm" id="calPrevMonthBtn"><i class="bx bx-right-arrow-alt"></i></button>
-                            <h3 id="calendarMonthTitle" style="font-size: 18px; font-weight: 700; width: 140px; text-align: center;">يونيو 2026</h3>
-                            <button class="btn btn-secondary btn-sm" id="calNextMonthBtn"><i class="bx bx-left-arrow-alt"></i></button>
+                            <button class="btn btn-secondary btn-sm" id="calPrevMonthBtn"><i
+                                    class="bx bx-right-arrow-alt"></i></button>
+                            <h3 id="calendarMonthTitle"
+                                style="font-size: 18px; font-weight: 700; width: 140px; text-align: center;">يونيو 2026
+                            </h3>
+                            <button class="btn btn-secondary btn-sm" id="calNextMonthBtn"><i
+                                    class="bx bx-left-arrow-alt"></i></button>
                         </div>
-                        
+
                         <div style="display: flex; gap: 8px;">
-                            <button class="btn btn-primary btn-sm" id="exportApptsBtn"><i class="bx bx-export"></i> تصدير البيانات</button>
-                            <button class="btn btn-secondary btn-sm" id="printApptsBtn"><i class="bx bx-printer"></i> طباعة</button>
+                            <button class="btn btn-primary btn-sm" id="exportApptsBtn"><i class="bx bx-export"></i>
+                                تصدير البيانات</button>
+                            <button class="btn btn-secondary btn-sm" id="printApptsBtn"><i class="bx bx-printer"></i>
+                                طباعة</button>
                         </div>
                     </div>
 
@@ -291,15 +316,17 @@
                 <div class="page-header">
                     <div>
                         <h2 class="page-title">ملفات المرضى والتاريخ الطبي</h2>
-                        <p class="page-subtitle">إدارة السجلات الطبية للمرضى، صور الأشعة، الفواتير، وسجل المتابعة التقويمية.</p>
+                        <p class="page-subtitle">إدارة السجلات الطبية للمرضى، صور الأشعة، الفواتير، وسجل المتابعة
+                            التقويمية.</p>
                     </div>
                 </div>
-                
+
                 <div class="glass-panel">
                     <div style="display: flex; gap: 12px; margin-bottom: 20px;">
-                        <input type="text" id="patientSearchField" class="form-input" style="max-width: 320px;" placeholder="ابحث باسم المريض أو رقم الهاتف...">
+                        <input type="text" id="patientSearchField" class="form-input" style="max-width: 320px;"
+                            placeholder="ابحث باسم المريض أو رقم الهاتف...">
                     </div>
-                    
+
                     <div class="data-table-wrapper">
                         <table class="data-table">
                             <thead>
@@ -322,12 +349,14 @@
                 </div>
 
                 <!-- Slide-over or Modal view for Patient Full Record -->
-                <div id="patientDetailsModal" class="glass-panel" style="display: none; border-color: var(--accent); margin-top: 30px;">
+                <div id="patientDetailsModal" class="glass-panel"
+                    style="display: none; border-color: var(--accent); margin-top: 30px;">
                     <div class="panel-header">
                         <span class="panel-title" id="patientDetailTitle">السجل التقويمي الطبي: مريض</span>
-                        <button class="btn btn-secondary btn-sm" onclick="document.getElementById('patientDetailsModal').style.display='none'">إغلاق</button>
+                        <button class="btn btn-secondary btn-sm"
+                            onclick="document.getElementById('patientDetailsModal').style.display='none'">إغلاق</button>
                     </div>
-                    
+
                     <div class="form-grid">
                         <div>
                             <h4>معلومات عامة</h4>
@@ -338,9 +367,12 @@
                             <h4>تنزيل ورفع الأشعة السينية (X-Rays)</h4>
                             <div style="margin-top: 8px;">
                                 <input type="file" id="patientXrayUpload" class="form-input" style="display:none;">
-                                <button class="btn btn-secondary btn-sm" onclick="document.getElementById('patientXrayUpload').click()"><i class="bx bx-upload"></i> رفع ملف أشعة</button>
+                                <button class="btn btn-secondary btn-sm"
+                                    onclick="document.getElementById('patientXrayUpload').click()"><i
+                                        class="bx bx-upload"></i> رفع ملف أشعة</button>
                             </div>
-                            <div id="patientXraysGrid" style="display: flex; gap: 8px; margin-top: 12px; overflow-x: auto;">
+                            <div id="patientXraysGrid"
+                                style="display: flex; gap: 8px; margin-top: 12px; overflow-x: auto;">
                                 <!-- images -->
                             </div>
                         </div>
@@ -355,9 +387,10 @@
                         <h2 class="page-title">إدارة الخدمات الطبية</h2>
                         <p class="page-subtitle">إضافة وتعديل وحذف خدمات الأسنان مع إمكانية الترتيب بالسحب والإفلات.</p>
                     </div>
-                    <button class="btn btn-primary" id="openAddServiceModalBtn"><i class="bx bx-plus"></i> إضافة خدمة جديدة</button>
+                    <button class="btn btn-primary" id="openAddServiceModalBtn"><i class="bx bx-plus"></i> إضافة خدمة
+                        جديدة</button>
                 </div>
-                
+
                 <div class="glass-panel">
                     <div class="data-table-wrapper">
                         <table class="data-table">
@@ -386,11 +419,13 @@
                 <div class="page-header">
                     <div>
                         <h2 class="page-title">حالات Smile Transformation (قبل وبعد)</h2>
-                        <p class="page-subtitle">إدارة الحالات الناجحة التي تعرض كفاءة تقويم الأسنان بالعيادة للزوار.</p>
+                        <p class="page-subtitle">إدارة الحالات الناجحة التي تعرض كفاءة تقويم الأسنان بالعيادة للزوار.
+                        </p>
                     </div>
-                    <button class="btn btn-primary" id="openAddCaseModalBtn"><i class="bx bx-plus"></i> إضافة حالة نجاح</button>
+                    <button class="btn btn-primary" id="openAddCaseModalBtn"><i class="bx bx-plus"></i> إضافة حالة
+                        نجاح</button>
                 </div>
-                
+
                 <div class="glass-panel">
                     <div class="data-table-wrapper">
                         <table class="data-table">
@@ -419,23 +454,32 @@
                 <div class="page-header">
                     <div>
                         <h2 class="page-title">مكتبة الوسائط الذكية</h2>
-                        <p class="page-subtitle">ارفع ونسق الصور ومقاطع الفيديو مع ضغط WebP التلقائي لضمان سرعة التحميل.</p>
+                        <p class="page-subtitle">ارفع ونسق الصور ومقاطع الفيديو مع ضغط WebP التلقائي لضمان سرعة التحميل.
+                        </p>
                     </div>
                     <div>
-                        <input type="file" id="mediaLibraryFileUpload" class="form-input" style="display:none;" multiple accept="image/*,video/*">
-                        <button class="btn btn-primary" onclick="document.getElementById('mediaLibraryFileUpload').click()"><i class="bx bx-upload"></i> رفع ملفات جديدة</button>
+                        <input type="file" id="mediaLibraryFileUpload" class="form-input" style="display:none;" multiple
+                            accept="image/*,video/*">
+                        <button class="btn btn-primary"
+                            onclick="document.getElementById('mediaLibraryFileUpload').click()"><i
+                                class="bx bx-upload"></i> رفع ملفات جديدة</button>
                     </div>
                 </div>
-                
+
                 <div class="glass-panel">
-                    <div style="display: flex; gap: 12px; margin-bottom: 20px; align-items: center; justify-content: space-between;">
-                        <input type="text" id="mediaSearchInput" class="form-input" style="max-width: 300px;" placeholder="بحث باسم الملف أو التاغ...">
-                        
+                    <div
+                        style="display: flex; gap: 12px; margin-bottom: 20px; align-items: center; justify-content: space-between;">
+                        <input type="text" id="mediaSearchInput" class="form-input" style="max-width: 300px;"
+                            placeholder="بحث باسم الملف أو التاغ...">
+
                         <div style="display: flex; gap: 8px;">
-                            <button class="btn btn-secondary btn-sm media-filter-btn active" data-folder="all">الكل</button>
+                            <button class="btn btn-secondary btn-sm media-filter-btn active"
+                                data-folder="all">الكل</button>
                             <button class="btn btn-secondary btn-sm media-filter-btn" data-folder="general">عام</button>
-                            <button class="btn btn-secondary btn-sm media-filter-btn" data-folder="cases">حالات التقويم</button>
-                            <button class="btn btn-secondary btn-sm media-filter-btn" data-folder="doctor">الطبيب والعيادة</button>
+                            <button class="btn btn-secondary btn-sm media-filter-btn" data-folder="cases">حالات
+                                التقويم</button>
+                            <button class="btn btn-secondary btn-sm media-filter-btn" data-folder="doctor">الطبيب
+                                والعيادة</button>
                         </div>
                     </div>
 
@@ -450,12 +494,14 @@
                 <div class="page-header">
                     <div>
                         <h2 class="page-title">محرر نصوص الصفحة الرئيسية (CMS)</h2>
-                        <p class="page-subtitle">تعديل نصوص واجهة الموقع، ترتيب الأقسام ومرونة التفعيل والتعطيل بدون كود.</p>
+                        <p class="page-subtitle">تعديل نصوص واجهة الموقع، ترتيب الأقسام ومرونة التفعيل والتعطيل بدون
+                            كود.</p>
                     </div>
                 </div>
-                
+
                 <div class="glass-panel">
-                    <div class="panel-header"><span class="panel-title">1. قسم الهيرو الرئيسي (Hero Section)</span></div>
+                    <div class="panel-header"><span class="panel-title">1. قسم الهيرو الرئيسي (Hero Section)</span>
+                    </div>
                     <div class="form-grid">
                         <div class="form-group">
                             <label class="form-label">العنوان الأساسي (Title)</label>
@@ -483,21 +529,25 @@
                     <div id="cmsStatsContainer">
                         <!-- Stat items with labels and values -->
                     </div>
-                    <button class="btn btn-secondary btn-sm" id="addNewStatBtn" style="margin-top: 10px;"><i class="bx bx-plus"></i> إضافة رقم إحصائي</button>
+                    <button class="btn btn-secondary btn-sm" id="addNewStatBtn" style="margin-top: 10px;"><i
+                            class="bx bx-plus"></i> إضافة رقم إحصائي</button>
                 </div>
 
                 <div class="glass-panel">
-                    <div class="panel-header"><span class="panel-title"><i class="bx bx-layer"></i> بناء وترتيب أقسام الصفحة الرئيسية (Page Builder)</span></div>
+                    <div class="panel-header"><span class="panel-title"><i class="bx bx-layer"></i> بناء وترتيب أقسام
+                            الصفحة الرئيسية (Page Builder)</span></div>
                     <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
-                        قم بسحب وترتيب الأقسام لإعادة هيكلة الصفحة الرئيسية للموقع العام، وتعديل إعدادات الهوامش والخلفية لكل قسم بشكل فردي.
+                        قم بسحب وترتيب الأقسام لإعادة هيكلة الصفحة الرئيسية للموقع العام، وتعديل إعدادات الهوامش
+                        والخلفية لكل قسم بشكل فردي.
                     </p>
                     <div style="display: flex; flex-direction: column; gap: 12px;" id="homepageSectionsOrderingList">
                         <!-- Sections list with visibility checkbox and settings -->
                     </div>
                 </div>
-                
+
                 <div style="text-align: left;">
-                    <button class="btn btn-primary" id="saveHomepageCMSBtn"><i class="bx bx-save"></i> حفظ جميع تعديلات الواجهة</button>
+                    <button class="btn btn-primary" id="saveHomepageCMSBtn"><i class="bx bx-save"></i> حفظ جميع تعديلات
+                        الواجهة</button>
                 </div>
             </section>
 
@@ -506,10 +556,11 @@
                 <div class="page-header">
                     <div>
                         <h2 class="page-title">مدير السيرة الذاتية وملف الطبيب</h2>
-                        <p class="page-subtitle">تعديل الصورة الشخصية، الشهادات، الزمالات والخط الزمني للخبرات المهنية.</p>
+                        <p class="page-subtitle">تعديل الصورة الشخصية، الشهادات، الزمالات والخط الزمني للخبرات المهنية.
+                        </p>
                     </div>
                 </div>
-                
+
                 <div class="glass-panel">
                     <div class="form-grid">
                         <div class="form-group">
@@ -532,18 +583,21 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">التخصصات الطبية (مفصولة بفاصلة)</label>
-                            <input type="text" id="docSpecializations" class="form-input" placeholder="تقويم الأسنان الشفاف، تقويم ثلاثي الأبعاد...">
+                            <input type="text" id="docSpecializations" class="form-input"
+                                placeholder="تقويم الأسنان الشفاف، تقويم ثلاثي الأبعاد...">
                         </div>
                     </div>
                 </div>
 
                 <div class="glass-panel">
                     <div class="panel-header"><span class="panel-title">الشهادات والزمالات الأكاديمية</span></div>
-                    <textarea id="docCertificates" class="form-input" rows="4" placeholder='[{"year": "2015", "title": "زمالة الكلية الملكية للتقويم"}]'></textarea>
+                    <textarea id="docCertificates" class="form-input" rows="4"
+                        placeholder='[{"year": "2015", "title": "زمالة الكلية الملكية للتقويم"}]'></textarea>
                 </div>
 
                 <div style="text-align: left;">
-                    <button class="btn btn-primary" id="saveDoctorProfileBtn"><i class="bx bx-save"></i> حفظ بيانات الطبيب</button>
+                    <button class="btn btn-primary" id="saveDoctorProfileBtn"><i class="bx bx-save"></i> حفظ بيانات
+                        الطبيب</button>
                 </div>
             </section>
 
@@ -555,7 +609,7 @@
                         <p class="page-subtitle">الاطلاع على الرسائل الواردة من موقع العيادة والرد عليها أو أرشفتها.</p>
                     </div>
                 </div>
-                
+
                 <div class="glass-panel">
                     <div class="data-table-wrapper">
                         <table class="data-table">
@@ -582,10 +636,11 @@
                 <div class="page-header">
                     <div>
                         <h2 class="page-title">إعدادات العيادة وهوية الموقع</h2>
-                        <p class="page-subtitle">إدارة أرقام الاتصال، ساعات العمل، تفعيل الثيم، تعديل الألوان والخطوط (Theme Manager).</p>
+                        <p class="page-subtitle">إدارة أرقام الاتصال، ساعات العمل، تفعيل الثيم، تعديل الألوان والخطوط
+                            (Theme Manager).</p>
                     </div>
                 </div>
-                
+
                 <!-- Clinic Contact Configurations -->
                 <div class="glass-panel">
                     <div class="panel-header"><span class="panel-title">إعدادات ومعلومات الاتصال</span></div>
@@ -625,18 +680,20 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label class="form-label">اللون الأساسي (Primary Color)</label>
-                            <input type="color" id="themePrimary" class="form-input" style="height: 40px; padding: 4px;">
+                            <input type="color" id="themePrimary" class="form-input"
+                                style="height: 40px; padding: 4px;">
                         </div>
                         <div class="form-group">
                             <label class="form-label">اللون الفرعي (Secondary Color)</label>
-                            <input type="color" id="themeSecondary" class="form-input" style="height: 40px; padding: 4px;">
+                            <input type="color" id="themeSecondary" class="form-input"
+                                style="height: 40px; padding: 4px;">
                         </div>
                         <div class="form-group">
                             <label class="form-label">لون التمييز (Accent Color)</label>
                             <input type="color" id="themeAccent" class="form-input" style="height: 40px; padding: 4px;">
                         </div>
                     </div>
-                    
+
                     <div class="form-grid">
                         <div class="form-group">
                             <label class="form-label">حجم انحناء الحواف (Border Radius)</label>
@@ -663,7 +720,8 @@
 
                 <!-- SEO Configurations -->
                 <div class="glass-panel">
-                    <div class="panel-header"><span class="panel-title">محركات البحث والتحليلات (SEO & Tracking)</span></div>
+                    <div class="panel-header"><span class="panel-title">محركات البحث والتحليلات (SEO & Tracking)</span>
+                    </div>
                     <div class="form-grid">
                         <div class="form-group">
                             <label class="form-label">عنوان محرك البحث (SEO Title)</label>
@@ -688,19 +746,25 @@
 
                 <!-- Backup Manager Panel -->
                 <div class="glass-panel">
-                    <div class="panel-header"><span class="panel-title"><i class="bx bx-cloud-download"></i> مدير النسخ الاحتياطي (Backup Manager)</span></div>
+                    <div class="panel-header"><span class="panel-title"><i class="bx bx-cloud-download"></i> مدير النسخ
+                            الاحتياطي (Backup Manager)</span></div>
                     <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
-                        قم بتصدير قاعدة بيانات العيادة والإعدادات والثيم بالكامل إلى ملف واحد للنسخ الاحتياطي، أو قم باستعادة نسخة احتياطية سابقة.
+                        قم بتصدير قاعدة بيانات العيادة والإعدادات والثيم بالكامل إلى ملف واحد للنسخ الاحتياطي، أو قم
+                        باستعادة نسخة احتياطية سابقة.
                     </p>
                     <div style="display: flex; gap: 12px; align-items: center;">
-                        <button class="btn btn-secondary" id="downloadBackupBtn"><i class="bx bx-download"></i> تصدير نسخة احتياطية (Download JSON)</button>
+                        <button class="btn btn-secondary" id="downloadBackupBtn"><i class="bx bx-download"></i> تصدير
+                            نسخة احتياطية (Download JSON)</button>
                         <input type="file" id="uploadBackupInput" style="display: none;" accept=".json">
-                        <button class="btn btn-primary" onclick="document.getElementById('uploadBackupInput').click()"><i class="bx bx-upload"></i> استيراد واستعادة البيانات</button>
+                        <button class="btn btn-primary"
+                            onclick="document.getElementById('uploadBackupInput').click()"><i class="bx bx-upload"></i>
+                            استيراد واستعادة البيانات</button>
                     </div>
                 </div>
 
                 <div style="text-align: left;">
-                    <button class="btn btn-primary" id="saveClinicSettingsBtn"><i class="bx bx-save"></i> حفظ كامل الإعدادات والثيم</button>
+                    <button class="btn btn-primary" id="saveClinicSettingsBtn"><i class="bx bx-save"></i> حفظ كامل
+                        الإعدادات والثيم</button>
                 </div>
             </section>
 
@@ -709,12 +773,14 @@
                 <div class="page-header">
                     <div>
                         <h2 class="page-title">إدارة صلاحيات الموظفين والمستخدمين (RBAC)</h2>
-                        <p class="page-subtitle">تعيين الأدوار والصلاحيات (Super Admin, Doctor, Reception, Assistant, Viewer).</p>
+                        <p class="page-subtitle">تعيين الأدوار والصلاحيات (Super Admin, Doctor, Reception, Assistant,
+                            Viewer).</p>
                     </div>
                 </div>
-                
+
                 <div class="glass-panel">
-                    <div class="panel-header"><span class="panel-title">المستخدمين الحاليين والأدوار الممنوحة</span></div>
+                    <div class="panel-header"><span class="panel-title">المستخدمين الحاليين والأدوار الممنوحة</span>
+                    </div>
                     <div class="data-table-wrapper">
                         <table class="data-table">
                             <thead>
@@ -734,7 +800,8 @@
 
                 <!-- Add User Role Form -->
                 <div class="glass-panel">
-                    <div class="panel-header"><span class="panel-title">إسناد دور لموظف جديد (بالرقم التعريفي UID)</span></div>
+                    <div class="panel-header"><span class="panel-title">إسناد دور لموظف جديد (بالرقم التعريفي
+                            UID)</span></div>
                     <div class="form-grid">
                         <div class="form-group">
                             <label class="form-label">الرقم التعريفي للمستخدم (UUID) أو البريد</label>
@@ -755,7 +822,8 @@
                             </select>
                         </div>
                     </div>
-                    <button class="btn btn-primary" id="assignUserRoleBtn" style="margin-top: 10px;"><i class="bx bx-user-plus"></i> إسناد الصلاحية</button>
+                    <button class="btn btn-primary" id="assignUserRoleBtn" style="margin-top: 10px;"><i
+                            class="bx bx-user-plus"></i> إسناد الصلاحية</button>
                 </div>
             </section>
 
@@ -764,10 +832,11 @@
                 <div class="page-header">
                     <div>
                         <h2 class="page-title">سجلات النشاطات والأمان (Audit Logs)</h2>
-                        <p class="page-subtitle">مراقبة وتتبع العمليات التي يقوم بها المستخدمون والمدراء في قاعدة البيانات.</p>
+                        <p class="page-subtitle">مراقبة وتتبع العمليات التي يقوم بها المستخدمون والمدراء في قاعدة
+                            البيانات.</p>
                     </div>
                 </div>
-                
+
                 <div class="glass-panel">
                     <div class="data-table-wrapper">
                         <table class="data-table">
@@ -793,10 +862,11 @@
                 <div class="page-header">
                     <div>
                         <h2 class="page-title">سلة مهملات العيادة (Soft Deletes)</h2>
-                        <p class="page-subtitle">العناصر المحذوفة مؤخراً. يمكنك استعادة العناصر أو حذفها نهائياً لتفريغ المساحة.</p>
+                        <p class="page-subtitle">العناصر المحذوفة مؤخراً. يمكنك استعادة العناصر أو حذفها نهائياً لتفريغ
+                            المساحة.</p>
                     </div>
                 </div>
-                
+
                 <div class="glass-panel">
                     <div class="data-table-wrapper">
                         <table class="data-table">
@@ -819,13 +889,16 @@
     </div>
 
     <!-- Interactive CRUD Modals (Hidden by default, shown by JS) -->
-    
+
     <!-- 1. Add/Edit Service Modal -->
-    <div id="serviceModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:2000; justify-content:center; align-items:center;">
-        <div class="glass-panel" style="width:100%; max-width:600px; background:white; max-height: 90vh; overflow-y: auto;">
+    <div id="serviceModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:2000; justify-content:center; align-items:center;">
+        <div class="glass-panel"
+            style="width:100%; max-width:600px; background:white; max-height: 90vh; overflow-y: auto;">
             <div class="panel-header">
                 <span class="panel-title" id="serviceModalTitle">إضافة / تعديل خدمة طبية</span>
-                <button class="btn btn-secondary btn-sm" onclick="document.getElementById('serviceModal').style.display='none'">إغلاق</button>
+                <button class="btn btn-secondary btn-sm"
+                    onclick="document.getElementById('serviceModal').style.display='none'">إغلاق</button>
             </div>
             <form id="serviceForm">
                 <input type="hidden" id="serviceFormId">
@@ -873,17 +946,21 @@
     </div>
 
     <!-- 2. Add/Edit Case Modal -->
-    <div id="caseModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:2000; justify-content:center; align-items:center;">
-        <div class="glass-panel" style="width:100%; max-width:650px; background:white; max-height: 90vh; overflow-y: auto;">
+    <div id="caseModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:2000; justify-content:center; align-items:center;">
+        <div class="glass-panel"
+            style="width:100%; max-width:650px; background:white; max-height: 90vh; overflow-y: auto;">
             <div class="panel-header">
                 <span class="panel-title" id="caseModalTitle">إضافة حالة نجاح جديدة</span>
-                <button class="btn btn-secondary btn-sm" onclick="document.getElementById('caseModal').style.display='none'">إغلاق</button>
+                <button class="btn btn-secondary btn-sm"
+                    onclick="document.getElementById('caseModal').style.display='none'">إغلاق</button>
             </div>
             <form id="caseForm">
                 <input type="hidden" id="caseFormId">
                 <div class="form-group" style="margin-bottom:12px;">
                     <label class="form-label">عنوان الحالة / المشكلة</label>
-                    <input type="text" id="caseFormTitle" class="form-input" placeholder="ازدحام شديد في الفك العلوي" required>
+                    <input type="text" id="caseFormTitle" class="form-input" placeholder="ازدحام شديد في الفك العلوي"
+                        required>
                 </div>
                 <div class="form-grid" style="margin-bottom:12px;">
                     <div class="form-group">
@@ -898,7 +975,8 @@
                 <div class="form-grid" style="margin-bottom:12px;">
                     <div class="form-group">
                         <label class="form-label">نوع العلاج</label>
-                        <input type="text" id="caseFormTreatment" class="form-input" placeholder="تقويم معدني تقليدي" required>
+                        <input type="text" id="caseFormTreatment" class="form-input" placeholder="تقويم معدني تقليدي"
+                            required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">التصنيف (أو العضّة)</label>
@@ -948,11 +1026,13 @@
     </div>
 
     <!-- 3. Add Manual Booking Modal -->
-    <div id="bookingModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:2000; justify-content:center; align-items:center;">
+    <div id="bookingModal"
+        style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:2000; justify-content:center; align-items:center;">
         <div class="glass-panel" style="width:100%; max-width:550px; background:white;">
             <div class="panel-header">
                 <span class="panel-title">إضافة حجز موعد جديد يدوياً</span>
-                <button class="btn btn-secondary btn-sm" onclick="document.getElementById('bookingModal').style.display='none'">إغلاق</button>
+                <button class="btn btn-secondary btn-sm"
+                    onclick="document.getElementById('bookingModal').style.display='none'">إغلاق</button>
             </div>
             <form id="bookingForm">
                 <div class="form-group" style="margin-bottom:12px;">
@@ -1011,4 +1091,5 @@
     <!-- Application Script -->
     <script type="module" src="admin.js"></script>
 </body>
+
 </html>
