@@ -80,11 +80,6 @@ button, input, select, textarea {
     outline: none;
 }
 
-/* Mode Switcher Floating Panel - DEACTIVATED */
-.mode-switch-panel {
-    display: none !important;
-}
-
 /* Typography Hierarchy */
 h1, h2, h3, h4, h5, h6 {
     color: var(--dark);
@@ -3106,5 +3101,219 @@ h1, h2, h3, h4, h5, h6 {
 }
 .bg-accent {
     background: var(--secondary) !important;
+}
+
+/* ==========================================================================
+   PRODUCTION MOBILE POLISH OVERRIDES (Strict Spacing Scale: 16, 24, 32, 48, 64)
+   ========================================================================= */
+@media (max-width: 768px) {
+    /* Section paddings & vertical rhythms */
+    .hero-wrapper {
+        padding: 32px 0 48px 0 !important;
+        gap: 24px !important;
+    }
+    
+    .hero-content {
+        gap: 16px !important;
+    }
+
+    .about-doctor-section,
+    .protection-section,
+    .testimonials-section,
+    .faq-section {
+        padding: 48px 0 !important;
+    }
+
+    .section-header {
+        margin-bottom: 24px !important;
+        gap: 16px !important;
+    }
+
+    /* About Section Illustration & Margins */
+    .protection-wrapper {
+        gap: 24px !important;
+    }
+    
+    .protection-illustration {
+        width: 100% !important;
+        max-width: 240px !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        justify-content: center !important;
+    }
+    
+    .protection-illustration svg {
+        width: 100% !important;
+        height: auto !important;
+        max-height: 240px !important;
+    }
+
+    .protection-list {
+        gap: 16px !important;
+    }
+
+    .protection-item {
+        gap: 16px !important;
+    }
+
+    /* Doctor Section Prominence & Spacing */
+    .doctor-wrapper {
+        gap: 24px !important;
+    }
+    
+    .doctor-image-container {
+        max-width: 320px !important;
+        margin: 0 auto !important;
+    }
+    
+    .doctor-stats-badge {
+        bottom: 16px !important;
+        right: 16px !important;
+        padding: 16px !important;
+        gap: 16px !important;
+    }
+
+    /* Testimonials Carousel Spacing & Perfect Centering */
+    .testimonial-grid {
+        gap: 16px !important;
+        padding: 16px 24px !important;
+    }
+    
+    .testimonial-card {
+        flex: 0 0 82% !important; /* Centers active card & shows next card preview */
+        padding: 16px 24px !important;
+        gap: 16px !important;
+    }
+
+    /* FAQ Spacing & Animation Improvements */
+    .faq-wrapper {
+        gap: 16px !important;
+    }
+    
+    .faq-header-btn {
+        padding: 16px 24px !important;
+    }
+    
+    .faq-body-inner {
+        padding: 0 24px 16px 24px !important;
+        opacity: 0;
+        transform: translateY(-8px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    .faq-item.active .faq-body-inner {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Mobile Footer Redesign */
+    .footer-wrapper {
+        padding: 32px 0 calc(90px + env(safe-area-inset-bottom)) 0 !important;
+    }
+    
+    .footer-top {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+        text-align: center !important;
+    }
+    
+    .footer-col {
+        align-items: center !important;
+        margin-bottom: 16px !important;
+    }
+
+    .footer-col p,
+    .footer-map-placeholder {
+        display: none !important; /* Hide long text and map widget to reduce height */
+    }
+
+    .logo-section {
+        justify-content: center !important;
+        margin-bottom: 16px !important;
+    }
+
+    .footer-social-row {
+        justify-content: center !important;
+        gap: 16px !important;
+        margin-top: 16px !important;
+    }
+
+    .footer-links {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* 2 column clean grid for links */
+        gap: 16px 24px !important;
+        text-align: center !important;
+        width: 100% !important;
+        max-width: 320px !important;
+        padding: 0 !important;
+    }
+
+    .footer-info-item {
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        margin-top: 16px !important;
+        gap: 16px !important;
+    }
+
+    .footer-bottom {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 16px !important;
+        text-align: center !important;
+        padding-top: 24px !important;
+    }
+
+    /* Spacing System Cleanups for general UI lists/grids */
+    .mobile-drawer {
+        padding: 24px 24px !important;
+    }
+
+    .grid-4,
+    .grid-3 {
+        gap: 16px !important;
+    }
+    
+    .gallery-grid {
+        gap: 24px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid-4,
+    .grid-3,
+    .grid-2 {
+        gap: 16px !important;
+    }
+
+    .services-selector-grid,
+    .time-slots-group-grid {
+        gap: 16px !important;
+    }
+
+    .hero-stats-row {
+        gap: 16px !important;
+        padding: 16px 24px !important;
+    }
+
+    .stat-item {
+        flex: 0 0 72% !important;
+        padding: 16px 24px !important;
+    }
+
+    .gallery-filters {
+        padding: 16px 24px !important;
+        gap: 16px !important;
+    }
+
+    .profile-tabs-nav {
+        padding: 16px 24px !important;
+        gap: 16px !important;
+    }
+
+    .invoice-item {
+        gap: 16px !important;
+        padding: 16px !important;
+    }
 }
 
