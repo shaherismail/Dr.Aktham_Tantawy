@@ -94,20 +94,6 @@
 
     <!-- Application Script Logic -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const contactForm = document.getElementById('contactForm');
-            if (contactForm) {
-                contactForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const name = document.getElementById('contactName').value;
-                    
-                    alert(`شكراً لتواصلك معنا يا ${name}! تم إرسال رسالتك بنجاح وسنتواصل معك قريباً.`);
-                    contactForm.reset();
-                });
-            }
-        });
-    </script>
     <script type="module" src="assets/js/app.js"></script>
 </body>
 </html>

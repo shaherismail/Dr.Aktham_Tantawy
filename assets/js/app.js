@@ -260,6 +260,60 @@ export function initNewsletter() {
     });
 }
 
+// Contact Form Integration (saves to Supabase contact_messages table)
+export function initContactForm() {
+    const contactForm = document.getElementById('contactForm');
+    if (!contactForm) return;
+
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('contactName').value.trim();
+        const phone = document.getElementById('contactPhone').value.trim();
+        const email = document.getElementById('contactEmail').value.trim();
+        const message = document.getElementById('contactMessage').value.trim();
+
+        if (!name || !phone || !message) {
+            alert('الرجاء تعبئة كافة الحقول الإلزامية (الاسم، رقم الهاتف، والرسالة).');
+            return;
+        }
+
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="bx bx-loader-alt animate-spin"></i> جاري الإرسال...';
+
+        const payload = {
+            name,
+            email: email || null,
+            phone,
+            subject: 'استفسار عام',
+            message,
+            status: 'unread'
+        };
+
+        if (supabaseClient) {
+            supabaseClient.from('contact_messages').insert([payload])
+                .then(({ error }) => {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+
+                    if (error) {
+                        console.error('Supabase contact save error:', error);
+                        alert('حدث خطأ أثناء إرسال الرسالة. يرجى المحاولة لاحقاً.');
+                    } else {
+                        alert(`شكراً لتواصلك معنا يا ${name}! تم إرسال رسالتك بنجاح وسنتواصل معك قريباً.`);
+                        contactForm.reset();
+                    }
+                });
+        } else {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+            alert(`شكراً لتواصلك معنا يا ${name}! تم إرسال رسالتك بنجاح وسنتواصل معك قريباً (محاكاة محلية).`);
+            contactForm.reset();
+        }
+    });
+}
+
 // Dynamic Theme Settings applicator
 export function applyThemeSettings() {
     if (!supabaseClient) return;
@@ -472,6 +526,7 @@ export async function initApp() {
     initFAQAccordions();
     initTestimonials();
     initNewsletter();
+    initContactForm();
     checkUrlCallbacks();
 
     // Lazy load and launch the Live Visual Editor if admin session is detected
