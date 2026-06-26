@@ -28,7 +28,7 @@ export function loadDoctorCMS() {
             document.getElementById('docSpecializations').value = (content.specializations || []).join('، ');
             document.getElementById('docCertificates').value    = JSON.stringify(content.certificates || [], null, 2);
 
-            import('../assets/js/ai-assistant.js').then(({ attachAIAssistant }) => {
+            import('../../assets/js/ai-assistant.js').then(({ attachAIAssistant }) => {
                 document.querySelectorAll('#doctorCMSSection input[type="text"], #doctorCMSSection textarea').forEach(field => {
                     attachAIAssistant(field);
                 });

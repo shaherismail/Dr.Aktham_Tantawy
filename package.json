@@ -5,6 +5,5 @@
   "main": "index.html",
   "scripts": {
     "dev": "npx -y http-server -p 8080 --ext html"
-  },
-  "dependencies": {}
+  }
 }

@@ -182,7 +182,7 @@ export function openCaseForm(c) {
         document.getElementById('caseModalTitle').textContent  = 'إضافة حالة Smile Transformation جديدة';
     }
 
-    import('../assets/js/ai-assistant.js').then(({ attachAIAssistant }) => {
+    import('../../assets/js/ai-assistant.js').then(({ attachAIAssistant }) => {
         document.querySelectorAll('#caseForm input[type="text"], #caseForm textarea').forEach(field => {
             const id = field.id || '';
             if (!id.includes('Url') && !id.includes('Id') && !id.includes('Age') && !id.includes('Duration') && !id.includes('Visits')) {
