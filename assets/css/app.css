@@ -2636,6 +2636,11 @@ h1, h2, h3, h4, h5, h6 {
     .footer-top {
         grid-template-columns: repeat(2, 1fr);
     }
+    
+    .testimonial-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -2651,9 +2656,22 @@ h1, h2, h3, h4, h5, h6 {
         padding-top: 66px;
     }
     
+    .hero-content {
+        display: contents;
+    }
+
+    .badge-new {
+        order: 1 !important;
+        margin-bottom: 8px !important;
+        align-self: center !important;
+    }
+
     .hero-title {
         font-size: 38px;
         line-height: 1.2;
+        order: 2 !important;
+        margin-bottom: 16px !important;
+        text-align: center !important;
     }
     
     .section-title {
@@ -2661,12 +2679,27 @@ h1, h2, h3, h4, h5, h6 {
     }
     
     .hero-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
         padding: 40px 0 60px 0;
-        gap: 36px;
+        gap: 24px;
+    }
+
+    .hero-image-container {
+        order: 3 !important;
+        margin-bottom: 24px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+        position: relative !important;
     }
     
     .hero-desc {
         font-size: 16px;
+        order: 4 !important;
+        margin: 0 auto 20px auto !important;
+        text-align: center !important;
     }
     
     .hero-actions {
@@ -2674,6 +2707,8 @@ h1, h2, h3, h4, h5, h6 {
         align-items: center;
         gap: 14px;
         width: 100%;
+        order: 5 !important;
+        margin-bottom: 32px !important;
     }
     
     .hero-actions .btn {
@@ -2686,6 +2721,8 @@ h1, h2, h3, h4, h5, h6 {
         gap: 24px;
         padding-top: 24px;
         margin-top: 24px;
+        order: 6 !important;
+        width: 100% !important;
     }
     
     .stat-num {
@@ -2776,8 +2813,10 @@ h1, h2, h3, h4, h5, h6 {
         position: relative !important;
         bottom: auto !important;
         right: auto !important;
-        margin: 12px auto 0 auto;
-        width: fit-content;
+        margin: 16px auto 0 auto !important;
+        width: fit-content !important;
+        display: flex !important;
+        align-items: center !important;
     }
     
     .doctor-bio-title {
@@ -2787,6 +2826,11 @@ h1, h2, h3, h4, h5, h6 {
     .doctor-highlights {
         grid-template-columns: 1fr;
         gap: 14px;
+    }
+
+    .testimonial-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 }
 
