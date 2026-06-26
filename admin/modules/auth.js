@@ -22,6 +22,13 @@ export function initConnectionKeys() {
     const savedUrl = localStorage.getItem('supabase_url') || defaultUrl;
     const savedKey = localStorage.getItem('supabase_key') || defaultKey;
 
+    // Show configuration options only in local development mode
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const configArea = document.getElementById('configArea');
+    if (configArea) {
+        configArea.style.display = isLocal ? 'block' : 'none';
+    }
+
     document.getElementById('configUrl').value = savedUrl;
     document.getElementById('configKey').value = savedKey;
 

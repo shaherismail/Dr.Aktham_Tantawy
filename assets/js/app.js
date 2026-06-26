@@ -20,8 +20,11 @@ export const AppState = {
 };
 
 export function initSupabaseClient() {
-    const sbUrl = localStorage.getItem('supabase_url') || '';
-    const sbKey = localStorage.getItem('supabase_key') || '';
+    const defaultUrl = 'https://uryssoojjljplseaxamn.supabase.co';
+    const defaultKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVyeXNzb29qamxqcGxzZWF4YW1uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzMjE0NjgsImV4cCI6MjA5Nzg5NzQ2OH0.VmSSd3_7we4ZNOcHSaklHAN05Bnx9dCiTHjY_UI7c_k'; // anon key from PASSWORD
+
+    const sbUrl = localStorage.getItem('supabase_url') || defaultUrl;
+    const sbKey = localStorage.getItem('supabase_key') || defaultKey;
     if (sbUrl && sbKey && window.supabase) {
         try {
             supabaseClient = window.supabase.createClient(sbUrl, sbKey);
