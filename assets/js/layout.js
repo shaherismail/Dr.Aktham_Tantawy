@@ -105,16 +105,19 @@ function initMobileDrawerHandlers() {
     const links = document.querySelectorAll('.drawer-links a');
     const bookingBtn = document.getElementById('drawerBookingBtn');
 
-    if (!openBtn || !drawer) return;
+    // Guard: all critical elements must exist
+    if (!openBtn || !closeBtn || !drawer || !overlay) return;
 
     const openDrawer = () => {
         drawer.classList.add('active');
         overlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // prevent background scroll
     };
 
     const closeDrawer = () => {
         drawer.classList.remove('active');
         overlay.classList.remove('active');
+        document.body.style.overflow = ''; // restore scroll
     };
 
     openBtn.addEventListener('click', openDrawer);
@@ -128,4 +131,12 @@ function initMobileDrawerHandlers() {
     if (bookingBtn) {
         bookingBtn.addEventListener('click', closeDrawer);
     }
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && drawer.classList.contains('active')) {
+            closeDrawer();
+        }
+    });
 }
+
