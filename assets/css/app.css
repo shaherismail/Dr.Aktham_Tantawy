@@ -468,6 +468,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     gap: 18px;
     margin-top: 8px;
+    grid-column: 1; /* stay in text column on desktop */
 }
 
 .hero-stats-row {
@@ -476,6 +477,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 32px;
     border-top: 1px solid rgba(21, 101, 255, 0.08);
     padding-top: 32px;
+    grid-column: 1; /* stay in text column on desktop */
 }
 
 .stat-item {
@@ -504,6 +506,7 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: center;
     align-items: center;
     border-radius: var(--radius-xl);
+    overflow: visible;
 }
 
 .hero-image-container img.doctor-portrait {
@@ -2571,89 +2574,105 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+.hero-actions, .hero-stats-row {
+    grid-column: 1;
+}
+
+/* ─── Mobile Action Bar: hidden by default, shown only on mobile ─── */
+.mobile-action-bar-wrapper {
+    display: none;
+}
+
 /* Responsive Overrides */
 @media (max-width: 1024px) {
     .hero-wrapper {
         display: flex;
         flex-direction: column;
-        text-align: center;
-        gap: 32px;
         align-items: center;
+        text-align: center;
+        gap: 0;
+        padding: 48px 0 64px 0;
     }
-    
+
     .hero-content {
-        display: contents;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        width: 100%;
     }
-    
-    .badge-new {
-        order: 1;
-        margin: 0 auto;
+
+    .hero-content .badge-new {
+        align-self: center;
     }
-    
-    .hero-title {
-        order: 2;
-        margin: 0 auto;
+
+    .hero-content .hero-title {
+        font-size: 44px !important;
+        text-align: center;
     }
-    
-    .hero-desc {
-        order: 3;
+
+    .hero-content .hero-desc {
+        text-align: center;
         margin: 0 auto;
         max-width: 100%;
     }
-    
+
     .hero-image-container {
-        order: 4;
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
+        margin: 36px 0;
+        padding: 0 24px;
+        box-sizing: border-box;
     }
-    
+
     .hero-image-container img.doctor-portrait {
-        max-width: 320px;
+        max-width: min(300px, 80vw);
     }
-    
+
     .hero-actions {
-        order: 5;
-        width: 100%;
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
         gap: 12px;
-    }
-    
-    .hero-stats-row {
-        order: 6;
         width: 100%;
+        margin-top: 0;
+    }
+
+    .hero-stats-row {
         display: flex;
         justify-content: center;
+        width: 100%;
+        margin-top: 24px;
+        padding-top: 24px;
     }
-    
+
     .protection-wrapper {
         grid-template-columns: 1fr;
         gap: 48px;
     }
-    
+
     .doctor-wrapper {
         grid-template-columns: 1fr;
         gap: 48px;
     }
-    
+
     .doctor-image-container {
         max-width: 400px;
         margin: 0 auto;
     }
-    
+
     .booking-wrapper {
         grid-template-columns: 1fr;
         gap: 48px;
     }
-    
+
     .profile-grid {
         grid-template-columns: 1fr;
         gap: 32px;
     }
-    
+
     .footer-top {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -2665,7 +2684,12 @@ h1, h2, h3, h4, h5, h6 {
         /* Padding-bottom is required so sticky mobile bar does not obscure page footer content */
         padding-bottom: calc(75px + env(safe-area-inset-bottom)) !important;
     }
-    
+
+    /* Correct top offset for smaller 60px mobile header */
+    .main-content {
+        padding-top: 60px;
+    }
+
     .hero-title {
         font-size: 42px;
     }
@@ -2907,6 +2931,20 @@ h1, h2, h3, h4, h5, h6 {
     .hero-title {
         font-size: 32px !important;
     }
+
+    /* Stack hero CTA buttons vertically on very small phones */
+    .hero-actions {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        padding: 0 8px !important;
+    }
+
+    .hero-actions .btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
     
     .section-title {
         font-size: 24px !important;
