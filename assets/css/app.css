@@ -2707,3 +2707,42 @@ h1, h2, h3, h4, h5, h6 {
         left: -10px;
     }
 }
+
+/* CMS Page Builder Dynamic Layout Helpers */
+.padding-small {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+}
+.padding-medium {
+    padding-top: 80px !important;
+    padding-bottom: 80px !important;
+}
+.padding-large {
+    padding-top: 140px !important;
+    padding-bottom: 140px !important;
+}
+
+.bg-glass {
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(21, 101, 255, 0.05) !important;
+}
+.bg-light {
+    background: var(--bg) !important;
+}
+.bg-dark {
+    background: var(--dark) !important;
+    color: var(--text-white) !important;
+}
+.bg-dark .section-title, 
+.bg-dark .section-desc, 
+.bg-dark h2, 
+.bg-dark p, 
+.bg-dark span {
+    color: var(--text-white) !important;
+}
+.bg-accent {
+    background: var(--secondary) !important;
+}
+
