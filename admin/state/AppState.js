@@ -9,7 +9,7 @@ export const AppState = {
     /** @type {object|null} Supabase auth user object */
     currentUser: null,
 
-    /** @type {'Super Admin'|'Doctor'|'Receptionist'|'Viewer'} */
+    /** @type {'Super Admin'|'Doctor'|'Reception'|'Assistant'|'Viewer'} */
     currentUserRole: 'Viewer',
 
     /** @type {object|null} Chart.js instance for dashboard */
