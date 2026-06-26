@@ -408,6 +408,9 @@ function updateSiteSettingsInDOM(settings) {
         el.href = `tel:${settings.phone}`;
         el.textContent = settings.phone;
     });
+    document.querySelectorAll('.floating-phone-link').forEach(el => {
+        el.href = `tel:${settings.phone}`;
+    });
     document.querySelectorAll('.clinic-whatsapp-link').forEach(el => {
         el.href = `https://wa.me/${settings.whatsapp.replace('+', '')}`;
     });

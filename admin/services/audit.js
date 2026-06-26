@@ -2,7 +2,7 @@
 // Audit & Version History Service
 // Centralizes all audit logging and version snapshot logic.
 
-import { AppState } from './db.js';
+import { AppState } from '../state/AppState.js';
 
 /**
  * Tables whose changes are tracked in version_history for rollback support.
