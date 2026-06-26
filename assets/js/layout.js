@@ -14,8 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Highlight active nav item
                 highlightActiveLink();
                 
-                // Initialize drawer events
-                initMobileDrawerHandlers();
+
             })
             .catch(err => console.error('Error loading header:', err));
     }
@@ -69,35 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(err => console.error('Error loading footer:', err));
     }
 
-    // Load Mobile Sticky Action Bar dynamically
-    fetch('components/floating-bar.html')
-        .then(res => {
-            if (res.ok) return res.text();
-        })
-        .then(html => {
-            if (html) {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = html.trim();
-                document.body.appendChild(tempDiv.firstChild);
-                
-                // Dynamic replacement for phone and whatsapp custom settings
-                const savedSettings = localStorage.getItem('clinic_site_settings');
-                if (savedSettings) {
-                    try {
-                        const s = JSON.parse(savedSettings);
-                        document.querySelectorAll('.mobile-action-bar-wrapper .floating-phone-link').forEach(el => {
-                            el.href = `tel:${s.phone}`;
-                        });
-                        document.querySelectorAll('.mobile-action-bar-wrapper .clinic-whatsapp-link').forEach(el => {
-                            el.href = `https://wa.me/${s.whatsapp.replace('+', '')}`;
-                        });
-                    } catch(e) {
-                        console.error('Error applying dynamic layouts to mobile action bar:', e);
-                    }
-                }
-            }
-        })
-        .catch(err => console.error('Error loading mobile action bar:', err));
+
 
     // Load Telegram Simulator component dynamically
     fetch('components/telegram.html')
@@ -141,47 +112,6 @@ export function highlightActiveLink() {
         }
     });
 
-    // Mobile drawer links highlight
-    const drawerLinks = document.querySelectorAll('.drawer-links a');
-    drawerLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href === cleanPage || (cleanPage === 'index.html' && href === 'index.html')) {
-            link.classList.add('active');
-        } else {
-            link.classList.remove('active');
-        }
-    });
 }
 
-function initMobileDrawerHandlers() {
-    const openBtn = document.getElementById('openDrawerBtn');
-    const closeBtn = document.getElementById('closeDrawerBtn');
-    const drawer = document.getElementById('mobileDrawer');
-    const overlay = document.getElementById('drawerOverlay');
-    const links = document.querySelectorAll('.drawer-links a');
-    const bookingBtn = document.getElementById('drawerBookingBtn');
 
-    if (!openBtn || !drawer) return;
-
-    const openDrawer = () => {
-        drawer.classList.add('active');
-        overlay.classList.add('active');
-    };
-
-    const closeDrawer = () => {
-        drawer.classList.remove('active');
-        overlay.classList.remove('active');
-    };
-
-    openBtn.addEventListener('click', openDrawer);
-    closeBtn.addEventListener('click', closeDrawer);
-    overlay.addEventListener('click', closeDrawer);
-
-    links.forEach(link => {
-        link.addEventListener('click', closeDrawer);
-    });
-
-    if (bookingBtn) {
-        bookingBtn.addEventListener('click', closeDrawer);
-    }
-}
