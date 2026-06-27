@@ -44,7 +44,7 @@ export function checkUrlCallbacks() {
         if (idx !== -1) {
             bookings[idx].status = 'confirmed';
             localStorage.setItem('dr_aktham_bookings', JSON.stringify(bookings));
-            
+
             localStorage.setItem('current_patient_profile', JSON.stringify({
                 name: bookings[idx].name,
                 phone: bookings[idx].phone,
@@ -63,7 +63,7 @@ export function checkUrlCallbacks() {
                     else console.log(`Supabase booking ${id} confirmed via URL.`);
                 });
         }
-        
+
         if (window.location.pathname.includes('profile')) {
             const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
             window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
@@ -141,7 +141,7 @@ export function initTestimonials() {
         list.forEach(t => {
             const card = document.createElement('div');
             card.className = 'glass-card testimonial-card';
-            
+
             let starsHtml = '';
             for (let i = 0; i < 5; i++) {
                 starsHtml += `<i class="bx ${i < t.stars ? 'bxs-star' : 'bx-star'}"></i>`;

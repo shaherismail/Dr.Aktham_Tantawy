@@ -14,38 +14,38 @@ function applyTheme(theme) {
 function replaceGeneralSettings(html) {
     // Logo
     html = html.replace(/assets\/logo\.jpg/g, GeneralSettings.logoUrl);
-    
+
     // Clinic Name
     html = html.replace(/عيادة د\. أكثم إسماعيل/g, GeneralSettings.clinicName);
     html = html.replace(/عيادة د\. أكثم/g, GeneralSettings.clinicName);
     html = html.replace(/د\. أكثم طنطاوي/g, GeneralSettings.clinicName);
     html = html.replace(/عيادة الدكتور أكثم إسماعيل طنطاوي/g, GeneralSettings.clinicName);
     html = html.replace(/لطب وجراحة الأسنان/g, GeneralSettings.clinicSubName);
-    
+
     // Phone numbers
     html = html.replace(/\+966 50 123 4567<br>011 123 4567/g, `${GeneralSettings.phone}<br>${GeneralSettings.phoneFormatted}`);
     html = html.replace(/\+966 50 999 1111/g, GeneralSettings.emergencyPhone);
     html = html.replace(/info@dr-aktham\.com/g, GeneralSettings.email);
     html = html.replace(/الرياض، شارع التخصصي/g, GeneralSettings.address);
-    
+
     // Working Hours
     html = html.replace(/السبت - الخميس:<br>٩:٠٠ ص - ٩:٠٠ م/g, GeneralSettings.workingHours.replace(/\n/g, '<br>'));
-    
+
     // Map iframe
     if (GeneralSettings.googleMapsIframe) {
         html = html.replace(/data-src="https:\/\/www\.google\.com\/maps\/embed[^"]*"/, `data-src="${GeneralSettings.googleMapsIframe}"`);
     }
-    
+
     // Social Media
     html = html.replace(/href="https:\/\/facebook\.com"/g, `href="${GeneralSettings.facebook}"`);
     html = html.replace(/href="https:\/\/instagram\.com"/g, `href="${GeneralSettings.instagram}"`);
     html = html.replace(/href="https:\/\/twitter\.com"/g, `href="${GeneralSettings.twitter}"`);
-    
+
     // Whatsapp Link
     const cleanWa = GeneralSettings.whatsapp.replace(/\+/g, '').trim();
     const escWaText = encodeURIComponent(GeneralSettings.whatsappText);
     html = html.replace(/href="https:\/\/wa\.me\/[^"]*"/g, `href="https://wa.me/${cleanWa}?text=${escWaText}"`);
-    
+
     return html;
 }
 
@@ -102,7 +102,7 @@ function applyPageSettings(settings) {
             });
         }
     }
-    
+
     // 5. Update page specific theme overrides if they exist
     if (settings.theme) {
         applyTheme(settings.theme);
@@ -160,7 +160,7 @@ function applyGeneralSettingsToPage() {
 document.addEventListener('DOMContentLoaded', () => {
     // Apply global theme color variables first
     applyTheme(GeneralSettings.theme);
-    
+
     // Apply general settings to pages
     applyGeneralSettingsToPage();
 
@@ -191,10 +191,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Apply replacements
                 html = replaceGeneralSettings(html);
                 headerPlaceholder.outerHTML = html; // replace placeholder with template content
-                
+
                 // Highlight active nav item
                 highlightActiveLink();
-                
+
                 // Initialize drawer events
                 initMobileDrawerHandlers();
             })
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Apply replacements
                 html = replaceGeneralSettings(html);
                 footerPlaceholder.outerHTML = html; // replace placeholder with template content
-                
+
                 // Lazy load Google Maps iframe in footer
                 const lazyIframes = document.querySelectorAll('.lazy-iframe');
                 lazyIframes.forEach(iframe => {
@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = html.trim();
                 document.body.appendChild(tempDiv.firstChild);
-                
+
                 // Lazy import telegram logic
                 import('./telegram.js').then(module => {
                     if (typeof module.initTelegramSimulator === 'function') {
@@ -255,7 +255,7 @@ export function highlightActiveLink() {
     const path = window.location.pathname;
     const page = path.split('/').pop() || 'index.html';
     const cleanPage = page.endsWith('.html') ? page : page + '.html';
-    
+
     // Desktop navbar item highlight
     const navItems = document.querySelectorAll('.nav-links .nav-item');
     navItems.forEach(item => {
