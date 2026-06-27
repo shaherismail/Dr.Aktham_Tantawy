@@ -4,8 +4,7 @@
   "description": "Premium Dental Clinic website UI/UX mockups and interactive site for Dr. Aktham",
   "main": "index.html",
   "scripts": {
-    "dev": "npx -y http-server -p 8080 --ext html",
-    "build": "node inject-env.js"
+    "dev": "npx -y http-server -p 8080 --ext html"
   },
   "dependencies": {}
 }

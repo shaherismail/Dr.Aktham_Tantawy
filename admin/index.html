@@ -854,12 +854,6 @@
                         <li class="menu-item" data-tab="site-settings">
                             <i class="bx bx-cog"></i> <span>إعدادات المنصة</span>
                         </li>
-                        <li class="menu-item" data-tab="navigation-menu">
-                            <i class="bx bx-navigation"></i> <span>إدارة القوائم والروابط</span>
-                        </li>
-                        <li class="menu-item" data-tab="database-setup">
-                            <i class="bx bx-server"></i> <span>تهيئة قاعدة البيانات</span>
-                        </li>
                         <li class="menu-item" data-tab="users-rbac">
                             <i class="bx bx-shield-quarter"></i> <span>الصلاحيات والمستخدمين</span>
                         </li>
@@ -1441,96 +1435,7 @@
                                 <label class="form-label" for="siteAddress">العنوان المكتوب</label>
                                 <input type="text" id="siteAddress" class="form-input" value="الرياض، شارع التخصصي">
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" for="siteWhatsapp">رقم الواتساب الرسمي (بدون أصفار أو رمز زائد)</label>
-                                <input type="text" id="siteWhatsapp" class="form-input" value="966501234567">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="siteEmergencyPhone">خط الطوارئ العاجل</label>
-                                <input type="text" id="siteEmergencyPhone" class="form-input" value="+966 50 999 1111">
-                            </div>
-                            <div class="form-group-full">
-                                <label class="form-label" for="siteMapsIframe">رابط خريطة Google Maps Embed (iframe source)</label>
-                                <input type="text" id="siteMapsIframe" class="form-input" value="">
-                            </div>
-                            
-                            <!-- Announcement Bar Configuration -->
-                            <div class="form-group-full">
-                                <hr style="border:0; border-top:1px solid var(--border); margin: 15px 0;">
-                                <h4 style="margin-bottom:12px; color: var(--primary);"><i class="bx bx-megaphone"></i> شريط الإعلانات العلوية</h4>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="siteAnnouncementText">نص الإعلان</label>
-                                <input type="text" id="siteAnnouncementText" class="form-input" value="">
-                            </div>
-                            <div class="form-group" style="display:flex; align-items:center; gap:10px; margin-top:28px;">
-                                <input type="checkbox" id="siteAnnouncementVisible" style="width:20px; height:20px;">
-                                <label for="siteAnnouncementVisible" style="font-weight:700; cursor: pointer;">تفعيل إظهار الإعلان للزوار</label>
-                            </div>
-
-                            <!-- Maintenance Mode Configuration -->
-                            <div class="form-group-full">
-                                <hr style="border:0; border-top:1px solid var(--border); margin: 15px 0;">
-                                <h4 style="margin-bottom:12px; color: #EF4444;"><i class="bx bx-error-circle"></i> وضع الصيانة المؤقتة (Maintenance Mode)</h4>
-                            </div>
-                            <div class="form-group" style="display:flex; align-items:center; gap:10px; margin-top:28px;">
-                                <input type="checkbox" id="maintenanceActive" style="width:20px; height:20px;">
-                                <label for="maintenanceActive" style="font-weight:700; color:#EF4444; cursor: pointer;">تفعيل وضع الصيانة وإغلاق الموقع</label>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="maintenanceMessage">رسالة الصيانة المعروضة</label>
-                                <textarea id="maintenanceMessage" class="form-input" rows="2"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label" for="maintenanceCountdown">تاريخ ووقت انتهاء الصيانة (عداد تنازلي)</label>
-                                <input type="datetime-local" id="maintenanceCountdown" class="form-input">
-                            </div>
                         </form>
-                    </div>
-                </section>
-
-                <!-- NAVIGATION MENU PANEL -->
-                <section class="admin-panel" id="panel-navigation-menu">
-                    <div class="panel-header-row">
-                        <h2 class="panel-title"><i class="bx bx-navigation"></i> إدارة قوائم التنقل والروابط</h2>
-                        <button class="btn btn-primary" id="btnAddNewMenuLink"><i class="bx bx-plus"></i> إضافة رابط جديد</button>
-                    </div>
-
-                    <div class="glass-card table-card">
-                        <div class="table-responsive">
-                            <table class="admin-table">
-                                <thead>
-                                    <tr>
-                                        <th>نوع القائمة</th>
-                                        <th>الاسم (Label)</th>
-                                        <th>الرابط (Link)</th>
-                                        <th>الأيقونة (Icon)</th>
-                                        <th>الترتيب</th>
-                                        <th>الحالة</th>
-                                        <th>الإجراءات</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="navigationMenuTableBody">
-                                    <!-- Injected dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- DATABASE SETUP PANEL -->
-                <section class="admin-panel" id="panel-database-setup">
-                    <div class="panel-header-row">
-                        <h2 class="panel-title"><i class="bx bx-server"></i> تهيئة ومزامنة جداول Supabase</h2>
-                        <button class="btn btn-primary" id="btnCopySqlSchema"><i class="bx bx-copy"></i> نسخ كود SQL المعتمد</button>
-                    </div>
-
-                    <div class="glass-card" style="padding: 24px;">
-                        <h4 class="box-title"><i class="bx bx-info-circle"></i> خطوة أولى: تشغيل كود SQL في Supabase</h4>
-                        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.8; margin-bottom: 16px;">
-                            لتشغيل هذه المنصة وإلغاء القيم الصلبة تماماً، يجب تهيئة جداول قاعدة البيانات. انسخ كود SQL أدناه، ثم افتح لوحة تحكم Supabase الخاصة بك، انتقل إلى **SQL Editor**، ألصق الكود، وانقر على **Run**.
-                        </p>
-                        <textarea id="sqlSchemaTextarea" class="form-input" style="font-family: 'Outfit', monospace; font-size: 11px; direction: ltr; text-align: left; background: #0F172A; color: #38BDF8; height: 350px;" readonly>-- جاري تحميل كود SQL...</textarea>
                     </div>
                 </section>
 
@@ -1739,74 +1644,27 @@
                     </div>
                 </section>
 
-                <!-- 23. SYSTEM MONITOR & RECOVERY PANEL -->
+                <!-- 23. SYSTEM MONITOR PANEL -->
                 <section class="admin-panel" id="panel-system-monitor">
                     <div class="panel-header-row">
                         <h2 class="panel-title"><i class="bx bx-pulse"></i> مراقبة صحة وأداء خوادم العيادة</h2>
-                        <button class="btn btn-primary" id="btnRunHealthCheck"><i class="bx bx-refresh"></i> تحديث الفحص الفوري</button>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
-                        <!-- Health Status -->
-                        <div class="glass-card" style="padding: 24px;">
-                            <h4 class="box-title" style="margin-bottom: 16px; color: var(--primary);"><i class="bx bx-check-shield"></i> حالة الخدمات المترابطة (Health Checks)</h4>
-                            <div class="sys-performance-list" style="display: flex; flex-direction: column; gap: 14px;">
-                                <div class="perf-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
-                                    <span>قاعدة بيانات Supabase:</span>
-                                    <span style="font-weight: 700; color: var(--success);" id="statusSupabase">جاري الفحص...</span>
-                                </div>
-                                <div class="perf-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
-                                    <span>مخزن الملفات (Storage):</span>
-                                    <span style="font-weight: 700; color: var(--success);" id="statusStorage">Operational</span>
-                                </div>
-                                <div class="perf-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
-                                    <span>اتصال بوت تليجرام:</span>
-                                    <span style="font-weight: 700; color: var(--success);" id="statusTelegram">Active</span>
-                                </div>
-                                <div class="perf-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
-                                    <span>خادم البريد (SMTP Email):</span>
-                                    <span style="font-weight: 700; color: var(--success);" id="statusSmtp">Operational</span>
-                                </div>
-                                <div class="perf-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
-                                    <span>الاتصال اللحظي (Realtime):</span>
-                                    <span style="font-weight: 700; color: var(--success);" id="statusRealtime">Operational</span>
-                                </div>
+                    <div class="glass-card" style="padding: 24px;">
+                        <h4 class="box-title"><i class="bx bx-check-shield"></i> مؤشرات الأداء الحالية وسرعة الاستجابة</h4>
+                        <div class="sys-performance-list" style="margin-top: 16px; display: flex; flex-direction: column; gap: 14px;">
+                            <div class="perf-row" style="display: flex; justify-content: space-between;">
+                                <span>سرعة استجابة قاعدة البيانات (Database Ping):</span>
+                                <span style="font-weight: 700; color: var(--success);" id="sysPingDb">14 ms (ممتاز)</span>
                             </div>
-                        </div>
-
-                        <!-- Deployment Metadata -->
-                        <div class="glass-card" style="padding: 24px;">
-                            <h4 class="box-title" style="margin-bottom: 16px; color: var(--primary);"><i class="bx bx-info-circle"></i> بيانات النشر والتوزيع (Metadata)</h4>
-                            <div class="sys-performance-list" style="display: flex; flex-direction: column; gap: 14px;">
-                                <div class="perf-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
-                                    <span>إصدار المشروع (Project Version):</span>
-                                    <span style="font-weight: 700; font-family:\'Outfit\';">v2.1.0-SaaS</span>
-                                </div>
-                                <div class="perf-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
-                                    <span>رقم البناء (Build ID):</span>
-                                    <span style="font-weight: 700; font-family:\'Outfit\';">build_2026_06_27_01</span>
-                                </div>
-                                <div class="perf-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
-                                    <span>إصدار قاعدة البيانات (Database Schema):</span>
-                                    <span style="font-weight: 700; font-family:\'Outfit\';">v1.4.2-Production</span>
-                                </div>
-                                <div class="perf-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
-                                    <span>حالة الهجرة (Migration Status):</span>
-                                    <span style="font-weight: 700; color: var(--success);"><i class="bx bx-check-double"></i> Synced</span>
-                                </div>
+                            <div class="perf-row" style="display: flex; justify-content: space-between;">
+                                <span>استهلاك الذاكرة العشوائية السحابية (RAM):</span>
+                                <span><strong>35%</strong> من إجمالي الحصة المتاحة</span>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- System Disaster Recovery Section -->
-                    <div class="glass-card" style="padding: 24px; margin-top: 24px;">
-                        <h4 class="box-title" style="margin-bottom: 16px; color: #EF4444;"><i class="bx bx-shield-quarter"></i> مركز استعادة النظام والطوارئ (Disaster Recovery)</h4>
-                        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">أدوات متقدمة لتنظيف الكاش ومزامنة التخزين وإعادة الفهرسة لضمان استقرار المنصة بدون تجميد واجهة المستخدم.</p>
-                        
-                        <div style="display: flex; flex-wrap: wrap; gap: 14px;">
-                            <button class="btn btn-outline" id="btnFlushCache" style="border-color: rgba(21,101,255,0.2);"><i class="bx bx-trash"></i> تفريغ الكاش (Flush Cache)</button>
-                            <button class="btn btn-outline" id="btnRebuildSearch" style="border-color: rgba(21,101,255,0.2);"><i class="bx bx-search-alt"></i> إعادة بناء فهرس البحث</button>
-                            <button class="btn btn-outline" id="btnResyncStorage" style="border-color: rgba(21,101,255,0.2);"><i class="bx bx-sync"></i> مزامنة مساحات التخزين</button>
+                            <div class="perf-row" style="display: flex; justify-content: space-between;">
+                                <span>معدل تحميل الصفحات للزوار (Page Load Time):</span>
+                                <span style="font-weight: 700; color: var(--success);">0.9s (سريع جداً)</span>
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -2024,98 +1882,26 @@
         // Initialize Supabase client dynamically if defined
         function initSupabase() {
             const sbUrl = localStorage.getItem('supabase_url') || 'https://uryssoojjljplseaxamn.supabase.co';
-            const sbKey = localStorage.getItem('supabase_key') || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVyeXNzb29qamxqcGxzZWF4YW1uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIzMjE0NjgsImV4cCI6MjA5Nzg5NzQ2OH0.VmSSd3_7we4ZNOcHSaklHAN05Bnx9dCiTHjY_UI7c_k';
+            const sbKey = localStorage.getItem('supabase_key') || '';
             
-            const onSupabaseLoad = () => {
-                if (window.supabase && sbUrl && sbKey) {
-                    try {
-                        supabase = window.supabase.createClient(sbUrl, sbKey);
-                        import('../assets/js/architecture.js').then(({ setSupabaseClient }) => {
-                            setSupabaseClient(supabase);
-                        });
-                        document.getElementById('supabaseStatusIndicator').innerHTML = `
-                            <span class="status-dot green"></span>
-                            <span class="status-lbl">Supabase: متصل</span>
-                        `;
-                        
-                        // Fetch live bookings
-                        supabase.from('bookings').select('*').order('created_at', { ascending: false }).then(({ data, error }) => {
-                            if (!error && data && data.length > 0) {
-                                AdminState.bookings = data;
-                                renderAppointments();
-                                renderPatients();
-                                renderBookingsChart();
-                                renderRecentActivities();
-                            } else if (error) {
-                                console.error('Error fetching bookings from Supabase:', error);
-                            }
-                        });
-
-                        // Fetch live testimonials
-                        supabase.from('testimonials').select('*').order('id', { ascending: false }).then(({ data, error }) => {
-                            if (!error && data && data.length > 0) {
-                                AdminState.testimonials = data;
-                                renderTestimonials();
-                            } else if (error) {
-                                console.error('Error fetching testimonials from Supabase:', error);
-                            }
-                        });
-
-                        // Fetch live services
-                        supabase.from('services').select('*').order('id', { ascending: true }).then(({ data, error }) => {
-                            if (!error && data && data.length > 0) {
-                                AdminState.services = data;
-                                renderServices();
-                            } else if (error) {
-                                console.error('Error fetching services from Supabase:', error);
-                            }
-                        });
-
-                        // Fetch live gallery cases
-                        supabase.from('gallery').select('*').order('created_at', { ascending: false }).then(({ data, error }) => {
-                            if (!error && data && data.length > 0) {
-                                AdminState.gallery = data;
-                                renderGalleryCases();
-                            } else if (error) {
-                                console.error('Error fetching gallery cases from Supabase:', error);
-                            }
-                        });
-
-                        // Fetch live FAQs
-                        supabase.from('faqs').select('*').order('order', { ascending: true }).then(({ data, error }) => {
-                            if (!error && data && data.length > 0) {
-                                AdminState.faqs = data;
-                                renderFAQs();
-                            } else if (error) {
-                                console.error('Error fetching FAQs from Supabase:', error);
-                            }
-                        });
-
-                        // Fetch live contact messages
-                        supabase.from('contact_messages').select('*').order('created_at', { ascending: false }).then(({ data, error }) => {
-                            if (!error && data && data.length > 0) {
-                                AdminState.contactMessages = data;
-                                renderContactMessages();
-                            } else if (error) {
-                                console.error('Error fetching contact messages from Supabase:', error);
-                            }
-                        });
-
-                        // Load dynamic settings and panels
-                        loadSupabaseSettings();
-                    } catch (e) {
-                        console.error('Supabase Init error:', e);
-                    }
-                }
-            };
-
+            // Inject Script dynamically if not defined
             if (!window.supabase) {
                 const script = document.createElement('script');
                 script.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
-                script.onload = onSupabaseLoad;
+                script.onload = () => {
+                    if (window.supabase && sbUrl && sbKey) {
+                        try {
+                            supabase = window.supabase.createClient(sbUrl, sbKey);
+                            document.getElementById('supabaseStatusIndicator').innerHTML = `
+                                <span class="status-dot green"></span>
+                                <span class="status-lbl">Supabase: متصل</span>
+                            `;
+                        } catch (e) {
+                            console.error('Supabase Init error:', e);
+                        }
+                    }
+                };
                 document.head.appendChild(script);
-            } else {
-                onSupabaseLoad();
             }
         }
 
@@ -2183,11 +1969,6 @@
                         renderAppointments();
                         showToast(`تم تأكيد الموعد ${b.id} للمريض ${b.name}`);
                         logActivity("تأكيد حجز موعد", `تم تأكيد موعد المريض: ${b.name} للمعرف ${b.id}`);
-                        if (supabase) {
-                            supabase.from('bookings').update({ status: 'confirmed' }).eq('id', b.id).then(({ error }) => {
-                                if (error) console.error('Error confirming booking in Supabase:', error);
-                            });
-                        }
                     });
                 }
 
@@ -2198,11 +1979,6 @@
                     renderAppointments();
                     showToast(`تم إلغاء موعد المريض ${b.name}`);
                     logActivity("إلغاء حجز موعد", `تم إلغاء موعد المريض: ${b.name}`);
-                    if (supabase) {
-                        supabase.from('bookings').update({ status: 'cancelled' }).eq('id', b.id).then(({ error }) => {
-                            if (error) console.error('Error cancelling booking in Supabase:', error);
-                        });
-                    }
                 });
 
                 // Delete (Move to Recycle bin)
@@ -2215,11 +1991,6 @@
                         renderRecycleBin();
                         showToast("تم نقل الحجز إلى سلة المهملات");
                         logActivity("حذف حجز موعد", `حذف حجز المريض ${b.name} ونقله لسلة المهملات`);
-                        if (supabase) {
-                            supabase.from('bookings').delete().eq('id', b.id).then(({ error }) => {
-                                if (error) console.error('Error deleting booking in Supabase:', error);
-                            });
-                        }
                     }
                 });
 
@@ -2311,11 +2082,6 @@
                         renderServices();
                         showToast("تمت إزالة الخدمة بنجاح");
                         logActivity("حذف خدمة علاجية", `تم حذف الخدمة: ${s.name}`);
-                        if (supabase) {
-                            supabase.from('services').delete().eq('id', s.id).then(({ error }) => {
-                                if (error) console.error('Error deleting service from Supabase:', error);
-                            });
-                        }
                     }
                 });
 
@@ -2352,11 +2118,6 @@
                         renderGalleryCases();
                         showToast("تمت إزالة الحالة التجميلية بنجاح");
                         logActivity("حذف حالة من المعرض", `تم إزالة الحالة: ${c.title}`);
-                        if (supabase) {
-                            supabase.from('gallery').delete().eq('id', c.id).then(({ error }) => {
-                                if (error) console.error('Error deleting gallery case from Supabase:', error);
-                            });
-                        }
                     }
                 });
 
@@ -2395,11 +2156,6 @@
                         renderTestimonials();
                         showToast("تمت الموافقة على التقييم ونشره بالرئيسية");
                         logActivity("اعتماد تقييم مريض", `تم اعتماد رأي المريض: ${t.name}`);
-                        if (supabase) {
-                            supabase.from('testimonials').update({ status: 'approved' }).eq('id', t.id).then(({ error }) => {
-                                if (error) console.error('Error approving testimonial in Supabase:', error);
-                            });
-                        }
                     });
                 }
 
@@ -2410,11 +2166,6 @@
                         renderTestimonials();
                         showToast("تم حذف التقييم بنجاح");
                         logActivity("حذف تقييم مريض", `حذف تقييم المريض: ${t.name}`);
-                        if (supabase) {
-                            supabase.from('testimonials').delete().eq('id', t.id).then(({ error }) => {
-                                if (error) console.error('Error deleting testimonial in Supabase:', error);
-                            });
-                        }
                     }
                 });
 
@@ -2453,11 +2204,6 @@
                         renderFAQs();
                         showToast("تمت إزالة السؤال بنجاح");
                         logActivity("حذف سؤال FAQ", `تم حذف السؤال: ${f.q}`);
-                        if (supabase) {
-                            supabase.from('faqs').delete().eq('id', f.id).then(({ error }) => {
-                                if (error) console.error('Error deleting FAQ from Supabase:', error);
-                            });
-                        }
                     }
                 });
 
@@ -2494,11 +2240,6 @@
                         renderContactMessages();
                         showToast("تم حذف رسالة الاستفسار");
                         logActivity("حذف رسالة تواصل", `حذف رسالة المريض: ${m.name}`);
-                        if (supabase) {
-                            supabase.from('contact_messages').delete().eq('id', m.id).then(({ error }) => {
-                                if (error) console.error('Error deleting contact message from Supabase:', error);
-                            });
-                        }
                     }
                 });
 
@@ -2725,72 +2466,25 @@
                 });
             }
 
-            // Site settings (Updated with Supabase write actions)
+            // Site settings
             const siteForm = document.getElementById('siteSettingsForm');
             const siteSaveBtn = document.getElementById('btnSaveSiteSettings');
             if (siteForm && siteSaveBtn) {
                 siteSaveBtn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    if (!supabase) return;
-
-                    const updatedSettings = {
-                        clinic_name: document.getElementById('siteClinicName').value.trim(),
-                        email: document.getElementById('siteEmail').value.trim(),
-                        phone: document.getElementById('sitePhone').value.trim(),
-                        address: document.getElementById('siteAddress').value.trim(),
-                        whatsapp: document.getElementById('siteWhatsapp').value.trim(),
-                        emergency_phone: document.getElementById('siteEmergencyPhone').value.trim(),
-                        google_maps_iframe: document.getElementById('siteMapsIframe').value.trim(),
-                        announcement_text: document.getElementById('siteAnnouncementText').value.trim(),
-                        announcement_visible: document.getElementById('siteAnnouncementVisible').checked
-                    };
-
-                    const updatedMaintenance = {
-                        is_active: document.getElementById('maintenanceActive').checked,
-                        message: document.getElementById('maintenanceMessage').value.trim(),
-                        countdown_end: document.getElementById('maintenanceCountdown').value ? new Date(document.getElementById('maintenanceCountdown').value).toISOString() : null
-                    };
-
-                    import('../assets/js/architecture.js').then(({ SiteSettingsService }) => {
-                        Promise.all([
-                            SiteSettingsService.updateSettings(updatedSettings),
-                            SiteSettingsService.updateMaintenanceMode(updatedMaintenance)
-                        ]).then(() => {
-                            showToast("تم تحديث إعدادات المنصة ووضع الصيانة بنجاح!");
-                            logActivity("تعديل إعدادات المنصة", "تحديث الهوية، شريط الإعلانات، ووضع الصيانة للموقع");
-                        }).catch(err => {
-                            showToast("حدث خطأ أثناء حفظ الإعدادات", "error");
-                            console.error('Error saving settings:', err);
-                        });
-                    });
+                    showToast("تم حفظ إعدادات الهوية وساعات العمل بنجاح");
+                    logActivity("تعديل إعدادات المنصة", "تحديث اسم العيادة والبريد ورقم الهاتف الرسمي للموقع");
                 });
             }
 
-            // Doctor profile settings (Updated with Supabase write actions)
+            // Doctor profile settings
             const docProfileForm = document.getElementById('doctorProfileForm');
             const docProfileSaveBtn = document.getElementById('btnSaveDoctorProfile');
             if (docProfileForm && docProfileSaveBtn) {
                 docProfileSaveBtn.addEventListener('click', (e) => {
                     e.preventDefault();
-                    if (!supabase) return;
-
-                    const name = document.getElementById('docName').value.trim();
-                    const title = document.getElementById('docTitle').value.trim();
-                    const bio = document.getElementById('docBio').value.trim();
-
-                    supabase.from('doctor_profile').update({
-                        name: name,
-                        title: title,
-                        bio: bio
-                    }).neq('id', '00000000-0000-0000-0000-000000000000').then(({ error }) => {
-                        if (!error) {
-                            showToast("تم حفظ السيرة المهنية للدكتور بنجاح");
-                            logActivity("تحديث ملف الطبيب", "تحديث اسم الطبيب والمسمى والنبذة التعريفية");
-                        } else {
-                            showToast("فشل حفظ ملف الطبيب", "error");
-                            console.error('Error saving doctor profile:', error);
-                        }
-                    });
+                    showToast("تم حفظ السيرة المهنية للدكتور بنجاح");
+                    logActivity("تحديث ملف الطبيب", "تحديث السيرة العلمية والمهنية للطبيب");
                 });
             }
 
@@ -2805,182 +2499,14 @@
                 });
             }
 
-            // Theme manager settings (Updated with Supabase write actions)
+            // Theme manager settings
             const saveThemeBtn = document.getElementById('saveThemeBtn');
             if (saveThemeBtn) {
                 saveThemeBtn.addEventListener('click', () => {
-                    if (!supabase) return;
-
-                    const primary = document.getElementById('themePrimaryColor').value;
-                    const secondary = document.getElementById('themeSecondaryColor').value;
-                    const hover = document.getElementById('themeHoverColor').value;
-
-                    import('../assets/js/architecture.js').then(({ ThemeService }) => {
-                        ThemeService.updateTheme({
-                            primary_color: primary,
-                            secondary_color: secondary,
-                            accent_color: hover
-                        }).then(() => {
-                            showToast("تم حفظ مظهر وثيم الألوان وتنسيق الموقع للزوار");
-                            logActivity("تعديل ثيم المنصة", "تحديث كود الألوان ودرجات التفاعل الأساسية بالثيم");
-                        }).catch(err => {
-                            showToast("حدث خطأ أثناء حفظ مظهر الثيم", "error");
-                            console.error('Error saving theme:', err);
-                        });
-                    });
+                    showToast("تم تحديث مظهر وثيم الألوان وتنسيق الموقع للزوار");
+                    logActivity("تعديل ثيم المنصة", "تحديث كود الألوان ودرجات التفاعل الأساسية بالثيم");
                 });
             }
-
-            // Add navigation menu link (Updated with Supabase write actions)
-            const addMenuBtn = document.getElementById('btnAddNewMenuLink');
-            if (addMenuBtn) {
-                addMenuBtn.addEventListener('click', () => {
-                    const label = prompt("اسم الرابط (مثلاً: المدونة):");
-                    const link = prompt("رابط الصفحة (مثلاً: blog.html):");
-                    const menuType = prompt("نوع القائمة (desktop أو mobile):", "desktop");
-                    if (label && link) {
-                        const newLink = {
-                            label: label,
-                            link: link,
-                            menu_type: menuType,
-                            display_order: 10,
-                            is_visible: true
-                        };
-                        supabase.from('navigation_menu').insert([newLink]).then(({ error }) => {
-                            if (!error) {
-                                showToast("تمت إضافة رابط التنقل بنجاح!");
-                                renderNavigationMenuEditor();
-                            } else {
-                                console.error('Error inserting menu link:', error);
-                            }
-                        });
-                    }
-                });
-            }
-        }
-
-        // Supabase dynamic settings loading
-        function loadSupabaseSettings() {
-            if (!supabase) return;
-
-            // Load SQL schema text
-            fetch('../supabase_schema.sql')
-                .then(res => res.text())
-                .then(sql => {
-                    const txt = document.getElementById('sqlSchemaTextarea');
-                    if (txt) txt.value = sql;
-                }).catch(err => console.error('Error fetching SQL schema:', err));
-
-            // Copy SQL button
-            const copyBtn = document.getElementById('btnCopySqlSchema');
-            if (copyBtn) {
-                copyBtn.addEventListener('click', () => {
-                    const txt = document.getElementById('sqlSchemaTextarea');
-                    if (txt) {
-                        txt.select();
-                        document.execCommand('copy');
-                        showToast("تم نسخ كود SQL إلى الحافظة!");
-                    }
-                });
-            }
-
-            // Load site_settings, maintenance and theme via service layers
-            import('../assets/js/architecture.js').then(({ SiteSettingsService, ThemeService }) => {
-                SiteSettingsService.getSettings().then(data => {
-                    if (data) {
-                        document.getElementById('siteClinicName').value = data.clinic_name || '';
-                        document.getElementById('siteEmail').value = data.email || '';
-                        document.getElementById('sitePhone').value = data.phone || '';
-                        document.getElementById('siteAddress').value = data.address || '';
-                        document.getElementById('siteWhatsapp').value = data.whatsapp || '';
-                        document.getElementById('siteEmergencyPhone').value = data.emergency_phone || '';
-                        document.getElementById('siteMapsIframe').value = data.google_maps_iframe || '';
-                        document.getElementById('siteAnnouncementText').value = data.announcement_text || '';
-                        document.getElementById('siteAnnouncementVisible').checked = data.announcement_visible || false;
-                    }
-                });
-
-                SiteSettingsService.getMaintenanceMode().then(data => {
-                    if (data) {
-                        document.getElementById('maintenanceActive').checked = data.is_active || false;
-                        document.getElementById('maintenanceMessage').value = data.message || '';
-                        if (data.countdown_end) {
-                            const localTime = new Date(data.countdown_end).toISOString().slice(0, 16);
-                            document.getElementById('maintenanceCountdown').value = localTime;
-                        }
-                    }
-                });
-
-                ThemeService.getTheme().then(data => {
-                    if (data) {
-                        if (data.primary_color) document.getElementById('themePrimaryColor').value = data.primary_color;
-                        if (data.secondary_color) document.getElementById('themeSecondaryColor').value = data.secondary_color;
-                        if (data.accent_color) document.getElementById('themeHoverColor').value = data.accent_color;
-                    }
-                });
-            });
-
-            // Load doctor_profile
-            supabase.from('doctor_profile').select('*').limit(1).then(({ data, error }) => {
-                if (!error && data && data[0]) {
-                    document.getElementById('docName').value = data[0].name || '';
-                    document.getElementById('docTitle').value = data[0].title || '';
-                    document.getElementById('docBio').value = data[0].bio || '';
-                }
-            });
-
-            // Load navigation_menu list
-            renderNavigationMenuEditor();
-        }
-
-        // Render dynamic navigation menu links in table
-        function renderNavigationMenuEditor() {
-            const tbody = document.getElementById('navigationMenuTableBody');
-            if (!tbody || !supabase) return;
-
-            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">جاري تحميل القوائم...</td></tr>';
-            supabase.from('navigation_menu').select('*').order('display_order', { ascending: true }).then(({ data, error }) => {
-                if (error || !data) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#EF4444;">فشل تحميل الروابط</td></tr>';
-                    return;
-                }
-                
-                tbody.innerHTML = '';
-                if (data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">لا توجد روابط تنقل مسجلة حالياً</td></tr>';
-                    return;
-                }
-
-                data.forEach(item => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><span style="padding:4px 8px; background:var(--secondary); border-radius:6px; font-weight:700; font-size:12px;">${item.menu_type === 'desktop' ? 'شريط الكمبيوتر' : 'شريط الجوال'}</span></td>
-                        <td><strong>${item.label}</strong></td>
-                        <td style="font-family:\'Outfit\';">${item.link}</td>
-                        <td style="font-family:\'Outfit\';"><i class="${item.icon || 'bx bx-link'}"></i></td>
-                        <td>${item.display_order}</td>
-                        <td><span style="color:#10B981;"><i class="bx bx-check-circle"></i> نشط</span></td>
-                        <td>
-                            <button class="btn btn-outline btn-sm action-delete-menu-link" style="color:#EF4444; border-color:rgba(239,68,68,0.2);"><i class="bx bx-trash"></i></button>
-                        </td>
-                    `;
-
-                    tr.querySelector('.action-delete-menu-link').addEventListener('click', () => {
-                        if (confirm(`هل تريد حذف رابط التنقل "${item.label}"؟`)) {
-                            supabase.from('navigation_menu').delete().eq('id', item.id).then(({ error }) => {
-                                if (!error) {
-                                    showToast("تم حذف رابط التنقل بنجاح");
-                                    renderNavigationMenuEditor();
-                                } else {
-                                    console.error('Error deleting menu link:', error);
-                                }
-                            });
-                        }
-                    });
-
-                    tbody.appendChild(tr);
-                });
-            });
         }
 
         // Backup logic (JSON export / import)
@@ -3128,76 +2654,15 @@
             }
         }
 
-        // System monitor and recovery logic
-        function initSystemMonitorAndRecovery() {
-            const runCheckBtn = document.getElementById('btnRunHealthCheck');
-            const flushCacheBtn = document.getElementById('btnFlushCache');
-            const rebuildSearchBtn = document.getElementById('btnRebuildSearch');
-            const resyncStorageBtn = document.getElementById('btnResyncStorage');
-
-            const refreshHealth = () => {
-                const sbStatus = document.getElementById('statusSupabase');
-                if (sbStatus) sbStatus.textContent = 'جاري الفحص...';
-                
-                import('./architecture.js').then(({ HealthCheckService }) => {
-                    HealthCheckService.checkStatus().then(report => {
-                        if (sbStatus) {
-                            sbStatus.textContent = report.supabase;
-                            sbStatus.style.color = report.supabase.includes('Healthy') ? 'var(--success)' : '#EF4444';
-                        }
-                        const storageStatus = document.getElementById('statusStorage');
-                        if (storageStatus) storageStatus.textContent = report.storage;
-                        const telegramStatus = document.getElementById('statusTelegram');
-                        if (telegramStatus) telegramStatus.textContent = report.telegram;
-                        const smtpStatus = document.getElementById('statusSmtp');
-                        if (smtpStatus) smtpStatus.textContent = report.smtp;
-                        const realtimeStatus = document.getElementById('statusRealtime');
-                        if (realtimeStatus) realtimeStatus.textContent = report.realtime;
-                    });
-                });
-            };
-
-            if (runCheckBtn) {
-                runCheckBtn.addEventListener('click', () => {
-                    refreshHealth();
-                    showToast("تم تحديث وفحص حالة الخدمات المترابطة!");
-                });
+        // System monitor mock ping update
+        function initSystemMonitorPing() {
+            const pingText = document.getElementById('sysPingDb');
+            if (pingText) {
+                setInterval(() => {
+                    const randomPing = Math.floor(8 + Math.random() * 15);
+                    pingText.textContent = `${randomPing} ms (ممتاز)`;
+                }, 5000);
             }
-
-            if (flushCacheBtn) {
-                flushCacheBtn.addEventListener('click', () => {
-                    import('./architecture.js').then(({ SystemRecoveryService }) => {
-                        SystemRecoveryService.flushCache().then(() => {
-                            showToast("تم تفريغ كافة البيانات المؤقتة بنجاح!");
-                            logActivity("تطهير الذاكرة المؤقتة", "مسح كامل الكاش وهياكل التخزين المؤقت بالمنصة");
-                        });
-                    });
-                });
-            }
-
-            if (rebuildSearchBtn) {
-                rebuildSearchBtn.addEventListener('click', () => {
-                    import('./architecture.js').then(({ SystemRecoveryService }) => {
-                        SystemRecoveryService.rebuildSearchIndex().then(() => {
-                            showToast("تمت إعادة بناء كشاف البحث العام للموقع!");
-                            logActivity("إعادة بناء كشاف البحث", "تحديث فهارس البحث الحركي وسجلات الاستعلام السريع");
-                        });
-                    });
-                });
-            }
-
-            if (resyncStorageBtn) {
-                resyncStorageBtn.addEventListener('click', () => {
-                    showToast("جاري إعادة مزامنة وتوثيق ملفات التخزين السحابي...");
-                    setTimeout(() => {
-                        showToast("تمت مزامنة الحاويات والملفات اليتيمة بأمان!");
-                        logActivity("مزامنة التخزين السحابي", "التحقق من صحة ملفات الحاويات والملفات اليتيمة بسحابة التخزين");
-                    }, 1200);
-                });
-            }
-
-            // Run initial check
-            setTimeout(refreshHealth, 1500);
         }
 
         // Manual entries forms modals triggers
@@ -3229,23 +2694,6 @@
                         renderAppointments();
                         showToast(`تم تسجيل موعد يدوي جديد للمريض ${name} بنجاح!`);
                         logActivity("إضافة حجز يدوي", `تم تسجيل موعد المريض: ${name} يدوياً بالمعرف ${id}`);
-                        if (supabase) {
-                            supabase.from('bookings').insert([{
-                                id: id,
-                                name: name,
-                                phone: phone,
-                                email: "",
-                                age: 20,
-                                service: service,
-                                date: new Date().toISOString().split('T')[0],
-                                time: "10:00 ص",
-                                chair: "تقويم الأسنان 🦷",
-                                notes: "حجز يدوي من المدير المالي للعيادة",
-                                status: "pending"
-                            }]).then(({ error }) => {
-                                if (error) console.error('Error inserting booking to Supabase:', error);
-                            });
-                        }
                     }
                 });
             }
@@ -3277,23 +2725,6 @@
                         renderPatients();
                         showToast("تم فتح ملف طبي جديد للمريض بنجاح");
                         logActivity("تسجيل مريض جديد", `تم فتح ملف المريض: ${name} بنجاح`);
-                        if (supabase) {
-                            supabase.from('bookings').insert([{
-                                id: id,
-                                name: name,
-                                phone: phone,
-                                email: "",
-                                age: 25,
-                                service: "تنظيف الأسنان",
-                                date: new Date().toISOString().split('T')[0],
-                                time: "12:00 م",
-                                chair: "جناح VIP 💎",
-                                notes: "تسجيل ملف مريض جديد يدوي",
-                                status: "confirmed"
-                            }]).then(({ error }) => {
-                                if (error) console.error('Error inserting booking to Supabase:', error);
-                            });
-                        }
                     }
                 });
             }
@@ -3305,34 +2736,19 @@
                     const name = prompt("اسم الخدمة العلاجية الجديدة:");
                     const price = prompt("السعر المرجعي بالريال (SAR):", "500");
                     if (name) {
-                        const newService = {
+                        AdminState.services.push({
+                            id: Date.now(),
                             name: name,
                             desc: "وصف الخدمة المقترح من الطبيب المعالج بالمركز الاستشاري.",
-                            price: parseInt(price) || 0,
+                            price: parseInt(price),
                             duration: "45 دقيقة",
                             icon: "bx bx-plus-medical",
                             status: "active"
-                        };
-                        if (supabase) {
-                            supabase.from('services').insert([newService]).select().then(({ data, error }) => {
-                                if (!error && data && data[0]) {
-                                    AdminState.services.push(data[0]);
-                                    saveStateToLocal();
-                                    renderServices();
-                                    showToast("تمت إضافة الخدمة العلاجية بنجاح");
-                                    logActivity("إضافة خدمة علاجية", `إضافة الخدمة: ${name}`);
-                                } else if (error) {
-                                    console.error('Error inserting service into Supabase:', error);
-                                }
-                            });
-                        } else {
-                            newService.id = Date.now();
-                            AdminState.services.push(newService);
-                            saveStateToLocal();
-                            renderServices();
-                            showToast("تمت إضافة الخدمة العلاجية بنجاح");
-                            logActivity("إضافة خدمة علاجية", `إضافة الخدمة: ${name}`);
-                        }
+                        });
+                        saveStateToLocal();
+                        renderServices();
+                        showToast("تمت إضافة الخدمة العلاجية بنجاح");
+                        logActivity("إضافة خدمة علاجية", `إضافة الخدمة: ${name}`);
                     }
                 });
             }
@@ -3343,7 +2759,8 @@
                 caseBtn.addEventListener('click', () => {
                     const title = prompt("عنوان الحالة (مثلاً: علاج ازدحام الفك العلوي):");
                     if (title) {
-                        const newCase = {
+                        AdminState.gallery.unshift({
+                            id: "case-" + Date.now(),
                             title: title,
                             age: 22,
                             service: "تقويم الأسنان",
@@ -3351,27 +2768,11 @@
                             after: "../assets/case2.jpg",
                             duration: "12 شهراً",
                             result: "إطباق متناسق تماماً ومظهر ابتسامة طبيعية مبهر"
-                        };
-                        if (supabase) {
-                            supabase.from('gallery').insert([newCase]).select().then(({ data, error }) => {
-                                if (!error && data && data[0]) {
-                                    AdminState.gallery.unshift(data[0]);
-                                    saveStateToLocal();
-                                    renderGalleryCases();
-                                    showToast("تمت إضافة الحالة التجميلية لمعرض الابتسامات");
-                                    logActivity("إضافة حالة بالمعرض", `إضافة حالة: ${title}`);
-                                } else if (error) {
-                                    console.error('Error inserting gallery case into Supabase:', error);
-                                }
-                            });
-                        } else {
-                            newCase.id = "case-" + Date.now();
-                            AdminState.gallery.unshift(newCase);
-                            saveStateToLocal();
-                            renderGalleryCases();
-                            showToast("تمت إضافة الحالة التجميلية لمعرض الابتسامات");
-                            logActivity("إضافة حالة بالمعرض", `إضافة حالة: ${title}`);
-                        }
+                        });
+                        saveStateToLocal();
+                        renderGalleryCases();
+                        showToast("تمت إضافة الحالة التجميلية لمعرض الابتسامات");
+                        logActivity("إضافة حالة بالمعرض", `إضافة حالة: ${title}`);
                     }
                 });
             }
@@ -3383,34 +2784,18 @@
                     const q = prompt("السؤال المقترح:");
                     const a = prompt("الإجابة المعتمدة:");
                     if (q && a) {
-                        const newFaq = {
+                        if (!AdminState.faqs) AdminState.faqs = [];
+                        AdminState.faqs.push({
+                            id: Date.now(),
                             q: q,
                             a: a,
                             cat: "عام",
-                            order: (AdminState.faqs || []).length + 1
-                        };
-                        if (supabase) {
-                            supabase.from('faqs').insert([newFaq]).select().then(({ data, error }) => {
-                                if (!error && data && data[0]) {
-                                    if (!AdminState.faqs) AdminState.faqs = [];
-                                    AdminState.faqs.push(data[0]);
-                                    saveStateToLocal();
-                                    renderFAQs();
-                                    showToast("تمت إضافة سؤال FAQ جديد بنجاح");
-                                    logActivity("إضافة سؤال FAQ", `إضافة سؤال: ${q}`);
-                                } else if (error) {
-                                    console.error('Error inserting FAQ into Supabase:', error);
-                                }
-                            });
-                        } else {
-                            newFaq.id = Date.now();
-                            if (!AdminState.faqs) AdminState.faqs = [];
-                            AdminState.faqs.push(newFaq);
-                            saveStateToLocal();
-                            renderFAQs();
-                            showToast("تمت إضافة سؤال FAQ جديد بنجاح");
-                            logActivity("إضافة سؤال FAQ", `إضافة سؤال: ${q}`);
-                        }
+                            order: AdminState.faqs.length + 1
+                        });
+                        saveStateToLocal();
+                        renderFAQs();
+                        showToast("تمت إضافة سؤال FAQ جديد بنجاح");
+                        logActivity("إضافة سؤال FAQ", `إضافة سؤال: ${q}`);
                     }
                 });
             }
@@ -3498,7 +2883,7 @@
             initTelegramTester();
             initAiAssistant();
             initThemeToggle();
-            initSystemMonitorAndRecovery();
+            initSystemMonitorPing();
             initManualEntryForms();
             initGlobalSearch();
         }

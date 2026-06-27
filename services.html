@@ -224,41 +224,5 @@
     <!-- Application Script Logic -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module" src="assets/js/app.js"></script>
-    <script type="module">
-        import { supabaseClient } from './assets/js/app.js';
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const grid = document.querySelector('.grid-4');
-            if (!grid) return;
-
-            const fetchServices = () => {
-                if (supabaseClient) {
-                    supabaseClient.from('services').select('*').eq('status', 'active').order('id', { ascending: true }).then(({ data, error }) => {
-                        if (!error && data && data.length > 0) {
-                            grid.innerHTML = '';
-                            data.forEach(s => {
-                                const card = document.createElement('div');
-                                const isPromo = s.name.includes('تقويم');
-                                card.className = `glass-card service-card ${isPromo ? 'featured-ortho' : ''}`;
-                                card.innerHTML = `
-                                    <div class="service-img-wrapper">
-                                        ${isPromo ? `<span class="service-badge">التخصص الرئيسي للعيادة</span>` : ''}
-                                        <img src="https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=400&q=80" alt="${s.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=400&q=80'">
-                                    </div>
-                                    <div class="service-icon-wrapper"><i class="${s.icon || 'bx bx-plus-medical'}"></i></div>
-                                    <h3 class="card-title" style="font-size: 20px;">${s.name}</h3>
-                                    <p class="service-card-desc">${s.desc}</p>
-                                    <a href="booking.html" class="service-card-link">احجز موعدك <i class="bx bx-left-arrow-alt"></i></a>
-                                `;
-                                grid.appendChild(card);
-                            });
-                        }
-                    });
-                }
-            };
-
-            setTimeout(fetchServices, 100);
-        });
-    </script>
 </body>
 </html>

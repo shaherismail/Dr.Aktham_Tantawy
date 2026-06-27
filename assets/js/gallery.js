@@ -1,5 +1,4 @@
 // Before/After interactive slider logic & Gallery page features
-import { supabaseClient } from './app.js';
 
 export function initBeforeAfterSliders() {
     const sliders = document.querySelectorAll('.before-after-wrapper');
@@ -124,72 +123,9 @@ export function initGalleryLightbox() {
     });
 }
 
-export function loadDynamicGallery() {
-    const grid = document.querySelector('.gallery-grid');
-    if (!grid) return;
-
-    const renderCases = (casesList) => {
-        casesList.forEach(c => {
-            // Avoid duplicates
-            if (document.querySelector(`[data-case-id="${c.id}"]`)) return;
-
-            const card = document.createElement('div');
-            card.className = 'glass-card';
-            card.setAttribute('data-category', c.category || 'other');
-            card.setAttribute('data-case-id', c.id);
-            card.innerHTML = `
-                <div class="before-after-wrapper case-static-img" style="cursor: zoom-in;">
-                    <img src="${c.after || 'assets/case2.jpg'}" alt="${c.title}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='assets/case2.jpg'">
-                    <span class="label-before" style="background: var(--primary);">حالة واقعية للعيادة</span>
-                </div>
-                <div class="case-info-card">
-                    <span class="case-badge">${c.service || 'تقويم الأسنان'}</span>
-                    <h4 class="case-title">${c.title}</h4>
-                    <p class="case-desc">${c.result || 'تعديل وتطابق الأسنان والفكين بمستويات متقدمة.'}</p>
-                    <div class="case-meta-row">
-                        <div class="meta-item">
-                            <i class="bx bx-purchase-tag-alt"></i>
-                            <span><strong>الحالة:</strong> ${c.title}</span>
-                        </div>
-                        <div class="meta-item">
-                            <i class="bx bx-user"></i>
-                            <span><strong>العمر:</strong> ${c.age || 20} عاماً</span>
-                        </div>
-                        <div class="meta-item">
-                            <i class="bx bx-time-five"></i>
-                            <span><strong>المدة:</strong> ${c.duration || '12 شهراً'}</span>
-                        </div>
-                        <div class="meta-item">
-                            <i class="bx bx-calendar-check"></i>
-                            <span><strong>الزيارات:</strong> ${c.visits || '10'} زيارات</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            grid.insertBefore(card, grid.firstChild);
-        });
-
-        // Re-initialize lightbox triggers for newly loaded elements
-        initGalleryLightbox();
-    };
-
-    if (supabaseClient) {
-        supabaseClient.from('gallery').select('*').order('created_at', { ascending: false }).then(({ data, error }) => {
-            if (!error && data && data.length > 0) {
-                renderCases(data);
-            }
-        });
-    }
-}
-
 // Auto-run if element is on screen
 document.addEventListener('DOMContentLoaded', () => {
     initBeforeAfterSliders();
     initGalleryFilters();
     initGalleryLightbox();
-    
-    // Load dynamic cases from Supabase
-    setTimeout(() => {
-        loadDynamicGallery();
-    }, 100);
 });
