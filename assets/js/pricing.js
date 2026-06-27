@@ -1,4 +1,32 @@
-import { AppState } from './app.js';
+import { supabaseClient } from './app.js';
+
+// Default fallback configuration
+let pricingConfig = {
+    basePrices: {
+        metal: 4500,
+        ceramic: 6500,
+        clear: 12000,
+        general: 200
+    },
+    installmentInterest: {
+        "6": 0,
+        "12": 0.04,
+        "18": 0.08
+    }
+};
+
+function fetchPricingConfig() {
+    if (!supabaseClient) return Promise.resolve();
+    return supabaseClient.from('system_settings')
+        .select('setting_value')
+        .eq('setting_key', 'pricing_config')
+        .single()
+        .then(({ data, error }) => {
+            if (!error && data && data.setting_value) {
+                pricingConfig = data.setting_value;
+            }
+        });
+}
 
 // Pricing Packages & Installments calculations
 export function initPricingCalculator() {
@@ -15,10 +43,13 @@ export function initPricingCalculator() {
     const recalculateInstallment = () => {
         const packageKey = packageSelect.value;
         const months = parseInt(termRange.value);
-        const baseCost = AppState.pricing.basePrices[packageKey];
+        const baseCost = pricingConfig.basePrices[packageKey] || 4500;
         
-        // Add subtle interest rate for installments
-        const interestRate = months > 12 ? 0.08 : (months > 6 ? 0.04 : 0);
+        // Add subtle interest rate for installments from config
+        const interestRate = pricingConfig.installmentInterest[months.toString()] !== undefined 
+            ? pricingConfig.installmentInterest[months.toString()]
+            : (months > 12 ? 0.08 : (months > 6 ? 0.04 : 0));
+            
         const totalCost = baseCost * (1 + interestRate);
         const monthlyCost = totalCost / months;
 
@@ -38,9 +69,10 @@ export function initPricingCalculator() {
             const isInstallment = togglePricing.classList.contains('active');
 
             prices.forEach(priceEl => {
-                const baseVal = parseInt(priceEl.dataset.basePrice);
+                const packageKey = priceEl.dataset.package || 'clear';
+                const baseVal = pricingConfig.basePrices[packageKey] || parseInt(priceEl.dataset.basePrice) || 4500;
                 if (isInstallment) {
-                    // Divide base cost by 12 installments
+                    // Divide base cost by 12 installments with 5% rate
                     const installmentVal = Math.round((baseVal * 1.05) / 12);
                     priceEl.innerHTML = `${installmentVal} <span>ريال / شهرياً</span>`;
                 } else {
@@ -50,10 +82,13 @@ export function initPricingCalculator() {
         });
     }
 
-    recalculateInstallment(); // Call initially
+    recalculateInstallment();
 }
 
 // Auto-run if element is on screen
 document.addEventListener('DOMContentLoaded', () => {
-    initPricingCalculator();
+    fetchPricingConfig().then(() => {
+        initPricingCalculator();
+    });
 });
+

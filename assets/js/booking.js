@@ -1,5 +1,6 @@
 import { AppState, supabaseClient } from './app.js';
 import { sendTelegramNotification } from './telegram.js';
+import { BookingService } from './architecture.js';
 
 let currentStep = 1;
 const totalSteps = 6;
@@ -132,25 +133,20 @@ export function saveBookingToLocalStorage(bookingId) {
         id: bookingId
     }));
 
-    // If Supabase is active, save to cloud
-    if (supabaseClient) {
-        supabaseClient.from('bookings').insert([{
-            id: bookingId,
-            name: AppState.bookingData.name,
-            phone: AppState.bookingData.phone,
-            email: AppState.bookingData.email,
-            age: parseInt(AppState.bookingData.age),
-            service: AppState.bookingData.service,
-            date: AppState.bookingData.date,
-            time: AppState.bookingData.time,
-            chair: AppState.bookingData.chair,
-            notes: AppState.bookingData.notes,
-            status: 'pending'
-        }]).then(({ error }) => {
-            if (error) console.error('Supabase insert error:', error);
-            else console.log('Booking successfully inserted into Supabase cloud.');
-        });
-    }
+    // Save to Supabase Cloud via service layer
+    BookingService.createBooking({
+        id: bookingId,
+        name: AppState.bookingData.name,
+        phone: AppState.bookingData.phone,
+        email: AppState.bookingData.email,
+        age: parseInt(AppState.bookingData.age) || null,
+        service: AppState.bookingData.service,
+        date: AppState.bookingData.date,
+        time: AppState.bookingData.time,
+        chair: AppState.bookingData.chair,
+        notes: AppState.bookingData.notes,
+        status: 'pending'
+    }).catch(err => console.error('BookingService insert error:', err));
 }
 
 // Populate summaries in Step 6
@@ -238,11 +234,67 @@ function validateStep(step) {
     return true;
 }
 
+export function loadDynamicServices() {
+    const hiddenSelect = document.getElementById('bookingService');
+    const grid = document.querySelector('.services-selector-grid');
+    if (!grid || !hiddenSelect) return;
+
+    const renderServices = (servicesList) => {
+        hiddenSelect.innerHTML = '';
+        grid.innerHTML = '';
+
+        servicesList.forEach((s, idx) => {
+            // Add to hidden select
+            const opt = document.createElement('option');
+            opt.value = s.name;
+            opt.textContent = s.name;
+            if (idx === 0) opt.selected = true;
+            hiddenSelect.appendChild(opt);
+
+            // Add to visual grid
+            const item = document.createElement('div');
+            item.className = `service-select-item ${idx === 0 ? 'selected' : ''}`;
+            item.setAttribute('data-value', s.name);
+            item.innerHTML = `
+                <i class="${s.icon || 'bx bx-plus-medical'}"></i>
+                <span>${s.name}</span>
+            `;
+
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.service-select-item').forEach(i => i.classList.remove('selected'));
+                item.classList.add('selected');
+                AppState.bookingData.service = s.name;
+                hiddenSelect.value = s.name;
+            });
+
+            grid.appendChild(item);
+        });
+
+        // Set default selected service in state
+        if (servicesList.length > 0) {
+            AppState.bookingData.service = servicesList[0].name;
+        }
+    };
+
+    if (supabaseClient) {
+        supabaseClient.from('services').select('*').eq('status', 'active').order('id', { ascending: true }).then(({ data, error }) => {
+            if (!error && data && data.length > 0) {
+                renderServices(data);
+            }
+        });
+    }
+}
+
 export function initBookingFlow() {
     const bookingForm = document.getElementById('bookingForm');
     const dateInput = document.getElementById('bookingDate');
 
     if (!bookingForm) return;
+
+    // Load dynamic services from Supabase
+    setTimeout(() => {
+        loadDynamicServices();
+    }, 100);
 
     // Set minimum date to today
     const today = new Date().toISOString().split('T')[0];
