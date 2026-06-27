@@ -232,6 +232,23 @@ export const SeoService = {
 // SITE SETTINGS SERVICE
 export const SiteSettingsService = {
     async getSettings() {
+        if (supabaseClient) {
+            try {
+                const { data } = await supabaseClient.from('cache_state').select('last_cleared_at').eq('id', 1).single();
+                if (data) {
+                    const serverCleared = new Date(data.last_cleared_at).getTime();
+                    const localCleared = parseInt(localStorage.getItem('cache_last_cleared') || '0');
+                    if (serverCleared > localCleared) {
+                        console.log('[CacheManager] Server cache cleared. Purging local states...');
+                        CacheManager.clear();
+                        localStorage.setItem('cache_last_cleared', serverCleared.toString());
+                    }
+                }
+            } catch (e) {
+                console.warn('Cache state sync failed:', e);
+            }
+        }
+
         const cached = CacheManager.get('site_settings');
         if (cached) return cached;
 
@@ -441,11 +458,30 @@ export const NotificationService = {
 export const SystemRecoveryService = {
     async rebuildSearchIndex() {
         console.log('[System Recovery] Rebuilding search indices...');
+        if (supabaseClient) {
+            try {
+                await supabaseClient.from('cache_state').update({
+                    rebuilt_index_at: new Date().toISOString()
+                }).eq('id', 1);
+            } catch (e) {
+                console.error('Error updating cache_state index rebuild:', e);
+            }
+        }
         return new Promise(resolve => setTimeout(resolve, 800));
     },
 
     async flushCache() {
         CacheManager.clear();
+        if (supabaseClient) {
+            try {
+                await supabaseClient.from('cache_state').update({
+                    last_cleared_at: new Date().toISOString(),
+                    cleared_by: sessionStorage.getItem('admin_logged_in') === 'true' ? 'د. أكثم طنطاوي' : 'system'
+                }).eq('id', 1);
+            } catch (e) {
+                console.error('Error updating cache_state clear:', e);
+            }
+        }
         console.log('[System Recovery] Cache structures flushed completely.');
     },
 

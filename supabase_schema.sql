@@ -363,6 +363,116 @@ create table if not exists search_index (
     updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
+-- 31. APP SETTINGS TABLE
+create table if not exists app_settings (
+    id uuid primary key default uuid_generate_v4(),
+    setting_key text unique not null,
+    setting_value jsonb not null,
+    description text,
+    updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- 32. JOBS QUEUE TABLE
+create table if not exists jobs_queue (
+    id uuid primary key default uuid_generate_v4(),
+    task_name text not null,
+    payload jsonb not null default '{}'::jsonb,
+    status text not null default 'pending', -- pending, running, completed, failed
+    error_log text,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+    started_at timestamp with time zone,
+    completed_at timestamp with time zone
+);
+
+-- 33. CACHE STATE TABLE
+create table if not exists cache_state (
+    id integer primary key default 1 check (id = 1),
+    last_cleared_at timestamp with time zone default timezone('utc'::text, now()) not null,
+    cleared_by text default 'system',
+    rebuilt_index_at timestamp with time zone default timezone('utc'::text, now()) not null,
+    updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- 34. TESTIMONIALS TABLE
+create table if not exists testimonials (
+    id uuid primary key default uuid_generate_v4(),
+    name text not null,
+    tag text,
+    stars integer not null default 5,
+    text text not null,
+    status text not null default 'pending', -- pending, approved
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- 35. SERVICES TABLE
+create table if not exists services (
+    id uuid primary key default uuid_generate_v4(),
+    name text not null,
+    "desc" text,
+    price integer not null default 0,
+    duration text not null default '45 دقيقة',
+    icon text not null default 'bx bx-plus-medical',
+    category_id uuid references service_categories(id) on delete set null,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- 36. GALLERY TABLE
+create table if not exists gallery (
+    id uuid primary key default uuid_generate_v4(),
+    title text not null,
+    image_url text not null,
+    category_id uuid references gallery_categories(id) on delete set null,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- 37. FAQS TABLE
+create table if not exists faqs (
+    id uuid primary key default uuid_generate_v4(),
+    q text not null,
+    a text not null,
+    cat text not null default 'عام',
+    "order" integer default 0,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- 38. CONTACT MESSAGES TABLE
+create table if not exists contact_messages (
+    id uuid primary key default uuid_generate_v4(),
+    name text not null,
+    phone text not null,
+    email text,
+    message text not null,
+    "time" text,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- 39. PATIENTS TABLE
+create table if not exists patients (
+    id uuid primary key default uuid_generate_v4(),
+    name text not null,
+    phone text not null unique,
+    email text,
+    age integer,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- 40. BOOKINGS TABLE
+create table if not exists bookings (
+    id text primary key,
+    name text not null,
+    phone text not null,
+    email text,
+    age integer,
+    service text,
+    date date,
+    time text,
+    chair text,
+    status text default 'pending',
+    notes text,
+    patient_id uuid references patients(id) on delete set null,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
 -- ==========================================
 -- ROW LEVEL SECURITY (RLS) POLICIES
 -- ==========================================
@@ -396,6 +506,16 @@ alter table api_keys enable row level security;
 alter table storage_files enable row level security;
 alter table activity_feed enable row level security;
 alter table search_index enable row level security;
+alter table app_settings enable row level security;
+alter table jobs_queue enable row level security;
+alter table cache_state enable row level security;
+alter table testimonials enable row level security;
+alter table services enable row level security;
+alter table gallery enable row level security;
+alter table faqs enable row level security;
+alter table contact_messages enable row level security;
+alter table patients enable row level security;
+alter table bookings enable row level security;
 
 -- Setup Public SELECT (anonymous readability) policies
 create policy "Allow public read on site_settings" on site_settings for select using (true);
@@ -414,6 +534,20 @@ create policy "Allow public read on service_categories" on service_categories fo
 create policy "Allow public read on gallery_categories" on gallery_categories for select using (true);
 create policy "Allow public read on feature_flags" on feature_flags for select using (true);
 create policy "Allow public read on maintenance_mode" on maintenance_mode for select using (true);
+create policy "Allow public read on app_settings" on app_settings for select using (true);
+create policy "Allow public read on cache_state" on cache_state for select using (true);
+create policy "Allow public read on testimonials" on testimonials for select using (true);
+create policy "Allow public read on services" on services for select using (true);
+create policy "Allow public read on gallery" on gallery for select using (true);
+create policy "Allow public read on faqs" on faqs for select using (true);
+create policy "Allow public read on contact_messages" on contact_messages for select using (true);
+create policy "Allow public read on patients" on patients for select using (true);
+create policy "Allow public read on bookings" on bookings for select using (true);
+create policy "Allow public insert on bookings" on bookings for insert with check (true);
+create policy "Allow public insert on contact_messages" on contact_messages for insert with check (true);
+create policy "Allow public insert on testimonials" on testimonials for insert with check (true);
+create policy "Allow public insert on newsletter" on newsletter for insert with check (true);
+create policy "Allow public read on newsletter" on newsletter for select using (true);
 
 -- Setup Admin FULL access policies (bypassed by service_role, but explicit for convenience)
 create policy "Allow admin edit on site_settings" on site_settings for all using (true) with check (true);
@@ -444,6 +578,16 @@ create policy "Allow admin edit on api_keys" on api_keys for all using (true) wi
 create policy "Allow admin edit on storage_files" on storage_files for all using (true) with check (true);
 create policy "Allow admin edit on activity_feed" on activity_feed for all using (true) with check (true);
 create policy "Allow admin edit on search_index" on search_index for all using (true) with check (true);
+create policy "Allow admin edit on app_settings" on app_settings for all using (true) with check (true);
+create policy "Allow admin edit on jobs_queue" on jobs_queue for all using (true) with check (true);
+create policy "Allow admin edit on cache_state" on cache_state for all using (true) with check (true);
+create policy "Allow admin edit on testimonials" on testimonials for all using (true) with check (true);
+create policy "Allow admin edit on services" on services for all using (true) with check (true);
+create policy "Allow admin edit on gallery" on gallery for all using (true) with check (true);
+create policy "Allow admin edit on faqs" on faqs for all using (true) with check (true);
+create policy "Allow admin edit on contact_messages" on contact_messages for all using (true) with check (true);
+create policy "Allow admin edit on patients" on patients for all using (true) with check (true);
+create policy "Allow admin edit on bookings" on bookings for all using (true) with check (true);
 
 -- ==========================================
 -- DEFAULT SEED DATA INJECTION
@@ -455,6 +599,7 @@ insert into theme_settings (id) values (1) on conflict (id) do nothing;
 insert into footer_content (id) values (1) on conflict (id) do nothing;
 insert into maintenance_mode (id) values (1) on conflict (id) do nothing;
 insert into analytics_settings (id) values (1) on conflict (id) do nothing;
+insert into cache_state (id) values (1) on conflict (id) do nothing;
 
 -- Seed default navigation links
 insert into navigation_menu (menu_type, label, link, icon, display_order) values
@@ -519,3 +664,24 @@ insert into system_settings (setting_key, setting_value, description) values
 ('pricing_config', '{"basePrices": {"metal": 4500, "ceramic": 6500, "clear": 12000, "general": 200}, "installmentInterest": {"6": 0, "12": 0.04, "18": 0.08}}'::jsonb, 'سعر الخدمات وتفاصيل الفوائد والأقساط الشهرية'),
 ('tg_notification_config', '{"botToken": "", "chatId": "", "enabled": false}'::jsonb, 'معلومات الاتصال ببوت التليجرام لإشعارات المواعيد')
 on conflict (setting_key) do nothing;
+
+-- Seed default services
+insert into services (id, name, "desc", price, duration, icon) values
+('c4c8b2a5-48b6-4554-b59f-68218e2fe222', 'تقويم الأسنان المعدني التقليدي', 'تقويم أسنان كلاسيكي متين وموثوق وفعال لجميع الأعمار بمظهر جمالي محسّن.', 4500, '45 دقيقة', 'bx bx-shield-quarter'),
+('d5d9c3b6-59c7-5665-c60a-79329f3ff333', 'تقويم الأسنان الخزفي الجمالي', 'حمالات شفافة بلون الأسنان الطبيعي لتقليل وضوح التقويم وتوفير الراحة المثالية.', 6500, '45 دقيقة', 'bx bx-palette'),
+('e6e0d4c7-6ad8-6776-d71b-8a430a0aa444', 'التقويم الشفاف الرقمي (Invisalign)', 'قوالب بلاستيكية طبية غير مرئية قابلة للإزالة تضمن محاكاة الابتسامة ثلاثية الأبعاد.', 12000, '45 دقيقة', 'bx bx-badge-check')
+on conflict (id) do nothing;
+
+-- Seed default FAQs
+insert into faqs (q, a, cat, "order") values
+('هل تقويم الأسنان مؤلم؟', 'في الأيام الأولى بعد شد التقويم قد تشعر بضغط طفيف، لكنه يزول سريعاً بالمسكنات العادية والالتزام بتوجيهات الطبيب.', 'عام', 1),
+('كم تبلغ مدة العلاج بالتقويم الشفاف؟', 'تتراوح المدة عادة بين 6 إلى 18 شهراً حسب صعوبة الحالة والالتزام بارتداء القوالب لمدة 22 ساعة يومياً.', 'التقويم الشفاف', 2),
+('هل يمكنني الدفع بالتقسيط؟', 'نعم، نوفر في عيادتنا خطط دفع ميسرة وأقساط شهرية مريحة بدون فوائد لتناسب ميزانيتك.', 'الدفع والأسعار', 3)
+on conflict do nothing;
+
+-- Seed default testimonials
+insert into testimonials (name, tag, stars, text, status) values
+('خالد عبد الله', 'مراجع تقويم شفاف', 5, 'تجربة رائعة جداً! التقويم الشفاف غير مرئي تماماً والتعامل من الطبيب في قمة الرقي والاحترافية.', 'approved'),
+('سارة علي', 'مراجع تقويم خزفي', 5, 'العيادة مجهزة بأحدث التقنيات وأشعر بفرق كبير في إطباق أسناني خلال 6 أشهر فقط. شكراً دكتور أكثم!', 'approved'),
+('أحمد مسعود', 'مراجع تقويم أطفال', 5, 'أفضل دكتور تقويم أسنان بالرياض، ابني كان متخوفاً جداً ولكن أسلوب الدكتور الودود غير كل شيء.', 'approved')
+on conflict do nothing;
