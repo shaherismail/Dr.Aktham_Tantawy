@@ -2748,17 +2748,17 @@
                         countdown_end: document.getElementById('maintenanceCountdown').value ? new Date(document.getElementById('maintenanceCountdown').value).toISOString() : null
                     };
 
-                    Promise.all([
-                        supabase.from('site_settings').update(updatedSettings).eq('id', 1),
-                        supabase.from('maintenance_mode').update(updatedMaintenance).eq('id', 1)
-                    ]).then(([res1, res2]) => {
-                        if (!res1.error && !res2.error) {
+                    import('../assets/js/architecture.js').then(({ SiteSettingsService }) => {
+                        Promise.all([
+                            SiteSettingsService.updateSettings(updatedSettings),
+                            SiteSettingsService.updateMaintenanceMode(updatedMaintenance)
+                        ]).then(() => {
                             showToast("تم تحديث إعدادات المنصة ووضع الصيانة بنجاح!");
                             logActivity("تعديل إعدادات المنصة", "تحديث الهوية، شريط الإعلانات، ووضع الصيانة للموقع");
-                        } else {
+                        }).catch(err => {
                             showToast("حدث خطأ أثناء حفظ الإعدادات", "error");
-                            console.error('Error saving settings:', res1.error || res2.error);
-                        }
+                            console.error('Error saving settings:', err);
+                        });
                     });
                 });
             }
@@ -2812,18 +2812,18 @@
                     const secondary = document.getElementById('themeSecondaryColor').value;
                     const hover = document.getElementById('themeHoverColor').value;
 
-                    supabase.from('theme_settings').update({
-                        primary_color: primary,
-                        secondary_color: secondary,
-                        accent_color: hover
-                    }).eq('id', 1).then(({ error }) => {
-                        if (!error) {
+                    import('../assets/js/architecture.js').then(({ ThemeService }) => {
+                        ThemeService.updateTheme({
+                            primary_color: primary,
+                            secondary_color: secondary,
+                            accent_color: hover
+                        }).then(() => {
                             showToast("تم حفظ مظهر وثيم الألوان وتنسيق الموقع للزوار");
                             logActivity("تعديل ثيم المنصة", "تحديث كود الألوان ودرجات التفاعل الأساسية بالثيم");
-                        } else {
+                        }).catch(err => {
                             showToast("حدث خطأ أثناء حفظ مظهر الثيم", "error");
-                            console.error('Error saving theme:', error);
-                        }
+                            console.error('Error saving theme:', err);
+                        });
                     });
                 });
             }
@@ -2881,40 +2881,40 @@
                 });
             }
 
-            // Load site_settings
-            supabase.from('site_settings').select('*').eq('id', 1).single().then(({ data, error }) => {
-                if (!error && data) {
-                    document.getElementById('siteClinicName').value = data.clinic_name || '';
-                    document.getElementById('siteEmail').value = data.email || '';
-                    document.getElementById('sitePhone').value = data.phone || '';
-                    document.getElementById('siteAddress').value = data.address || '';
-                    document.getElementById('siteWhatsapp').value = data.whatsapp || '';
-                    document.getElementById('siteEmergencyPhone').value = data.emergency_phone || '';
-                    document.getElementById('siteMapsIframe').value = data.google_maps_iframe || '';
-                    document.getElementById('siteAnnouncementText').value = data.announcement_text || '';
-                    document.getElementById('siteAnnouncementVisible').checked = data.announcement_visible || false;
-                }
-            });
-
-            // Load maintenance mode
-            supabase.from('maintenance_mode').select('*').eq('id', 1).single().then(({ data, error }) => {
-                if (!error && data) {
-                    document.getElementById('maintenanceActive').checked = data.is_active || false;
-                    document.getElementById('maintenanceMessage').value = data.message || '';
-                    if (data.countdown_end) {
-                        const localTime = new Date(data.countdown_end).toISOString().slice(0, 16);
-                        document.getElementById('maintenanceCountdown').value = localTime;
+            // Load site_settings, maintenance and theme via service layers
+            import('../assets/js/architecture.js').then(({ SiteSettingsService, ThemeService }) => {
+                SiteSettingsService.getSettings().then(data => {
+                    if (data) {
+                        document.getElementById('siteClinicName').value = data.clinic_name || '';
+                        document.getElementById('siteEmail').value = data.email || '';
+                        document.getElementById('sitePhone').value = data.phone || '';
+                        document.getElementById('siteAddress').value = data.address || '';
+                        document.getElementById('siteWhatsapp').value = data.whatsapp || '';
+                        document.getElementById('siteEmergencyPhone').value = data.emergency_phone || '';
+                        document.getElementById('siteMapsIframe').value = data.google_maps_iframe || '';
+                        document.getElementById('siteAnnouncementText').value = data.announcement_text || '';
+                        document.getElementById('siteAnnouncementVisible').checked = data.announcement_visible || false;
                     }
-                }
-            });
+                });
 
-            // Load theme_settings
-            supabase.from('theme_settings').select('*').eq('id', 1).single().then(({ data, error }) => {
-                if (!error && data) {
-                    if (data.primary_color) document.getElementById('themePrimaryColor').value = data.primary_color;
-                    if (data.secondary_color) document.getElementById('themeSecondaryColor').value = data.secondary_color;
-                    if (data.accent_color) document.getElementById('themeHoverColor').value = data.accent_color;
-                }
+                SiteSettingsService.getMaintenanceMode().then(data => {
+                    if (data) {
+                        document.getElementById('maintenanceActive').checked = data.is_active || false;
+                        document.getElementById('maintenanceMessage').value = data.message || '';
+                        if (data.countdown_end) {
+                            const localTime = new Date(data.countdown_end).toISOString().slice(0, 16);
+                            document.getElementById('maintenanceCountdown').value = localTime;
+                        }
+                    }
+                });
+
+                ThemeService.getTheme().then(data => {
+                    if (data) {
+                        if (data.primary_color) document.getElementById('themePrimaryColor').value = data.primary_color;
+                        if (data.secondary_color) document.getElementById('themeSecondaryColor').value = data.secondary_color;
+                        if (data.accent_color) document.getElementById('themeHoverColor').value = data.accent_color;
+                    }
+                });
             });
 
             // Load doctor_profile
