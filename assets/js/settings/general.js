@@ -1,6 +1,6 @@
 // Global shared configuration and settings for the website
 export const GeneralSettings = {
-    clinicName: "عيادة الدكتور أكثم إسماعيل لتقويم الأسنان",
+    clinicName: "عيادة الدكتور أكثم إسماعيل",
     clinicSubName: "لطب وجراحة الأسنان",
     logoUrl: "assets/logo.jpg",
     phone: "+966 50 123 4567",
@@ -15,7 +15,7 @@ export const GeneralSettings = {
     instagram: "https://instagram.com",
     twitter: "https://twitter.com",
     workingHours: "السبت - الخميس:\n٩:٠٠ ص - ٩:٠٠ م",
-    
+
     // Website Theme Color Palette - Customize your clinic style colors here
     theme: {
         "primary": "#1565FF",            // Main Primary Color (e.g. Buttons, active links)
