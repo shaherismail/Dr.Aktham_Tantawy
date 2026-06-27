@@ -3,7 +3,12 @@
 // Unified Services, Central Cache, Event Bus, & Operations
 // =========================================================
 
-import { supabaseClient } from './app.js';
+export let supabaseClient = null;
+
+export function setSupabaseClient(client) {
+    supabaseClient = client;
+    console.log('[Architecture] Supabase client injected successfully.');
+}
 
 // =========================================================
 // 1. EVENT BUS (Global Component Communication)

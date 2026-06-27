@@ -2030,6 +2030,9 @@
                 if (window.supabase && sbUrl && sbKey) {
                     try {
                         supabase = window.supabase.createClient(sbUrl, sbKey);
+                        import('../assets/js/architecture.js').then(({ setSupabaseClient }) => {
+                            setSupabaseClient(supabase);
+                        });
                         document.getElementById('supabaseStatusIndicator').innerHTML = `
                             <span class="status-dot green"></span>
                             <span class="status-lbl">Supabase: متصل</span>

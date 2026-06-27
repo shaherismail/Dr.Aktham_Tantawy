@@ -25,6 +25,9 @@ export function initSupabaseClient() {
         try {
             supabaseClient = window.supabase.createClient(sbUrl, sbKey);
             console.log('Supabase client initialized successfully!');
+            import('./architecture.js').then(({ setSupabaseClient }) => {
+                setSupabaseClient(supabaseClient);
+            });
         } catch (e) {
             console.error('Failed to initialize Supabase client:', e);
         }
@@ -397,6 +400,9 @@ export function initApp() {
     initNewsletter();
     checkUrlCallbacks();
 }
+
+// Initialize client immediately at load time to avoid race conditions with layout.js
+initSupabaseClient();
 
 // Initialize layout modules
 import './layout.js';
