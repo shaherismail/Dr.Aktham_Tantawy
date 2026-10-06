@@ -84,7 +84,7 @@
                             <!-- HIDDEN DEVELOPER CONFIG SECTION (Accessible via ?admin=true or double tap profileAvatar) -->
                             <div class="glass-card patient-info-card developer-config-section" id="adminConfigSection">
                                 <h3 class="profile-box-title" style="margin-bottom: 12px;"><i class="bx bx-cog"></i> إعدادات المطور والربط</h3>
-                                <p class="profile-instructions-text">إعدادات تكامل تليجرام وبوت التنبيهات وقاعدة بيانات Supabase السحابية.</p>
+                                <p class="profile-instructions-text">إعدادات تكامل تليجرام وتنبيهات الحجوزات الطبية.</p>
                                 
                                 <h4 class="profile-sub-title">إعدادات تليجرام</h4>
                                 <div class="tg-config-form" style="display: flex; flex-direction: column; gap: 15px;">
@@ -107,42 +107,7 @@
                                     <button type="button" id="saveTgSettingsBtn" class="btn btn-secondary" style="width: 100%; padding: 10px;">حفظ إعدادات تليجرام</button>
                                 </div>
                                 
-                                <hr class="profile-divider">
-                                
-                                <h4 class="profile-sub-title">إعدادات Supabase</h4>
-                                <div class="sb-config-form" style="display: flex; flex-direction: column; gap: 15px;">
-                                    <div class="form-group">
-                                        <label class="form-label" for="sbUrl">رابط المشروع (URL)</label>
-                                        <input type="text" id="sbUrl" class="form-input" placeholder="https://xxxxxx.supabase.co">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="sbKey">مفتاح Anon API Key</label>
-                                        <input type="password" id="sbKey" class="form-input" placeholder="مفتاح Anon key">
-                                    </div>
-                                    <button type="button" id="saveSbSettingsBtn" class="btn btn-primary" style="width: 100%; padding: 10px;">حفظ ومزامنة Supabase</button>
-                                </div>
 
-                                <details style="margin-top: 15px; padding: 10px; background: var(--secondary); border-radius: var(--radius-sm);">
-                                    <summary style="cursor: pointer; font-size: 13px; font-weight: 700; color: var(--primary);">كود SQL لجدول bookings</summary>
-                                    <pre style="font-size: 10px; font-family: 'Outfit'; direction: ltr; text-align: left; background: #0F172A; color: #38BDF8; padding: 10px; border-radius: 4px; overflow-x: auto; margin-top: 8px;">
-create table bookings (
-  id text primary key,
-  name text not null,
-  phone text not null,
-  email text,
-  age integer,
-  service text,
-  date date,
-  time text,
-  chair text,
-  status text default 'pending',
-  notes text,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null
-);
-alter table bookings enable row level security;
-create policy "Allow public access" on bookings for all using (true) with check (true);
-                                    </pre>
-                                </details>
                             </div>
                             
                         </div>
@@ -404,7 +369,6 @@ create policy "Allow public access" on bookings for all using (true) with check 
     </div>
 
     <!-- Application Script Logic -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module" src="assets/js/app.js"></script>
     <script type="module" src="assets/js/profile.js"></script>
 </body>

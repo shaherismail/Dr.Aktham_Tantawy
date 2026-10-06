@@ -25,17 +25,12 @@ export const PageSettings = {
 
         // Hidden Developer Config Section
         "#adminConfigSection .profile-box-title": "<i class=\"bx bx-cog\"></i> إعدادات المطور والربط",
-        "#adminConfigSection .profile-instructions-text": "إعدادات تكامل تليجرام وبوت التنبيهات وقاعدة بيانات Supabase السحابية.",
+        "#adminConfigSection .profile-instructions-text": "إعدادات تكامل تليجرام وتنبيهات الحجوزات الطبية.",
         "#adminConfigSection h4:nth-of-type(1)": "إعدادات تليجرام",
         "#adminConfigSection .tg-config-form div:nth-child(1) label": "توكن البوت (Bot Token)",
         "#adminConfigSection .tg-config-form div:nth-child(2) label": "معرف الدردشة (Chat ID)",
         "#adminConfigSection .tg-config-form div:nth-child(3) label": "طريقة التشغيل",
         "#saveTgSettingsBtn": "حفظ إعدادات تليجرام",
-        "#adminConfigSection h4:nth-of-type(2)": "إعدادات Supabase",
-        "#adminConfigSection .sb-config-form div:nth-child(1) label": "رابط المشروع (URL)",
-        "#adminConfigSection .sb-config-form div:nth-child(2) label": "مفتاح Anon API Key",
-        "#saveSbSettingsBtn": "حفظ ومزامنة Supabase",
-        "#adminConfigSection details summary": "كود SQL لجدول bookings",
 
         // TAB 1: Booking & Appointment Lists
         "#tabPanel1 .bookings-list-card .profile-box-title": "<i class=\"bx bx-calendar-event\"></i> سجل الحجوزات والمواعيد",

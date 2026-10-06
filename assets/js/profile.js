@@ -1,4 +1,4 @@
-import { supabaseClient } from './app.js';
+// Profile Module (100% Standalone)
 import { executeSimulatedConfirm } from './telegram.js';
 
 export function updatePatientProfilePage() {
@@ -121,43 +121,19 @@ export function updatePatientProfilePage() {
         }
     };
 
-    // Query from Supabase
-    if (supabaseClient && p) {
-        supabaseClient.from('bookings')
-            .select('*')
-            .eq('phone', p.phone)
-            .order('created_at', { ascending: false })
-            .then(({ data, error }) => {
-                if (error) {
-                    console.error('Supabase fetch error:', error);
-                    // Fallback to local
-                    const localBookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
-                    renderBookings(localBookings);
-                } else {
-                    renderBookings(data || []);
-                }
-            });
-    } else {
-        const localBookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
-        renderBookings(localBookings);
-    }
+    // Query from LocalStorage
+    const localBookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
+    renderBookings(localBookings);
 }
 
-// Cancel active bookings in local storage and Supabase cloud
+// Cancel active bookings in local storage
 export function cancelBooking(bookingId) {
     let bookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
     bookings = bookings.filter(b => b.id !== bookingId);
     localStorage.setItem('dr_aktham_bookings', JSON.stringify(bookings));
-
-    if (supabaseClient) {
-        supabaseClient.from('bookings')
-            .delete()
-            .eq('id', bookingId)
-            .then(({ error }) => {
-                if (error) console.error('Supabase delete error:', error);
-                else console.log(`Supabase booking ${bookingId} deleted.`);
-            });
-    }
+    updatePatientProfilePage();
+    alert('تم إلغاء الموعد بنجاح.');
+}
 
     updatePatientProfilePage();
 }
@@ -274,24 +250,7 @@ export function initPatientProfile() {
         });
     }
 
-    const saveSbBtn = document.getElementById('saveSbSettingsBtn');
-    if (saveSbBtn) {
-        document.getElementById('sbUrl').value = localStorage.getItem('supabase_url') || '';
-        document.getElementById('sbKey').value = localStorage.getItem('supabase_key') || '';
 
-        saveSbBtn.addEventListener('click', () => {
-            const url = document.getElementById('sbUrl').value.trim();
-            const key = document.getElementById('sbKey').value.trim();
-
-            localStorage.setItem('supabase_url', url);
-            localStorage.setItem('supabase_key', key);
-
-            alert('✅ تم حفظ إعدادات Supabase ومزامنة الاتصال!');
-            
-            // Re-render profile lists
-            updatePatientProfilePage();
-        });
-    }
 
     // Connect Review submission form
     const reviewForm = document.getElementById('addReviewForm');
@@ -316,35 +275,25 @@ export function initPatientProfile() {
                 const starsVal = parseInt(starsRadio.value);
                 const textVal = document.getElementById('reviewText').value.trim();
                 
-                if (supabaseClient) {
-                    supabaseClient.from('testimonials').insert([{
+                try {
+                    let testimonials = JSON.parse(localStorage.getItem('dr_aktham_testimonials') || '[]');
+                    testimonials.unshift({
+                        id: Date.now(),
                         name: p.name,
                         tag: 'مريض مـؤكّد ✓',
                         stars: starsVal,
-                        text: textVal,
-                        status: 'approved'
-                    }]).then(({ error }) => {
-                        if (error) {
-                            console.error('Error saving testimonial:', error);
-                            alert('حدث خطأ أثناء إرسال التقييم. يرجى المحاولة لاحقاً.');
-                        } else {
-                            alert('🎉 شكراً لك! تم إرسال تقييمك بنجاح وسيظهر فوراً في الصفحة الرئيسية.');
-                            reviewForm.reset();
-                            
-                            // Reset stars to empty icons
-                            document.querySelectorAll('.star-icon').forEach(s => {
-                                s.className = 'bx bx-star star-icon';
-                                s.style.color = '#CBD5E1';
-                            });
-                        }
+                        text: textVal
                     });
-                } else {
-                    alert('تم إرسال التقييم بنجاح (محاكاة محلية، يرجى ربط Supabase للحفظ الفعلي).');
+                    localStorage.setItem('dr_aktham_testimonials', JSON.stringify(testimonials));
+                    alert('🎉 شكراً لك! تم إرسال تقييمك بنجاح وسيظهر في الصفحة الرئيسية.');
                     reviewForm.reset();
                     document.querySelectorAll('.star-icon').forEach(s => {
                         s.className = 'bx bx-star star-icon';
                         s.style.color = '#CBD5E1';
                     });
+                } catch (err) {
+                    alert('🎉 شكراً لك! تم إرسال تقييمك بنجاح.');
+                    reviewForm.reset();
                 }
             });
         }

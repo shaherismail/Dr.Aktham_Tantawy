@@ -1,4 +1,4 @@
-import { AppState, supabaseClient } from './app.js';
+import { AppState } from './app.js';
 import { sendTelegramNotification } from './telegram.js';
 
 let currentStep = 1;
@@ -85,25 +85,19 @@ export function generateSeatGrid(dateString) {
         });
     };
 
-    // Query bookings for this date from Supabase
-    if (supabaseClient) {
-        supabaseClient.from('bookings')
-            .select('time, chair')
-            .eq('date', dateString)
-            .then(({ data, error }) => {
-                if (error) {
-                    console.error('Error fetching reserved seats:', error);
-                    renderGrid([]);
-                } else {
-                    renderGrid(data || []);
-                }
-            });
-    } else {
+    // Query reserved bookings for this date from LocalStorage
+    try {
+        const storedBookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
+        const reservedPairs = storedBookings
+            .filter(b => b.date === dateString && b.status !== 'cancelled')
+            .map(b => ({ time: b.time, chair: b.chair }));
+        renderGrid(reservedPairs);
+    } catch (e) {
         renderGrid([]);
     }
 }
 
-// LocalStorage & Supabase Booking manager
+// LocalStorage Booking manager
 export function saveBookingToLocalStorage(bookingId) {
     const booking = {
         id: bookingId,
@@ -131,26 +125,6 @@ export function saveBookingToLocalStorage(bookingId) {
         age: AppState.bookingData.age,
         id: bookingId
     }));
-
-    // If Supabase is active, save to cloud
-    if (supabaseClient) {
-        supabaseClient.from('bookings').insert([{
-            id: bookingId,
-            name: AppState.bookingData.name,
-            phone: AppState.bookingData.phone,
-            email: AppState.bookingData.email,
-            age: parseInt(AppState.bookingData.age),
-            service: AppState.bookingData.service,
-            date: AppState.bookingData.date,
-            time: AppState.bookingData.time,
-            chair: AppState.bookingData.chair,
-            notes: AppState.bookingData.notes,
-            status: 'pending'
-        }]).then(({ error }) => {
-            if (error) console.error('Supabase insert error:', error);
-            else console.log('Booking successfully inserted into Supabase cloud.');
-        });
-    }
 }
 
 // Populate summaries in Step 6
@@ -325,7 +299,7 @@ export function initBookingFlow() {
         const bookingId = 'DK-' + Math.floor(1000 + Math.random() * 9000);
         AppState.bookingData.id = bookingId;
 
-        // Save to LocalStorage & Supabase
+        // Save to LocalStorage
         saveBookingToLocalStorage(bookingId);
 
         // Send Notification to Telegram

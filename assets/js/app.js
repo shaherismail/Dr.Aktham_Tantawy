@@ -1,6 +1,4 @@
-// Main Application Shared State & Entry Point
-
-export let supabaseClient = null;
+// Main Application Shared State & Entry Point (100% Standalone / Static / Vercel-ready)
 
 export const AppState = {
     bookingData: {
@@ -17,21 +15,6 @@ export const AppState = {
         notes: ''
     }
 };
-
-export function initSupabaseClient() {
-    const sbUrl = localStorage.getItem('supabase_url') || '';
-    const sbKey = localStorage.getItem('supabase_key') || '';
-    if (sbUrl && sbKey && window.supabase) {
-        try {
-            supabaseClient = window.supabase.createClient(sbUrl, sbKey);
-            console.log('Supabase client initialized successfully!');
-        } catch (e) {
-            console.error('Failed to initialize Supabase client:', e);
-        }
-    } else {
-        supabaseClient = null;
-    }
-}
 
 export function checkUrlCallbacks() {
     const params = new URLSearchParams(window.location.search);
@@ -54,16 +37,6 @@ export function checkUrlCallbacks() {
             }));
         }
 
-        if (supabaseClient) {
-            supabaseClient.from('bookings')
-                .update({ status: 'confirmed' })
-                .eq('id', id)
-                .then(({ error }) => {
-                    if (error) console.error('Supabase url callback update error:', error);
-                    else console.log(`Supabase booking ${id} confirmed via URL.`);
-                });
-        }
-
         if (window.location.pathname.includes('profile')) {
             const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
             window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
@@ -73,14 +46,13 @@ export function checkUrlCallbacks() {
         }
 
         setTimeout(() => {
-            // Import and run profile init dynamically
             import('./profile.js').then(module => {
                 module.initPatientProfile();
             });
             import('./animations.js').then(module => {
                 module.fireConfettiEffect();
             });
-            alert(`🎉 تم تأكيد الموعد رقم ${id} بنجاح من خلال تليجرام!`);
+            alert(`🎉 تم تأكيد الموعد رقم ${id} بنجاح!`);
         }, 100);
     }
 }
@@ -125,7 +97,7 @@ export function initFAQAccordions() {
     });
 }
 
-// Testimonials Carousel / Loader
+// Testimonials Carousel / Loader (Reads directly from LocalStorage / Clinic Settings)
 export function initTestimonials() {
     const track = document.getElementById('testimonialsTrack');
     if (!track) return;
@@ -162,23 +134,19 @@ export function initTestimonials() {
         });
     };
 
-    if (supabaseClient) {
-        supabaseClient.from('testimonials')
-            .select('*')
-            .order('id', { ascending: false })
-            .then(({ data, error }) => {
-                if (error || !data || data.length === 0) {
-                    render(defaultTestimonials);
-                } else {
-                    render(data);
-                }
-            });
-    } else {
+    try {
+        const stored = JSON.parse(localStorage.getItem('dr_aktham_testimonials') || '[]');
+        if (stored && stored.length > 0) {
+            render(stored);
+        } else {
+            render(defaultTestimonials);
+        }
+    } catch (e) {
         render(defaultTestimonials);
     }
 }
 
-// Newsletter sign-up feedback (integrated with Supabase)
+// Newsletter sign-up feedback (Standalone LocalStorage)
 export function initNewsletter() {
     const newsForm = document.getElementById('newsForm');
     if (!newsForm) return;
@@ -189,22 +157,18 @@ export function initNewsletter() {
         if (!emailInput) return;
         const emailVal = emailInput.value.trim();
         if (emailVal) {
-            if (supabaseClient) {
-                supabaseClient.from('newsletter_subscribers').insert([{ email: emailVal }])
-                    .then(({ error }) => {
-                        if (error) {
-                            if (error.code === '23505') {
-                                alert('أنت مسجل بالفعل في النشرة الطبية للعيادة!');
-                            } else {
-                                console.error('Newsletter Supabase save error:', error);
-                            }
-                        } else {
-                            alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح في النشرة الطبية للعيادة.`);
-                            newsForm.reset();
-                        }
-                    });
-            } else {
-                alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح في النشرة الطبية للعيادة.`);
+            try {
+                let list = JSON.parse(localStorage.getItem('dr_aktham_newsletter') || '[]');
+                if (list.some(item => (typeof item === 'string' ? item : item.email) === emailVal)) {
+                    alert('أنت مسجل بالفعل في النشرة الطبية للعيادة!');
+                } else {
+                    list.unshift({ email: emailVal, date: new Date().toISOString().split('T')[0] });
+                    localStorage.setItem('dr_aktham_newsletter', JSON.stringify(list));
+                    alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح في النشرة الطبية للعيادة.`);
+                    newsForm.reset();
+                }
+            } catch (err) {
+                alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح.`);
                 newsForm.reset();
             }
         }
@@ -213,7 +177,6 @@ export function initNewsletter() {
 
 // Main App Initialization
 export function initApp() {
-    initSupabaseClient();
     initScrollHeader();
     initFAQAccordions();
     initTestimonials();

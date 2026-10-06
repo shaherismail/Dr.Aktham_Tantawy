@@ -1,4 +1,4 @@
-import { AppState, supabaseClient } from './app.js';
+import { AppState } from './app.js';
 import { updatePatientProfilePage } from './profile.js';
 import { fireConfettiEffect } from './animations.js';
 
@@ -118,22 +118,12 @@ export function executeSimulatedConfirm(bookingId) {
         localStorage.setItem('dr_aktham_bookings', JSON.stringify(bookings));
     }
 
-    if (supabaseClient) {
-        supabaseClient.from('bookings')
-            .update({ status: 'confirmed' })
-            .eq('id', bookingId)
-            .then(({ error }) => {
-                if (error) console.error('Supabase update error:', error);
-                else console.log(`Supabase booking ${bookingId} confirmed.`);
-            });
-    }
-
     updatePatientProfilePage();
 
     const badge = document.getElementById('tgSimBadge');
     if (badge) badge.style.display = 'none';
 
-    window.location.href = 'profile';
+    window.location.href = 'profile.html';
     fireConfettiEffect();
 }
 

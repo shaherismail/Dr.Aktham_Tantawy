@@ -93,7 +93,6 @@
     </div>
 
     <!-- Application Script Logic -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const contactForm = document.getElementById('contactForm');
@@ -122,16 +121,6 @@
                         localStorage.setItem('dr_aktham_contacts', JSON.stringify(existing));
                     } catch (err) {
                         console.error('Error saving contact message:', err);
-                    }
-
-                    // Save to Supabase if connected
-                    const sbUrl = localStorage.getItem('supabase_url');
-                    const sbKey = localStorage.getItem('supabase_key');
-                    if (sbUrl && sbKey && window.supabase) {
-                        try {
-                            const sb = window.supabase.createClient(sbUrl, sbKey);
-                            sb.from('contact_messages').insert([newMsg]).then(() => {});
-                        } catch (e) {}
                     }
                     
                     alert(`شكراً لتواصلك معنا يا ${name}! تم إرسال استفسارك بنجاح وسيتواصل معك فريق الاستقبال قريباً.`);

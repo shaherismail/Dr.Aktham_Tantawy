@@ -1,6 +1,6 @@
 // ==========================================================================
 // Dr. Aktham Dental Clinic - Comprehensive Admin Dashboard Logic
-// Complete CRM, Analytics, Appointments, Patients, Telegram, & Supabase Hub
+// 100% Standalone, Self-Contained, Vercel & GitHub Ready (No External DB)
 // ==========================================================================
 
 // Global State
@@ -12,7 +12,6 @@ export const AdminState = {
     contacts: [],
     newsletter: [],
     settings: {},
-    supabase: null,
     currentTab: 'overview',
     filters: {
         search: '',
@@ -23,7 +22,7 @@ export const AdminState = {
     }
 };
 
-// Default Services Database
+// Default Clinic Services Database
 const defaultServices = [
     { id: 'srv-1', name: 'التقويم الشفاف (ألاينرز)', price: 9500, duration: '12 - 18 شهراً', category: 'ortho', active: true, desc: 'تقويم غير مرئي مريح ومصمم رقمياً بالكامل' },
     { id: 'srv-2', name: 'تقويم الأسنان المعدني', price: 6000, duration: '14 - 24 شهراً', category: 'ortho', active: true, desc: 'تقويم تقليدي عالي الدقة لحالات التزاحم المتقدمة' },
@@ -218,7 +217,7 @@ export function initAuth() {
 }
 
 // --------------------------------------------------------------------------
-// 2. Data Initialization & Storage Sync
+// 2. Data Initialization (100% LocalStorage)
 // --------------------------------------------------------------------------
 export function initAdminData() {
     // Bookings
@@ -316,50 +315,8 @@ export function initAdminData() {
     }
     AdminState.newsletter = newsletter;
 
-    // Supabase Client Check
-    initSupabase();
-
-    // Patients CRM aggregation
+    // Extract patient directories
     extractPatientsFromBookings();
-}
-
-export function initSupabase() {
-    const sbUrl = localStorage.getItem('supabase_url');
-    const sbKey = localStorage.getItem('supabase_key');
-    const cloudPill = document.getElementById('admCloudPill');
-
-    if (sbUrl && sbKey && window.supabase) {
-        try {
-            AdminState.supabase = window.supabase.createClient(sbUrl, sbKey);
-            if (cloudPill) {
-                cloudPill.classList.remove('local-mode');
-                cloudPill.innerHTML = '<span class="indicator-dot"></span> متصل بالسحابة Supabase';
-            }
-
-            // Sync bookings from Supabase
-            AdminState.supabase.from('bookings').select('*').order('date', { ascending: false })
-                .then(({ data, error }) => {
-                    if (!error && data && data.length > 0) {
-                        AdminState.bookings = data;
-                        localStorage.setItem('dr_aktham_bookings', JSON.stringify(data));
-                        renderAll();
-                    }
-                });
-        } catch (e) {
-            console.warn('Supabase connect error:', e);
-            setLocalMode(cloudPill);
-        }
-    } else {
-        setLocalMode(cloudPill);
-    }
-}
-
-function setLocalMode(cloudPill) {
-    AdminState.supabase = null;
-    if (cloudPill) {
-        cloudPill.classList.add('local-mode');
-        cloudPill.innerHTML = '<span class="indicator-dot"></span> وضع التخزين المحلي النشط';
-    }
 }
 
 export function extractPatientsFromBookings() {
@@ -403,13 +360,11 @@ export function initNavigation() {
         });
     });
 
-    // Hash change routing
     window.addEventListener('hashchange', () => {
         const hash = window.location.hash.replace('#', '');
         if (hash) switchTab(hash, false);
     });
 
-    // Check initial hash
     const initialHash = window.location.hash.replace('#', '') || 'overview';
     switchTab(initialHash, false);
 
@@ -421,7 +376,6 @@ export function initNavigation() {
             sidebar.classList.toggle('mobile-open');
         });
 
-        // Close sidebar when clicking links on mobile
         document.querySelectorAll('.sidebar-link').forEach(l => {
             l.addEventListener('click', () => {
                 if (window.innerWidth <= 1024) {
@@ -462,22 +416,18 @@ export function switchTab(tabId, updateHash = true) {
 
     AdminState.currentTab = tabId;
 
-    // Update active nav link
     document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
     const activeLink = document.querySelector(`.sidebar-link[data-tab="${tabId}"]`);
     if (activeLink && activeLink.parentElement) {
         activeLink.parentElement.classList.add('active');
     }
 
-    // Update panels
     document.querySelectorAll('.tab-content-panel').forEach(p => p.classList.remove('active'));
     targetPanel.classList.add('active');
 
-    // Update Header title
     const headerTitle = document.getElementById('admHeaderPageTitle');
     if (headerTitle && activeLink) {
         headerTitle.innerHTML = activeLink.innerHTML;
-        // remove badge from title
         const badge = headerTitle.querySelector('.sidebar-badge');
         if (badge) badge.remove();
     }
@@ -486,7 +436,6 @@ export function switchTab(tabId, updateHash = true) {
         window.location.hash = tabId;
     }
 
-    // Re-render corresponding tab
     renderTab(tabId);
 }
 
@@ -502,6 +451,7 @@ export function renderAll() {
     renderTestimonials();
     renderContacts();
     renderNewsletter();
+    renderDatabase();
 }
 
 export function renderTab(tabId) {
@@ -550,11 +500,8 @@ function updateBadges() {
 function renderOverview() {
     const totalBookings = AdminState.bookings.length;
     const confirmedCount = AdminState.bookings.filter(b => b.status === 'confirmed').length;
-    const pendingCount = AdminState.bookings.filter(b => b.status === 'pending').length;
-    const completedCount = AdminState.bookings.filter(b => b.status === 'completed').length;
     const patientsCount = AdminState.patients.length;
 
-    // Calculate revenue estimate
     let totalRevenue = 0;
     AdminState.bookings.forEach(b => {
         if (b.status !== 'cancelled') {
@@ -563,7 +510,6 @@ function renderOverview() {
         }
     });
 
-    // Update KPI UI
     const kpiTotal = document.getElementById('kpiTotalBookings');
     if (kpiTotal) kpiTotal.textContent = totalBookings;
 
@@ -617,7 +563,7 @@ function renderOverview() {
         }
     }
 
-    // Render Services Distribution Chart / Bars
+    // Render Services Distribution Bars
     const serviceDistributionContainer = document.getElementById('serviceDistributionBars');
     if (serviceDistributionContainer) {
         const counts = {};
@@ -650,7 +596,6 @@ function renderBookings() {
     const tbody = document.getElementById('bookingsTableBody');
     if (!tbody) return;
 
-    // Filter logic
     let filtered = AdminState.bookings.filter(b => {
         const q = AdminState.filters.search.toLowerCase();
         const matchesQuery = !q || (b.name && b.name.toLowerCase().includes(q)) || 
@@ -665,7 +610,6 @@ function renderBookings() {
         if (AdminState.filters.date === 'today') {
             matchesDate = b.date === todayStr;
         } else if (AdminState.filters.date === 'week') {
-            // Within 7 days
             const d = new Date(b.date);
             const diff = Math.abs(d - new Date());
             matchesDate = diff <= 7 * 86400000;
@@ -924,14 +868,48 @@ function renderTelegram() {
 }
 
 // --------------------------------------------------------------------------
-// 13. Database & Supabase Hub Tab
+// 13. Data & Storage Hub Tab (100% Local / Standalone)
 // --------------------------------------------------------------------------
 function renderDatabase() {
-    const urlInput = document.getElementById('admSbUrl');
-    const keyInput = document.getElementById('admSbKey');
+    // Render Storage Statistics
+    const bookingsCnt = AdminState.bookings.length;
+    const patientsCnt = AdminState.patients.length;
+    const servicesCnt = AdminState.services.length;
+    const testimonialsCnt = AdminState.testimonials.length;
+    const contactsCnt = AdminState.contacts.length;
+    const newsletterCnt = AdminState.newsletter.length;
 
-    if (urlInput) urlInput.value = localStorage.getItem('supabase_url') || '';
-    if (keyInput) keyInput.value = localStorage.getItem('supabase_key') || '';
+    const statsElem = document.getElementById('admStorageStats');
+    if (statsElem) {
+        statsElem.innerHTML = `
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin-top: 14px;">
+                <div style="background: var(--adm-surface); padding: 14px; border-radius: 12px; border: 1px solid var(--adm-border); text-align: center;">
+                    <span style="font-size: 12px; color: var(--adm-text-muted); display: block;">الحجوزات</span>
+                    <strong style="font-size: 22px; font-family: 'Outfit'; color: var(--adm-primary);">${bookingsCnt}</strong>
+                </div>
+                <div style="background: var(--adm-surface); padding: 14px; border-radius: 12px; border: 1px solid var(--adm-border); text-align: center;">
+                    <span style="font-size: 12px; color: var(--adm-text-muted); display: block;">ملفات المرضى</span>
+                    <strong style="font-size: 22px; font-family: 'Outfit'; color: var(--adm-purple);">${patientsCnt}</strong>
+                </div>
+                <div style="background: var(--adm-surface); padding: 14px; border-radius: 12px; border: 1px solid var(--adm-border); text-align: center;">
+                    <span style="font-size: 12px; color: var(--adm-text-muted); display: block;">الخدمات</span>
+                    <strong style="font-size: 22px; font-family: 'Outfit'; color: var(--adm-success);">${servicesCnt}</strong>
+                </div>
+                <div style="background: var(--adm-surface); padding: 14px; border-radius: 12px; border: 1px solid var(--adm-border); text-align: center;">
+                    <span style="font-size: 12px; color: var(--adm-text-muted); display: block;">التقييمات</span>
+                    <strong style="font-size: 22px; font-family: 'Outfit'; color: #F59E0B;">${testimonialsCnt}</strong>
+                </div>
+                <div style="background: var(--adm-surface); padding: 14px; border-radius: 12px; border: 1px solid var(--adm-border); text-align: center;">
+                    <span style="font-size: 12px; color: var(--adm-text-muted); display: block;">رسائل التواصل</span>
+                    <strong style="font-size: 22px; font-family: 'Outfit'; color: var(--adm-cyan);">${contactsCnt}</strong>
+                </div>
+                <div style="background: var(--adm-surface); padding: 14px; border-radius: 12px; border: 1px solid var(--adm-border); text-align: center;">
+                    <span style="font-size: 12px; color: var(--adm-text-muted); display: block;">النشرة البريدية</span>
+                    <strong style="font-size: 22px; font-family: 'Outfit'; color: var(--adm-text-main);">${newsletterCnt}</strong>
+                </div>
+            </div>
+        `;
+    }
 }
 
 // --------------------------------------------------------------------------
@@ -967,9 +945,6 @@ function renderSettings() {
     });
 }
 
-// --------------------------------------------------------------------------
-// Helper formatters
-// --------------------------------------------------------------------------
 function getStatusLabel(status) {
     switch (status) {
         case 'confirmed': return 'مؤكد ✓';
@@ -990,7 +965,7 @@ function getCategoryLabel(cat) {
 }
 
 // --------------------------------------------------------------------------
-// 15. Global Action Handlers (Accessible from onclick and modals)
+// 15. Global Action Handlers
 // --------------------------------------------------------------------------
 window.adminActions = {
     confirmBooking: (id) => {
@@ -1147,14 +1122,35 @@ window.adminActions = {
             showToast('تم حذف المشترك بنجاح.', 'warning');
             renderNewsletter();
         }
+    },
+
+    resetToDemoData: () => {
+        if (confirm('هل تريد إعادة تعيين كافة البيانات إلى البيانات التجريبية الأولية؟')) {
+            localStorage.setItem('dr_aktham_bookings', JSON.stringify(demoBookings));
+            localStorage.setItem('dr_aktham_services', JSON.stringify(defaultServices));
+            localStorage.setItem('dr_aktham_testimonials', JSON.stringify(defaultTestimonials));
+            localStorage.removeItem('dr_aktham_contacts');
+            localStorage.removeItem('dr_aktham_newsletter');
+            initAdminData();
+            renderAll();
+            showToast('تمت استعادة البيانات التجريبية بنجاح!', 'success');
+        }
+    },
+
+    clearAllData: () => {
+        if (confirm('تحذير: هل أنت متأكد من رغبتك في تفريغ ومسح كافة المواعيد والرسائل المحفوظة؟')) {
+            localStorage.setItem('dr_aktham_bookings', JSON.stringify([]));
+            localStorage.setItem('dr_aktham_contacts', JSON.stringify([]));
+            localStorage.setItem('dr_aktham_newsletter', JSON.stringify([]));
+            initAdminData();
+            renderAll();
+            showToast('تم مسح البيانات بنجاح.', 'warning');
+        }
     }
 };
 
 function saveBookings() {
     localStorage.setItem('dr_aktham_bookings', JSON.stringify(AdminState.bookings));
-    if (AdminState.supabase) {
-        // Optionally sync changes back to Supabase
-    }
 }
 
 // --------------------------------------------------------------------------
@@ -1204,7 +1200,7 @@ function initClock() {
 function bindFormsAndModals() {
     // Modal close buttons
     document.querySelectorAll('.adm-modal-close, [data-close-modal]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', () => {
             const modal = btn.closest('.adm-modal-backdrop');
             if (modal) modal.classList.remove('show');
         });
@@ -1397,19 +1393,6 @@ function bindFormsAndModals() {
                 testTgBtn.disabled = false;
                 testTgBtn.innerHTML = '<i class="bx bx-send"></i> إرسال رسالة تجريبية الآن';
             }
-        });
-    }
-
-    // Supabase Save & Test
-    const saveSbBtn = document.getElementById('admSaveSbBtn');
-    if (saveSbBtn) {
-        saveSbBtn.addEventListener('click', () => {
-            const url = document.getElementById('admSbUrl').value.trim();
-            const key = document.getElementById('admSbKey').value.trim();
-            localStorage.setItem('supabase_url', url);
-            localStorage.setItem('supabase_key', key);
-            initSupabase();
-            showToast('تم حفظ إعدادات ربط Supabase بنجاح.', 'success');
         });
     }
 

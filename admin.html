@@ -114,7 +114,7 @@
             </ul>
 
             <!-- Group 3: Integrations & System -->
-            <div class="sidebar-nav-group-title">الربط والتقنية</div>
+            <div class="sidebar-nav-group-title">النظام والبيانات</div>
             <ul class="sidebar-menu">
                 <li class="sidebar-item">
                     <a href="#telegram" class="sidebar-link" data-tab="telegram">
@@ -124,8 +124,8 @@
                 </li>
                 <li class="sidebar-item">
                     <a href="#database" class="sidebar-link" data-tab="database">
-                        <i class="bx bx-data" style="color: #10B981;"></i>
-                        <span>السحابة والنسخ الاحتياطي</span>
+                        <i class="bx bx-archive" style="color: #10B981;"></i>
+                        <span>النسخ الاحتياطي والبيانات</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -165,9 +165,9 @@
                 </div>
 
                 <div class="header-left">
-                    <!-- Cloud Sync Pill -->
-                    <div class="cloud-pill local-mode" id="admCloudPill" title="حالة الاتصال بقاعدة البيانات">
-                        <span class="indicator-dot"></span> وضع التخزين المحلي النشط
+                    <!-- Standalone Status Pill -->
+                    <div class="cloud-pill" id="admCloudPill" title="حالة النظام">
+                        <span class="indicator-dot"></span> نظام الإدارة يعمل محلياً 100%
                     </div>
 
                     <!-- Quick New Booking CTA -->
@@ -304,12 +304,11 @@
                                     <i class="bx bx-rocket"></i> إنجاز سريع للمهام الإدارية
                                 </h4>
                                 <p style="margin: 4px 0 0 0; font-size: 13px; color: var(--adm-text-muted);">
-                                    يمكنك بنقرة زر واحدة تصدير المواعيد، فحص ربط تليجرام، أو تنزيل نسخة احتياطية من كافة سجلات الموقع.
+                                    يمكنك بنقرة زر واحدة تصدير المواعيد لملف Excel، أو تنزيل نسخة احتياطية من كافة سجلات الموقع.
                                 </p>
                             </div>
                             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                                 <button class="adm-btn adm-btn-secondary adm-btn-sm" onclick="window.location.hash = 'database';"><i class="bx bx-download"></i> نسخة احتياطية</button>
-                                <button class="adm-btn adm-btn-secondary adm-btn-sm" onclick="window.location.hash = 'telegram';"><i class="bx bxl-telegram"></i> فحص تليجرام</button>
                                 <button class="adm-btn adm-btn-primary adm-btn-sm" onclick="window.location.hash = 'bookings';"><i class="bx bx-table"></i> جدول المواعيد</button>
                             </div>
                         </div>
@@ -549,8 +548,8 @@
                         
                         <div class="adm-card-header">
                             <div>
-                                <h3 class="adm-card-title"><i class="bx bxl-telegram" style="color: #229ED9;"></i> تكامل بوت إشعارات تليجرام الفورية</h3>
-                                <p class="adm-card-subtitle">استقبال إشعارات وتفاصيل المواعيد الجديدة فور حجز المريض على هاتفك أو مجموعة العمل</p>
+                                <h3 class="adm-card-title"><i class="bx bxl-telegram" style="color: #229ED9;"></i> تكامل بوت إشعارات تليجرام الفورية (اختياري)</h3>
+                                <p class="adm-card-subtitle">استقبال إشعارات وتفاصيل المواعيد الجديدة فور حجز المريض على هاتفك</p>
                             </div>
                         </div>
 
@@ -558,13 +557,11 @@
                             <div class="adm-form-group">
                                 <label for="admTgToken">توكن البوت (Bot Token)</label>
                                 <input type="password" id="admTgToken" class="adm-input" placeholder="مثال: 7123456789:AAHxyz...">
-                                <span style="font-size: 12px; color: var(--adm-text-muted);">تحصل عليه من @BotFather على تليجرام عند إنشاء البوت.</span>
                             </div>
 
                             <div class="adm-form-group">
                                 <label for="admTgChatId">معرف الدردشة أو القناة (Chat ID)</label>
                                 <input type="text" id="admTgChatId" class="adm-input" placeholder="مثال: 123456789 أو -1001234567890">
-                                <span style="font-size: 12px; color: var(--adm-text-muted);">تحصل عليه من @userinfobot على تليجرام.</span>
                             </div>
 
                             <div style="display: flex; gap: 12px; flex-wrap: wrap;">
@@ -575,71 +572,71 @@
                                     <i class="bx bx-send"></i> إرسال رسالة تجريبية الآن
                                 </button>
                             </div>
-
-                            <div style="background: var(--adm-surface-alt); padding: 18px; border-radius: 12px; border: 1px solid var(--adm-border); margin-top: 10px;">
-                                <h4 style="margin: 0 0 10px 0; font-size: 14.5px; font-weight: 800; color: var(--adm-text-main);">
-                                    <i class="bx bx-info-circle"></i> كيف تعمل الإشعارات الفورية؟
-                                </h4>
-                                <ol style="margin: 0; padding-right: 20px; font-size: 13px; line-height: 1.8; color: var(--adm-text-muted);">
-                                    <li>يقوم المراجع بحجز موعد في صفحة <code>booking.html</code>.</li>
-                                    <li>يتم إرسال رسالة فورية إلى محادثتك على تليجرام متضمنة: اسم المريض، الجوال، التخصص، والوقت.</li>
-                                    <li>تحتوي الرسالة على زر تأكيد بنقرة واحدة لتأكيد الحجز فورياً.</li>
-                                </ol>
-                            </div>
                         </div>
 
                     </div>
                 </section>
 
                 <!-- -------------------------------------------------------- -->
-                <!-- TAB 9: CLOUD & BACKUP HUB (SUPABASE)                     -->
+                <!-- TAB 9: LOCAL DATA & BACKUP HUB (NO EXTERNAL DB)          -->
                 <!-- -------------------------------------------------------- -->
                 <section class="tab-content-panel" id="tab-database">
                     <div class="adm-card">
                         
                         <div class="adm-card-header">
                             <div>
-                                <h3 class="adm-card-title"><i class="bx bx-data" style="color: #10B981;"></i> السحابة وقاعدة البيانات والنسخ الاحتياطي</h3>
-                                <p class="adm-card-subtitle">الربط السحابي مع Supabase وإدارة النسخ الاحتياطية لبيانات العيادة</p>
+                                <h3 class="adm-card-title"><i class="bx bx-archive" style="color: #10B981;"></i> إدارة البيانات والنسخ الاحتياطي (نظام محلي 100%)</h3>
+                                <p class="adm-card-subtitle">التحكم في بيانات العيادة، حفظ النسخ الاحتياطية وتصديرها بصيغ Excel و JSON</p>
                             </div>
                         </div>
 
-                        <div class="form-grid-2" style="margin-bottom: 24px;">
-                            <div class="adm-form-group">
-                                <label for="admSbUrl">رابط مشروع Supabase (Project URL)</label>
-                                <input type="url" id="admSbUrl" class="adm-input" placeholder="https://xxxxxxxx.supabase.co">
+                        <!-- Storage Statistics -->
+                        <div style="margin-bottom: 24px;">
+                            <h4 style="margin: 0 0 6px 0; font-size: 15px; font-weight: 800; color: var(--adm-text-main);">
+                                <i class="bx bx-pie-chart-alt"></i> إحصائيات البيانات المخزنة محلياً
+                            </h4>
+                            <div id="admStorageStats">
+                                <!-- Injected dynamically by admin.js -->
                             </div>
-                            <div class="adm-form-group">
-                                <label for="admSbKey">المفتاح العام (Anon Public Key)</label>
-                                <input type="password" id="admSbKey" class="adm-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
-                            </div>
-                        </div>
-
-                        <div style="display: flex; gap: 12px; margin-bottom: 30px; flex-wrap: wrap;">
-                            <button class="adm-btn adm-btn-primary" id="admSaveSbBtn">
-                                <i class="bx bx-save"></i> حفظ وتفعيل ربط Supabase
-                            </button>
-                            <button class="adm-btn adm-btn-secondary" onclick="window.openModal('sqlSchemaModal')">
-                                <i class="bx bx-code-alt"></i> عرض كود جداول SQL الجاهزة
-                            </button>
                         </div>
 
                         <!-- Data Backup & Restore Box -->
-                        <div style="background: var(--adm-surface-alt); padding: 24px; border-radius: 16px; border: 1px solid var(--adm-border);">
+                        <div style="background: var(--adm-surface-alt); padding: 24px; border-radius: 16px; border: 1px solid var(--adm-border); margin-bottom: 24px;">
                             <h4 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 800; color: var(--adm-text-main);">
-                                <i class="bx bx-archive"></i> النسخ الاحتياطي واستعادة البيانات
+                                <i class="bx bx-download"></i> تصدير ونسخ البيانات
                             </h4>
                             <p style="font-size: 13.5px; color: var(--adm-text-muted); margin-bottom: 18px;">
-                                يتيح لك هذا القسم تنزيل نسخة احتياطية كاملة لجميع الحجوزات، وقوائم المرضى، والرسائل، والإعدادات، وحفظها على جهازك كملف JSON آمن.
+                                يمكنك تنزيل نسخة احتياطية كاملة لجميع الحجوزات، وقوائم المرضى، والرسائل، والإعدادات، وحفظها على جهازك كملف JSON أو تصدير المواعيد كملف Excel/CSV.
                             </p>
                             <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                                 <button class="adm-btn adm-btn-success" id="admDownloadBackupBtn">
                                     <i class="bx bx-download"></i> تنزيل نسخة احتياطية كاملة (JSON)
                                 </button>
+                                <button class="adm-btn adm-btn-primary" id="admExportCsvBtn2" onclick="document.getElementById('admExportCsvBtn').click();">
+                                    <i class="bx bx-file"></i> تصدير المواعيد (Excel / CSV)
+                                </button>
                                 <button class="adm-btn adm-btn-secondary" onclick="document.getElementById('restoreFileInput').click();">
                                     <i class="bx bx-upload"></i> استعادة من ملف نسخة احتياطية
                                 </button>
                                 <input type="file" id="restoreFileInput" accept=".json" style="display: none;" onchange="handleRestoreFile(this)">
+                            </div>
+                        </div>
+
+                        <!-- Maintenance & Reset Tools -->
+                        <div style="background: rgba(239, 68, 68, 0.04); padding: 20px; border-radius: 16px; border: 1px solid rgba(239, 68, 68, 0.2);">
+                            <h4 style="margin: 0 0 6px 0; font-size: 15px; font-weight: 800; color: var(--adm-danger);">
+                                <i class="bx bx-refresh"></i> الصيانة وإعادة الضبط
+                            </h4>
+                            <p style="font-size: 13px; color: var(--adm-text-muted); margin-bottom: 14px;">
+                                يمكنك إعادة تحميل البيانات التجريبية الأولية للشرح أو تفريغ كافة البيانات القديمة.
+                            </p>
+                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                <button class="adm-btn adm-btn-secondary adm-btn-sm" onclick="window.adminActions.resetToDemoData()">
+                                    <i class="bx bx-reset"></i> استعادة البيانات التجريبية الأولية
+                                </button>
+                                <button class="adm-btn adm-btn-danger adm-btn-sm" onclick="window.adminActions.clearAllData()">
+                                    <i class="bx bx-trash"></i> تفريغ ومسح البيانات
+                                </button>
                             </div>
                         </div>
 
@@ -945,85 +942,7 @@
         </div>
     </div>
 
-    <!-- 5. SUPABASE SQL SCHEMA MODAL -->
-    <div class="adm-modal-backdrop" id="sqlSchemaModal">
-        <div class="adm-modal-card" style="max-width: 750px;">
-            <div class="adm-modal-header">
-                <h3 style="margin: 0; font-size: 18px; font-weight: 800;"><i class="bx bx-code-block" style="color: #10B981;"></i> كود SQL لجداول Supabase</h3>
-                <button class="adm-modal-close" data-close-modal><i class="bx bx-x"></i></button>
-            </div>
-            <p style="font-size: 13px; color: var(--adm-text-muted); margin-bottom: 12px;">
-                انسخ هذا الكود والصقه في محرّر SQL في لوحة تحكم Supabase لإنشاء الجداول وسياسات الأمان تلقائياً:
-            </p>
-            <div style="position: relative;">
-                <textarea id="sqlSchemaTextarea" readonly style="width: 100%; height: 260px; font-family: monospace; font-size: 12px; background: #0F172A; color: #38BDF8; padding: 14px; border-radius: 10px; border: 1px solid var(--adm-border); box-sizing: border-box; direction: ltr; text-align: left;">
--- جدول المواعيد والحجوزات
-CREATE TABLE IF NOT EXISTS public.bookings (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    email TEXT,
-    age INT,
-    service TEXT,
-    chair TEXT,
-    date TEXT,
-    time TEXT,
-    notes TEXT,
-    status TEXT DEFAULT 'pending',
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- جدول آراء وتقييمات المرضى
-CREATE TABLE IF NOT EXISTS public.testimonials (
-    id BIGSERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    tag TEXT,
-    stars INT DEFAULT 5,
-    text TEXT NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- جدول المشتركين في النشرة الطبية
-CREATE TABLE IF NOT EXISTS public.newsletter_subscribers (
-    id BIGSERIAL PRIMARY KEY,
-    email TEXT UNIQUE NOT NULL,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- جدول رسائل واستفسارات اتصل بنا
-CREATE TABLE IF NOT EXISTS public.contact_messages (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    email TEXT,
-    message TEXT NOT NULL,
-    status TEXT DEFAULT 'unread',
-    date TEXT,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- تفعيل سياسات الأمان للقراءة والكتابة العامة
-ALTER TABLE public.bookings ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Allow public insert and select" ON public.bookings FOR ALL USING (true) WITH CHECK (true);
-ALTER TABLE public.testimonials ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Allow public select and insert" ON public.testimonials FOR ALL USING (true) WITH CHECK (true);
-ALTER TABLE public.newsletter_subscribers ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Allow public insert" ON public.newsletter_subscribers FOR ALL USING (true) WITH CHECK (true);
-ALTER TABLE public.contact_messages ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Allow public insert" ON public.contact_messages FOR ALL USING (true) WITH CHECK (true);
-                </textarea>
-                <button type="button" class="adm-btn adm-btn-primary adm-btn-sm" style="position: absolute; top: 10px; right: 10px;" onclick="copySqlSchema()">
-                    <i class="bx bx-copy"></i> نسخ كود SQL
-                </button>
-            </div>
-            <div style="margin-top: 18px; display: flex; justify-content: flex-end;">
-                <button type="button" class="adm-btn adm-btn-secondary" data-close-modal>إغلاق</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- SUPABASE CLIENT & ADMIN MODULE SCRIPT -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- ADMIN MODULE SCRIPT (100% STANDALONE) -->
     <script type="module" src="assets/js/admin.js"></script>
 
     <script>
@@ -1040,13 +959,6 @@ CREATE POLICY "Allow public insert" ON public.contact_messages FOR ALL USING (tr
             localStorage.setItem('dr_aktham_testimonials', JSON.stringify(testimonials));
 
             window.location.reload();
-        }
-
-        function copySqlSchema() {
-            const ta = document.getElementById('sqlSchemaTextarea');
-            navigator.clipboard.writeText(ta.value).then(() => {
-                alert('تم نسخ كود SQL إلى الحافظة بنجاح!');
-            });
         }
 
         function handleRestoreFile(input) {
