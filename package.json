@@ -4,8 +4,7 @@
   "description": "عيادة الدكتور أكثم إسماعيل طنطاوي لتقويم وجراحة الأسنان - الموقع الرسمي ولوحة التحكم",
   "main": "index.html",
   "scripts": {
-    "dev": "npx -y http-server -p 8080 -c-1",
-    "build": "echo 'Static site is ready for Vercel deployment'"
+    "dev": "npx -y http-server -p 8080 -c-1"
   },
   "keywords": [
     "dental-clinic",
