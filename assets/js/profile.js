@@ -135,9 +135,6 @@ export function cancelBooking(bookingId) {
     alert('تم إلغاء الموعد بنجاح.');
 }
 
-    updatePatientProfilePage();
-}
-
 // Interactive tab switching
 export function initDashboardTabs() {
     const tabButtons = [
