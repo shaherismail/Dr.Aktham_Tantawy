@@ -52,3 +52,38 @@ export const GeneralSettings = {
         ...(savedSettings.theme || {})
     }
 };
+
+/**
+ * Automatically pull latest deployed clinic_data.json published by GitHub/Vercel
+ * and sync into localStorage for all public visitors
+ */
+export async function syncRemoteClinicData() {
+    if (typeof window === 'undefined' || typeof fetch === 'undefined') return null;
+    try {
+        const res = await fetch('data/clinic_data.json?v=' + Date.now());
+        if (!res.ok) return null;
+        const remote = await res.json();
+        if (!remote) return null;
+
+        if (remote.generalSettings && typeof remote.generalSettings === 'object') {
+            localStorage.setItem('dr_aktham_general_settings', JSON.stringify(remote.generalSettings));
+        }
+        if (remote.services && Array.isArray(remote.services)) {
+            localStorage.setItem('dr_aktham_services', JSON.stringify(remote.services));
+        }
+        if (remote.testimonials && Array.isArray(remote.testimonials)) {
+            localStorage.setItem('dr_aktham_testimonials', JSON.stringify(remote.testimonials));
+        }
+        if (remote.lastUpdated) {
+            localStorage.setItem('dr_aktham_last_sync_time', remote.lastUpdated);
+        }
+        return remote;
+    } catch (e) {
+        return null;
+    }
+}
+
+// Auto-hydrate on first visit
+if (typeof window !== 'undefined') {
+    syncRemoteClinicData().catch(() => {});
+}

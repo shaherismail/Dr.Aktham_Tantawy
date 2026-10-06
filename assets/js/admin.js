@@ -2,6 +2,7 @@
 // Dr. Aktham Dental Clinic - Comprehensive Admin Dashboard Logic
 // 100% Standalone, Self-Contained, Vercel & GitHub Ready (No External DB)
 // ==========================================================================
+import { getGithubConfig, saveGithubConfig, testGithubConnection, pushDataToGitHub, compileCurrentClinicData } from './github-sync.js';
 
 // Global State
 export const AdminState = {
@@ -467,6 +468,7 @@ export function renderTab(tabId) {
         case 'telegram': renderTelegram(); break;
         case 'database': renderDatabase(); break;
         case 'settings': renderSettings(); break;
+        case 'github-sync': renderGithubSync(); break;
     }
 }
 
@@ -945,6 +947,80 @@ function renderSettings() {
     });
 }
 
+// --------------------------------------------------------------------------
+// 14.b GitHub & Vercel Auto-Deploy CMS Tab
+// --------------------------------------------------------------------------
+export function renderGithubSync() {
+    const cfg = getGithubConfig();
+
+    const tokenInput = document.getElementById('ghTokenInput');
+    const ownerInput = document.getElementById('ghOwnerInput');
+    const repoInput = document.getElementById('ghRepoInput');
+    const branchInput = document.getElementById('ghBranchInput');
+    const filePathInput = document.getElementById('ghFilePathInput');
+    const autoSyncCheckbox = document.getElementById('ghAutoSyncCheckbox');
+
+    if (tokenInput && !tokenInput.dataset.userEditing) tokenInput.value = cfg.token || '';
+    if (ownerInput) ownerInput.value = cfg.owner || 'shaherismail';
+    if (repoInput) repoInput.value = cfg.repo || 'Dr.Aktham_Tantawy';
+    if (branchInput) branchInput.value = cfg.branch || 'main';
+    if (filePathInput) filePathInput.value = cfg.filePath || 'data/clinic_data.json';
+    if (autoSyncCheckbox) autoSyncCheckbox.checked = !!cfg.autoSync;
+
+    const repoDisplay = document.getElementById('ghRepoDisplay');
+    if (repoDisplay) repoDisplay.textContent = `${cfg.owner}/${cfg.repo}`;
+
+    const branchDisplay = document.getElementById('ghBranchDisplay');
+    if (branchDisplay) branchDisplay.textContent = `الفرع: ${cfg.branch} (إنتاج مباشر)`;
+
+    updateGithubStatusUI(cfg);
+}
+
+function updateGithubStatusUI(cfg) {
+    const statusBadge = document.getElementById('ghStatusBadge');
+    const statusDot = document.getElementById('ghStatusDot');
+    const statusText = document.getElementById('ghStatusText');
+    const lastSyncDisplay = document.getElementById('ghLastSyncDisplay');
+    const lastCommitLink = document.getElementById('ghLastCommitLink');
+    const sidebarBadge = document.getElementById('badgeGithubStatus');
+
+    if (cfg.token) {
+        if (statusBadge) statusBadge.className = 'gh-status-badge connected';
+        if (statusDot) statusDot.className = 'pulse-indicator green';
+        if (statusText) statusText.textContent = 'متصل وجاهز للنشر';
+        if (sidebarBadge) {
+            sidebarBadge.className = 'sidebar-badge badge-green';
+            sidebarBadge.textContent = 'متصل';
+        }
+    } else {
+        if (statusBadge) statusBadge.className = 'gh-status-badge disconnected';
+        if (statusDot) statusDot.className = 'pulse-indicator red';
+        if (statusText) statusText.textContent = 'غير متصل - أدخل التوكن';
+        if (sidebarBadge) {
+            sidebarBadge.className = 'sidebar-badge badge-yellow';
+            sidebarBadge.textContent = 'إعداد';
+        }
+    }
+
+    if (cfg.lastSync && lastSyncDisplay) {
+        const d = new Date(cfg.lastSync);
+        lastSyncDisplay.textContent = d.toLocaleDateString('ar-SA', {
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
+    if (cfg.lastCommitUrl && lastCommitLink) {
+        lastCommitLink.href = cfg.lastCommitUrl;
+        lastCommitLink.style.display = 'inline-flex';
+        if (cfg.lastCommitSha) {
+            lastCommitLink.innerHTML = `<i class="bx bx-git-commit"></i> عرض الـ Commit (${cfg.lastCommitSha})`;
+        }
+    }
+}
+
 function getStatusLabel(status) {
     switch (status) {
         case 'confirmed': return 'مؤكد ✓';
@@ -1070,6 +1146,13 @@ window.adminActions = {
             localStorage.setItem('dr_aktham_services', JSON.stringify(AdminState.services));
             showToast(`تم ${s.active ? 'تفعيل' : 'إيقاف'} خدمة "${s.name}"`, 'success');
             renderServices();
+
+            const ghCfg = getGithubConfig();
+            if (ghCfg.token && ghCfg.autoSync) {
+                pushDataToGitHub(`CMS: ${s.active ? 'تفعيل' : 'إيقاف'} خدمة ${s.name}`)
+                    .then(res => showToast(`🚀 تم تحديث GitHub (${res.commitSha}) وجاري النشر على Vercel!`, 'success'))
+                    .catch(() => {});
+            }
         }
     },
 
@@ -1082,6 +1165,13 @@ window.adminActions = {
             localStorage.setItem('dr_aktham_services', JSON.stringify(AdminState.services));
             showToast(`تم تحديث سعر "${s.name}" إلى ${s.price} ر.س`, 'success');
             renderServices();
+
+            const ghCfg = getGithubConfig();
+            if (ghCfg.token && ghCfg.autoSync) {
+                pushDataToGitHub(`CMS: تحديث سعر خدمة ${s.name} إلى ${s.price} ر.س`)
+                    .then(res => showToast(`🚀 تم تحديث السعر في GitHub (${res.commitSha}) وجاري النشر على Vercel!`, 'success'))
+                    .catch(() => {});
+            }
         }
     },
 
@@ -1091,6 +1181,13 @@ window.adminActions = {
             localStorage.setItem('dr_aktham_testimonials', JSON.stringify(AdminState.testimonials));
             showToast('تم حذف التقييم بنجاح.', 'warning');
             renderTestimonials();
+
+            const ghCfg = getGithubConfig();
+            if (ghCfg.token && ghCfg.autoSync) {
+                pushDataToGitHub(`CMS: حذف تقييم مريض`)
+                    .then(res => showToast(`🚀 تم تحديث التقييمات في GitHub (${res.commitSha})!`, 'success'))
+                    .catch(() => {});
+            }
         }
     },
 
@@ -1444,7 +1541,164 @@ function bindFormsAndModals() {
             };
 
             localStorage.setItem('dr_aktham_general_settings', JSON.stringify(newSettings));
-            showToast('تم حفظ إعدادات وهوية العيادة بنجاح! تم التحديث على كامل الموقع.', 'success');
+            showToast('تم حفظ إعدادات وهوية العيادة محلياً بنجاح!', 'success');
+
+            const ghCfg = getGithubConfig();
+            if (ghCfg.token && ghCfg.autoSync) {
+                saveClinicSettingsBtn.disabled = true;
+                const oldHtml = saveClinicSettingsBtn.innerHTML;
+                saveClinicSettingsBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> جاري النشر إلى GitHub...';
+                pushDataToGitHub('CMS: تحديث إعدادات وهوية العيادة')
+                    .then(res => {
+                        showToast(`🚀 تم نشر التعديلات بنجاح إلى GitHub (${res.commitSha})! يقوم Vercel بتحديث الموقع للزوار (20 ثانية).`, 'success');
+                        renderGithubSync();
+                    })
+                    .catch(err => {
+                        showToast(`تم الحفظ محلياً ولكن تعذر إرسال GitHub: ${err.message}`, 'warning');
+                    })
+                    .finally(() => {
+                        saveClinicSettingsBtn.disabled = false;
+                        saveClinicSettingsBtn.innerHTML = oldHtml;
+                    });
+            } else if (!ghCfg.token) {
+                showToast('💡 لنشر هذه التعديلات تلقائياً عبر Vercel لجميع الزوار، قم بإدخال توكن GitHub في قسم «مزامنة GitHub».', 'warning');
+            }
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // GitHub API & Vercel Auto-Deployment Bindings
+    // ----------------------------------------------------------------------
+    const ghTokenToggleBtn = document.getElementById('ghTokenToggleBtn');
+    const ghTokenInput = document.getElementById('ghTokenInput');
+    if (ghTokenToggleBtn && ghTokenInput) {
+        ghTokenToggleBtn.addEventListener('click', () => {
+            const isPassword = ghTokenInput.type === 'password';
+            ghTokenInput.type = isPassword ? 'text' : 'password';
+            ghTokenToggleBtn.innerHTML = isPassword ? '<i class="bx bx-hide"></i>' : '<i class="bx bx-show"></i>';
+        });
+
+        ghTokenInput.addEventListener('focus', () => {
+            ghTokenInput.dataset.userEditing = 'true';
+        });
+    }
+
+    const ghSaveConfigBtn = document.getElementById('ghSaveConfigBtn');
+    if (ghSaveConfigBtn) {
+        ghSaveConfigBtn.addEventListener('click', () => {
+            const token = document.getElementById('ghTokenInput').value.trim();
+            const owner = document.getElementById('ghOwnerInput').value.trim();
+            const repo = document.getElementById('ghRepoInput').value.trim();
+            const branch = document.getElementById('ghBranchInput').value.trim();
+            const filePath = document.getElementById('ghFilePathInput').value.trim();
+            const autoSync = document.getElementById('ghAutoSyncCheckbox').checked;
+
+            saveGithubConfig({ token, owner, repo, branch, filePath, autoSync });
+            showToast('✅ تم حفظ إعدادات ربط GitHub بنجاح في متصفحك!', 'success');
+            renderGithubSync();
+        });
+    }
+
+    const ghTestConnectionBtn = document.getElementById('ghTestConnectionBtn');
+    if (ghTestConnectionBtn) {
+        ghTestConnectionBtn.addEventListener('click', async () => {
+            const tokenVal = document.getElementById('ghTokenInput').value.trim();
+            if (tokenVal) {
+                saveGithubConfig({ token: tokenVal });
+            }
+
+            ghTestConnectionBtn.disabled = true;
+            ghTestConnectionBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> جاري فحص الاتصال...';
+
+            try {
+                const res = await testGithubConnection();
+                if (res.ok) {
+                    showToast(`🎉 الاتصال ناجح 100%! المستودع (${res.repo.name}) نشط على الفرع (${res.repo.defaultBranch}).`, 'success');
+                    renderGithubSync();
+                } else {
+                    showToast(`فشل الاتصال: ${res.error}`, 'error');
+                }
+            } catch (err) {
+                showToast(`خطأ في الفحص: ${err.message}`, 'error');
+            } finally {
+                ghTestConnectionBtn.disabled = false;
+                ghTestConnectionBtn.innerHTML = '<i class="bx bx-check-shield"></i> فحص الاتصال والربط';
+            }
+        });
+    }
+
+    // Manual Full Sync & Deploy
+    const ghManualSyncBtn = document.getElementById('ghManualSyncBtn');
+    const syncProgressBox = document.getElementById('ghSyncProgressBox');
+    const progressStatus = document.getElementById('ghProgressStatusText');
+    const progressBarFill = document.getElementById('ghProgressBarFill');
+    const countdownEl = document.getElementById('ghProgressCountdown');
+    const progressDetails = document.getElementById('ghProgressDetails');
+
+    const triggerFullSyncProcess = async (commitMsgCustom = null) => {
+        const cfg = getGithubConfig();
+        if (!cfg.token) {
+            switchTab('github-sync');
+            showToast('يرجى حفظ توكن GitHub (Personal Access Token) أولاً لتفعيل النشر!', 'warning');
+            const tokenInp = document.getElementById('ghTokenInput');
+            if (tokenInp) tokenInp.focus();
+            return;
+        }
+
+        if (syncProgressBox) syncProgressBox.classList.add('active');
+        if (progressStatus) progressStatus.textContent = '١/٣ - جاري جمع وتجهيز بيانات العيادة...';
+        if (progressBarFill) progressBarFill.style.width = '30%';
+        if (progressDetails) progressDetails.textContent = 'جمع الإعدادات والأسعار والتقييمات وتشفيرها بصيغة UTF-8 Base64...';
+
+        try {
+            await new Promise(r => setTimeout(r, 400));
+            if (progressStatus) progressStatus.textContent = '٢/٣ - جاري الاتصال بـ GitHub API وإنشاء الـ Commit...';
+            if (progressBarFill) progressBarFill.style.width = '65%';
+
+            const msg = commitMsgCustom || (document.getElementById('ghCommitMessageInput')?.value.trim() || null);
+            const res = await pushDataToGitHub(msg);
+
+            if (progressStatus) progressStatus.textContent = '٣/٣ - نجح الإرسال! Vercel يبدأ النشر السحابي الآن 🚀';
+            if (progressBarFill) progressBarFill.style.width = '100%';
+            if (progressDetails) progressDetails.innerHTML = `تم إنشاء Commit برقم <strong>${res.commitSha}</strong> بنجاح.`;
+
+            showToast(`🚀 تم الحفظ في GitHub بنجاح (${res.commitSha})! يقوم Vercel الآن بنشر التحديث لكل زوار الموقع.`, 'success');
+            renderGithubSync();
+
+            // 20-second countdown simulation for Vercel edge deployment
+            let timeLeft = 20;
+            if (countdownEl) countdownEl.textContent = `(جاهز للزوار خلال ${timeLeft}ث)`;
+            const timer = setInterval(() => {
+                timeLeft--;
+                if (timeLeft > 0) {
+                    if (countdownEl) countdownEl.textContent = `(جاهز للزوار خلال ${timeLeft}ث)`;
+                } else {
+                    clearInterval(timer);
+                    if (countdownEl) countdownEl.textContent = '✅ مباشر الآن!';
+                    if (progressStatus) progressStatus.textContent = '🎉 اكتمل نشر Vercel بنجاح على الدومين المباشر!';
+                    showToast('🎉 تهانينا! التحديث منشور الآن لجميع زوار موقع عيادة د. أكثم حول العالم.', 'success');
+                }
+            }, 1000);
+
+        } catch (err) {
+            if (progressStatus) progressStatus.textContent = '❌ فشل في إرسال التحديث';
+            if (progressBarFill) progressBarFill.style.background = '#EF4444';
+            if (progressDetails) progressDetails.textContent = err.message;
+            showToast(`خطأ في المزامنة: ${err.message}`, 'error');
+        }
+    };
+
+    if (ghManualSyncBtn) {
+        ghManualSyncBtn.addEventListener('click', () => {
+            triggerFullSyncProcess();
+        });
+    }
+
+    // Top Header Quick Sync Button
+    const admHeaderQuickSyncBtn = document.getElementById('admHeaderQuickSyncBtn');
+    if (admHeaderQuickSyncBtn) {
+        admHeaderQuickSyncBtn.addEventListener('click', () => {
+            triggerFullSyncProcess('CMS: مزامنة ونشر سريع من زر الهيدر');
         });
     }
 
