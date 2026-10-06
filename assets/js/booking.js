@@ -305,6 +305,28 @@ export function initBookingFlow() {
         // Send Notification to Telegram
         sendTelegramNotification(bookingId);
 
+        // Non-blocking sync to Vercel/GitHub API if deployed
+        try {
+            fetch('/api/book', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: bookingId,
+                    name: AppState.bookingData.name,
+                    phone: AppState.bookingData.phone,
+                    email: AppState.bookingData.email,
+                    age: AppState.bookingData.age,
+                    service: AppState.bookingData.service,
+                    date: AppState.bookingData.date,
+                    time: AppState.bookingData.time,
+                    chair: AppState.bookingData.chair,
+                    notes: AppState.bookingData.notes,
+                    status: 'pending',
+                    timestamp: Date.now()
+                })
+            }).catch(() => {});
+        } catch (e) {}
+
         // Transition to success page
         window.location.href = 'success.html';
     });

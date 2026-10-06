@@ -119,6 +119,13 @@
                         const existing = JSON.parse(localStorage.getItem('dr_aktham_contacts') || '[]');
                         existing.unshift(newMsg);
                         localStorage.setItem('dr_aktham_contacts', JSON.stringify(existing));
+
+                        // Non-blocking sync to Vercel/GitHub API if deployed
+                        fetch('/api/contact', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ name, phone, email, message })
+                        }).catch(() => {});
                     } catch (err) {
                         console.error('Error saving contact message:', err);
                     }

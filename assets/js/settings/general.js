@@ -74,6 +74,24 @@ export async function syncRemoteClinicData() {
         if (remote.testimonials && Array.isArray(remote.testimonials)) {
             localStorage.setItem('dr_aktham_testimonials', JSON.stringify(remote.testimonials));
         }
+        if (remote.bookings && Array.isArray(remote.bookings)) {
+            const curBookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
+            if (curBookings.length === 0) {
+                localStorage.setItem('dr_aktham_bookings', JSON.stringify(remote.bookings));
+            }
+        }
+        if (remote.contacts && Array.isArray(remote.contacts)) {
+            const curContacts = JSON.parse(localStorage.getItem('dr_aktham_contacts') || '[]');
+            if (curContacts.length === 0) {
+                localStorage.setItem('dr_aktham_contacts', JSON.stringify(remote.contacts));
+            }
+        }
+        if (remote.newsletter && Array.isArray(remote.newsletter)) {
+            const curNews = JSON.parse(localStorage.getItem('dr_aktham_newsletter') || '[]');
+            if (curNews.length === 0) {
+                localStorage.setItem('dr_aktham_newsletter', JSON.stringify(remote.newsletter));
+            }
+        }
         if (remote.lastUpdated) {
             localStorage.setItem('dr_aktham_last_sync_time', remote.lastUpdated);
         }

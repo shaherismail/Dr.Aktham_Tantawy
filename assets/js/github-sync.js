@@ -129,6 +129,7 @@ export async function testGithubConnection() {
 
 /**
  * Gather full clinic state from localStorage into a clean JSON structure
+ * Includes: General settings, services, testimonials, bookings, contacts, newsletter
  */
 export function compileCurrentClinicData() {
     let generalSettings = {};
@@ -146,12 +147,30 @@ export function compileCurrentClinicData() {
         testimonials = JSON.parse(localStorage.getItem('dr_aktham_testimonials') || '[]');
     } catch (e) {}
 
+    let bookings = [];
+    try {
+        bookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
+    } catch (e) {}
+
+    let contacts = [];
+    try {
+        contacts = JSON.parse(localStorage.getItem('dr_aktham_contacts') || '[]');
+    } catch (e) {}
+
+    let newsletter = [];
+    try {
+        newsletter = JSON.parse(localStorage.getItem('dr_aktham_newsletter') || '[]');
+    } catch (e) {}
+
     return {
         lastUpdated: new Date().toISOString(),
-        updatedBy: "لوحة تحكم د. أكثم عبر GitHub API (مزامنة تلقائية)",
+        updatedBy: "لوحة تحكم د. أكثم عبر GitHub API (مزامنة شاملة)",
         generalSettings,
         services,
-        testimonials
+        testimonials,
+        bookings,
+        contacts,
+        newsletter
     };
 }
 

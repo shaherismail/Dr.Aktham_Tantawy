@@ -1048,7 +1048,7 @@ window.adminActions = {
         const b = AdminState.bookings.find(item => item.id === id);
         if (b) {
             b.status = 'confirmed';
-            saveBookings();
+            saveBookings(`تأكيد الموعد رقم (${id})`);
             showToast(`تم تأكيد الموعد (${id}) بنجاح!`, 'success');
             renderAll();
         }
@@ -1058,7 +1058,7 @@ window.adminActions = {
         const b = AdminState.bookings.find(item => item.id === id);
         if (b) {
             b.status = 'completed';
-            saveBookings();
+            saveBookings(`إكمال الموعد رقم (${id})`);
             showToast(`تم تمييز الموعد (${id}) كمكتمل وتحديث الملف الطبي.`, 'success');
             renderAll();
         }
@@ -1067,7 +1067,7 @@ window.adminActions = {
     deleteBooking: (id) => {
         if (confirm(`هل أنت متأكد من حذف الموعد رقم ${id} نهائياً؟`)) {
             AdminState.bookings = AdminState.bookings.filter(b => b.id !== id);
-            saveBookings();
+            saveBookings(`حذف الموعد رقم (${id})`);
             showToast(`تم حذف الموعد (${id}) بنجاح.`, 'warning');
             renderAll();
         }
@@ -1199,6 +1199,11 @@ window.adminActions = {
             showToast('تم تمييز الرسالة كمقروءة.', 'success');
             renderContacts();
             updateBadges();
+
+            const ghCfg = getGithubConfig();
+            if (ghCfg.token && ghCfg.autoSync) {
+                pushDataToGitHub('CMS: تمييز رسالة استفسار كمقروءة').catch(() => {});
+            }
         }
     },
 
@@ -1209,6 +1214,11 @@ window.adminActions = {
             showToast('تم حذف الرسالة بنجاح.', 'warning');
             renderContacts();
             updateBadges();
+
+            const ghCfg = getGithubConfig();
+            if (ghCfg.token && ghCfg.autoSync) {
+                pushDataToGitHub('CMS: حذف رسالة استفسار').catch(() => {});
+            }
         }
     },
 
@@ -1218,6 +1228,11 @@ window.adminActions = {
             localStorage.setItem('dr_aktham_newsletter', JSON.stringify(AdminState.newsletter));
             showToast('تم حذف المشترك بنجاح.', 'warning');
             renderNewsletter();
+
+            const ghCfg = getGithubConfig();
+            if (ghCfg.token && ghCfg.autoSync) {
+                pushDataToGitHub('CMS: حذف مشترك من النشرة البريدية').catch(() => {});
+            }
         }
     },
 
@@ -1246,8 +1261,16 @@ window.adminActions = {
     }
 };
 
-function saveBookings() {
+function saveBookings(actionDesc = 'تحديث المواعيد') {
     localStorage.setItem('dr_aktham_bookings', JSON.stringify(AdminState.bookings));
+    const ghCfg = getGithubConfig();
+    if (ghCfg.token && ghCfg.autoSync) {
+        pushDataToGitHub(`CMS: ${actionDesc}`)
+            .then(res => {
+                showToast(`🚀 تم مزامنة الموعد مع GitHub (${res.commitSha}) وجاري النشر على Vercel!`, 'success');
+            })
+            .catch(() => {});
+    }
 }
 
 // --------------------------------------------------------------------------
@@ -1337,7 +1360,7 @@ function bindFormsAndModals() {
             };
 
             AdminState.bookings.unshift(newBooking);
-            saveBookings();
+            saveBookings(`إضافة موعد جديد للمريض ${newBooking.name}`);
             closeModal('addBookingModal');
             addBookingForm.reset();
             showToast(`تم إنشاء الموعد الجديد برقم (${newBooking.id}) بنجاح!`, 'success');
@@ -1362,7 +1385,7 @@ function bindFormsAndModals() {
                 b.status = document.getElementById('editBookingStatus').value;
                 b.notes = document.getElementById('editBookingNotes').value.trim();
 
-                saveBookings();
+                saveBookings(`تعديل بيانات الموعد رقم (${id})`);
                 closeModal('editBookingModal');
                 showToast(`تم حفظ تعديلات الموعد (${id}) بنجاح!`, 'success');
                 renderAll();
