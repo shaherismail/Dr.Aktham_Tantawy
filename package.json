@@ -1,13 +1,18 @@
 {
   "name": "dr-aktham-dental-clinic",
   "version": "1.0.0",
-  "description": "Premium Dental Clinic website UI/UX mockups and interactive site for Dr. Aktham",
+  "description": "عيادة الدكتور أكثم إسماعيل طنطاوي لتقويم وجراحة الأسنان - الموقع الرسمي ولوحة التحكم",
   "main": "index.html",
   "scripts": {
-    "dev": "npx -y http-server -p 8080 --ext html"
+    "dev": "npx -y http-server -p 8080 -c-1",
+    "build": "echo 'Static site is ready for Vercel deployment'"
   },
-  "dependencies": {
-    "dotenv": "^17.4.2",
-    "pg": "^8.22.0"
-  }
+  "keywords": [
+    "dental-clinic",
+    "orthodontics",
+    "dr-aktham",
+    "medical-dashboard"
+  ],
+  "author": "Dr. Aktham Clinic",
+  "license": "ISC"
 }

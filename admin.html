@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="لوحة التحكم الإدارية والطبية المتكاملة - عيادة الدكتور أكثم إسماعيل طنطاوي لتقويم وجراحة الأسنان">
+    <title>لوحة الإدارة الطبية - د. أكثم طنطاوي</title>
+    
+    <!-- Boxicons CDN for modern executive iconography -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts: Tajawal (Arabic) and Outfit (Numbers & English) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Admin Master Stylesheet -->
+    <link rel="stylesheet" href="assets/css/admin.css?v=2.0.0">
+</head>
+<body class="admin-body">
+
+    <!-- Toast Notification Container -->
+    <div id="admToastContainer" class="adm-toast-container"></div>
+
+    <!-- 0. ADMIN AUTHENTICATION LOCK SCREEN -->
+    <div id="adminAuthOverlay" style="display: none;">
+        <div class="auth-lock-card">
+            <img src="assets/logo.jpg" alt="شعار د. أكثم">
+            <h3>لوحة الإدارة الطبية</h3>
+            <p>عيادة الدكتور أكثم طنطاوي لتقويم الأسنان<br>يرجى إدخال رمز المرور للمتابعة</p>
+            
+            <form id="adminPinForm">
+                <input type="password" id="adminPinInput" class="auth-pin-input" placeholder="••••" maxlength="8" autofocus required>
+                <button type="submit" class="adm-btn adm-btn-primary" style="width: 100%; padding: 14px; font-size: 15px;">
+                    <i class="bx bx-lock-open-alt"></i> فتح لوحة التحكم
+                </button>
+            </form>
+            <div style="margin-top: 18px; font-size: 12px; color: #64748B;">
+                رمز الدخول الافتراضي: <span style="font-family: 'Outfit'; color: var(--adm-primary); font-weight: 700;">1234</span>
+            </div>
+            <div style="margin-top: 14px;">
+                <a href="index.html" style="font-size: 13px; color: #94A3B8; text-decoration: underline;"><i class="bx bx-arrow-back"></i> العودة لموقع العيادة</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MASTER ADMIN WRAPPER -->
+    <div class="admin-layout">
+        
+        <!-- ================================================================ -->
+        <!-- 1. SIDEBAR NAVIGATION                                            -->
+        <!-- ================================================================ -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-brand">
+                <img src="assets/logo.jpg" alt="شعار د. أكثم">
+                <div class="sidebar-brand-text">
+                    <h3>د. أكثم طنطاوي</h3>
+                    <span>لوحة التحكم الطبية ✦</span>
+                </div>
+            </div>
+
+            <!-- Group 1: Core Operations -->
+            <div class="sidebar-nav-group-title">العمليات اليومية</div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item active">
+                    <a href="#overview" class="sidebar-link" data-tab="overview">
+                        <i class="bx bxs-dashboard"></i>
+                        <span>نظرة عامة ومؤشرات</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#bookings" class="sidebar-link" data-tab="bookings">
+                        <i class="bx bx-calendar-event"></i>
+                        <span>إدارة المواعيد والحجوزات</span>
+                        <span class="sidebar-badge badge-amber" id="badgeBookingsCount">0</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#patients" class="sidebar-link" data-tab="patients">
+                        <i class="bx bx-user-pin"></i>
+                        <span>سجل المرضى والملفات</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Group 2: Clinic & Services -->
+            <div class="sidebar-nav-group-title">إدارة العيادة والعلاجات</div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="#services" class="sidebar-link" data-tab="services">
+                        <i class="bx bx-plus-medical"></i>
+                        <span>الخدمات والأسعار</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#testimonials" class="sidebar-link" data-tab="testimonials">
+                        <i class="bx bx-star"></i>
+                        <span>آراء وتقييمات المرضى</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#messages" class="sidebar-link" data-tab="messages">
+                        <i class="bx bx-message-dots"></i>
+                        <span>رسائل واستفسارات الزوار</span>
+                        <span class="sidebar-badge badge-blue" id="badgeMessagesCount">0</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#newsletter" class="sidebar-link" data-tab="newsletter">
+                        <i class="bx bx-mail-send"></i>
+                        <span>النشرة البريدية والتسويق</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Group 3: Integrations & System -->
+            <div class="sidebar-nav-group-title">الربط والتقنية</div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="#telegram" class="sidebar-link" data-tab="telegram">
+                        <i class="bx bxl-telegram" style="color: #229ED9;"></i>
+                        <span>تكامل بوت تليجرام</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#database" class="sidebar-link" data-tab="database">
+                        <i class="bx bx-data" style="color: #10B981;"></i>
+                        <span>السحابة والنسخ الاحتياطي</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#settings" class="sidebar-link" data-tab="settings">
+                        <i class="bx bx-cog"></i>
+                        <span>إعدادات العيادة والموقع</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Sidebar Bottom Footer -->
+            <div class="sidebar-footer">
+                <a href="index.html" target="_blank" class="adm-btn adm-btn-secondary" style="width: 100%; font-size: 13px; text-decoration: none;">
+                    <i class="bx bx-link-external"></i> زيارة موقع العيادة
+                </a>
+                <button type="button" class="adm-btn adm-btn-danger adm-btn-sm" id="admLogoutBtn" style="width: 100%;">
+                    <i class="bx bx-log-out"></i> تسجيل الخروج
+                </button>
+            </div>
+        </aside>
+
+        <!-- ================================================================ -->
+        <!-- 2. MAIN EXECUTIVE DASHBOARD CONTENT                              -->
+        <!-- ================================================================ -->
+        <main class="admin-main">
+            
+            <!-- Executive Sticky Header -->
+            <header class="admin-header">
+                <div class="header-right">
+                    <button class="mobile-toggle-btn" id="mobileSidebarToggle" title="القائمة">
+                        <i class="bx bx-menu"></i>
+                    </button>
+                    <div class="header-title-box">
+                        <h2 id="admHeaderPageTitle"><i class="bx bxs-dashboard"></i> نظرة عامة ومؤشرات</h2>
+                        <p id="admLiveClock">جاري تحميل التوقيت...</p>
+                    </div>
+                </div>
+
+                <div class="header-left">
+                    <!-- Cloud Sync Pill -->
+                    <div class="cloud-pill local-mode" id="admCloudPill" title="حالة الاتصال بقاعدة البيانات">
+                        <span class="indicator-dot"></span> وضع التخزين المحلي النشط
+                    </div>
+
+                    <!-- Quick New Booking CTA -->
+                    <button class="adm-btn adm-btn-primary adm-btn-sm" id="admNewBookingBtn">
+                        <i class="bx bx-calendar-plus"></i> حجز موعد جديد
+                    </button>
+
+                    <!-- Dark / Light Mode Toggle -->
+                    <button class="header-btn" id="admThemeToggleBtn" title="تبديل المظهر الليلي/النهاري">
+                        <i class="bx bx-moon"></i>
+                    </button>
+
+                    <!-- Notifications Dropdown Trigger -->
+                    <button class="header-btn" id="admNotifBellBtn" title="التنبيهات الجديدة" onclick="window.location.hash = 'bookings';">
+                        <i class="bx bx-bell"></i>
+                        <span class="btn-badge" id="headerNotifBadge" style="display: none;">0</span>
+                    </button>
+
+                    <!-- Lock Screen Button -->
+                    <button class="header-btn" id="admLockBtn" title="قفل الشاشة السريع">
+                        <i class="bx bx-lock-alt"></i>
+                    </button>
+
+                    <!-- Doctor / Admin Profile Badge -->
+                    <div class="admin-user-profile" id="admUserProfileBadge" onclick="window.location.hash = 'settings';">
+                        <div class="admin-avatar">د</div>
+                        <div class="admin-meta">
+                            <span class="name">د. أكثم</span>
+                            <span class="role">المدير الطبي</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Inner Content Panes -->
+            <div class="admin-content">
+                
+                <!-- -------------------------------------------------------- -->
+                <!-- TAB 1: OVERVIEW & LIVE ANALYTICS                         -->
+                <!-- -------------------------------------------------------- -->
+                <section class="tab-content-panel active" id="tab-overview">
+                    
+                    <!-- KPI Metric Cards Grid -->
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="kpi-icon-box"><i class="bx bx-calendar-check"></i></div>
+                            <div class="kpi-data">
+                                <span class="kpi-label">إجمالي الحجوزات والمواعيد</span>
+                                <span class="kpi-value" id="kpiTotalBookings">0</span>
+                                <span class="kpi-trend trend-up"><i class="bx bx-trending-up"></i> نشاط مستمر هذا الأسبوع</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card kpi-success">
+                            <div class="kpi-icon-box"><i class="bx bx-check-double"></i></div>
+                            <div class="kpi-data">
+                                <span class="kpi-label">المواعيد المؤكدة</span>
+                                <span class="kpi-value" id="kpiConfirmedBookings">0</span>
+                                <span class="kpi-trend trend-up"><i class="bx bx-shield-quarter"></i> جاهزة للحضور بالعيادة</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card kpi-purple">
+                            <div class="kpi-icon-box"><i class="bx bx-group"></i></div>
+                            <div class="kpi-data">
+                                <span class="kpi-label">إجمالي المرضى المسجلين</span>
+                                <span class="kpi-value" id="kpiTotalPatients">0</span>
+                                <span class="kpi-trend trend-up"><i class="bx bx-user-check"></i> ملفات طبية نشطة</span>
+                            </div>
+                        </div>
+
+                        <div class="kpi-card kpi-warning">
+                            <div class="kpi-icon-box"><i class="bx bx-wallet"></i></div>
+                            <div class="kpi-data">
+                                <span class="kpi-label">الإيرادات التقديرية للحجوزات</span>
+                                <span class="kpi-value" id="kpiTotalRevenue">0 ر.س</span>
+                                <span class="kpi-trend trend-up"><i class="bx bx-line-chart"></i> بناءً على أسعار الباقات</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Layout 2 Columns: Today's Queue & Services Breakdown -->
+                    <div style="display: grid; grid-template-columns: 2fr 1.1fr; gap: 24px; margin-bottom: 24px;" class="responsive-grid-col">
+                        
+                        <!-- Col 1: Today's Live Queue -->
+                        <div class="adm-card">
+                            <div class="adm-card-header">
+                                <div>
+                                    <h3 class="adm-card-title"><i class="bx bx-time-five"></i> قائمة انتظار مواعيد اليوم</h3>
+                                    <p class="adm-card-subtitle">المرضى المجدول حضورهم بالعيادة خلال اليوم</p>
+                                </div>
+                                <a href="#bookings" class="adm-btn adm-btn-secondary adm-btn-sm" onclick="window.adminActions && (window.location.hash = 'bookings')">عرض الكل</a>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="adm-table">
+                                    <thead>
+                                        <tr>
+                                            <th>رقم الحجز</th>
+                                            <th>المريض</th>
+                                            <th>الجناح</th>
+                                            <th>الوقت</th>
+                                            <th>الحالة</th>
+                                            <th>إجراء سريع</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="todayQueueTbody">
+                                        <!-- Injected by admin.js -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Col 2: Services Distribution -->
+                        <div class="adm-card">
+                            <div class="adm-card-header">
+                                <div>
+                                    <h3 class="adm-card-title"><i class="bx bx-pie-chart-alt"></i> توزيع الخدمات الأكثر طلباً</h3>
+                                    <p class="adm-card-subtitle">نسب الحجوزات حسب تخصص العلاج</p>
+                                </div>
+                            </div>
+                            <div id="serviceDistributionBars" style="padding-top: 10px;">
+                                <!-- Injected by admin.js -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Quick Tools Shortcuts -->
+                    <div class="adm-card" style="background: linear-gradient(135deg, rgba(21, 101, 255, 0.05), rgba(139, 92, 246, 0.05)); border: 1.5px dashed var(--adm-primary);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                            <div>
+                                <h4 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--adm-primary);">
+                                    <i class="bx bx-rocket"></i> إنجاز سريع للمهام الإدارية
+                                </h4>
+                                <p style="margin: 4px 0 0 0; font-size: 13px; color: var(--adm-text-muted);">
+                                    يمكنك بنقرة زر واحدة تصدير المواعيد، فحص ربط تليجرام، أو تنزيل نسخة احتياطية من كافة سجلات الموقع.
+                                </p>
+                            </div>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button class="adm-btn adm-btn-secondary adm-btn-sm" onclick="window.location.hash = 'database';"><i class="bx bx-download"></i> نسخة احتياطية</button>
+                                <button class="adm-btn adm-btn-secondary adm-btn-sm" onclick="window.location.hash = 'telegram';"><i class="bx bxl-telegram"></i> فحص تليجرام</button>
+                                <button class="adm-btn adm-btn-primary adm-btn-sm" onclick="window.location.hash = 'bookings';"><i class="bx bx-table"></i> جدول المواعيد</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- TAB 2: APPOINTMENTS MANAGER                              -->
+                <!-- -------------------------------------------------------- -->
+                <section class="tab-content-panel" id="tab-bookings">
+                    <div class="adm-card">
+                        
+                        <div class="adm-card-header">
+                            <div>
+                                <h3 class="adm-card-title"><i class="bx bx-calendar-event"></i> إدارة المواعيد والحجوزات الطبية</h3>
+                                <p class="adm-card-subtitle" id="bookingsResultCount">عرض جميع المواعيد المسجلة</p>
+                            </div>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button class="adm-btn adm-btn-primary adm-btn-sm" onclick="window.adminActions.newBookingForPatient('', '')"><i class="bx bx-plus"></i> إضافة موعد</button>
+                                <button class="adm-btn adm-btn-secondary adm-btn-sm" id="admExportCsvBtn"><i class="bx bx-file"></i> تصدير Excel/CSV</button>
+                                <button class="adm-btn adm-btn-secondary adm-btn-sm" id="admPrintBtn"><i class="bx bx-printer"></i> طباعة الجدول</button>
+                            </div>
+                        </div>
+
+                        <!-- Filter Toolbar -->
+                        <div class="toolbar-row">
+                            <div class="toolbar-filters">
+                                <div class="search-input-box">
+                                    <i class="bx bx-search"></i>
+                                    <input type="text" id="bookingsSearchInput" class="adm-input" placeholder="بحث باسم المريض، رقم الجوال، أو رقم الحجز...">
+                                </div>
+
+                                <select id="bookingsStatusFilter" class="adm-select">
+                                    <option value="all">جميع الحالات</option>
+                                    <option value="confirmed">المؤكدة فقط</option>
+                                    <option value="pending">قيد الانتظار</option>
+                                    <option value="completed">المكتملة</option>
+                                    <option value="cancelled">الملغاة</option>
+                                </select>
+
+                                <select id="bookingsChairFilter" class="adm-select">
+                                    <option value="all">جميع الأجنحة والكراسي</option>
+                                    <option value="VIP">جناح VIP 💎</option>
+                                    <option value="تقويم">عيادة التقويم 🦷</option>
+                                    <option value="تجميل">تجميل وزراعة 💺</option>
+                                </select>
+
+                                <select id="bookingsDateFilter" class="adm-select">
+                                    <option value="all">جميع التواريخ</option>
+                                    <option value="today">مواعيد اليوم</option>
+                                    <option value="week">خلال هذا الأسبوع</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Master Table -->
+                        <div class="table-responsive">
+                            <table class="adm-table">
+                                <thead>
+                                    <tr>
+                                        <th>رقم الموعد</th>
+                                        <th>اسم المريض</th>
+                                        <th>الاتصال</th>
+                                        <th>الخدمة المطلوبة</th>
+                                        <th>التاريخ والوقت</th>
+                                        <th>الحالة</th>
+                                        <th>الملاحظات</th>
+                                        <th style="min-width: 170px;">الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bookingsTableBody">
+                                    <!-- Injected by admin.js -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- TAB 3: PATIENTS CRM & DIRECTORY                          -->
+                <!-- -------------------------------------------------------- -->
+                <section class="tab-content-panel" id="tab-patients">
+                    <div class="adm-card">
+                        
+                        <div class="adm-card-header">
+                            <div>
+                                <h3 class="adm-card-title"><i class="bx bx-user-pin"></i> سجل المرضى والملفات الطبية (Patients CRM)</h3>
+                                <p class="adm-card-subtitle">دليل شامل لبيانات المرضى وسجل زياراتهم وملاحظاتهم العلاجية</p>
+                            </div>
+                            <button class="adm-btn adm-btn-primary adm-btn-sm" onclick="window.adminActions.newBookingForPatient('', '')">
+                                <i class="bx bx-user-plus"></i> مريض جديد
+                            </button>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="adm-table">
+                                <thead>
+                                    <tr>
+                                        <th>معرف الملف</th>
+                                        <th>اسم المريض</th>
+                                        <th>معلومات الاتصال</th>
+                                        <th>عدد الزيارات</th>
+                                        <th>آخر علاج / زيارة</th>
+                                        <th>الملاحظات السريرية</th>
+                                        <th>الإجراءات</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="patientsTableBody">
+                                    <!-- Injected by admin.js -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- TAB 4: SERVICES & PRICING                                -->
+                <!-- -------------------------------------------------------- -->
+                <section class="tab-content-panel" id="tab-services">
+                    <div class="adm-card">
+                        
+                        <div class="adm-card-header">
+                            <div>
+                                <h3 class="adm-card-title"><i class="bx bx-plus-medical"></i> إدارة خدمات العيادة والأسعار</h3>
+                                <p class="adm-card-subtitle">التحكم في الباقات العلاجية، والأسعار المعلنة للزوار، وحالة التوفر</p>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;" id="servicesGridContainer">
+                            <!-- Injected by admin.js -->
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- TAB 5: PATIENT TESTIMONIALS                              -->
+                <!-- -------------------------------------------------------- -->
+                <section class="tab-content-panel" id="tab-testimonials">
+                    <div class="adm-card">
+                        
+                        <div class="adm-card-header">
+                            <div>
+                                <h3 class="adm-card-title"><i class="bx bx-star"></i> آراء وتقييمات المرضى (المعروضة على الموقع)</h3>
+                                <p class="adm-card-subtitle">إدارة ومراجعة آراء المرضى المنشورة في الصفحة الرئيسية</p>
+                            </div>
+                            <button class="adm-btn adm-btn-primary adm-btn-sm" onclick="window.openModal('addTestimonialModal')">
+                                <i class="bx bx-plus"></i> إضافة تقييم مريض
+                            </button>
+                        </div>
+
+                        <div id="testimonialsListContainer">
+                            <!-- Injected by admin.js -->
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- TAB 6: CONTACT INQUIRIES                                 -->
+                <!-- -------------------------------------------------------- -->
+                <section class="tab-content-panel" id="tab-messages">
+                    <div class="adm-card">
+                        
+                        <div class="adm-card-header">
+                            <div>
+                                <h3 class="adm-card-title"><i class="bx bx-envelope"></i> رسائل واستفسارات تواصل الزوار</h3>
+                                <p class="adm-card-subtitle">الرسائل الواردة مباشرة من نموذج صفحة (اتصل بنا - contact.html)</p>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="adm-table">
+                                <thead>
+                                    <tr>
+                                        <th>رقم الرسالة</th>
+                                        <th>المرسل</th>
+                                        <th>البريد</th>
+                                        <th>نص الرسالة / الاستفسار</th>
+                                        <th>التاريخ</th>
+                                        <th>الإجراء</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="contactsTableBody">
+                                    <!-- Injected by admin.js -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- TAB 7: NEWSLETTER SUBSCRIBERS                            -->
+                <!-- -------------------------------------------------------- -->
+                <section class="tab-content-panel" id="tab-newsletter">
+                    <div class="adm-card">
+                        
+                        <div class="adm-card-header">
+                            <div>
+                                <h3 class="adm-card-title"><i class="bx bx-mail-send"></i> النشرة الإخبارية والعملاء المحتملين</h3>
+                                <p class="adm-card-subtitle" id="newsletterTotalCount">قائمة المشتركين في النشرة الطبية للعيادة</p>
+                            </div>
+                            <button class="adm-btn adm-btn-secondary adm-btn-sm" id="admCopyEmailsBtn">
+                                <i class="bx bx-copy"></i> نسخ جميع الإيميلات للحافظة
+                            </button>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="adm-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>البريد الإلكتروني</th>
+                                        <th>تاريخ الاشتراك</th>
+                                        <th>الحالة</th>
+                                        <th>الإجراء</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="newsletterTableBody">
+                                    <!-- Injected by admin.js -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- TAB 8: TELEGRAM BOT INTEGRATION                          -->
+                <!-- -------------------------------------------------------- -->
+                <section class="tab-content-panel" id="tab-telegram">
+                    <div class="adm-card">
+                        
+                        <div class="adm-card-header">
+                            <div>
+                                <h3 class="adm-card-title"><i class="bx bxl-telegram" style="color: #229ED9;"></i> تكامل بوت إشعارات تليجرام الفورية</h3>
+                                <p class="adm-card-subtitle">استقبال إشعارات وتفاصيل المواعيد الجديدة فور حجز المريض على هاتفك أو مجموعة العمل</p>
+                            </div>
+                        </div>
+
+                        <div style="max-width: 720px; display: flex; flex-direction: column; gap: 20px;">
+                            <div class="adm-form-group">
+                                <label for="admTgToken">توكن البوت (Bot Token)</label>
+                                <input type="password" id="admTgToken" class="adm-input" placeholder="مثال: 7123456789:AAHxyz...">
+                                <span style="font-size: 12px; color: var(--adm-text-muted);">تحصل عليه من @BotFather على تليجرام عند إنشاء البوت.</span>
+                            </div>
+
+                            <div class="adm-form-group">
+                                <label for="admTgChatId">معرف الدردشة أو القناة (Chat ID)</label>
+                                <input type="text" id="admTgChatId" class="adm-input" placeholder="مثال: 123456789 أو -1001234567890">
+                                <span style="font-size: 12px; color: var(--adm-text-muted);">تحصل عليه من @userinfobot على تليجرام.</span>
+                            </div>
+
+                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                <button type="button" class="adm-btn adm-btn-primary" id="admSaveTgBtn">
+                                    <i class="bx bx-save"></i> حفظ إعدادات البوت
+                                </button>
+                                <button type="button" class="adm-btn adm-btn-secondary" id="admTestTgBtn">
+                                    <i class="bx bx-send"></i> إرسال رسالة تجريبية الآن
+                                </button>
+                            </div>
+
+                            <div style="background: var(--adm-surface-alt); padding: 18px; border-radius: 12px; border: 1px solid var(--adm-border); margin-top: 10px;">
+                                <h4 style="margin: 0 0 10px 0; font-size: 14.5px; font-weight: 800; color: var(--adm-text-main);">
+                                    <i class="bx bx-info-circle"></i> كيف تعمل الإشعارات الفورية؟
+                                </h4>
+                                <ol style="margin: 0; padding-right: 20px; font-size: 13px; line-height: 1.8; color: var(--adm-text-muted);">
+                                    <li>يقوم المراجع بحجز موعد في صفحة <code>booking.html</code>.</li>
+                                    <li>يتم إرسال رسالة فورية إلى محادثتك على تليجرام متضمنة: اسم المريض، الجوال، التخصص، والوقت.</li>
+                                    <li>تحتوي الرسالة على زر تأكيد بنقرة واحدة لتأكيد الحجز فورياً.</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- TAB 9: CLOUD & BACKUP HUB (SUPABASE)                     -->
+                <!-- -------------------------------------------------------- -->
+                <section class="tab-content-panel" id="tab-database">
+                    <div class="adm-card">
+                        
+                        <div class="adm-card-header">
+                            <div>
+                                <h3 class="adm-card-title"><i class="bx bx-data" style="color: #10B981;"></i> السحابة وقاعدة البيانات والنسخ الاحتياطي</h3>
+                                <p class="adm-card-subtitle">الربط السحابي مع Supabase وإدارة النسخ الاحتياطية لبيانات العيادة</p>
+                            </div>
+                        </div>
+
+                        <div class="form-grid-2" style="margin-bottom: 24px;">
+                            <div class="adm-form-group">
+                                <label for="admSbUrl">رابط مشروع Supabase (Project URL)</label>
+                                <input type="url" id="admSbUrl" class="adm-input" placeholder="https://xxxxxxxx.supabase.co">
+                            </div>
+                            <div class="adm-form-group">
+                                <label for="admSbKey">المفتاح العام (Anon Public Key)</label>
+                                <input type="password" id="admSbKey" class="adm-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 12px; margin-bottom: 30px; flex-wrap: wrap;">
+                            <button class="adm-btn adm-btn-primary" id="admSaveSbBtn">
+                                <i class="bx bx-save"></i> حفظ وتفعيل ربط Supabase
+                            </button>
+                            <button class="adm-btn adm-btn-secondary" onclick="window.openModal('sqlSchemaModal')">
+                                <i class="bx bx-code-alt"></i> عرض كود جداول SQL الجاهزة
+                            </button>
+                        </div>
+
+                        <!-- Data Backup & Restore Box -->
+                        <div style="background: var(--adm-surface-alt); padding: 24px; border-radius: 16px; border: 1px solid var(--adm-border);">
+                            <h4 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 800; color: var(--adm-text-main);">
+                                <i class="bx bx-archive"></i> النسخ الاحتياطي واستعادة البيانات
+                            </h4>
+                            <p style="font-size: 13.5px; color: var(--adm-text-muted); margin-bottom: 18px;">
+                                يتيح لك هذا القسم تنزيل نسخة احتياطية كاملة لجميع الحجوزات، وقوائم المرضى، والرسائل، والإعدادات، وحفظها على جهازك كملف JSON آمن.
+                            </p>
+                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                <button class="adm-btn adm-btn-success" id="admDownloadBackupBtn">
+                                    <i class="bx bx-download"></i> تنزيل نسخة احتياطية كاملة (JSON)
+                                </button>
+                                <button class="adm-btn adm-btn-secondary" onclick="document.getElementById('restoreFileInput').click();">
+                                    <i class="bx bx-upload"></i> استعادة من ملف نسخة احتياطية
+                                </button>
+                                <input type="file" id="restoreFileInput" accept=".json" style="display: none;" onchange="handleRestoreFile(this)">
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- -------------------------------------------------------- -->
+                <!-- TAB 10: CLINIC CMS & BRANDING SETTINGS                   -->
+                <!-- -------------------------------------------------------- -->
+                <section class="tab-content-panel" id="tab-settings">
+                    <div class="adm-card">
+                        
+                        <div class="adm-card-header">
+                            <div>
+                                <h3 class="adm-card-title"><i class="bx bx-cog"></i> إعدادات وهوية العيادة والموقع</h3>
+                                <p class="adm-card-subtitle">تعديل بيانات الاتصال، والعناوين، والألوان لتنعكس فورياً على كامل صفحات الموقع</p>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="adm-btn adm-btn-secondary adm-btn-sm" id="admChangePinBtn">
+                                    <i class="bx bx-key"></i> تغيير رمز مرور اللوحة
+                                </button>
+                                <button class="adm-btn adm-btn-primary adm-btn-sm" id="admSaveClinicSettingsBtn">
+                                    <i class="bx bx-save"></i> حفظ وتطبيق فوري
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Form Fields -->
+                        <div class="form-grid-2">
+                            <div class="adm-form-group">
+                                <label for="cfgClinicName">اسم العيادة الرئيسي</label>
+                                <input type="text" id="cfgClinicName" class="adm-input" value="عيادة الدكتور أكثم إسماعيل">
+                            </div>
+                            <div class="adm-form-group">
+                                <label for="cfgClinicSub">الاسم الفرعي / التخصص</label>
+                                <input type="text" id="cfgClinicSub" class="adm-input" value="لطب وجراحة الأسنان">
+                            </div>
+                            <div class="adm-form-group">
+                                <label for="cfgPhone">رقم الجوال الموحد</label>
+                                <input type="text" id="cfgPhone" class="adm-input" value="+966 50 123 4567">
+                            </div>
+                            <div class="adm-form-group">
+                                <label for="cfgPhoneFormatted">الهاتف الثابت / الإضافي</label>
+                                <input type="text" id="cfgPhoneFormatted" class="adm-input" value="011 123 4567">
+                            </div>
+                            <div class="adm-form-group">
+                                <label for="cfgEmergency">رقم طوارئ العيادة</label>
+                                <input type="text" id="cfgEmergency" class="adm-input" value="+966 50 999 1111">
+                            </div>
+                            <div class="adm-form-group">
+                                <label for="cfgWhatsapp">رقم واتساب المباشر</label>
+                                <input type="text" id="cfgWhatsapp" class="adm-input" value="+966501234567">
+                            </div>
+                            <div class="adm-form-group">
+                                <label for="cfgEmail">البريد الإلكتروني الرسمي</label>
+                                <input type="email" id="cfgEmail" class="adm-input" value="info@dr-aktham.com">
+                            </div>
+                            <div class="adm-form-group">
+                                <label for="cfgAddress">عنوان العيادة</label>
+                                <input type="text" id="cfgAddress" class="adm-input" value="الرياض، شارع التخصصي">
+                            </div>
+                            <div class="adm-form-group">
+                                <label for="cfgHours">ساعات العمل الرسمية</label>
+                                <textarea id="cfgHours" class="adm-input" rows="2">السبت - الخميس:
+٩:٠٠ ص - ٩:٠٠ م</textarea>
+                            </div>
+                            <div class="adm-form-group">
+                                <label for="cfgPrimaryColor">لون هوية العيادة الرئيسي (Primary Color)</label>
+                                <div style="display: flex; gap: 10px; align-items: center;">
+                                    <input type="color" id="cfgPrimaryColor" value="#1565FF" style="width: 50px; height: 42px; padding: 2px; border: 1px solid var(--adm-border); border-radius: 8px; cursor: pointer;">
+                                    <span style="font-size: 13px; color: var(--adm-text-muted);">يتحكم في أزرار وأيقونات الموقع بالكامل</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Social Media -->
+                        <h4 style="margin: 20px 0 14px 0; font-size: 15px; font-weight: 800; border-top: 1px solid var(--adm-border); padding-top: 16px;">
+                            روابط شبكات التواصل الاجتماعي
+                        </h4>
+                        <div class="form-grid-2">
+                            <div class="adm-form-group">
+                                <label for="cfgFacebook">فيسبوك (Facebook)</label>
+                                <input type="url" id="cfgFacebook" class="adm-input" value="https://facebook.com">
+                            </div>
+                            <div class="adm-form-group">
+                                <label for="cfgInstagram">انستغرام (Instagram)</label>
+                                <input type="url" id="cfgInstagram" class="adm-input" value="https://instagram.com">
+                            </div>
+                            <div class="adm-form-group">
+                                <label for="cfgTwitter">تويتر / إكس (Twitter/X)</label>
+                                <input type="url" id="cfgTwitter" class="adm-input" value="https://twitter.com">
+                            </div>
+                            <div class="adm-form-group">
+                                <label for="cfgMaps">كود أو رابط Google Maps (Iframe)</label>
+                                <input type="text" id="cfgMaps" class="adm-input" placeholder="رابط الخريطة المضمنة">
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ==================================================================== -->
+    <!-- MODALS SECTION                                                       -->
+    <!-- ==================================================================== -->
+
+    <!-- 1. ADD BOOKING MODAL -->
+    <div class="adm-modal-backdrop" id="addBookingModal">
+        <div class="adm-modal-card">
+            <div class="adm-modal-header">
+                <h3 style="margin: 0; font-size: 18px; font-weight: 800;"><i class="bx bx-calendar-plus" style="color: var(--adm-primary);"></i> حجز موعد جديد للمريض</h3>
+                <button class="adm-modal-close" data-close-modal><i class="bx bx-x"></i></button>
+            </div>
+            <form id="addBookingForm">
+                <div class="form-grid-2">
+                    <div class="adm-form-group">
+                        <label>اسم المريض الكريم *</label>
+                        <input type="text" id="addBookingName" class="adm-input" placeholder="الاسم الثلاثي" required>
+                    </div>
+                    <div class="adm-form-group">
+                        <label>رقم الجوال *</label>
+                        <input type="tel" id="addBookingPhone" class="adm-input" placeholder="05xxxxxxxx" required>
+                    </div>
+                    <div class="adm-form-group">
+                        <label>العمر</label>
+                        <input type="number" id="addBookingAge" class="adm-input" placeholder="العمر بالسنين" value="25">
+                    </div>
+                    <div class="adm-form-group">
+                        <label>البريد الإلكتروني</label>
+                        <input type="email" id="addBookingEmail" class="adm-input" placeholder="name@domain.com">
+                    </div>
+                    <div class="adm-form-group">
+                        <label>الخدمة المطلوبة *</label>
+                        <select id="addBookingService" class="adm-input">
+                            <option value="التقويم الشفاف (ألاينرز)">التقويم الشفاف (ألاينرز)</option>
+                            <option value="تقويم الأسنان المعدني">تقويم الأسنان المعدني</option>
+                            <option value="التقويم الخزفي التجميلي">التقويم الخزفي التجميلي</option>
+                            <option value="ابتسامة هوليوود وزراعة الأسنان">ابتسامة هوليوود وزراعة الأسنان</option>
+                            <option value="تبييض الأسنان بالليزر Zoom">تبييض الأسنان بالليزر Zoom</option>
+                            <option value="علاج جذور الأسنان وحشو العصب">علاج جذور الأسنان وحشو العصب</option>
+                        </select>
+                    </div>
+                    <div class="adm-form-group">
+                        <label>الجناح / الكرسي *</label>
+                        <select id="addBookingChair" class="adm-input">
+                            <option value="جناح VIP 💎">جناح VIP 💎</option>
+                            <option value="تقويم الأسنان 🦷">تقويم الأسنان 🦷</option>
+                            <option value="تجميل وزراعة 💺">تجميل وزراعة 💺</option>
+                        </select>
+                    </div>
+                    <div class="adm-form-group">
+                        <label>تاريخ الموعد *</label>
+                        <input type="date" id="addBookingDate" class="adm-input" required>
+                    </div>
+                    <div class="adm-form-group">
+                        <label>وقت الموعد *</label>
+                        <select id="addBookingTime" class="adm-input">
+                            <option value="10:00 ص">10:00 ص</option>
+                            <option value="12:00 م">12:00 م</option>
+                            <option value="04:00 م">04:00 م</option>
+                            <option value="06:00 م">06:00 م</option>
+                            <option value="08:00 م">08:00 م</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="adm-form-group">
+                    <label>ملاحظات الكشف والتشخيص</label>
+                    <textarea id="addBookingNotes" class="adm-input" rows="2" placeholder="أي ملاحظات سريرية تخص الحالة..."></textarea>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px;">
+                    <button type="button" class="adm-btn adm-btn-secondary" data-close-modal>إلغاء</button>
+                    <button type="submit" class="adm-btn adm-btn-primary">حفظ وتأكيد الموعد</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. VIEW BOOKING DETAILS MODAL -->
+    <div class="adm-modal-backdrop" id="viewBookingModal">
+        <div class="adm-modal-card">
+            <div class="adm-modal-header">
+                <h3 style="margin: 0; font-size: 18px; font-weight: 800;"><i class="bx bx-id-card" style="color: var(--adm-primary);"></i> تفاصيل الحجز الطبي</h3>
+                <button class="adm-modal-close" data-close-modal><i class="bx bx-x"></i></button>
+            </div>
+            <div id="viewBookingModalBody">
+                <!-- Injected dynamically -->
+            </div>
+            <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+                <button type="button" class="adm-btn adm-btn-secondary" data-close-modal>إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. EDIT BOOKING MODAL -->
+    <div class="adm-modal-backdrop" id="editBookingModal">
+        <div class="adm-modal-card">
+            <div class="adm-modal-header">
+                <h3 style="margin: 0; font-size: 18px; font-weight: 800;"><i class="bx bx-edit" style="color: var(--adm-primary);"></i> تعديل بيانات الموعد</h3>
+                <button class="adm-modal-close" data-close-modal><i class="bx bx-x"></i></button>
+            </div>
+            <form id="editBookingForm">
+                <input type="hidden" id="editBookingId">
+                <div class="form-grid-2">
+                    <div class="adm-form-group">
+                        <label>اسم المريض</label>
+                        <input type="text" id="editBookingName" class="adm-input" required>
+                    </div>
+                    <div class="adm-form-group">
+                        <label>رقم الجوال</label>
+                        <input type="tel" id="editBookingPhone" class="adm-input" required>
+                    </div>
+                    <div class="adm-form-group">
+                        <label>الخدمة</label>
+                        <select id="editBookingService" class="adm-input">
+                            <option value="التقويم الشفاف (ألاينرز)">التقويم الشفاف (ألاينرز)</option>
+                            <option value="تقويم الأسنان المعدني">تقويم الأسنان المعدني</option>
+                            <option value="التقويم الخزفي التجميلي">التقويم الخزفي التجميلي</option>
+                            <option value="ابتسامة هوليوود وزراعة الأسنان">ابتسامة هوليوود وزراعة الأسنان</option>
+                            <option value="تبييض الأسنان بالليزر Zoom">تبييض الأسنان بالليزر Zoom</option>
+                            <option value="علاج جذور الأسنان وحشو العصب">علاج جذور الأسنان وحشو العصب</option>
+                        </select>
+                    </div>
+                    <div class="adm-form-group">
+                        <label>الجناح</label>
+                        <select id="editBookingChair" class="adm-input">
+                            <option value="جناح VIP 💎">جناح VIP 💎</option>
+                            <option value="تقويم الأسنان 🦷">تقويم الأسنان 🦷</option>
+                            <option value="تجميل وزراعة 💺">تجميل وزراعة 💺</option>
+                        </select>
+                    </div>
+                    <div class="adm-form-group">
+                        <label>التاريخ</label>
+                        <input type="date" id="editBookingDate" class="adm-input" required>
+                    </div>
+                    <div class="adm-form-group">
+                        <label>الوقت</label>
+                        <select id="editBookingTime" class="adm-input">
+                            <option value="10:00 ص">10:00 ص</option>
+                            <option value="12:00 م">12:00 م</option>
+                            <option value="04:00 م">04:00 م</option>
+                            <option value="06:00 م">06:00 م</option>
+                            <option value="08:00 م">08:00 م</option>
+                        </select>
+                    </div>
+                    <div class="adm-form-group">
+                        <label>حالة الموعد</label>
+                        <select id="editBookingStatus" class="adm-input">
+                            <option value="pending">قيد الانتظار</option>
+                            <option value="confirmed">مؤكد</option>
+                            <option value="completed">مكتمل</option>
+                            <option value="cancelled">ملغي</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="adm-form-group">
+                    <label>الملاحظات</label>
+                    <textarea id="editBookingNotes" class="adm-input" rows="2"></textarea>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px;">
+                    <button type="button" class="adm-btn adm-btn-secondary" data-close-modal>إلغاء</button>
+                    <button type="submit" class="adm-btn adm-btn-primary">حفظ التعديلات</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 4. ADD TESTIMONIAL MODAL -->
+    <div class="adm-modal-backdrop" id="addTestimonialModal">
+        <div class="adm-modal-card">
+            <div class="adm-modal-header">
+                <h3 style="margin: 0; font-size: 18px; font-weight: 800;"><i class="bx bx-star" style="color: #F59E0B;"></i> إضافة رأي مريض جديد</h3>
+                <button class="adm-modal-close" data-close-modal><i class="bx bx-x"></i></button>
+            </div>
+            <form onsubmit="handleAddTestimonial(event)">
+                <div class="adm-form-group">
+                    <label>اسم المريض / المراجع</label>
+                    <input type="text" id="addTestimonialName" class="adm-input" placeholder="اسم المريض" required>
+                </div>
+                <div class="adm-form-group">
+                    <label>تفاصيل العلاج والعمر</label>
+                    <input type="text" id="addTestimonialTag" class="adm-input" placeholder="مثال: علاج: 14 شهراً (تقويم شفاف) • العمر: 24 سنة">
+                </div>
+                <div class="adm-form-group">
+                    <label>عدد النجوم</label>
+                    <select id="addTestimonialStars" class="adm-input">
+                        <option value="5">5 نجوم (ممتاز جداً ⭐⭐⭐⭐⭐)</option>
+                        <option value="4">4 نجوم (جيد جداً ⭐⭐⭐⭐)</option>
+                        <option value="3">3 نجوم (جيد ⭐⭐⭐)</option>
+                    </select>
+                </div>
+                <div class="adm-form-group">
+                    <label>نص التجربة أو الرأي</label>
+                    <textarea id="addTestimonialText" class="adm-input" rows="3" placeholder="اكتب نص الرأي بالتفصيل..." required></textarea>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" class="adm-btn adm-btn-secondary" data-close-modal>إلغاء</button>
+                    <button type="submit" class="adm-btn adm-btn-primary">إضافة ونشر</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 5. SUPABASE SQL SCHEMA MODAL -->
+    <div class="adm-modal-backdrop" id="sqlSchemaModal">
+        <div class="adm-modal-card" style="max-width: 750px;">
+            <div class="adm-modal-header">
+                <h3 style="margin: 0; font-size: 18px; font-weight: 800;"><i class="bx bx-code-block" style="color: #10B981;"></i> كود SQL لجداول Supabase</h3>
+                <button class="adm-modal-close" data-close-modal><i class="bx bx-x"></i></button>
+            </div>
+            <p style="font-size: 13px; color: var(--adm-text-muted); margin-bottom: 12px;">
+                انسخ هذا الكود والصقه في محرّر SQL في لوحة تحكم Supabase لإنشاء الجداول وسياسات الأمان تلقائياً:
+            </p>
+            <div style="position: relative;">
+                <textarea id="sqlSchemaTextarea" readonly style="width: 100%; height: 260px; font-family: monospace; font-size: 12px; background: #0F172A; color: #38BDF8; padding: 14px; border-radius: 10px; border: 1px solid var(--adm-border); box-sizing: border-box; direction: ltr; text-align: left;">
+-- جدول المواعيد والحجوزات
+CREATE TABLE IF NOT EXISTS public.bookings (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    email TEXT,
+    age INT,
+    service TEXT,
+    chair TEXT,
+    date TEXT,
+    time TEXT,
+    notes TEXT,
+    status TEXT DEFAULT 'pending',
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- جدول آراء وتقييمات المرضى
+CREATE TABLE IF NOT EXISTS public.testimonials (
+    id BIGSERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    tag TEXT,
+    stars INT DEFAULT 5,
+    text TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- جدول المشتركين في النشرة الطبية
+CREATE TABLE IF NOT EXISTS public.newsletter_subscribers (
+    id BIGSERIAL PRIMARY KEY,
+    email TEXT UNIQUE NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- جدول رسائل واستفسارات اتصل بنا
+CREATE TABLE IF NOT EXISTS public.contact_messages (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    email TEXT,
+    message TEXT NOT NULL,
+    status TEXT DEFAULT 'unread',
+    date TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- تفعيل سياسات الأمان للقراءة والكتابة العامة
+ALTER TABLE public.bookings ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public insert and select" ON public.bookings FOR ALL USING (true) WITH CHECK (true);
+ALTER TABLE public.testimonials ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public select and insert" ON public.testimonials FOR ALL USING (true) WITH CHECK (true);
+ALTER TABLE public.newsletter_subscribers ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public insert" ON public.newsletter_subscribers FOR ALL USING (true) WITH CHECK (true);
+ALTER TABLE public.contact_messages ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow public insert" ON public.contact_messages FOR ALL USING (true) WITH CHECK (true);
+                </textarea>
+                <button type="button" class="adm-btn adm-btn-primary adm-btn-sm" style="position: absolute; top: 10px; right: 10px;" onclick="copySqlSchema()">
+                    <i class="bx bx-copy"></i> نسخ كود SQL
+                </button>
+            </div>
+            <div style="margin-top: 18px; display: flex; justify-content: flex-end;">
+                <button type="button" class="adm-btn adm-btn-secondary" data-close-modal>إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUPABASE CLIENT & ADMIN MODULE SCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="assets/js/admin.js"></script>
+
+    <script>
+        // Inline helper bindings for modals
+        function handleAddTestimonial(e) {
+            e.preventDefault();
+            const name = document.getElementById('addTestimonialName').value.trim();
+            const tag = document.getElementById('addTestimonialTag').value.trim() || 'مريض مـؤكّد ✓';
+            const stars = parseInt(document.getElementById('addTestimonialStars').value) || 5;
+            const text = document.getElementById('addTestimonialText').value.trim();
+
+            const testimonials = JSON.parse(localStorage.getItem('dr_aktham_testimonials') || '[]');
+            testimonials.unshift({ id: Date.now(), name, tag, stars, text });
+            localStorage.setItem('dr_aktham_testimonials', JSON.stringify(testimonials));
+
+            window.location.reload();
+        }
+
+        function copySqlSchema() {
+            const ta = document.getElementById('sqlSchemaTextarea');
+            navigator.clipboard.writeText(ta.value).then(() => {
+                alert('تم نسخ كود SQL إلى الحافظة بنجاح!');
+            });
+        }
+
+        function handleRestoreFile(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.bookings) localStorage.setItem('dr_aktham_bookings', JSON.stringify(data.bookings));
+                    if (data.services) localStorage.setItem('dr_aktham_services', JSON.stringify(data.services));
+                    if (data.testimonials) localStorage.setItem('dr_aktham_testimonials', JSON.stringify(data.testimonials));
+                    if (data.contacts) localStorage.setItem('dr_aktham_contacts', JSON.stringify(data.contacts));
+                    if (data.newsletter) localStorage.setItem('dr_aktham_newsletter', JSON.stringify(data.newsletter));
+                    if (data.settings) localStorage.setItem('dr_aktham_general_settings', JSON.stringify(data.settings));
+
+                    alert('🎉 تمت استعادة النسخة الاحتياطية بنجاح!');
+                    window.location.reload();
+                } catch (err) {
+                    alert('خطأ: الملف المرفوع غير صالح!');
+                }
+            };
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>

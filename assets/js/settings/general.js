@@ -1,5 +1,5 @@
 // Global shared configuration and settings for the website
-export const GeneralSettings = {
+const defaultSettings = {
     clinicName: "عيادة الدكتور أكثم إسماعيل",
     clinicSubName: "لطب وجراحة الأسنان",
     logoUrl: "assets/logo.jpg",
@@ -32,5 +32,23 @@ export const GeneralSettings = {
         "text-muted": "#4B5563",         // Secondary/Muted text color
         "border": "#E5E7EB",             // Default borders
         "border-light": "rgba(229, 231, 235, 0.5)"
+    }
+};
+
+// Merge with any custom settings saved dynamically from the Admin Dashboard
+let savedSettings = {};
+try {
+    const raw = localStorage.getItem('dr_aktham_general_settings');
+    if (raw) savedSettings = JSON.parse(raw);
+} catch (e) {
+    console.warn('Failed to parse saved general settings:', e);
+}
+
+export const GeneralSettings = {
+    ...defaultSettings,
+    ...savedSettings,
+    theme: {
+        ...defaultSettings.theme,
+        ...(savedSettings.theme || {})
     }
 };
