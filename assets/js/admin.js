@@ -2,7 +2,7 @@
 // Dr. Aktham Dental Clinic - Comprehensive Admin Dashboard Logic
 // 100% Standalone, Self-Contained, Vercel & GitHub Ready (No External DB)
 // ==========================================================================
-import { getGithubConfig, saveGithubConfig, testGithubConnection, pushDataToGitHub, compileCurrentClinicData } from './github-sync.js';
+import { getGithubConfig, saveGithubConfig, testGithubConnection, pushDataToGitHub, compileCurrentClinicData } from './github-sync.js?v=20261007_03';
 import { defaultGalleryCases } from './gallery.js';
 import { GeneralSettings } from './settings/general.js';
 

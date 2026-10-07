@@ -76,6 +76,25 @@ export async function testGithubConnection() {
     }
 
     try {
+        // 1. Fetch authenticated user details first to see WHO owns this token
+        const userResp = await fetch(`https://api.github.com/user?_nocache=${Date.now()}`, {
+            cache: 'no-store',
+            headers: {
+                'Authorization': `Bearer ${config.token}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+
+        if (userResp.status === 401) {
+            return { ok: false, error: 'التوكن غير صالح أو منتهي الصلاحية (Bad credentials). يرجى التأكد من نسخه بشكل صحيح.' };
+        }
+
+        let userData = null;
+        if (userResp.ok) {
+            userData = await userResp.json();
+        }
+
+        // 2. Fetch repository information
         const resp = await fetch(`https://api.github.com/repos/${config.owner}/${config.repo}?_nocache=${Date.now()}`, {
             cache: 'no-store',
             headers: {
@@ -86,9 +105,6 @@ export async function testGithubConnection() {
             }
         });
 
-        if (resp.status === 401) {
-            return { ok: false, error: 'التوكن غير صالح أو منتهي الصلاحية (Bad credentials).' };
-        }
         if (resp.status === 404) {
             return { ok: false, error: `المستودع (${config.owner}/${config.repo}) غير موجود أو ليس للتوكن صلاحية الوصول إليه.` };
         }
@@ -98,26 +114,30 @@ export async function testGithubConnection() {
         }
 
         const repoData = await resp.json();
+        const oauthScopes = resp.headers.get('x-oauth-scopes');
+        const hasPushPermission = !!(repoData.permissions && repoData.permissions.push === true);
 
-        // Validate write/push permission on repository
-        if (repoData.permissions && repoData.permissions.push === false) {
+        // 3. Validate write/push permission on repository
+        if (!hasPushPermission) {
+            let errorMsg = '';
+            const userLogin = userData?.login || 'غير معروف';
+
+            if (userData && userData.login.toLowerCase() !== config.owner.toLowerCase()) {
+                errorMsg = `تنبيه: التوكن ينتمي لحساب (${userLogin})، بينما المستودع مملوك للحساب (${config.owner})! يرجى إما تسجيل الدخول بحساب (${config.owner}) في المتصفح وإنشاء التوكن منه، أو إضافة حساب (${userLogin}) كـ Collaborator في إعدادات المستودع.`;
+            } else if (oauthScopes !== null) {
+                // Classic token
+                errorMsg = `التوكن المستخدم من نوع Classic ولكنه يفتقر لصلاحية الكتابة (repo)! الصلاحيات المتاحة حالياً: [${oauthScopes || 'بدون صلاحيات'}]. يرجى تفعيل خيار (repo) بالكامل.`;
+            } else {
+                // Fine-grained token
+                errorMsg = `التوكن المستخدم من نوع Fine-grained ولكنه لا يمتلك صلاحية الكتابة (Contents: Read and write) على هذا المستودع! يرجى تعديل الصلاحيات أو إنشاء Classic Token بصلاحية (repo).`;
+            }
+
             return {
                 ok: false,
-                error: 'التوكن متصل ولكن لا يمتلك صلاحية الكتابة والتعديل (Push / Write Permission) على هذا المستودع. يرجى إنشاء توكن جديد مع تفعيل صلاحية "repo" عبر الرابط المباشر في صفحة النشر.'
+                error: errorMsg,
+                user: userData ? { login: userData.login, name: userData.name, avatar: userData.avatar_url } : null,
+                repo: { name: repoData.full_name, defaultBranch: repoData.default_branch, canPush: false }
             };
-        }
-
-        // Also fetch authenticated user details
-        const userResp = await fetch('https://api.github.com/user', {
-            headers: {
-                'Authorization': `Bearer ${config.token}`,
-                'Accept': 'application/vnd.github.v3+json'
-            }
-        }).catch(() => null);
-
-        let userData = null;
-        if (userResp && userResp.ok) {
-            userData = await userResp.json();
         }
 
         return {
@@ -128,7 +148,7 @@ export async function testGithubConnection() {
                 isPrivate: repoData.private,
                 updatedAt: repoData.updated_at,
                 stars: repoData.stargazers_count,
-                canPush: repoData.permissions?.push ?? true
+                canPush: true
             },
             user: userData ? {
                 login: userData.login,
@@ -233,6 +253,12 @@ export async function pushDataToGitHub(customMessage = null) {
     const config = getGithubConfig();
     if (!config.token) {
         throw new Error('يرجى حفظ توكن GitHub أولاً لتفعيل النشر والمزامنة التلقائية.');
+    }
+
+    // 0. Proactively verify write permissions and account ownership
+    const authCheck = await testGithubConnection();
+    if (!authCheck.ok) {
+        throw new Error(authCheck.error);
     }
 
     const payload = compileCurrentClinicData();

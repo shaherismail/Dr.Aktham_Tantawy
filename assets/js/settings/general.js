@@ -65,7 +65,7 @@ export const GeneralSettings = {
 export async function syncRemoteClinicData() {
     if (typeof window === 'undefined' || typeof fetch === 'undefined') return null;
     try {
-        const res = await fetch('data/clinic_data.json?v=' + Date.now());
+        const res = await fetch('/data/clinic_data.json?v=' + Date.now());
         if (!res.ok) return null;
         const remote = await res.json();
         if (!remote) return null;
@@ -78,6 +78,9 @@ export async function syncRemoteClinicData() {
         }
         if (remote.testimonials && Array.isArray(remote.testimonials)) {
             localStorage.setItem('dr_aktham_testimonials', JSON.stringify(remote.testimonials));
+        }
+        if (remote.galleryCases && Array.isArray(remote.galleryCases)) {
+            localStorage.setItem('dr_aktham_gallery_cases', JSON.stringify(remote.galleryCases));
         }
         if (remote.bookings && Array.isArray(remote.bookings)) {
             const curBookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');

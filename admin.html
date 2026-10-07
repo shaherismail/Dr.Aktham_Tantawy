@@ -972,7 +972,7 @@
                                 <div class="gh-step-number">١</div>
                                 <h4 class="gh-step-title">فتح رابط إنشاء التوكن الجاهز</h4>
                                 <p class="gh-step-text">
-                                    اضغط على الزر الأخضر أعلاه؛ سيفتح صفحة GitHub مع تفعيل صلاحية <strong>repo</strong> واسم التوكن <strong>Dr-Aktham-CMS</strong> تلقائياً دون الحاجة لضبط أي شيء.
+                                    تأكد أولاً من تسجيل الدخول إلى GitHub بالحساب المالك للمستودع (<strong>shaherismail</strong>)، ثم اضغط الزر الأخضر أعلاه؛ سيفتح صفحة GitHub مع تفعيل صلاحية <strong>repo</strong> واسم التوكن <strong>Dr-Aktham-CMS</strong> تلقائياً.
                                 </p>
                             </div>
 
@@ -1387,7 +1387,7 @@
     </div>
 
     <!-- ADMIN MODULE SCRIPT (100% STANDALONE) -->
-    <script type="module" src="assets/js/admin.js"></script>
+    <script type="module" src="assets/js/admin.js?v=20261007_03"></script>
 
     <script>
         // Inline helper bindings for modals
@@ -1403,7 +1403,7 @@
             localStorage.setItem('dr_aktham_testimonials', JSON.stringify(testimonials));
 
             try {
-                const ghMod = await import('./assets/js/github-sync.js');
+                const ghMod = await import('./assets/js/github-sync.js?v=20261007_03');
                 const cfg = ghMod.getGithubConfig();
                 if (cfg.token && cfg.autoSync) {
                     await ghMod.pushDataToGitHub('CMS: إضافة تقييم مريض جديد');
