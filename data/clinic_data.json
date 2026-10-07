@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-10-07T00:20:00.000Z",
-  "updatedBy": "Dr. Aktham Admin Dashboard (GitHub API Integration)",
+  "lastUpdated": "2026-10-07T10:58:05.356Z",
+  "updatedBy": "لوحة تحكم د. أكثم عبر GitHub API (مزامنة شاملة)",
   "generalSettings": {
     "clinicName": "عيادة الدكتور أكثم إسماعيل",
     "clinicSubName": "لطب وجراحة الأسنان",
@@ -122,7 +122,117 @@
       "text": "اخترت التقويم الخزفي التجميلي لعدم وضوحه، والخدمة كانت استثنائية! المتابعة الدورية كانت دقيقة ومريحة جداً، وأنصح بشدة بكل من يريد تعديل أسنانه بكفاءة عالية."
     }
   ],
-  "bookings": [],
-  "contacts": [],
-  "newsletter": []
+  "bookings": [
+    {
+      "id": "DK-8493",
+      "name": "نورة عبد العزيز القحطاني",
+      "phone": "0559871234",
+      "email": "noura.qahtani@hotmail.com",
+      "age": 23,
+      "service": "التقويم الخزفي التجميلي",
+      "doctor": "د. أكثم طنطاوي",
+      "date": "2026-10-07",
+      "time": "12:00 م",
+      "chair": "تقويم الأسنان 🦷",
+      "notes": "جلسة شد الحواصر الخزفية واستبدال الأسلاك التجميلية",
+      "status": "confirmed",
+      "timestamp": 1791363477377
+    },
+    {
+      "id": "DK-8494",
+      "name": "محمد إبراهيم الدوسري",
+      "phone": "0562349012",
+      "email": "m.dosari@yahoo.com",
+      "age": 31,
+      "service": "ابتسامة هوليوود وزراعة الأسنان",
+      "doctor": "د. أكثم طنطاوي",
+      "date": "2026-10-07",
+      "time": "04:00 م",
+      "chair": "تجميل وزراعة 💺",
+      "notes": "كشف واستشارة زراعة سنين في الفك السفلي مع أشعة ثلاثية الأبعاد",
+      "status": "pending",
+      "timestamp": 1791359877377
+    },
+    {
+      "id": "DK-8495",
+      "name": "سارة خالد العتيبي",
+      "phone": "0543321144",
+      "email": "sara.otaibi@gmail.com",
+      "age": 19,
+      "service": "تقويم الأسنان المعدني",
+      "doctor": "د. أكثم طنطاوي",
+      "date": "2026-10-08",
+      "time": "06:00 م",
+      "chair": "تقويم الأسنان 🦷",
+      "notes": "تركيب مثبت الأسنان بعد انتهاء خطة التقويم المعدني بنجاح",
+      "status": "pending",
+      "timestamp": 1791356277377
+    },
+    {
+      "id": "DK-8496",
+      "name": "فهد سلطان المطيري",
+      "phone": "0507712398",
+      "email": "fahad.mutairi@outlook.com",
+      "age": 28,
+      "service": "تبييض الأسنان بالليزر Zoom",
+      "doctor": "د. أكثم طنطاوي",
+      "date": "2026-10-08",
+      "time": "08:00 م",
+      "chair": "تجميل وزراعة 💺",
+      "notes": "جلسة تبييض قبل مناسبة زواج",
+      "status": "confirmed",
+      "timestamp": 1791352677377
+    },
+    {
+      "id": "DK-8497",
+      "name": "ريم عبد الله الغامدي",
+      "phone": "0538821901",
+      "email": "reem.ghamdi@gmail.com",
+      "age": 24,
+      "service": "التقويم الشفاف (ألاينرز)",
+      "doctor": "د. أكثم طنطاوي",
+      "date": "2026-10-06",
+      "time": "10:00 ص",
+      "chair": "جناح VIP 💎",
+      "notes": "تسليم أول مجموعة مصففات شفافة والشرح على برنامج العناية",
+      "status": "completed",
+      "timestamp": 1791280677377
+    }
+  ],
+  "contacts": [
+    {
+      "id": "MSG-101",
+      "name": "سلطان بن عبد العزيز",
+      "phone": "0551122334",
+      "email": "sultan@yahoo.com",
+      "message": "السلام عليكم، استفسر عن إمكانية تقسيط تكلفة التقويم الشفاف ومدة الخطة المقترحة؟",
+      "date": "اليوم، ١١:٣٠ ص",
+      "status": "unread",
+      "timestamp": 1791363477377
+    },
+    {
+      "id": "MSG-102",
+      "name": "منى الشريف",
+      "phone": "0549988776",
+      "email": "mona.sh@gmail.com",
+      "message": "أريد حجز موعد كشف استشاري يوم السبت القادم لعلاج عضة معكوسة لطفل عمره ٩ سنوات.",
+      "date": "أمس، ٠٤:١٥ م",
+      "status": "read",
+      "timestamp": 1791284277377
+    }
+  ],
+  "newsletter": [
+    {
+      "email": "patient.care@gmail.com",
+      "date": "2026-09-15"
+    },
+    {
+      "email": "dr.fahad@hospital.sa",
+      "date": "2026-09-22"
+    },
+    {
+      "email": "amira.ortho@outlook.com",
+      "date": "2026-10-02"
+    }
+  ]
 }
