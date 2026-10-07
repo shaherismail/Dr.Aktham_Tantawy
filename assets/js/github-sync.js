@@ -76,10 +76,13 @@ export async function testGithubConnection() {
     }
 
     try {
-        const resp = await fetch(`https://api.github.com/repos/${config.owner}/${config.repo}`, {
+        const resp = await fetch(`https://api.github.com/repos/${config.owner}/${config.repo}?_nocache=${Date.now()}`, {
+            cache: 'no-store',
             headers: {
                 'Authorization': `Bearer ${config.token}`,
-                'Accept': 'application/vnd.github.v3+json'
+                'Accept': 'application/vnd.github.v3+json',
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache'
             }
         });
 
@@ -95,6 +98,14 @@ export async function testGithubConnection() {
         }
 
         const repoData = await resp.json();
+
+        // Validate write/push permission on repository
+        if (repoData.permissions && repoData.permissions.push === false) {
+            return {
+                ok: false,
+                error: 'التوكن متصل ولكن لا يمتلك صلاحية الكتابة والتعديل (Push / Write Permission) على هذا المستودع. يرجى إنشاء توكن جديد مع تفعيل صلاحية "repo" عبر الرابط المباشر في صفحة النشر.'
+            };
+        }
 
         // Also fetch authenticated user details
         const userResp = await fetch('https://api.github.com/user', {
@@ -116,7 +127,8 @@ export async function testGithubConnection() {
                 defaultBranch: repoData.default_branch,
                 isPrivate: repoData.private,
                 updatedAt: repoData.updated_at,
-                stars: repoData.stargazers_count
+                stars: repoData.stargazers_count,
+                canPush: repoData.permissions?.push ?? true
             },
             user: userData ? {
                 login: userData.login,
@@ -185,6 +197,35 @@ export function compileCurrentClinicData() {
 }
 
 /**
+ * Fetch the freshest file SHA from GitHub with strict cache-busting
+ */
+async function getLatestFileSha(config) {
+    try {
+        const getUrl = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${config.filePath}?ref=${config.branch}&_nocache=${Date.now()}`;
+        const resp = await fetch(getUrl, {
+            cache: 'no-store',
+            headers: {
+                'Authorization': `Bearer ${config.token}`,
+                'Accept': 'application/vnd.github.v3+json',
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache'
+            }
+        });
+
+        if (resp.ok) {
+            const fileData = await resp.json();
+            return fileData.sha || null;
+        }
+        if (resp.status === 404) {
+            return null; // File does not exist yet
+        }
+    } catch (e) {
+        console.warn('Could not fetch latest file SHA:', e);
+    }
+    return null;
+}
+
+/**
  * Send / Commit clinic data directly to GitHub repository via REST API
  * Triggers automatic Vercel production rebuild & deployment (~20s)
  */
@@ -198,24 +239,8 @@ export async function pushDataToGitHub(customMessage = null) {
     const jsonContent = JSON.stringify(payload, null, 2);
     const base64Content = utf8ToBase64(jsonContent);
 
-    // 1. Fetch current file SHA if file already exists on GitHub
-    let currentSha = null;
-    try {
-        const getUrl = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${config.filePath}?ref=${config.branch}`;
-        const getResp = await fetch(getUrl, {
-            headers: {
-                'Authorization': `Bearer ${config.token}`,
-                'Accept': 'application/vnd.github.v3+json'
-            }
-        });
-
-        if (getResp.ok) {
-            const fileData = await getResp.json();
-            currentSha = fileData.sha;
-        }
-    } catch (e) {
-        console.warn('Could not check existing file SHA:', e);
-    }
+    // 1. Fetch freshest file SHA from GitHub (bypassing any browser cache)
+    let currentSha = await getLatestFileSha(config);
 
     // 2. Prepare PUT commit body
     const nowArabic = new Date().toLocaleString('ar-SA', {
@@ -238,21 +263,47 @@ export async function pushDataToGitHub(customMessage = null) {
         putBody.sha = currentSha;
     }
 
-    // 3. Send PUT request to GitHub Contents API
+    // Helper to send PUT request with cache disabled
     const putUrl = `https://api.github.com/repos/${config.owner}/${config.repo}/contents/${config.filePath}`;
-    const putResp = await fetch(putUrl, {
+    const executePut = (body) => fetch(putUrl, {
         method: 'PUT',
+        cache: 'no-store',
         headers: {
             'Authorization': `Bearer ${config.token}`,
             'Accept': 'application/vnd.github.v3+json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache'
         },
-        body: JSON.stringify(putBody)
+        body: JSON.stringify(body)
     });
+
+    // 3. Send PUT request
+    let putResp = await executePut(putBody);
+
+    // 4. Handle 409 Conflict (stale SHA) - auto-retry once with freshly retrieved SHA
+    if (!putResp.ok && (putResp.status === 409 || putResp.status === 422)) {
+        console.warn('GitHub SHA mismatch detected. Re-fetching latest SHA and retrying...');
+        const freshSha = await getLatestFileSha(config);
+        if (freshSha && freshSha !== currentSha) {
+            putBody.sha = freshSha;
+            putResp = await executePut(putBody);
+        }
+    }
 
     if (!putResp.ok) {
         const errData = await putResp.json().catch(() => ({}));
-        throw new Error(errData.message || `فشل الحفظ في GitHub برمز استجابة: ${putResp.status}`);
+        const rawMsg = errData.message || '';
+        
+        if (rawMsg.includes('Resource not accessible by personal access token') || putResp.status === 403) {
+            throw new Error('التوكن المستخدم لا يمتلك صلاحية الكتابة (Write Permission) على هذا المستودع. يرجى إنشاء Classic Token وتفعيل خيار [repo] عبر الرابط المباشر في صفحة المزامنة.');
+        }
+
+        if (rawMsg.includes('does not match') || putResp.status === 409) {
+            throw new Error('حدث تعارض في نسخة الملف على GitHub. تم جلب أحدث SHA الآن، يرجى إعادة الضغط على زر المزامنة.');
+        }
+        
+        throw new Error(rawMsg || `فشل الحفظ في GitHub برمز استجابة: ${putResp.status}`);
     }
 
     const result = await putResp.json();

@@ -855,9 +855,14 @@
                                             <i class="bx bx-show"></i>
                                         </button>
                                     </div>
-                                    <small style="color: var(--adm-text-muted); font-size: 11.5px; margin-top: 4px; display: block;">
-                                        الصلاحية المطلوبة فقط: <code>Contents: Read and write</code> على مستودع العيادة.
-                                    </small>
+                                    <div style="margin-top: 8px; font-size: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                                        <span style="color: var(--adm-text-muted);">
+                                            الصلاحية المطلوبة: تفعيل خيار <code style="color: var(--adm-primary); font-weight: 700;">repo</code> للكتابة والتعديل.
+                                        </span>
+                                        <a href="https://github.com/settings/tokens/new?scopes=repo&description=Dr-Aktham-CMS" target="_blank" style="color: #10B981; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; text-decoration: underline;">
+                                            <i class="bx bx-bolt-circle"></i> إنشاء توكن جاهز بضغطة واحدة (محدد الصلاحيات)
+                                        </a>
+                                    </div>
                                 </div>
 
                                 <div class="form-grid-2">
@@ -952,12 +957,12 @@
                     <div class="adm-card">
                         <div class="adm-card-header">
                             <div>
-                                <h3 class="adm-card-title"><i class="bx bx-help-circle" style="color: #F59E0B;"></i> دليل الحصول على توكن GitHub المجاني (في دقيقة واحدة)</h3>
-                                <p class="adm-card-subtitle">اتبع هذه الخطوات البسيطة لإنشاء التوكن لمرة واحدة فقط</p>
+                                <h3 class="adm-card-title"><i class="bx bx-help-circle" style="color: #F59E0B;"></i> حل مشكلة الصلاحيات وتوليد توكن GitHub في ثوانٍ</h3>
+                                <p class="adm-card-subtitle">خطوات سريعة لحل خطأ «Resource not accessible» والحصول على توكن بصلاحيات الكتابة</p>
                             </div>
                             <div>
-                                <a href="https://github.com/settings/tokens?type=beta" target="_blank" class="adm-btn adm-btn-secondary adm-btn-sm">
-                                    <i class="bx bx-link-external"></i> فتح صفحة GitHub Tokens
+                                <a href="https://github.com/settings/tokens/new?scopes=repo&description=Dr-Aktham-CMS" target="_blank" class="adm-btn adm-btn-primary" style="background: linear-gradient(135deg, #10B981, #059669); font-weight: 700;">
+                                    <i class="bx bx-link-external"></i> اضغط هنا لإنشاء التوكن بضغطة زر
                                 </a>
                             </div>
                         </div>
@@ -965,33 +970,33 @@
                         <div class="gh-step-list">
                             <div class="gh-step-item">
                                 <div class="gh-step-number">١</div>
-                                <h4 class="gh-step-title">الدخول إلى إعدادات GitHub</h4>
+                                <h4 class="gh-step-title">فتح رابط إنشاء التوكن الجاهز</h4>
                                 <p class="gh-step-text">
-                                    افتح حسابك في GitHub، ثم اذهب إلى <strong>Settings &gt; Developer settings &gt; Personal access tokens</strong>.
+                                    اضغط على الزر الأخضر أعلاه؛ سيفتح صفحة GitHub مع تفعيل صلاحية <strong>repo</strong> واسم التوكن <strong>Dr-Aktham-CMS</strong> تلقائياً دون الحاجة لضبط أي شيء.
                                 </p>
                             </div>
 
                             <div class="gh-step-item">
                                 <div class="gh-step-number">٢</div>
-                                <h4 class="gh-step-title">إنشاء Token جديد</h4>
+                                <h4 class="gh-step-title">توليد التوكن</h4>
                                 <p class="gh-step-text">
-                                    اضغط على <strong>Generate new token</strong> وسمّهِ مثلاً <code>Dr-Aktham-CMS</code> واختر مدة الصلاحية التي تناسبك.
+                                    انزل لأسفل الصفحة واضغط على الزر الأخضر <strong>Generate token</strong>.
                                 </p>
                             </div>
 
                             <div class="gh-step-item">
                                 <div class="gh-step-number">٣</div>
-                                <h4 class="gh-step-title">تحديد المستودع والصلاحية</h4>
+                                <h4 class="gh-step-title">نسخ الرمز الجديد</h4>
                                 <p class="gh-step-text">
-                                    اختر مستودع <strong>Dr.Aktham_Tantawy</strong>، وتحت Permissions اختر <strong>Contents: Read and write</strong> فقط.
+                                    انسخ رمز التوكن الذي يظهر لك (يبدأ بـ <code>ghp_</code>). <em>تنبيه: لا يظهر هذا الرمز إلا مرة واحدة</em>.
                                 </p>
                             </div>
 
                             <div class="gh-step-item">
                                 <div class="gh-step-number">٤</div>
-                                <h4 class="gh-step-title">اللصق والحفظ هنا</h4>
+                                <h4 class="gh-step-title">اللصق والفحص هنا</h4>
                                 <p class="gh-step-text">
-                                    انسخ رمز التوكن والصقه في حقل التوكن أعلاه، واضغط <strong>حفظ الإعدادات وفحص</strong> لتفعيل النشر التلقائي فوراً!
+                                    الصق الرمز في حقل التوكن أعلاه، ثم اضغط <strong>حفظ الإعدادات محلياً</strong> ثم <strong>فحص الاتصال والربط</strong> للتأكد من نجاح صلاحية النشر 100%!
                                 </p>
                             </div>
                         </div>
