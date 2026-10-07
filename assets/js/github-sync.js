@@ -2,6 +2,8 @@
 // GitHub REST API Integration & Vercel Auto-Deploy Engine
 // 100% Free, Standalone, Secure Client-side CMS for Dr. Aktham Clinic
 // ==========================================================================
+import { GeneralSettings } from './settings/general.js';
+import { defaultGalleryCases } from './gallery.js';
 
 const STORAGE_KEYS = {
     TOKEN: 'dr_aktham_gh_token',
@@ -132,9 +134,10 @@ export async function testGithubConnection() {
  * Includes: General settings, services, testimonials, bookings, contacts, newsletter
  */
 export function compileCurrentClinicData() {
-    let generalSettings = {};
+    let generalSettings = { ...GeneralSettings };
     try {
-        generalSettings = JSON.parse(localStorage.getItem('dr_aktham_general_settings') || '{}');
+        const stored = JSON.parse(localStorage.getItem('dr_aktham_general_settings') || '{}');
+        generalSettings = { ...GeneralSettings, ...stored };
     } catch (e) {}
 
     let services = [];
@@ -162,6 +165,12 @@ export function compileCurrentClinicData() {
         newsletter = JSON.parse(localStorage.getItem('dr_aktham_newsletter') || '[]');
     } catch (e) {}
 
+    let galleryCases = defaultGalleryCases || [];
+    try {
+        const stored = JSON.parse(localStorage.getItem('dr_aktham_gallery_cases') || '[]');
+        if (stored && stored.length > 0) galleryCases = stored;
+    } catch (e) {}
+
     return {
         lastUpdated: new Date().toISOString(),
         updatedBy: "لوحة تحكم د. أكثم عبر GitHub API (مزامنة شاملة)",
@@ -170,7 +179,8 @@ export function compileCurrentClinicData() {
         testimonials,
         bookings,
         contacts,
-        newsletter
+        newsletter,
+        galleryCases
     };
 }
 

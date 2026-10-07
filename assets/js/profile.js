@@ -1,308 +1,194 @@
-// Profile Module (100% Standalone)
-import { executeSimulatedConfirm } from './telegram.js';
-
-export function updatePatientProfilePage() {
-    const profileJson = localStorage.getItem('current_patient_profile');
-    let p = null;
-    if (profileJson) {
-        p = JSON.parse(profileJson);
-        const nameDisp = document.getElementById('profileNameDisplay');
-        const phoneDisp = document.getElementById('profilePhoneDisplay');
-        const emailDisp = document.getElementById('profileEmailDisplay');
-        const ageDisp = document.getElementById('profileAgeDisplay');
-        const fileIdDisp = document.getElementById('profileFileId');
-        const avatarDisp = document.getElementById('profileAvatar');
-
-        if (nameDisp) nameDisp.textContent = p.name;
-        if (phoneDisp) phoneDisp.textContent = p.phone;
-        if (emailDisp) emailDisp.textContent = p.email || 'غير مسجل';
-        if (ageDisp) ageDisp.textContent = p.age ? `${p.age} سنة` : 'غير محدد';
-        if (fileIdDisp) fileIdDisp.textContent = p.id;
-        if (avatarDisp && p.name) avatarDisp.textContent = p.name.charAt(0);
-        
-        // Dynamically update Treatment progress panel details
-        const progressTitle = document.getElementById('progressServiceTitle');
-        const progressFill = document.getElementById('progressBarFill');
-        const progressPct = document.getElementById('progressPctText');
-        
-        let activeBookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
-        if (activeBookings.length > 0) {
-            const latest = activeBookings[0];
-            if (progressTitle) progressTitle.textContent = `خطة العلاج النشطة: ${latest.service}`;
-            
-            // Set dummy percentages based on service type
-            let pct = '60%';
-            if (latest.service.includes('زراعة')) pct = '20%';
-            if (latest.service.includes('تقويم')) pct = '65%';
-            if (latest.service.includes('تنظيف')) pct = '80%';
-            if (latest.service.includes('تبييض')) pct = '100%';
-            
-            if (progressFill) progressFill.style.width = pct;
-            if (progressPct) progressPct.textContent = pct;
-        }
-    }
-
-    const noView = document.getElementById('noBookingsView');
-    const listView = document.getElementById('bookingsListView');
-
-    if (!listView || !noView) return;
-
-    // Show loading indicator
-    listView.innerHTML = '<div style="text-align:center; padding:30px; color:var(--primary);"><i class="bx bx-loader-alt animate-spin" style="font-size:30px; margin-bottom:10px; display:block; margin:0 auto;"></i>جاري تحميل المواعيد من قاعدة البيانات...</div>';
-    listView.style.display = 'flex';
-    noView.style.display = 'none';
-
-    const renderBookings = (bookingsList) => {
-        // Show review section if at least one booking is confirmed
-        const reviewSection = document.getElementById('addReviewSection');
-        if (reviewSection) {
-            const hasConfirmed = bookingsList.some(b => b.status === 'confirmed');
-            if (hasConfirmed) {
-                reviewSection.style.display = 'block';
-            } else {
-                reviewSection.style.display = 'none';
-            }
-        }
-
-        if (bookingsList.length === 0) {
-            noView.style.display = 'flex';
-            listView.style.display = 'none';
-        } else {
-            noView.style.display = 'none';
-            listView.style.display = 'flex';
-            listView.innerHTML = '';
-
-            bookingsList.forEach(b => {
-                const card = document.createElement('div');
-                const isConfirmed = b.status === 'confirmed';
-                card.className = `booking-item-card ${isConfirmed ? 'confirmed-card' : 'pending-card'}`;
-
-                card.innerHTML = `
-                    <div class="booking-header-row">
-                        <span class="booking-id-tag">معرف: ${b.id}</span>
-                        <span class="badge-status ${isConfirmed ? 'confirmed' : 'pending'}">
-                            ${isConfirmed ? '<i class="bx bx-check-double"></i> مؤكد وموافق عليه' : '<i class="bx bx-time"></i> قيد تأكيد تليجرام'}
-                        </span>
-                    </div>
-                    <h4 class="booking-service-title">${b.service}</h4>
-                    <div class="booking-meta-grid">
-                        <div class="meta-col"><i class="bx bx-calendar"></i> <span>التاريخ: ${b.date}</span></div>
-                        <div class="meta-col"><i class="bx bx-time-five"></i> <span>الوقت: ${b.time}</span></div>
-                        <div class="meta-col"><i class="bx bx-building-house"></i> <span>العيادة: ${b.chair}</span></div>
-                        <div class="meta-col"><i class="bx bx-user-pin"></i> <span>الملف: نشط</span></div>
-                    </div>
-                    <div class="booking-footer-actions">
-                        ${!isConfirmed ? `
-                            <button class="btn btn-secondary btn-sm sim-approve-direct-btn" data-booking-id="${b.id}" style="padding: 6px 12px; font-size: 11px; margin-left: 10px;">
-                                <i class="bx bxl-telegram"></i> محاكاة تأكيد الطبيب
-                            </button>
-                        ` : ''}
-                        <button class="btn btn-outline btn-sm cancel-booking-btn" data-booking-id="${b.id}" style="padding: 6px 12px; font-size: 11px;">
-                            <i class="bx bx-trash"></i> إلغاء الموعد
-                        </button>
-                    </div>
-                `;
-
-                listView.appendChild(card);
-
-                const simApproveBtn = card.querySelector('.sim-approve-direct-btn');
-                if (simApproveBtn) {
-                    simApproveBtn.addEventListener('click', () => {
-                        executeSimulatedConfirm(b.id);
-                    });
-                }
-
-                card.querySelector('.cancel-booking-btn').addEventListener('click', () => {
-                    if (confirm('هل أنت متأكد من رغبتك في إلغاء هذا الموعد؟')) {
-                        cancelBooking(b.id);
-                    }
-                });
-            });
-        }
-    };
-
-    // Query from LocalStorage
-    const localBookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
-    renderBookings(localBookings);
-}
-
-// Cancel active bookings in local storage
-export function cancelBooking(bookingId) {
-    let bookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
-    bookings = bookings.filter(b => b.id !== bookingId);
-    localStorage.setItem('dr_aktham_bookings', JSON.stringify(bookings));
-    updatePatientProfilePage();
-    alert('تم إلغاء الموعد بنجاح.');
-}
-
-// Interactive tab switching
-export function initDashboardTabs() {
-    const tabButtons = [
-        document.getElementById('tabBtn1'),
-        document.getElementById('tabBtn2'),
-        document.getElementById('tabBtn3'),
-        document.getElementById('tabBtn4')
-    ];
-    const tabPanels = [
-        document.getElementById('tabPanel1'),
-        document.getElementById('tabPanel2'),
-        document.getElementById('tabPanel3'),
-        document.getElementById('tabPanel4')
-    ];
-
-    tabButtons.forEach((btn, idx) => {
-        if (!btn || !tabPanels[idx]) return;
-        btn.addEventListener('click', () => {
-            // Remove active status from buttons
-            tabButtons.forEach(b => {
-                if (b) {
-                    b.style.background = 'transparent';
-                    b.style.color = 'var(--text-muted)';
-                }
-            });
-            // Style active button
-            btn.style.background = 'var(--secondary)';
-            btn.style.color = 'var(--primary)';
-
-            // Switch panel views
-            tabPanels.forEach(panel => {
-                if (panel) panel.style.display = 'none';
-            });
-            tabPanels[idx].style.display = 'block';
-        });
-    });
-}
-
-// Reveal credentials settings via ?admin=true url query or double tapping avatar
-export function initAdminPanelBackdoor() {
-    const adminSection = document.getElementById('adminConfigSection');
-    const avatar = document.getElementById('profileAvatar');
-    const params = new URLSearchParams(window.location.search);
-
-    const showAdmin = () => {
-        if (adminSection) {
-            adminSection.style.display = 'block';
-            adminSection.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
-
-    if (params.get('admin') === 'true') {
-        showAdmin();
-    }
-
-    if (avatar) {
-        avatar.addEventListener('dblclick', () => {
-            if (adminSection) {
-                const isHidden = window.getComputedStyle(adminSection).display === 'none';
-                adminSection.style.display = isHidden ? 'block' : 'none';
-                if (isHidden) {
-                    adminSection.scrollIntoView({ behavior: 'smooth' });
-                    alert('⚙️ تم إظهار إعدادات الربط الفنية السحابية للمطور!');
-                }
-            }
-        });
-    }
-}
-
-// Interactive stars rating for patient testimonials form
-export function initStarsSelector() {
-    const stars = document.querySelectorAll('.star-icon');
-    stars.forEach(star => {
-        star.addEventListener('click', () => {
-            const val = parseInt(star.getAttribute('data-star'));
-            const radio = document.getElementById(`star${val}`);
-            if (radio) radio.checked = true;
-
-            stars.forEach(s => {
-                const sVal = parseInt(s.getAttribute('data-star'));
-                if (sVal <= val) {
-                    s.className = 'bx bxs-star star-icon';
-                    s.style.color = '#FBBF24';
-                } else {
-                    s.className = 'bx bx-star star-icon';
-                    s.style.color = '#CBD5E1';
-                }
-            });
-        });
-    });
-}
+// Profile & Appointment Tracking Module (100% Standalone & LocalStorage Driven)
 
 export function initPatientProfile() {
-    const saveBtn = document.getElementById('saveTgSettingsBtn');
-    if (saveBtn) {
-        document.getElementById('tgBotToken').value = localStorage.getItem('tg_bot_token') || '';
-        document.getElementById('tgChatId').value = localStorage.getItem('tg_chat_id') || '';
-        document.getElementById('tgMode').value = localStorage.getItem('tg_mode') || 'simulated';
+    const lookupForm = document.getElementById('lookupBookingForm');
+    const lookupInput = document.getElementById('lookupInput');
+    const loadingEl = document.getElementById('lookupLoading');
+    const notFoundEl = document.getElementById('lookupNotFound');
+    const foundCardsEl = document.getElementById('lookupFoundCards');
 
-        saveBtn.addEventListener('click', () => {
-            const token = document.getElementById('tgBotToken').value;
-            const chat = document.getElementById('tgChatId').value;
-            const mode = document.getElementById('tgMode').value;
+    if (!lookupForm || !lookupInput || !foundCardsEl) return;
 
-            localStorage.setItem('tg_bot_token', token);
-            localStorage.setItem('tg_chat_id', chat);
-            localStorage.setItem('tg_mode', mode);
+    // Search executor function
+    const executeLookup = (query) => {
+        const cleanQuery = query.trim().toLowerCase();
+        if (!cleanQuery) return;
 
-            alert('✅ تم حفظ إعدادات تكامل تليجرام بنجاح!');
-        });
+        if (loadingEl) loadingEl.style.display = 'block';
+        if (notFoundEl) notFoundEl.style.display = 'none';
+        foundCardsEl.style.display = 'none';
+
+        setTimeout(() => {
+            if (loadingEl) loadingEl.style.display = 'none';
+
+            let allBookings = [];
+            try {
+                allBookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
+            } catch (e) {
+                allBookings = [];
+            }
+
+            // Filter bookings by ID or phone or name match
+            const matches = allBookings.filter(b => {
+                const bId = (b.id || '').toLowerCase();
+                const bPhone = (b.phone || '').replace(/[^0-9]/g, '');
+                const bName = (b.name || '').toLowerCase();
+                const qCleanDigits = cleanQuery.replace(/[^0-9]/g, '');
+
+                return bId === cleanQuery || 
+                       (qCleanDigits.length >= 6 && bPhone.includes(qCleanDigits)) ||
+                       (cleanQuery.length >= 3 && bName.includes(cleanQuery));
+            });
+
+            if (matches.length === 0) {
+                if (notFoundEl) notFoundEl.style.display = 'block';
+                foundCardsEl.style.display = 'none';
+            } else {
+                if (notFoundEl) notFoundEl.style.display = 'none';
+                renderFoundBookings(matches, foundCardsEl);
+                foundCardsEl.style.display = 'block';
+            }
+        }, 250);
+    };
+
+    // Form submission
+    lookupForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        executeLookup(lookupInput.value);
+    });
+
+    // Check URL parameters for direct deep-link (e.g. ?id=BK-1234 or ?phone=05xxxxxxxx)
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramId = urlParams.get('id');
+    const paramPhone = urlParams.get('phone');
+
+    if (paramId) {
+        lookupInput.value = paramId;
+        executeLookup(paramId);
+        return;
     }
 
+    if (paramPhone) {
+        lookupInput.value = paramPhone;
+        executeLookup(paramPhone);
+        return;
+    }
 
+    // Otherwise check if patient recently booked in this session
+    try {
+        const savedProfile = JSON.parse(localStorage.getItem('current_patient_profile') || 'null');
+        if (savedProfile && (savedProfile.id || savedProfile.phone)) {
+            lookupInput.value = savedProfile.id || savedProfile.phone;
+            executeLookup(lookupInput.value);
+        }
+    } catch (e) {
+        // No auto search
+    }
+}
 
-    // Connect Review submission form
-    const reviewForm = document.getElementById('addReviewForm');
-    if (reviewForm) {
-        if (!reviewForm.dataset.bound) {
-            reviewForm.dataset.bound = 'true';
-            reviewForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                
-                const profileJson = localStorage.getItem('current_patient_profile');
-                if (!profileJson) {
-                    alert('خطأ: لا يوجد ملف مريض نشط حالياً.');
-                    return;
-                }
-                
-                const p = JSON.parse(profileJson);
-                const starsRadio = reviewForm.querySelector('input[name="reviewStars"]:checked');
-                if (!starsRadio) {
-                    alert('يرجى تحديد تقييم بالنجوم أولاً.');
-                    return;
-                }
-                const starsVal = parseInt(starsRadio.value);
-                const textVal = document.getElementById('reviewText').value.trim();
-                
-                try {
-                    let testimonials = JSON.parse(localStorage.getItem('dr_aktham_testimonials') || '[]');
-                    testimonials.unshift({
-                        id: Date.now(),
-                        name: p.name,
-                        tag: 'مريض مـؤكّد ✓',
-                        stars: starsVal,
-                        text: textVal
-                    });
-                    localStorage.setItem('dr_aktham_testimonials', JSON.stringify(testimonials));
-                    alert('🎉 شكراً لك! تم إرسال تقييمك بنجاح وسيظهر في الصفحة الرئيسية.');
-                    reviewForm.reset();
-                    document.querySelectorAll('.star-icon').forEach(s => {
-                        s.className = 'bx bx-star star-icon';
-                        s.style.color = '#CBD5E1';
-                    });
-                } catch (err) {
-                    alert('🎉 شكراً لك! تم إرسال تقييمك بنجاح.');
-                    reviewForm.reset();
+// Renders matching patient bookings
+function renderFoundBookings(bookings, container) {
+    container.innerHTML = '';
+
+    bookings.forEach(b => {
+        const isConfirmed = b.status === 'confirmed';
+        const card = document.createElement('div');
+        card.className = 'booking-status-card';
+
+        const waText = encodeURIComponent(`مرحباً عيادة د. أكثم، أود الاستفسار/التأكيد بخصوص موعدي رقم ${b.id} باسم ${b.name} بتاريخ ${b.date} الساعة ${b.time}.`);
+        const waLink = `https://wa.me/966501234567?text=${waText}`;
+
+        card.innerHTML = `
+            <div class="status-header-row">
+                <div>
+                    <span style="font-size: 13px; font-weight: 800; color: var(--primary); background: var(--primary-subtle); padding: 4px 12px; border-radius: var(--radius-full); font-family: 'Outfit';">
+                        معرف الحجز: ${b.id}
+                    </span>
+                    <h3 style="font-size: 20px; font-weight: 800; color: var(--dark); margin-top: 8px;">
+                        المريض: ${b.name}
+                    </h3>
+                </div>
+                <div>
+                    <span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: var(--radius-full); font-size: 13px; font-weight: 800; ${isConfirmed ? 'background: #ECFDF5; color: #059669;' : 'background: #FFFBEB; color: #D97706;'}">
+                        ${isConfirmed ? '<i class="bx bx-check-double"></i> موعد مؤكد وموافق عليه' : '<i class="bx bx-time"></i> قيد مراجعة وتأكيد العيادة'}
+                    </span>
+                </div>
+            </div>
+
+            <div class="booking-meta-grid">
+                <div class="meta-box-item">
+                    <div class="meta-box-icon"><i class="bx bx-calendar"></i></div>
+                    <div>
+                        <div class="meta-box-lbl">تاريخ الموعد</div>
+                        <div class="meta-box-val">${b.date}</div>
+                    </div>
+                </div>
+
+                <div class="meta-box-item">
+                    <div class="meta-box-icon"><i class="bx bx-time-five"></i></div>
+                    <div>
+                        <div class="meta-box-lbl">توقيت الجلسة</div>
+                        <div class="meta-box-val">${b.time}</div>
+                    </div>
+                </div>
+
+                <div class="meta-box-item">
+                    <div class="meta-box-icon"><i class="bx bx-first-aid"></i></div>
+                    <div>
+                        <div class="meta-box-lbl">الخدمة المطلوبة</div>
+                        <div class="meta-box-val">${b.service}</div>
+                    </div>
+                </div>
+
+                <div class="meta-box-item">
+                    <div class="meta-box-icon"><i class="bx bx-building-house"></i></div>
+                    <div>
+                        <div class="meta-box-lbl">مكان الكشف</div>
+                        <div class="meta-box-val">${b.chair || 'العيادة الرئيسية 1'}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: var(--bg); padding: 14px 18px; border-radius: var(--radius-md); margin-bottom: 20px; border: 1px solid var(--border-light); font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 8px;">
+                <i class="bx bx-map-pin" style="color: var(--primary); font-size: 18px;"></i>
+                <span>موقع العيادة: الرياض، شارع التخصصي - عيادة د. أكثم إسماعيل طنطاوي لتقويم الأسنان.</span>
+            </div>
+
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <a href="${waLink}" target="_blank" class="btn btn-whatsapp" style="flex: 1; min-width: 200px;">
+                    <i class="bx bxl-whatsapp"></i> تواصل مع العيادة لتأكيد الموعد
+                </a>
+                <button type="button" class="btn btn-outline cancel-btn" data-id="${b.id}" style="color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">
+                    <i class="bx bx-trash"></i> إلغاء الحجز
+                </button>
+            </div>
+        `;
+
+        const cancelBtn = card.querySelector('.cancel-btn');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', () => {
+                if (confirm(`هل أنت متأكد من رغبتك في إلغاء الحجز رقم (${b.id})؟`)) {
+                    let bookingsList = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
+                    bookingsList = bookingsList.filter(item => item.id !== b.id);
+                    localStorage.setItem('dr_aktham_bookings', JSON.stringify(bookingsList));
+                    alert('تم إلغاء الحجز بنجاح.');
+                    card.remove();
+                    if (container.children.length === 0) {
+                        const notFoundEl = document.getElementById('lookupNotFound');
+                        if (notFoundEl) notFoundEl.style.display = 'block';
+                    }
                 }
             });
         }
-    }
 
-    initDashboardTabs();
-    initAdminPanelBackdoor();
-    initStarsSelector();
-    updatePatientProfilePage();
+        container.appendChild(card);
+    });
 }
 
-// Auto-run layout binder
+// Alias export for backward compatibility
+export const updatePatientProfilePage = initPatientProfile;
+
+// Auto-run initialization
 document.addEventListener('DOMContentLoaded', () => {
     initPatientProfile();
 });

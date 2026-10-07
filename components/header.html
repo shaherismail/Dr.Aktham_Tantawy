@@ -1,25 +1,49 @@
+<!-- Top Executive Clinic Contact Bar -->
+<div class="top-bar-contact">
+    <div class="container top-bar-container">
+        <div class="top-bar-info">
+            <span class="top-info-item"><i class="bx bx-map-pin"></i> المملكة العربية السعودية، الرياض - شارع التخصصي</span>
+            <span class="top-info-item"><i class="bx bx-time-five"></i> السبت - الخميس: ٩:٠٠ ص - ٩:٠٠ م</span>
+        </div>
+        <div class="top-bar-actions">
+            <a href="tel:+966501234567" class="top-link"><i class="bx bx-phone"></i> +966 50 123 4567</a>
+            <a href="https://wa.me/966501234567" target="_blank" class="top-link top-wa"><i class="bx bxl-whatsapp"></i> محادثة فورية</a>
+        </div>
+    </div>
+</div>
+
 <!-- Mobile Drawer Menu -->
 <div class="mobile-drawer" id="mobileDrawer">
     <div class="drawer-header">
         <div class="logo-section">
-            <img src="assets/logo.jpg" alt="شعار د. أكثم" style="width: 36px; height: 36px; object-fit: cover;">
+            <img src="assets/logo.jpg" alt="شعار د. أكثم" style="width: 42px; height: 42px; object-fit: cover; border-radius: 10px;">
             <div class="logo-text">
-                <span class="logo-name">عيادة د. أكثم</span>
+                <span class="logo-name">د. أكثم طنطاوي</span>
+                <span class="logo-sub">استشاري تقويم وتجميل الأسنان</span>
             </div>
         </div>
-        <button class="drawer-close-btn" id="closeDrawerBtn"><i class="bx bx-x"></i></button>
+        <button class="drawer-close-btn" id="closeDrawerBtn" aria-label="إغلاق القائمة"><i class="bx bx-x"></i></button>
     </div>
+
     <ul class="drawer-links">
-        <li><a href="index.html">الرئيسية</a></li>
-        <li><a href="services.html">خدماتنا</a></li>
-        <li><a href="about.html">عن الدكتور</a></li>
-        <li><a href="gallery.html">معرض الحالات</a></li>
-        <li><a href="profile.html">الملف الشخصي</a></li>
-        <li><a href="contact.html">اتصل بنا</a></li>
-        <li><a href="admin.html" style="color: var(--primary); font-weight: 700;"><i class="bx bxs-dashboard"></i> لوحة الإدارة</a></li>
+        <li><a href="index.html"><i class="bx bx-home-alt"></i> الرئيسية</a></li>
+        <li><a href="services.html"><i class="bx bx-grid-alt"></i> خدماتنا التخصصية</a></li>
+        <li><a href="about.html"><i class="bx bx-user-check"></i> عن الدكتور والشهادات</a></li>
+        <li><a href="gallery.html"><i class="bx bx-images"></i> معرض الحالات (قبل وبعد)</a></li>
+        <li><a href="profile.html"><i class="bx bx-search-alt-2"></i> استعلام ومتابعة حجزك</a></li>
+        <li><a href="contact.html"><i class="bx bx-conversation"></i> تواصل معنا</a></li>
     </ul>
-    <div style="padding: 24px; margin-top: auto;">
-        <a href="booking.html" class="btn btn-primary" style="width: 100%;" id="drawerBookingBtn">احجز الآن</a>
+
+    <div class="drawer-contact-box">
+        <div class="drawer-contact-title">مركز الاستشارات والمواعيد</div>
+        <a href="tel:+966501234567" class="drawer-contact-item"><i class="bx bx-phone-call"></i> +966 50 123 4567</a>
+        <a href="https://wa.me/966501234567" target="_blank" class="drawer-contact-item wa-item"><i class="bx bxl-whatsapp"></i> واتساب العيادة المباشر</a>
+    </div>
+
+    <div style="padding: 20px 0; margin-top: auto;">
+        <a href="booking.html" class="btn btn-primary" style="width: 100%;" id="drawerBookingBtn">
+            <i class="bx bx-calendar-check"></i> احجز استشارتك الآن
+        </a>
     </div>
 </div>
 <div class="drawer-overlay" id="drawerOverlay"></div>
@@ -27,32 +51,39 @@
 <!-- Sticky Navigation Header -->
 <header class="header-nav" id="stickyHeader">
     <div class="container header-container">
+        <!-- Logo Section -->
         <div class="logo-section" onclick="window.location.href='index.html'" style="cursor: pointer;">
-            <img src="assets/logo.jpg" alt="شعار د. أكثم" style="width: 40px; height: 40px; object-fit: cover;">
+            <img src="assets/logo.jpg" alt="شعار د. أكثم" class="header-logo-img">
             <div class="logo-text">
                 <span class="logo-name">عيادة د. أكثم إسماعيل</span>
-                <span class="logo-sub">لطب وجراحة الأسنان</span>
+                <span class="logo-sub">استشاري تقويم وتجميل الأسنان</span>
             </div>
         </div>
         
-        <nav>
+        <!-- Desktop Nav Links -->
+        <nav aria-label="القائمة الرئيسية">
             <ul class="nav-links">
                 <li class="nav-item"><a href="index.html">الرئيسية</a></li>
                 <li class="nav-item"><a href="services.html">خدماتنا</a></li>
                 <li class="nav-item"><a href="about.html">عن الدكتور</a></li>
                 <li class="nav-item"><a href="gallery.html">معرض الحالات</a></li>
-                <li class="nav-item"><a href="profile.html">الملف الشخصي</a></li>
                 <li class="nav-item"><a href="contact.html">اتصل بنا</a></li>
-                <li class="nav-item"><a href="admin.html" class="admin-nav-badge" title="لوحة التحكم الطبية"><i class="bx bxs-dashboard"></i> لوحة التحكم</a></li>
             </ul>
         </nav>
 
-        <div class="header-cta">
-            <a href="booking.html" class="btn btn-primary">احجز الآن</a>
+        <!-- Header Actions Group -->
+        <div class="header-cta-group">
+            <a href="profile.html" class="btn-track-booking" title="استعلام ومتابعة موعد سابق">
+                <i class="bx bx-search-alt-2"></i>
+                <span>متابعة موعدك</span>
+            </a>
+            <a href="booking.html" class="btn btn-primary header-booking-btn">
+                <i class="bx bx-calendar-check"></i>
+                <span>احجز استشارتك</span>
+            </a>
+            <button class="mobile-menu-btn" id="openDrawerBtn" aria-label="فتح القائمة">
+                <i class="bx bx-menu"></i>
+            </button>
         </div>
-
-        <button class="mobile-menu-btn" id="openDrawerBtn">
-            <i class="bx bx-menu"></i>
-        </button>
     </div>
 </header>

@@ -8,7 +8,7 @@
     <!-- Boxicons CDN for premium icons -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="assets/css/app.css?v=1.0.2">
+    <link rel="stylesheet" href="assets/css/app.css?v=2.0.0">
 </head>
 <body>
 
@@ -30,7 +30,11 @@
                         </p>
                         
                         <!-- Confirmation summary details -->
-                        <div class="success-details-card" style="width: 100%; display: flex; flex-direction: column; gap: 14px; padding: 20px; background: rgba(21,101,255,0.01); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 32px; text-align: right;">
+                        <div class="success-details-card" style="width: 100%; display: flex; flex-direction: column; gap: 14px; padding: 22px; background: rgba(21,101,255,0.02); border: 1.5px solid var(--border); border-radius: var(--radius-md); margin-bottom: 24px; text-align: right;">
+                            <div class="detail-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
+                                <span class="detail-label" style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i class="bx bx-receipt" style="color: var(--primary); margin-left: 6px;"></i> رقم الحجز الطبي:</span>
+                                <span class="detail-val" id="confirmBookingId" style="font-size: 14px; font-weight: 800; color: var(--primary); font-family: 'Outfit';">-</span>
+                            </div>
                             <div class="detail-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
                                 <span class="detail-label" style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i class="bx bx-user" style="color: var(--primary); margin-left: 6px;"></i> اسم المريض:</span>
                                 <span class="detail-val" id="confirmName" style="font-size: 14px; font-weight: 800; color: var(--dark);">-</span>
@@ -44,6 +48,10 @@
                                 <span class="detail-val" id="confirmService" style="font-size: 14px; font-weight: 800; color: var(--dark);">-</span>
                             </div>
                             <div class="detail-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
+                                <span class="detail-label" style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i class="bx bx-user-voice" style="color: var(--primary); margin-left: 6px;"></i> الطبيب المعالج:</span>
+                                <span class="detail-val" id="confirmDoctor" style="font-size: 14px; font-weight: 800; color: var(--dark);">-</span>
+                            </div>
+                            <div class="detail-row" style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-light); padding-bottom: 10px;">
                                 <span class="detail-label" style="font-size: 14px; font-weight: 700; color: var(--text-muted);"><i class="bx bx-calendar" style="color: var(--primary); margin-left: 6px;"></i> تاريخ الحجز:</span>
                                 <span class="detail-val" id="confirmDate" style="font-size: 14px; font-weight: 800; color: var(--dark); font-family: 'Outfit';">-</span>
                             </div>
@@ -52,6 +60,11 @@
                                 <span class="detail-val" id="confirmTime" style="font-size: 14px; font-weight: 800; color: var(--dark);">-</span>
                             </div>
                         </div>
+
+                        <!-- Direct WhatsApp action -->
+                        <a href="https://wa.me/966501234567" id="confirmWaBtn" target="_blank" class="btn" style="background: #25D366; color: #FFFFFF; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 14px; font-weight: 800; padding: 14px; box-shadow: 0 6px 18px rgba(37, 211, 102, 0.3);">
+                            <i class="bx bxl-whatsapp" style="font-size: 22px;"></i> تواصل سريع عبر واتساب العيادة لتأكيد الموعد
+                        </a>
 
                         <div style="display: flex; gap: 16px; width: 100%;">
                             <a href="profile.html" class="btn btn-primary" style="flex: 1;">عرض ملفي الطبي</a>

@@ -3,6 +3,8 @@ const defaultSettings = {
     clinicName: "عيادة الدكتور أكثم إسماعيل",
     clinicSubName: "لطب وجراحة الأسنان",
     logoUrl: "assets/logo.jpg",
+    doctorPhotoUrl: "assets/doctor.jpg",
+    heroCoverUrl: "",
     phone: "+966 50 123 4567",
     phoneFormatted: "011 123 4567", // Landline/Extra phone
     whatsapp: "+966501234567",
@@ -15,6 +17,7 @@ const defaultSettings = {
     instagram: "https://instagram.com",
     twitter: "https://twitter.com",
     workingHours: "السبت - الخميس:\n٩:٠٠ ص - ٩:٠٠ م",
+
 
     // Website Theme Color Palette - Customize your clinic style colors here
     theme: {
@@ -34,6 +37,8 @@ const defaultSettings = {
         "border-light": "rgba(229, 231, 235, 0.5)"
     }
 };
+
+
 
 // Merge with any custom settings saved dynamically from the Admin Dashboard
 let savedSettings = {};
@@ -103,5 +108,5 @@ export async function syncRemoteClinicData() {
 
 // Auto-hydrate on first visit
 if (typeof window !== 'undefined') {
-    syncRemoteClinicData().catch(() => {});
+    syncRemoteClinicData().catch(() => { });
 }

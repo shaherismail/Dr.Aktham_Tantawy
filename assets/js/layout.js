@@ -15,6 +15,11 @@ function replaceGeneralSettings(html) {
     // Logo
     html = html.replace(/assets\/logo\.jpg/g, GeneralSettings.logoUrl);
 
+    // Doctor Photo
+    if (GeneralSettings.doctorPhotoUrl) {
+        html = html.replace(/assets\/doctor\.jpg/g, GeneralSettings.doctorPhotoUrl);
+    }
+
     // Clinic Name
     html = html.replace(/عيادة د\. أكثم إسماعيل/g, GeneralSettings.clinicName);
     html = html.replace(/عيادة د\. أكثم/g, GeneralSettings.clinicName);
@@ -155,9 +160,29 @@ function applyGeneralSettingsToPage() {
         html = html.replace(/السبت - الخميس: ٩:٠٠ ص - ٩:٠٠ م/g, GeneralSettings.workingHours.replace(/\n/g, ' '));
         detailsContainer.innerHTML = html;
     }
+
+    // Dynamic Logo & Doctor photo DOM updates
+    if (GeneralSettings.logoUrl) {
+        document.querySelectorAll('img[src*="logo.jpg"], .clinic-logo-img').forEach(img => {
+            img.src = GeneralSettings.logoUrl;
+        });
+    }
+    if (GeneralSettings.doctorPhotoUrl) {
+        document.querySelectorAll('img[src*="doctor.jpg"], .doctor-profile-img').forEach(img => {
+            img.src = GeneralSettings.doctorPhotoUrl;
+        });
+    }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function onReady(fn) {
+    if (document.readyState !== 'loading') {
+        fn();
+    } else {
+        document.addEventListener('DOMContentLoaded', fn);
+    }
+}
+
+onReady(() => {
     // Apply global theme color variables first
     applyTheme(GeneralSettings.theme);
 
@@ -222,6 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         iframe.src = dataSrc;
                     }
                 });
+
+                highlightActiveLink();
             })
             .catch(err => console.error('Error loading footer:', err));
     }
@@ -278,6 +305,17 @@ export function highlightActiveLink() {
             link.classList.add('active');
         } else {
             link.classList.remove('active');
+        }
+    });
+
+    // Mobile bottom bar links highlight
+    const bottomBarItems = document.querySelectorAll('.mobile-bottom-bar .bottom-bar-item');
+    bottomBarItems.forEach(item => {
+        const href = item.getAttribute('href');
+        if (href && (href === cleanPage || (cleanPage === 'index.html' && href === 'index.html'))) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
         }
     });
 }

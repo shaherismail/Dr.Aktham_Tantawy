@@ -3,73 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="خدمات عيادة الدكتور أكثم طنطاوي لطب الأسنان: زراعة الأسنان، تقويم، علاج الجذور، ابتسامة هوليود، وتبييض الأسنان.">
-    <title>خدماتنا - عيادة د. أكثم طنطاوي</title>
+    <meta name="description" content="خدمات وتخصصات عيادة الدكتور أكثم إسماعيل طنطاوي لتقويم الأسنان وتعديل الفكين وتجميل الابتسامة بالرياض. تقويم شفاف، براكيتس حديثة، وعلاجات تخصصية.">
+    <title>خدماتنا التخصصية | عيادة د. أكثم طنطاوي لتقويم الأسنان</title>
     <!-- Boxicons CDN for premium icons -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="assets/css/app.css?v=1.0.2">
+    <link rel="stylesheet" href="assets/css/app.css?v=2.0.0">
     <style>
-        /* Special styling to highlight the main orthodontic services */
-        .service-badge {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: var(--text-white);
-            font-size: 11px;
-            font-weight: 700;
-            padding: 5px 12px;
-            border-radius: var(--radius-full);
-            box-shadow: 0 4px 10px rgba(21, 101, 255, 0.25);
-            z-index: 10;
+        .service-category-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--dark);
+            margin: 50px 0 24px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border);
         }
-        
-        .service-badge-secondary {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            background: rgba(255, 255, 255, 0.95);
+        .service-category-title i {
+            color: var(--primary);
+            font-size: 28px;
+        }
+        .service-badge-pill {
+            background: var(--primary-subtle);
             color: var(--primary);
             font-size: 11px;
-            font-weight: 700;
-            padding: 5px 12px;
+            font-weight: 800;
+            padding: 4px 10px;
             border-radius: var(--radius-full);
-            border: 1px solid rgba(21, 101, 255, 0.2);
-            box-shadow: var(--shadow-sm);
-            z-index: 10;
+            display: inline-block;
+            margin-bottom: 10px;
         }
-
-        .service-card.featured-ortho {
-            border: 2px solid rgba(21, 101, 255, 0.2);
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: var(--shadow-premium);
-            transform: translateY(-2px);
+        .service-features-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: 16px 0 24px 0;
+            font-size: 13px;
+            color: var(--text-muted);
         }
-        
-        .service-card.featured-ortho:hover {
-            border-color: var(--primary);
-            box-shadow: 0 30px 60px -10px rgba(21, 101, 255, 0.15);
-            transform: translateY(-6px);
+        .service-features-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
-        .service-card.featured-ortho .service-icon-wrapper {
-            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-            color: var(--text-white);
-            box-shadow: 0 6px 15px rgba(21, 101, 255, 0.3);
-        }
-        
-        .service-img-wrapper {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .service-img-wrapper img {
-            transition: transform 0.6s ease;
-        }
-
-        .service-card:hover .service-img-wrapper img {
-            transform: scale(1.05);
+        .service-features-list li i {
+            color: #10B981;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -81,139 +63,179 @@
 
         <main class="main-content">
             <section id="services-page" class="page-view">
-                <div class="container services-section">
-                    <div class="section-header">
-                        <span class="section-label">تخصصاتنا وخدماتنا</span>
-                        <h2 class="section-title">ابتسامة مثالية وصحة فموية مستدامة</h2>
-                        <p class="section-desc">نركز بصفة أساسية على تقويم الأسنان الحديث وتعديل الإطباق بأحدث الأنظمة الرقمية، إلى جانب تقديم رعاية سنية شاملة ومتكاملة.</p>
-                    </div>
+                <div class="container services-section" style="padding: 40px 0 90px 0;">
                     
-                    <div class="grid-4">
-                        <!-- Card 1: Orthodontics -->
-                        <div class="glass-card service-card featured-ortho">
-                            <div class="service-img-wrapper">
-                                <span class="service-badge">التخصص الرئيسي للعيادة</span>
-                                <img src="https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=400&q=80" alt="تقويم الأسنان التخصصي" loading="lazy">
-                            </div>
+                    <div class="section-header">
+                        <span class="section-label">تخصصات الرعاية السنية</span>
+                        <h2 class="section-title">خدمات علاجية متطورة لابتسامة مثالية</h2>
+                        <p class="section-desc">نركز بصفة أساسية على تقويم وتعديل الأسنان والفكين بأحدث التكنولوجيا الرقمية، مع توفير رعاية فموية تخصصية متكاملة.</p>
+                    </div>
+
+                    <!-- CATEGORY 1: ORTHODONTICS (Core Specialty) -->
+                    <h3 class="service-category-title">
+                        <i class="bx bx-bracket"></i> حلول تقويم الأسنان وتعديل الفكين (التخصص الاستشاري)
+                    </h3>
+                    
+                    <div class="grid-3">
+                        <!-- Service 1: Clear Aligners -->
+                        <div class="glass-card service-card">
+                            <span class="service-badge-pill">الأكثر طلباً • تكنولوجيا رقمية</span>
+                            <div class="service-icon-wrapper"><i class="bx bx-shape-square"></i></div>
+                            <h3 class="card-title">التقويم الشفاف (Clear Aligners)</h3>
+                            <p class="service-card-desc">
+                                مصففات غير مرئية تفصيلية ومريحة للغاية لتعديل ورصف الأسنان دون إحراج أو قيود في الأكل وتنظيف الأسنان.
+                            </p>
+                            <ul class="service-features-list">
+                                <li><i class="bx bx-check-circle"></i> غير مرئي ومظهر طبيعي 100%</li>
+                                <li><i class="bx bx-check-circle"></i> قابل للإزالة أثناء الطعام والمناسبات</li>
+                                <li><i class="bx bx-check-circle"></i> بدون أسلاك أو جروح داخلية</li>
+                            </ul>
+                            <a href="booking.html?service=التقويم الشفاف" class="btn btn-primary" style="width: 100%; font-size: 14px;">
+                                <i class="bx bx-calendar-check"></i> احجز استشارة التقويم الشفاف
+                            </a>
+                        </div>
+
+                        <!-- Service 2: Modern Braces -->
+                        <div class="glass-card service-card">
+                            <span class="service-badge-pill">دقة فائقة • علاج الحالات المعقدة</span>
                             <div class="service-icon-wrapper"><i class="bx bx-bracket"></i></div>
-                            <h3 class="card-title" style="font-size: 20px;">تقويم الأسنان التخصصي</h3>
-                            <p class="service-card-desc">تعديل ورصف الأسنان المزدحمة وتصحيح إطباق الفكين ومشاكل الفك العلوي والسفلي بأدق المعايير الطبية.</p>
-                            <a href="booking.html" class="service-card-link">احجز موعدك <i class="bx bx-left-arrow-alt"></i></a>
+                            <h3 class="card-title">التقويم المعدني والخزفي المتطور</h3>
+                            <p class="service-card-desc">
+                                براكيتس حديثة ذاتية الغلق (Self-Ligating) والتقويم الخزفي بلون الأسنان لعلاج تزاحم الفكين واختلال الإطباق بسرعة وكفاءة.
+                            </p>
+                            <ul class="service-features-list">
+                                <li><i class="bx bx-check-circle"></i> حركة أسنان أسرع مع تقليل الألم</li>
+                                <li><i class="bx bx-check-circle"></i> حواصر خزفية مطابقة للون السن</li>
+                                <li><i class="bx bx-check-circle"></i> مثالي للحالات شديدة الازدحام</li>
+                            </ul>
+                            <a href="booking.html?service=تقويم الأسنان المعدني" class="btn btn-primary" style="width: 100%; font-size: 14px;">
+                                <i class="bx bx-calendar-check"></i> احجز استشارة التقويم الثابت
+                            </a>
                         </div>
 
-                        <!-- Card 2: Clear Aligners -->
-                        <div class="glass-card service-card featured-ortho">
-                            <div class="service-img-wrapper">
-                                <span class="service-badge">تقنية رقمية ثلاثية الأبعاد</span>
-                                <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=400&q=80" alt="تقويم الأسنان الشفاف" loading="lazy">
-                            </div>
-                            <div class="service-icon-wrapper"><i class="bx bx-shield-quarter"></i></div>
-                            <h3 class="card-title" style="font-size: 20px;">التقويم الشفاف (ألاينرز)</h3>
-                            <p class="service-card-desc">أجهزة تقويمية غير مرئية وقابلة للإزالة لتعديل الأسنان براحة تامة ودون إحراج، مصممة حاسوبياً بالكامل.</p>
-                            <a href="booking.html" class="service-card-link">احجز موعدك <i class="bx bx-left-arrow-alt"></i></a>
-                        </div>
-
-                        <!-- Card 3: Ceramic Braces -->
-                        <div class="glass-card service-card featured-ortho">
-                            <div class="service-img-wrapper">
-                                <span class="service-badge-secondary">مظهر طبيعي جمالي</span>
-                                <img src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=400&q=80" alt="التقويم الخزفي التجميلي" loading="lazy">
-                            </div>
-                            <div class="service-icon-wrapper"><i class="bx bx-diamond"></i></div>
-                            <h3 class="card-title" style="font-size: 20px;">التقويم الخزفي التجميلي</h3>
-                            <p class="service-card-desc">حواصر تقويمية خزفية شفافة تتطابق مع لون الأسنان الطبيعي لتقدم علاجاً فعالاً ومظهراً لائقاً جداً.</p>
-                            <a href="booking.html" class="service-card-link">احجز موعدك <i class="bx bx-left-arrow-alt"></i></a>
-                        </div>
-
-                        <!-- Card 4: Children Orthodontics -->
+                        <!-- Service 3: Dentofacial Orthopedics -->
                         <div class="glass-card service-card">
-                            <div class="service-img-wrapper">
-                                <span class="service-badge-secondary">علاج وقائي مبكر</span>
-                                <img src="https://images.unsplash.com/photo-1513415277900-a62401e50853?auto=format&fit=crop&w=400&q=80" alt="تقويم الأسنان للأطفال" loading="lazy">
-                            </div>
-                            <div class="service-icon-wrapper"><i class="bx bx-smile"></i></div>
-                            <h3 class="card-title" style="font-size: 20px;">تقويم الأسنان للأطفال</h3>
-                            <p class="service-card-desc">توجيه نمو الفكين مبكراً ورصف الأسنان الجديدة لمنع حدوث تشوهات إطباقية معقدة في المستقبل.</p>
-                            <a href="booking.html" class="service-card-link">احجز موعدك <i class="bx bx-left-arrow-alt"></i></a>
-                        </div>
-
-                        <!-- Card 5: Adult Orthodontics -->
-                        <div class="glass-card service-card">
-                            <div class="service-img-wrapper">
-                                <img src="https://images.unsplash.com/photo-1629909615184-74f495363b67?auto=format&fit=crop&w=400&q=80" alt="تقويم الأسنان للبالغين" loading="lazy">
-                            </div>
-                            <div class="service-icon-wrapper"><i class="bx bx-user"></i></div>
-                            <h3 class="card-title" style="font-size: 20px;">تقويم الأسنان للبالغين</h3>
-                            <p class="service-card-desc">حلول علاجية وتجميلية متكاملة للبالغين تناسب التزاماتهم المهنية وتحقق نتائج باهرة وابتسامة واثقة.</p>
-                            <a href="booking.html" class="service-card-link">احجز موعدك <i class="bx bx-left-arrow-alt"></i></a>
-                        </div>
-
-                        <!-- Card 6: Retainers -->
-                        <div class="glass-card service-card">
-                            <div class="service-img-wrapper">
-                                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=400&q=80" alt="أجهزة تثبيت الأسنان" loading="lazy">
-                            </div>
-                            <div class="service-icon-wrapper"><i class="bx bx-lock-alt"></i></div>
-                            <h3 class="card-title" style="font-size: 20px;">مثبتات الأسنان (Retainers)</h3>
-                            <p class="service-card-desc">مثبتات سلكية أو شفافة مخصصة للمحافظة على مواضع الأسنان وحمايتها من التراجع بعد فك التقويم.</p>
-                            <a href="booking.html" class="service-card-link">احجز موعدك <i class="bx bx-left-arrow-alt"></i></a>
-                        </div>
-
-                        <!-- Card 7: Smile Design -->
-                        <div class="glass-card service-card">
-                            <div class="service-img-wrapper">
-                                <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=400&q=80" alt="تصميم الابتسامة" loading="lazy">
-                            </div>
-                            <div class="service-icon-wrapper"><i class="bx bx-star"></i></div>
-                            <h3 class="card-title" style="font-size: 20px;">تصميم الابتسامة الرقمي</h3>
-                            <p class="service-card-desc">استخدام عدسات الفينير واللومينير فائقة الرقة لتجميل وتنسيق الأسنان وتغيير شكلها ولونها بجمال طبيعي.</p>
-                            <a href="booking.html" class="service-card-link">احجز موعدك <i class="bx bx-left-arrow-alt"></i></a>
-                        </div>
-
-                        <!-- Card 8: Dental Implants -->
-                        <div class="glass-card service-card">
-                            <div class="service-img-wrapper">
-                                <img src="https://images.unsplash.com/photo-1579684389782-64d84b5e905d?auto=format&fit=crop&w=400&q=80" alt="زراعة الأسنان الرقمية" loading="lazy">
-                            </div>
-                            <div class="service-icon-wrapper"><i class="bx bx-outline"></i></div>
-                            <h3 class="card-title" style="font-size: 20px;">زراعة الأسنان الرقمية</h3>
-                            <p class="service-card-desc">تعويض الأسنان المفقودة بأجود الغرسات المعتمدة عالمياً واستعادة وظائف الفم والمضغ والمظهر الطبيعي.</p>
-                            <a href="booking.html" class="service-card-link">احجز موعدك <i class="bx bx-left-arrow-alt"></i></a>
-                        </div>
-
-                        <!-- Card 9: Root Canal -->
-                        <div class="glass-card service-card">
-                            <div class="service-img-wrapper">
-                                <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=400&q=80" alt="علاج العصب والجذور" loading="lazy">
-                            </div>
+                            <span class="service-badge-pill">تصحيح هيكلي • تعديل الإطباق</span>
                             <div class="service-icon-wrapper"><i class="bx bx-pulse"></i></div>
-                            <h3 class="card-title" style="font-size: 20px;">علاج قنوات الجذور والأعصاب</h3>
-                            <p class="service-card-desc">تنظيف وحشو جذور الأسنان بدقة متناهية تحت التكبير لإنقاذ الضرس الطبيعي وتخفيف الآلام بسرعة.</p>
-                            <a href="booking.html" class="service-card-link">احجز موعدك <i class="bx bx-left-arrow-alt"></i></a>
+                            <h3 class="card-title">تعديل نمو الفكين وبروز الأسنان</h3>
+                            <p class="service-card-desc">
+                                معالجة تراجع أو تقدم الفكين ومشاكل العضة العميقة والمعكوسة لإعادة التوازن للوجه دون الحاجة لتدخلات جراحية معقدة.
+                            </p>
+                            <ul class="service-features-list">
+                                <li><i class="bx bx-check-circle"></i> تصحيح إطباق وتطابق الفكين</li>
+                                <li><i class="bx bx-check-circle"></i> تحسين مظهر البروفايل الجانبي للوجه</li>
+                                <li><i class="bx bx-check-circle"></i> تخفيف الضغط على مفصل الفك (TMJ)</li>
+                            </ul>
+                            <a href="booking.html?service=تعديل الفكين" class="btn btn-primary" style="width: 100%; font-size: 14px;">
+                                <i class="bx bx-calendar-check"></i> احجز استشارة تعديل الفكين
+                            </a>
                         </div>
 
-                        <!-- Card 10: Oral Surgery -->
+                        <!-- Service 4: Children Orthodontics -->
                         <div class="glass-card service-card">
-                            <div class="service-img-wrapper">
-                                <img src="https://images.unsplash.com/photo-1579684389782-64d84b5e905d?auto=format&fit=crop&w=400&q=80" alt="جراحة الفم الصغرى" loading="lazy">
-                            </div>
-                            <div class="service-icon-wrapper"><i class="bx bx-plus-medical"></i></div>
-                            <h3 class="card-title" style="font-size: 20px;">جراحة الفم والأسنان الصغرى</h3>
-                            <p class="service-card-desc">خلع الأسنان وأضراس العقل المطمورة بدقة جراحية وبأقل قدر من الانزعاج، وعلاجات اللثة التجميلية.</p>
-                            <a href="booking.html" class="service-card-link">احجز موعدك <i class="bx bx-left-arrow-alt"></i></a>
+                            <span class="service-badge-pill">رعاية وقائية للأطفال</span>
+                            <div class="service-icon-wrapper"><i class="bx bx-smile"></i></div>
+                            <h3 class="card-title">تقويم أسنان الأطفال والمراهقين</h3>
+                            <p class="service-card-desc">
+                                فحص وتوجيه نمو الفكين والأسنان الدائمة في المراحل المبكرة لتفادي مشاكل الانطمار والازدحام مستقبلاً.
+                            </p>
+                            <ul class="service-features-list">
+                                <li><i class="bx bx-check-circle"></i> فحص وقائي مبكر من سن 7 سنوات</li>
+                                <li><i class="bx bx-check-circle"></i> توجيه وتوسيع مسار الأسنان الدائمة</li>
+                                <li><i class="bx bx-check-circle"></i> أجهزة متحركة لطيفة ومحببة للطفل</li>
+                            </ul>
+                            <a href="booking.html?service=تقويم أسنان الأطفال" class="btn btn-secondary" style="width: 100%; font-size: 14px;">
+                                <i class="bx bx-calendar-check"></i> كشف تقويم الأطفال
+                            </a>
                         </div>
 
-                        <!-- Card 11: General Dentistry -->
+                        <!-- Service 5: Retainers -->
                         <div class="glass-card service-card">
-                            <div class="service-img-wrapper">
-                                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=400&q=80" alt="طب الأسنان العام والتنظيف" loading="lazy">
-                            </div>
-                            <div class="service-icon-wrapper"><i class="bx bx-clean"></i></div>
-                            <h3 class="card-title" style="font-size: 20px;">طب الأسنان العام والتنظيف</h3>
-                            <p class="service-card-desc">التشخيص الدوري، إزالة الجير والترسبات، علاج التسوس بالحشوات التجميلية، وحماية صحة الأسنان العامة.</p>
-                            <a href="booking.html" class="service-card-link">احجز موعدك <i class="bx bx-left-arrow-alt"></i></a>
+                            <span class="service-badge-pill">تثبيت واستقرار النتيجة</span>
+                            <div class="service-icon-wrapper"><i class="bx bx-lock-alt"></i></div>
+                            <h3 class="card-title">مثبتات الأسنان (Retainers)</h3>
+                            <p class="service-card-desc">
+                                مثبتات شفافة أو سلكية خلفية مخصصة للحفاظ على النتيجة المستقرة للأسنان وحمايتها من الانتكاس بعد انتهاء رحلة التقويم.
+                            </p>
+                            <ul class="service-features-list">
+                                <li><i class="bx bx-check-circle"></i> قوالب تثبيت شفافة خفيفة ومريحة</li>
+                                <li><i class="bx bx-check-circle"></i> أسلاك تثبيت خلفية غير مرئية</li>
+                                <li><i class="bx bx-check-circle"></i> متابعة دورية لضمان ثبات الابتسامة</li>
+                            </ul>
+                            <a href="booking.html?service=مثبتات الأسنان" class="btn btn-secondary" style="width: 100%; font-size: 14px;">
+                                <i class="bx bx-calendar-check"></i> طلب مثبتات أسنان
+                            </a>
+                        </div>
+
+                        <!-- Service 6: Digital Smile Simulation -->
+                        <div class="glass-card service-card">
+                            <span class="service-badge-pill">محاكاة ثلاثية الأبعاد</span>
+                            <div class="service-icon-wrapper"><i class="bx bx-cube-alt"></i></div>
+                            <h3 class="card-title">تصميم الابتسامة الرقمي (DSD)</h3>
+                            <p class="service-card-desc">
+                                تخطيط ومحاكاة مسبقة للشكل النهائي لأسنانك وابتسامتك قبل البدء بأي خطوة علاجية لتكون على دراية كاملة بالنتيجة المرجوة.
+                            </p>
+                            <ul class="service-features-list">
+                                <li><i class="bx bx-check-circle"></i> مسح ضوئي ثلاثي الأبعاد بالكامل</li>
+                                <li><i class="bx bx-check-circle"></i> محاكاة دقيقة لحركة الأسنان أسبوعاً بأسبوع</li>
+                                <li><i class="bx bx-check-circle"></i> تخصيص الخطة لتناسب ملامح الوجه</li>
+                            </ul>
+                            <a href="booking.html?service=تصميم الابتسامة" class="btn btn-secondary" style="width: 100%; font-size: 14px;">
+                                <i class="bx bx-calendar-check"></i> حجز جلسة محاكاة DSD
+                            </a>
                         </div>
                     </div>
+
+                    <!-- CATEGORY 2: GENERAL & COSMETIC DENTAL CARE -->
+                    <h3 class="service-category-title">
+                        <i class="bx bx-first-aid"></i> الرعاية السنية التجميلية والشاملة
+                    </h3>
+
+                    <div class="grid-3">
+                        <!-- Implants -->
+                        <div class="glass-card service-card">
+                            <span class="service-badge-pill">تعويض متقدم</span>
+                            <div class="service-icon-wrapper"><i class="bx bx-dna"></i></div>
+                            <h3 class="card-title">زراعة الأسنان الرقمية</h3>
+                            <p class="service-card-desc">تعويض الأسنان المفقودة بأحدث الغرسات السويسرية والألمانية واستعادة كفاءة المضغ والمظهر الطبيعي.</p>
+                            <a href="booking.html?service=زراعة الأسنان" class="service-card-link">حجز استشارة زراعة <i class="bx bx-left-arrow-alt"></i></a>
+                        </div>
+
+                        <!-- Whitening -->
+                        <div class="glass-card service-card">
+                            <span class="service-badge-pill">إشراقة فورية</span>
+                            <div class="service-icon-wrapper"><i class="bx bx-sun"></i></div>
+                            <h3 class="card-title">تبييض الأسنان بالليزر</h3>
+                            <p class="service-card-desc">إزالة التصبغات العميقة وتفتيح لون الأسنان درجات متعددة في جلسة واحدة بأحدث أجهزة تبييض الليزر البارد.</p>
+                            <a href="booking.html?service=تبييض الأسنان" class="service-card-link">حجز جلسة تبييض <i class="bx bx-left-arrow-alt"></i></a>
+                        </div>
+
+                        <!-- Hygiene & Prevention -->
+                        <div class="glass-card service-card">
+                            <span class="service-badge-pill">وقاية وصحة فموية</span>
+                            <div class="service-icon-wrapper"><i class="bx bx-shield"></i></div>
+                            <h3 class="card-title">تنظيف الأسنان وصحة اللثة</h3>
+                            <p class="service-card-desc">إزالة الجير والترسبات والتلميع الدوري بالموجات فوق الصوتية لحماية اللثة ودعم ثبات الأسنان أثناء وبعد التقويم.</p>
+                            <a href="booking.html?service=تنظيف وتلميع الأسنان" class="service-card-link">حجز موعد تنظيف <i class="bx bx-left-arrow-alt"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Consultation Banner -->
+                    <div class="glass-card" style="background: linear-gradient(135deg, #0B2545 0%, #0F4C81 100%); color: #FFFFFF; padding: 40px; border-radius: var(--radius-xl); text-align: center; margin-top: 60px;">
+                        <h3 style="font-size: 26px; font-weight: 800; color: #FFFFFF; margin-bottom: 12px;">هل أنت محتار بشأن العلاج الأنسب لحالتك؟</h3>
+                        <p style="font-size: 15px; color: rgba(255, 255, 255, 0.85); max-width: 600px; margin: 0 auto 24px auto;">
+                            احجز جلسة كشف واستشارة أولية مع د. أكثم طنطاوي، وسيقوم بفحص أسنانك وإطلاعك على جميع الخيارات والمدة والتكلفة المناسبة لك.
+                        </p>
+                        <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+                            <a href="booking.html" class="btn" style="background: #FFFFFF; color: var(--primary); font-weight: 800;">
+                                <i class="bx bx-calendar-check"></i> احجز استشارتك الآن
+                            </a>
+                            <a href="https://wa.me/966501234567" target="_blank" class="btn btn-whatsapp">
+                                <i class="bx bxl-whatsapp"></i> استفسر عبر واتساب
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
             </section>
         </main>
@@ -223,5 +245,6 @@
 
     <!-- Application Script Logic -->
     <script type="module" src="assets/js/app.js"></script>
+    <script type="module" src="assets/js/layout.js"></script>
 </body>
 </html>

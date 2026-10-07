@@ -1,5 +1,5 @@
 import { AppState } from './app.js';
-import { updatePatientProfilePage } from './profile.js';
+import { initPatientProfile, updatePatientProfilePage } from './profile.js';
 import { fireConfettiEffect } from './animations.js';
 
 // Send Real/Simulated Telegram notifications

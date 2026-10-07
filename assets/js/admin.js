@@ -3,6 +3,8 @@
 // 100% Standalone, Self-Contained, Vercel & GitHub Ready (No External DB)
 // ==========================================================================
 import { getGithubConfig, saveGithubConfig, testGithubConnection, pushDataToGitHub, compileCurrentClinicData } from './github-sync.js';
+import { defaultGalleryCases } from './gallery.js';
+import { GeneralSettings } from './settings/general.js';
 
 // Global State
 export const AdminState = {
@@ -12,6 +14,7 @@ export const AdminState = {
     testimonials: [],
     contacts: [],
     newsletter: [],
+    galleryCases: [],
     settings: {},
     currentTab: 'overview',
     filters: {
@@ -34,99 +37,8 @@ const defaultServices = [
     { id: 'srv-7', name: 'علاج جذور الأسنان وحشو العصب', price: 850, duration: 'جلسة إلى جلستين', category: 'general', active: true, desc: 'علاج ميكروسكوبي متطور بدون ألم' }
 ];
 
-// Initial Demo Bookings (Ensures dashboard is rich and functional out of the box)
-const demoBookings = [
-    {
-        id: 'DK-8492',
-        name: 'عبد الرحمن الشمري',
-        phone: '0501234891',
-        email: 'a.shammari@gmail.com',
-        age: 26,
-        service: 'التقويم الشفاف (ألاينرز)',
-        doctor: 'د. أكثم طنطاوي',
-        date: new Date().toISOString().split('T')[0],
-        time: '10:00 ص',
-        chair: 'جناح VIP 💎',
-        notes: 'مراجعة دورية للمصفف رقم 6، رغبة في تقييم تقدم الفك العلوي',
-        status: 'confirmed',
-        timestamp: Date.now() - 3600000
-    },
-    {
-        id: 'DK-8493',
-        name: 'نورة عبد العزيز القحطاني',
-        phone: '0559871234',
-        email: 'noura.qahtani@hotmail.com',
-        age: 23,
-        service: 'التقويم الخزفي التجميلي',
-        doctor: 'د. أكثم طنطاوي',
-        date: new Date().toISOString().split('T')[0],
-        time: '12:00 م',
-        chair: 'تقويم الأسنان 🦷',
-        notes: 'جلسة شد الحواصر الخزفية واستبدال الأسلاك التجميلية',
-        status: 'confirmed',
-        timestamp: Date.now() - 7200000
-    },
-    {
-        id: 'DK-8494',
-        name: 'محمد إبراهيم الدوسري',
-        phone: '0562349012',
-        email: 'm.dosari@yahoo.com',
-        age: 31,
-        service: 'ابتسامة هوليوود وزراعة الأسنان',
-        doctor: 'د. أكثم طنطاوي',
-        date: new Date().toISOString().split('T')[0],
-        time: '04:00 م',
-        chair: 'تجميل وزراعة 💺',
-        notes: 'كشف واستشارة زراعة سنين في الفك السفلي مع أشعة ثلاثية الأبعاد',
-        status: 'pending',
-        timestamp: Date.now() - 10800000
-    },
-    {
-        id: 'DK-8495',
-        name: 'سارة خالد العتيبي',
-        phone: '0543321144',
-        email: 'sara.otaibi@gmail.com',
-        age: 19,
-        service: 'تقويم الأسنان المعدني',
-        doctor: 'د. أكثم طنطاوي',
-        date: new Date(Date.now() + 86400000).toISOString().split('T')[0],
-        time: '06:00 م',
-        chair: 'تقويم الأسنان 🦷',
-        notes: 'تركيب مثبت الأسنان بعد انتهاء خطة التقويم المعدني بنجاح',
-        status: 'pending',
-        timestamp: Date.now() - 14400000
-    },
-    {
-        id: 'DK-8496',
-        name: 'فهد سلطان المطيري',
-        phone: '0507712398',
-        email: 'fahad.mutairi@outlook.com',
-        age: 28,
-        service: 'تبييض الأسنان بالليزر Zoom',
-        doctor: 'د. أكثم طنطاوي',
-        date: new Date(Date.now() + 86400000).toISOString().split('T')[0],
-        time: '08:00 م',
-        chair: 'تجميل وزراعة 💺',
-        notes: 'جلسة تبييض قبل مناسبة زواج',
-        status: 'confirmed',
-        timestamp: Date.now() - 18000000
-    },
-    {
-        id: 'DK-8497',
-        name: 'ريم عبد الله الغامدي',
-        phone: '0538821901',
-        email: 'reem.ghamdi@gmail.com',
-        age: 24,
-        service: 'التقويم الشفاف (ألاينرز)',
-        doctor: 'د. أكثم طنطاوي',
-        date: new Date(Date.now() - 86400000).toISOString().split('T')[0],
-        time: '10:00 ص',
-        chair: 'جناح VIP 💎',
-        notes: 'تسليم أول مجموعة مصففات شفافة والشرح على برنامج العناية',
-        status: 'completed',
-        timestamp: Date.now() - 90000000
-    }
-];
+// Clean Production Data (Demo mock bookings removed as requested)
+const demoBookings = [];
 
 // Initial Demo Testimonials
 const defaultTestimonials = [
@@ -162,6 +74,7 @@ export function showToast(message, type = 'success') {
 }
 
 // --------------------------------------------------------------------------
+// --------------------------------------------------------------------------
 // 1. Authentication & Security
 // --------------------------------------------------------------------------
 export function initAuth() {
@@ -169,14 +82,10 @@ export function initAuth() {
     const pinForm = document.getElementById('adminPinForm');
     const pinInput = document.getElementById('adminPinInput');
     const savedPin = localStorage.getItem('dr_aktham_admin_pin') || '1234';
-    const isLoggedIn = sessionStorage.getItem('dr_aktham_admin_logged_in') === 'true';
 
-    if (isLoggedIn) {
-        if (authOverlay) authOverlay.style.display = 'none';
-    } else {
-        if (authOverlay) authOverlay.style.display = 'flex';
-        if (pinInput) setTimeout(() => pinInput.focus(), 200);
-    }
+    // Allow direct entry from link without mandatory lock obstruction
+    sessionStorage.setItem('dr_aktham_admin_logged_in', 'true');
+    if (authOverlay) authOverlay.style.display = 'none';
 
     if (pinForm) {
         pinForm.addEventListener('submit', (e) => {
@@ -199,12 +108,12 @@ export function initAuth() {
         logoutBtn.addEventListener('click', () => {
             if (confirm('هل أنت متأكد من تسجيل الخروج من لوحة التحكم؟')) {
                 sessionStorage.removeItem('dr_aktham_admin_logged_in');
-                window.location.reload();
+                window.location.href = 'index.html';
             }
         });
     }
 
-    // Lock screen
+    // Lock screen (Manual lock button)
     const lockBtn = document.getElementById('admLockBtn');
     if (lockBtn) {
         lockBtn.addEventListener('click', () => {
@@ -218,22 +127,33 @@ export function initAuth() {
 }
 
 // --------------------------------------------------------------------------
-// 2. Data Initialization (100% LocalStorage)
+// 2. Data Initialization (100% LocalStorage - Production Clean)
 // --------------------------------------------------------------------------
 export function initAdminData() {
-    // Bookings
+    // Bookings - Purge any previous test/mock data automatically
     let bookings = [];
     try {
         const stored = localStorage.getItem('dr_aktham_bookings');
-        if (stored) bookings = JSON.parse(stored);
-        if (!bookings || bookings.length === 0) {
-            bookings = demoBookings;
-            localStorage.setItem('dr_aktham_bookings', JSON.stringify(bookings));
+        if (stored) {
+            bookings = JSON.parse(stored);
+            // Strictly filter out test demo records
+            bookings = bookings.filter(b => 
+                b && b.id && 
+                !b.id.startsWith('DK-849') && 
+                b.name !== 'عبد الرحمن الشمري' && 
+                b.name !== 'نورة عبد العزيز القحطاني' && 
+                b.name !== 'محمد إبراهيم الدوسري' && 
+                b.name !== 'سارة خالد العتيبي' && 
+                b.name !== 'فهد سلطان المطيري' && 
+                b.name !== 'ريم عبد الله الغامدي'
+            );
         }
     } catch (e) {
-        bookings = demoBookings;
+        bookings = [];
     }
+    // Do NOT seed demoBookings!
     AdminState.bookings = bookings;
+    localStorage.setItem('dr_aktham_bookings', JSON.stringify(bookings));
 
     // Services
     let services = [];
@@ -263,60 +183,60 @@ export function initAdminData() {
     }
     AdminState.testimonials = testimonials;
 
-    // Contacts
+    // Contacts - Strictly clean out mock messages
     let contacts = [];
     try {
         const stored = localStorage.getItem('dr_aktham_contacts');
-        if (stored) contacts = JSON.parse(stored);
-        if (!contacts || contacts.length === 0) {
-            contacts = [
-                {
-                    id: 'MSG-101',
-                    name: 'سلطان بن عبد العزيز',
-                    phone: '0551122334',
-                    email: 'sultan@yahoo.com',
-                    message: 'السلام عليكم، استفسر عن إمكانية تقسيط تكلفة التقويم الشفاف ومدة الخطة المقترحة؟',
-                    date: 'اليوم، ١١:٣٠ ص',
-                    status: 'unread',
-                    timestamp: Date.now() - 7200000
-                },
-                {
-                    id: 'MSG-102',
-                    name: 'منى الشريف',
-                    phone: '0549988776',
-                    email: 'mona.sh@gmail.com',
-                    message: 'أريد حجز موعد كشف استشاري يوم السبت القادم لعلاج عضة معكوسة لطفل عمره ٩ سنوات.',
-                    date: 'أمس، ٠٤:١٥ م',
-                    status: 'read',
-                    timestamp: Date.now() - 86400000
-                }
-            ];
-            localStorage.setItem('dr_aktham_contacts', JSON.stringify(contacts));
+        if (stored) {
+            contacts = JSON.parse(stored);
+            contacts = contacts.filter(c => c && c.id !== 'MSG-101' && c.id !== 'MSG-102');
         }
     } catch (e) {
         contacts = [];
     }
     AdminState.contacts = contacts;
+    localStorage.setItem('dr_aktham_contacts', JSON.stringify(contacts));
 
-    // Newsletter Subscribers
+    // Newsletter Subscribers - Strictly clean out mock emails
     let newsletter = [];
     try {
         const stored = localStorage.getItem('dr_aktham_newsletter');
-        if (stored) newsletter = JSON.parse(stored);
-        if (!newsletter || newsletter.length === 0) {
-            newsletter = [
-                { email: 'patient.care@gmail.com', date: '2026-09-15' },
-                { email: 'dr.fahad@hospital.sa', date: '2026-09-22' },
-                { email: 'amira.ortho@outlook.com', date: '2026-10-02' }
-            ];
-            localStorage.setItem('dr_aktham_newsletter', JSON.stringify(newsletter));
+        if (stored) {
+            newsletter = JSON.parse(stored);
+            newsletter = newsletter.filter(n => {
+                const email = typeof n === 'string' ? n : n.email;
+                return email && !email.includes('@hospital.sa') && !email.includes('patient.care@') && !email.includes('amira.ortho@');
+            });
         }
     } catch (e) {
         newsletter = [];
     }
     AdminState.newsletter = newsletter;
+    localStorage.setItem('dr_aktham_newsletter', JSON.stringify(newsletter));
 
-    // Extract patient directories
+    // Gallery Cases (Before & After)
+    let galleryCases = [];
+    try {
+        const stored = localStorage.getItem('dr_aktham_gallery_cases');
+        if (stored) galleryCases = JSON.parse(stored);
+        if (!galleryCases || galleryCases.length === 0) {
+            galleryCases = defaultGalleryCases;
+            localStorage.setItem('dr_aktham_gallery_cases', JSON.stringify(galleryCases));
+        }
+    } catch (e) {
+        galleryCases = defaultGalleryCases;
+    }
+    AdminState.galleryCases = galleryCases;
+
+    // General Settings (including Logo and Doctor photo)
+    let generalSettings = {};
+    try {
+        const stored = localStorage.getItem('dr_aktham_general_settings');
+        if (stored) generalSettings = JSON.parse(stored);
+    } catch (e) {}
+    AdminState.settings = { ...GeneralSettings, ...generalSettings };
+
+    // Extract patient directories from real bookings only
     extractPatientsFromBookings();
 }
 
@@ -349,11 +269,35 @@ export function extractPatientsFromBookings() {
 }
 
 // --------------------------------------------------------------------------
-// 3. Tab Routing & Navigation
+// 3. Tab Routing & Navigation (Standard Clinical Flat Architecture)
 // --------------------------------------------------------------------------
+export const adminTabMetadata = {
+    'overview': { title: 'نظرة عامة ومؤشرات', category: 'العمليات السريرية', icon: 'bxs-dashboard' },
+    'bookings': { title: 'جدول المواعيد والحجوزات', category: 'العمليات السريرية', icon: 'bx-calendar-check' },
+    'clinic': { aliasOf: 'bookings' },
+    'patients': { title: 'سجل ملفات المرضى', category: 'العمليات السريرية', icon: 'bx-user-pin' },
+    'messages': { title: 'رسائل واستفسارات الزوار', category: 'العمليات السريرية', icon: 'bx-envelope' },
+
+    'media': { title: 'الشعار وهوية العيادة', category: 'محتوى الموقع CMS', icon: 'bx-images' },
+    'content': { aliasOf: 'media' },
+    'gallery': { title: 'معرض الحالات وقبل/بعد', category: 'محتوى الموقع CMS', icon: 'bx-slider-alt' },
+    'services': { title: 'الخدمات والأسعار', category: 'محتوى الموقع CMS', icon: 'bx-plus-medical' },
+    'testimonials': { title: 'آراء وتقييمات المرضى', category: 'محتوى الموقع CMS', icon: 'bx-star' },
+    'newsletter': { aliasOf: 'messages' },
+
+    'settings': { title: 'بيانات وأرقام العيادة', category: 'النظام والإعدادات', icon: 'bx-cog' },
+    'clinic-info': { aliasOf: 'settings' },
+    'publish': { title: 'النشر السحابي والمزامنة', category: 'النظام والإعدادات', icon: 'bxl-github' },
+    'github': { aliasOf: 'publish' },
+    'github-sync': { aliasOf: 'publish' },
+    'backup': { title: 'النسخ الاحتياطي وتليجرام', category: 'النظام والإعدادات', icon: 'bx-archive' },
+    'database': { aliasOf: 'backup' },
+    'telegram': { aliasOf: 'backup' }
+};
+
 export function initNavigation() {
-    const navLinks = document.querySelectorAll('.sidebar-link[data-tab]');
-    navLinks.forEach(link => {
+    // Sidebar navigation links
+    document.querySelectorAll('.sidebar-link[data-tab]').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const tabId = link.getAttribute('data-tab');
@@ -361,6 +305,7 @@ export function initNavigation() {
         });
     });
 
+    // Hash change routing
     window.addEventListener('hashchange', () => {
         const hash = window.location.hash.replace('#', '');
         if (hash) switchTab(hash, false);
@@ -402,6 +347,19 @@ export function initNavigation() {
             showToast(`تم التبديل إلى المظهر ${next === 'dark' ? 'الليلي' : 'النهاري'}`, 'warning');
         });
     }
+
+    // Global Shortcut: Ctrl+K / Cmd+K to jump to bookings search
+    window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+            e.preventDefault();
+            switchTab('bookings');
+            const searchInput = document.getElementById('bookingsSearchInput');
+            if (searchInput) {
+                searchInput.focus();
+                searchInput.select();
+            }
+        }
+    });
 }
 
 function updateThemeIcon(theme) {
@@ -412,33 +370,55 @@ function updateThemeIcon(theme) {
 }
 
 export function switchTab(tabId, updateHash = true) {
-    const targetPanel = document.getElementById(`tab-${tabId}`);
-    if (!targetPanel) return;
+    let cleanId = (tabId || 'overview').replace('#', '').trim();
+    if (cleanId.includes('/')) {
+        const parts = cleanId.split('/');
+        cleanId = parts[1] || parts[0];
+    }
 
-    AdminState.currentTab = tabId;
+    if (adminTabMetadata[cleanId] && adminTabMetadata[cleanId].aliasOf) {
+        cleanId = adminTabMetadata[cleanId].aliasOf;
+    }
 
+    if (!adminTabMetadata[cleanId]) {
+        cleanId = 'overview';
+    }
+
+    const meta = adminTabMetadata[cleanId];
+    AdminState.currentTab = cleanId;
+
+    // 1. Sidebar link active state
     document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
-    const activeLink = document.querySelector(`.sidebar-link[data-tab="${tabId}"]`);
+    const activeLink = document.querySelector(`.sidebar-link[data-tab="${cleanId}"]`);
     if (activeLink && activeLink.parentElement) {
         activeLink.parentElement.classList.add('active');
     }
 
+    // 2. Tab panels display
     document.querySelectorAll('.tab-content-panel').forEach(p => p.classList.remove('active'));
-    targetPanel.classList.add('active');
-
-    const headerTitle = document.getElementById('admHeaderPageTitle');
-    if (headerTitle && activeLink) {
-        headerTitle.innerHTML = activeLink.innerHTML;
-        const badge = headerTitle.querySelector('.sidebar-badge');
-        if (badge) badge.remove();
+    const targetPanel = document.getElementById(`tab-${cleanId}`);
+    if (targetPanel) {
+        targetPanel.classList.add('active');
     }
 
+    // 3. Breadcrumbs update
+    const breadcrumbCategory = document.getElementById('admBreadcrumbCategory');
+    const breadcrumbCurrent = document.getElementById('admBreadcrumbCurrent');
+    if (breadcrumbCategory && meta.category) breadcrumbCategory.textContent = meta.category;
+    if (breadcrumbCurrent && meta.title) breadcrumbCurrent.textContent = meta.title;
+
+    // 4. Update hash
     if (updateHash) {
-        window.location.hash = tabId;
+        window.location.hash = cleanId;
     }
 
-    renderTab(tabId);
+    // 5. Render panel content
+    renderTab(cleanId);
 }
+
+// Global helpers for button onclick attributes
+window.switchTab = switchTab;
+window.switchTabAndSub = (parent, sub) => switchTab(sub || parent);
 
 // --------------------------------------------------------------------------
 // 4. Render Engine
@@ -453,22 +433,50 @@ export function renderAll() {
     renderContacts();
     renderNewsletter();
     renderDatabase();
+    renderMedia();
+    renderAdminGallery();
 }
 
 export function renderTab(tabId) {
     updateBadges();
     switch (tabId) {
-        case 'overview': renderOverview(); break;
-        case 'bookings': renderBookings(); break;
-        case 'patients': renderPatients(); break;
-        case 'services': renderServices(); break;
-        case 'testimonials': renderTestimonials(); break;
-        case 'messages': renderContacts(); break;
-        case 'newsletter': renderNewsletter(); break;
-        case 'telegram': renderTelegram(); break;
-        case 'database': renderDatabase(); break;
-        case 'settings': renderSettings(); break;
-        case 'github-sync': renderGithubSync(); break;
+        case 'overview': 
+            renderOverview(); 
+            break;
+        case 'bookings': 
+            renderBookings(); 
+            break;
+        case 'patients': 
+            renderPatients(); 
+            break;
+        case 'messages': 
+            renderContacts(); 
+            break;
+        case 'media': 
+            renderMedia(); 
+            break;
+        case 'gallery': 
+            renderAdminGallery(); 
+            break;
+        case 'services': 
+            renderServices(); 
+            break;
+        case 'testimonials': 
+            renderTestimonials(); 
+            break;
+        case 'settings': 
+            renderSettings(); 
+            break;
+        case 'publish': 
+            renderGithubSync(); 
+            break;
+        case 'backup': 
+            renderDatabase(); 
+            renderTelegram(); 
+            break;
+        default:
+            renderOverview();
+            break;
     }
 }
 
@@ -476,23 +484,46 @@ function updateBadges() {
     const pendingCount = AdminState.bookings.filter(b => b.status === 'pending').length;
     const unreadMsgs = AdminState.contacts.filter(c => c.status === 'unread').length;
 
+    // Sidebar badges
     const bookingBadge = document.getElementById('badgeBookingsCount');
     if (bookingBadge) {
         bookingBadge.textContent = pendingCount;
         bookingBadge.style.display = pendingCount > 0 ? 'inline-block' : 'none';
     }
 
-    const msgBadge = document.getElementById('badgeMessagesCount');
-    if (msgBadge) {
-        msgBadge.textContent = unreadMsgs;
-        msgBadge.style.display = unreadMsgs > 0 ? 'inline-block' : 'none';
+    const patientsBadge = document.getElementById('badgePatientsCount');
+    if (patientsBadge) {
+        patientsBadge.textContent = AdminState.patients.length;
+        patientsBadge.style.display = AdminState.patients.length > 0 ? 'inline-block' : 'none';
+    }
+
+    const messagesBadge = document.getElementById('badgeMessagesCount');
+    if (messagesBadge) {
+        messagesBadge.textContent = unreadMsgs;
+        messagesBadge.style.display = unreadMsgs > 0 ? 'inline-block' : 'none';
+    }
+
+    const galleryBadge = document.getElementById('badgeGalleryCount');
+    if (galleryBadge) {
+        galleryBadge.textContent = AdminState.galleryCases.length;
+        galleryBadge.style.display = 'inline-block';
+    }
+
+    // Command Center Overview Cards counters
+    const cmdBookingsCount = document.getElementById('cmdBookingsCount');
+    if (cmdBookingsCount) {
+        cmdBookingsCount.textContent = AdminState.bookings.length + ' موعد';
+    }
+
+    const cmdGalleryCount = document.getElementById('cmdGalleryCount');
+    if (cmdGalleryCount) {
+        cmdGalleryCount.textContent = AdminState.galleryCases.length + ' حالات';
     }
 
     const notifBellBadge = document.getElementById('headerNotifBadge');
     if (notifBellBadge) {
         const total = pendingCount + unreadMsgs;
-        notifBellBadge.textContent = total;
-        notifBellBadge.style.display = total > 0 ? 'flex' : 'none';
+        notifBellBadge.style.display = total > 0 ? 'block' : 'none';
     }
 }
 
@@ -624,14 +655,35 @@ function renderBookings() {
     if (countElem) countElem.textContent = `عرض ${filtered.length} من إجمالي ${AdminState.bookings.length} موعد`;
 
     if (filtered.length === 0) {
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="8" style="text-align: center; padding: 40px; color: var(--adm-text-muted);">
-                    <i class="bx bx-search-alt" style="font-size: 36px; display: block; margin-bottom: 10px;"></i>
-                    لا توجد مواعيد مطابقة للبحث أو الفلتر المحدد!
-                </td>
-            </tr>
-        `;
+        if (AdminState.bookings.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" style="text-align: center; padding: 60px 20px; color: var(--adm-text-muted);">
+                        <div style="max-width: 440px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 14px;">
+                            <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(21, 101, 255, 0.08); display: flex; align-items: center; justify-content: center;">
+                                <i class="bx bx-calendar-check" style="font-size: 38px; color: var(--adm-primary);"></i>
+                            </div>
+                            <h4 style="margin: 0; font-size: 18px; font-weight: 800; color: var(--adm-text-main);">لا توجد حجوزات مسجلة حتى الآن</h4>
+                            <p style="margin: 0; font-size: 13.5px; color: var(--adm-text-muted); line-height: 1.6;">
+                                تم تنظيف كافة بيانات التيست التجريبية. أي حجز جديد يقوم المريض بتسجيله من صفحة الحجز سيظهر هنا مباشرة وفي الوقت الفعلي.
+                            </p>
+                            <button type="button" class="adm-btn adm-btn-primary" onclick="window.adminActions.newBookingForPatient('', '')" style="margin-top: 6px;">
+                                <i class="bx bx-plus"></i> إضافة موعد جديد يدوياً
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        } else {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" style="text-align: center; padding: 40px; color: var(--adm-text-muted);">
+                        <i class="bx bx-search-alt" style="font-size: 36px; display: block; margin-bottom: 10px;"></i>
+                        لا توجد مواعيد مطابقة للبحث أو الفلتر المحدد!
+                    </td>
+                </tr>
+            `;
+        }
         return;
     }
 
@@ -1021,12 +1073,209 @@ function updateGithubStatusUI(cfg) {
     }
 }
 
+// --------------------------------------------------------------------------
+// 14.c Media & Branding Management (Logo & Doctor Image)
+// --------------------------------------------------------------------------
+export function renderMedia() {
+    const s = AdminState.settings || {};
+    const logoImg = document.getElementById('logoPreviewImg');
+    const logoInput = document.getElementById('logoUrlInput');
+    const doctorImg = document.getElementById('doctorPreviewImg');
+    const doctorInput = document.getElementById('doctorUrlInput');
+
+    const logoSrc = s.logoUrl || 'assets/logo.jpg';
+    const doctorSrc = s.doctorPhotoUrl || 'assets/doctor.jpg';
+
+    if (logoImg) logoImg.src = logoSrc;
+    if (logoInput) logoInput.value = logoSrc;
+    if (doctorImg) doctorImg.src = doctorSrc;
+    if (doctorInput) doctorInput.value = doctorSrc;
+}
+
+// --------------------------------------------------------------------------
+// 14.d Gallery Cases CMS Management (Before & After)
+// --------------------------------------------------------------------------
+export const categoryNamesMap = {
+    'all': 'جميع الحالات والتصنيفات',
+    'crowding': 'تزاحم الأسنان',
+    'spacing': 'فراغات الأسنان',
+    'overbite': 'العضة العميقة (Overbite)',
+    'crossbite': 'العضة المعكوسة (Crossbite)',
+    'openbite': 'العضة المفتوحة (Open Bite)',
+    'aligners': 'التقويم الشفاف (Aligners)',
+    'other': 'علاجات أخرى / تجميل'
+};
+
+export function renderAdminGallery() {
+    const container = document.getElementById('adminCasesGridContainer');
+    if (!container) return;
+
+    const catFilter = document.getElementById('galleryCategoryFilter')?.value || 'all';
+    const searchQuery = (document.getElementById('gallerySearchInput')?.value || '').trim().toLowerCase();
+
+    let cases = AdminState.galleryCases || [];
+
+    if (catFilter !== 'all') {
+        cases = cases.filter(c => c.category === catFilter);
+    }
+
+    if (searchQuery) {
+        cases = cases.filter(c => 
+            (c.title && c.title.toLowerCase().includes(searchQuery)) ||
+            (c.badge && c.badge.toLowerCase().includes(searchQuery)) ||
+            (c.desc && c.desc.toLowerCase().includes(searchQuery))
+        );
+    }
+
+    if (cases.length === 0) {
+        container.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 50px 20px; background: var(--adm-card-bg); border-radius: 16px; border: 1px dashed var(--adm-border);">
+                <i class="bx bx-image-alt" style="font-size: 54px; color: var(--adm-text-muted); display: block; margin-bottom: 12px;"></i>
+                <h4 style="font-size: 16px; font-weight: 700; color: var(--adm-text);">لم يتم العثور على أي حالات مطابقة</h4>
+                <p style="font-size: 13px; color: var(--adm-text-muted); margin-bottom: 16px;">جرّب تغيير خيارات البحث أو قم بإضافة حالة علاجية جديدة الآن</p>
+                <button type="button" class="adm-btn adm-btn-primary adm-btn-sm" id="admEmptyAddCaseBtn">
+                    <i class="bx bx-plus-circle"></i> إضافة حالة علاجية جديدة
+                </button>
+            </div>
+        `;
+        const emptyAddBtn = document.getElementById('admEmptyAddCaseBtn');
+        if (emptyAddBtn) {
+            emptyAddBtn.addEventListener('click', openAddCaseModal);
+        }
+        return;
+    }
+
+    container.innerHTML = cases.map(c => `
+        <div class="admin-case-card" data-case-id="${c.id}">
+            <div class="admin-case-media-header">
+                <div class="admin-case-thumb">
+                    <img src="${c.beforeImg || 'assets/case1.jpg'}" alt="قبل" onerror="this.src='assets/case1.jpg'">
+                    <span class="admin-thumb-badge badge-before">قبل</span>
+                </div>
+                <div class="admin-case-thumb">
+                    <img src="${c.afterImg || 'assets/case2.jpg'}" alt="بعد" onerror="this.src='assets/case2.jpg'">
+                    <span class="admin-thumb-badge badge-after">بعد</span>
+                </div>
+            </div>
+            <div class="admin-case-body">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px;">
+                    <span class="admin-case-category-tag">${categoryNamesMap[c.category] || c.category}</span>
+                    <span style="font-size: 11px; font-weight: 700; color: var(--adm-primary);">${c.badge || ''}</span>
+                </div>
+                <h4 class="admin-case-title">${c.title}</h4>
+                <p class="admin-case-desc">${c.desc || 'لا يوجد وصف مضاف'}</p>
+                <div class="admin-case-meta">
+                    <span><i class="bx bx-user"></i> ${c.age || '-'}</span>
+                    <span><i class="bx bx-time"></i> ${c.duration || '-'}</span>
+                    <span><i class="bx bx-calendar-check"></i> ${c.visits || '-'}</span>
+                </div>
+                <div class="admin-case-actions">
+                    <button type="button" class="adm-btn adm-btn-secondary adm-btn-sm edit-case-btn" data-id="${c.id}" style="flex: 1;">
+                        <i class="bx bx-edit"></i> تعديل
+                    </button>
+                    <button type="button" class="adm-btn adm-btn-danger adm-btn-sm delete-case-btn" data-id="${c.id}" style="flex: 1;">
+                        <i class="bx bx-trash"></i> حذف
+                    </button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    // Wire edit & delete buttons
+    container.querySelectorAll('.edit-case-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            editCase(id);
+        });
+    });
+
+    container.querySelectorAll('.delete-case-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            deleteCase(id);
+        });
+    });
+}
+
+export function openAddCaseModal() {
+    const form = document.getElementById('caseForm');
+    if (form) form.reset();
+    const idInput = document.getElementById('caseFormId');
+    if (idInput) idInput.value = '';
+    const titleEl = document.getElementById('caseModalTitle');
+    if (titleEl) titleEl.innerHTML = '<i class="bx bx-plus-medical" style="color: var(--adm-primary);"></i> إضافة حالة جديدة بالمعرض';
+    
+    const beforePreview = document.getElementById('caseBeforePreview');
+    const afterPreview = document.getElementById('caseAfterPreview');
+    const beforeUrl = document.getElementById('caseBeforeUrlInput');
+    const afterUrl = document.getElementById('caseAfterUrlInput');
+
+    if (beforePreview) beforePreview.src = 'assets/case1.jpg';
+    if (afterPreview) afterPreview.src = 'assets/case2.jpg';
+    if (beforeUrl) beforeUrl.value = 'assets/case1.jpg';
+    if (afterUrl) afterUrl.value = 'assets/case2.jpg';
+
+    openModal('caseModal');
+}
+
+export function editCase(caseId) {
+    const c = AdminState.galleryCases.find(item => item.id === caseId);
+    if (!c) return;
+
+    document.getElementById('caseFormId').value = c.id;
+    document.getElementById('caseFormTitle').value = c.title || '';
+    document.getElementById('caseFormCategory').value = c.category || 'crowding';
+    document.getElementById('caseFormBadge').value = c.badge || '';
+    document.getElementById('caseFormAge').value = c.age || '';
+    document.getElementById('caseFormDuration').value = c.duration || '';
+    document.getElementById('caseFormVisits').value = c.visits || '';
+    document.getElementById('caseFormDesc').value = c.desc || '';
+
+    const beforePreview = document.getElementById('caseBeforePreview');
+    const afterPreview = document.getElementById('caseAfterPreview');
+    const beforeUrl = document.getElementById('caseBeforeUrlInput');
+    const afterUrl = document.getElementById('caseAfterUrlInput');
+
+    if (beforePreview) beforePreview.src = c.beforeImg || 'assets/case1.jpg';
+    if (afterPreview) afterPreview.src = c.afterImg || 'assets/case2.jpg';
+    if (beforeUrl) beforeUrl.value = c.beforeImg || '';
+    if (afterUrl) afterUrl.value = c.afterImg || '';
+
+    const titleEl = document.getElementById('caseModalTitle');
+    if (titleEl) titleEl.innerHTML = `<i class="bx bx-edit" style="color: var(--adm-primary);"></i> تعديل الحالة: ${c.title}`;
+
+    openModal('caseModal');
+}
+
+export async function deleteCase(caseId) {
+    const c = AdminState.galleryCases.find(item => item.id === caseId);
+    if (!c) return;
+
+    if (!confirm(`هل أنت متأكد من حذف الحالة "${c.title}" نهائياً من معرض الأعمال؟`)) {
+        return;
+    }
+
+    AdminState.galleryCases = AdminState.galleryCases.filter(item => item.id !== caseId);
+    localStorage.setItem('dr_aktham_gallery_cases', JSON.stringify(AdminState.galleryCases));
+    showToast(`تم حذف الحالة "${c.title}" بنجاح!`, 'success');
+    renderAdminGallery();
+    updateBadges();
+
+    // Auto sync to GitHub if configured
+    try {
+        const ghCfg = getGithubConfig();
+        if (ghCfg.token && ghCfg.autoSync) {
+            await pushDataToGitHub(`CMS: حذف الحالة العلاجية ${c.title}`);
+        }
+    } catch (e) {}
+}
+
 function getStatusLabel(status) {
     switch (status) {
-        case 'confirmed': return 'مؤكد ✓';
-        case 'pending': return 'قيد الانتظار ⏳';
-        case 'completed': return 'مكتمل ✅';
-        case 'cancelled': return 'ملغي ❌';
+        case 'confirmed': return 'مؤكد';
+        case 'pending': return 'قيد الانتظار';
+        case 'completed': return 'مكتمل';
+        case 'cancelled': return 'ملغي';
         default: return status || '—';
     }
 }
@@ -1126,7 +1375,7 @@ window.adminActions = {
         document.getElementById('editBookingDate').value = b.date || '';
         document.getElementById('editBookingTime').value = b.time || '10:00 ص';
         document.getElementById('editBookingService').value = b.service || 'التقويم الشفاف (ألاينرز)';
-        document.getElementById('editBookingChair').value = b.chair || 'جناح VIP 💎';
+        document.getElementById('editBookingChair').value = b.chair || 'جناح VIP';
         document.getElementById('editBookingStatus').value = b.status || 'pending';
         document.getElementById('editBookingNotes').value = b.notes || '';
 
@@ -1137,6 +1386,29 @@ window.adminActions = {
         openModal('addBookingModal');
         if (name) document.getElementById('addBookingName').value = name;
         if (phone) document.getElementById('addBookingPhone').value = phone;
+    },
+
+    clearDemoData: () => {
+        if (confirm('هل ترغب في تصفير وحذف جميع بيانات التيست والتجارب من لوحة الإدارة؟')) {
+            let b = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
+            b = b.filter(item => item && item.id && !item.id.startsWith('DK-849') && item.name !== 'عبد الرحمن الشمري' && item.name !== 'نورة عبد العزيز القحطاني' && item.name !== 'محمد إبراهيم الدوسري');
+            localStorage.setItem('dr_aktham_bookings', JSON.stringify(b));
+
+            let c = JSON.parse(localStorage.getItem('dr_aktham_contacts') || '[]');
+            c = c.filter(item => item && item.id !== 'MSG-101' && item.id !== 'MSG-102');
+            localStorage.setItem('dr_aktham_contacts', JSON.stringify(c));
+
+            let n = JSON.parse(localStorage.getItem('dr_aktham_newsletter') || '[]');
+            n = n.filter(item => {
+                const em = typeof item === 'string' ? item : item.email;
+                return em && !em.includes('@hospital.sa') && !em.includes('patient.care@');
+            });
+            localStorage.setItem('dr_aktham_newsletter', JSON.stringify(n));
+
+            initAdminData();
+            renderAll();
+            showToast('تم تصفير وإزالة كافة بيانات التيست بنجاح! اللوحة نظيفة 100%.', 'success');
+        }
     },
 
     toggleService: (id) => {
@@ -1258,7 +1530,11 @@ window.adminActions = {
             renderAll();
             showToast('تم مسح البيانات بنجاح.', 'warning');
         }
-    }
+    },
+
+    openAddCaseModal: () => openAddCaseModal(),
+    editCase: (id) => editCase(id),
+    deleteCase: (id) => deleteCase(id)
 };
 
 function saveBookings(actionDesc = 'تحديث المواعيد') {
@@ -1544,7 +1820,10 @@ function bindFormsAndModals() {
     const saveClinicSettingsBtn = document.getElementById('admSaveClinicSettingsBtn');
     if (saveClinicSettingsBtn) {
         saveClinicSettingsBtn.addEventListener('click', () => {
+            const currentStored = JSON.parse(localStorage.getItem('dr_aktham_general_settings') || '{}');
             const newSettings = {
+                ...AdminState.settings,
+                ...currentStored,
                 clinicName: document.getElementById('cfgClinicName').value.trim(),
                 clinicSubName: document.getElementById('cfgClinicSub').value.trim(),
                 phone: document.getElementById('cfgPhone').value.trim(),
@@ -1563,6 +1842,7 @@ function bindFormsAndModals() {
                 }
             };
 
+            AdminState.settings = newSettings;
             localStorage.setItem('dr_aktham_general_settings', JSON.stringify(newSettings));
             showToast('تم حفظ إعدادات وهوية العيادة محلياً بنجاح!', 'success');
 
@@ -1586,6 +1866,264 @@ function bindFormsAndModals() {
             } else if (!ghCfg.token) {
                 showToast('💡 لنشر هذه التعديلات تلقائياً عبر Vercel لجميع الزوار، قم بإدخال توكن GitHub في قسم «مزامنة GitHub».', 'warning');
             }
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // Media & Branding Management Bindings
+    // ----------------------------------------------------------------------
+    const logoFileInput = document.getElementById('logoFileInput');
+    const logoPreviewImg = document.getElementById('logoPreviewImg');
+    const logoUrlInput = document.getElementById('logoUrlInput');
+    const logoResetBtn = document.getElementById('logoResetBtn');
+
+    if (logoFileInput) {
+        logoFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const base64 = event.target.result;
+                if (logoPreviewImg) logoPreviewImg.src = base64;
+                if (logoUrlInput) logoUrlInput.value = base64;
+                showToast('تم تحميل الشعار من جهازك للمعاينة بنجاح! اضغط «حفظ وتطبيق فوري» لتثبيته.', 'info');
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    if (logoUrlInput) {
+        logoUrlInput.addEventListener('input', (e) => {
+            const url = e.target.value.trim();
+            if (url && logoPreviewImg) logoPreviewImg.src = url;
+        });
+    }
+
+    if (logoResetBtn) {
+        logoResetBtn.addEventListener('click', () => {
+            if (confirm('هل تريد استعادة الشعار الافتراضي للموقع؟')) {
+                if (logoPreviewImg) logoPreviewImg.src = 'assets/logo.jpg';
+                if (logoUrlInput) logoUrlInput.value = 'assets/logo.jpg';
+                showToast('تمت استعادة الشعار الافتراضي! اضغط «حفظ وتطبيق فوري».', 'info');
+            }
+        });
+    }
+
+    const doctorFileInput = document.getElementById('doctorFileInput');
+    const doctorPreviewImg = document.getElementById('doctorPreviewImg');
+    const doctorUrlInput = document.getElementById('doctorUrlInput');
+    const doctorResetBtn = document.getElementById('doctorResetBtn');
+
+    if (doctorFileInput) {
+        doctorFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const base64 = event.target.result;
+                if (doctorPreviewImg) doctorPreviewImg.src = base64;
+                if (doctorUrlInput) doctorUrlInput.value = base64;
+                showToast('تم تحميل صورة الدكتور للمعاينة بنجاح! اضغط «حفظ وتطبيق فوري» لتثبيتها.', 'info');
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    if (doctorUrlInput) {
+        doctorUrlInput.addEventListener('input', (e) => {
+            const url = e.target.value.trim();
+            if (url && doctorPreviewImg) doctorPreviewImg.src = url;
+        });
+    }
+
+    if (doctorResetBtn) {
+        doctorResetBtn.addEventListener('click', () => {
+            if (confirm('هل تريد استعادة صورة الدكتور الافتراضية؟')) {
+                if (doctorPreviewImg) doctorPreviewImg.src = 'assets/doctor.jpg';
+                if (doctorUrlInput) doctorUrlInput.value = 'assets/doctor.jpg';
+                showToast('تمت استعادة صورة الدكتور الافتراضية! اضغط «حفظ وتطبيق فوري».', 'info');
+            }
+        });
+    }
+
+    const admSaveMediaBtn = document.getElementById('admSaveMediaBtn');
+    if (admSaveMediaBtn) {
+        admSaveMediaBtn.addEventListener('click', async () => {
+            const newLogo = logoUrlInput ? logoUrlInput.value.trim() : '';
+            const newDoctor = doctorUrlInput ? doctorUrlInput.value.trim() : '';
+
+            AdminState.settings.logoUrl = newLogo || 'assets/logo.jpg';
+            AdminState.settings.doctorPhotoUrl = newDoctor || 'assets/doctor.jpg';
+            GeneralSettings.logoUrl = AdminState.settings.logoUrl;
+            GeneralSettings.doctorPhotoUrl = AdminState.settings.doctorPhotoUrl;
+
+            localStorage.setItem('dr_aktham_general_settings', JSON.stringify(AdminState.settings));
+
+            // Apply immediately to current admin page logo if any
+            const adminLogoEl = document.querySelector('.sidebar-brand img, .adm-brand-logo');
+            if (adminLogoEl) adminLogoEl.src = AdminState.settings.logoUrl;
+
+            showToast('🎉 تم حفظ وتحديث هوية وشعار العيادة وصورة الدكتور بنجاح!', 'success');
+
+            // Auto sync to GitHub if configured
+            try {
+                const ghCfg = getGithubConfig();
+                if (ghCfg.token && ghCfg.autoSync) {
+                    admSaveMediaBtn.disabled = true;
+                    const oldHtml = admSaveMediaBtn.innerHTML;
+                    admSaveMediaBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> جاري النشر السحابي...';
+                    await pushDataToGitHub('CMS: تحديث شعار العيادة وصورة د. أكثم');
+                    showToast('🚀 تم نشر الصور السحابية بنجاح عبر GitHub و Vercel!', 'success');
+                    admSaveMediaBtn.disabled = false;
+                    admSaveMediaBtn.innerHTML = oldHtml;
+                    renderGithubSync();
+                }
+            } catch (err) {
+                admSaveMediaBtn.disabled = false;
+                admSaveMediaBtn.innerHTML = '<i class="bx bx-save"></i> حفظ وتطبيق فوري';
+            }
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // Gallery Cases CMS Bindings
+    // ----------------------------------------------------------------------
+    const openAddCaseBtn = document.getElementById('admOpenAddCaseModalBtn');
+    if (openAddCaseBtn) {
+        openAddCaseBtn.addEventListener('click', openAddCaseModal);
+    }
+
+    const galleryCategoryFilter = document.getElementById('galleryCategoryFilter');
+    if (galleryCategoryFilter) {
+        galleryCategoryFilter.addEventListener('change', renderAdminGallery);
+    }
+
+    const gallerySearchInput = document.getElementById('gallerySearchInput');
+    if (gallerySearchInput) {
+        gallerySearchInput.addEventListener('input', renderAdminGallery);
+    }
+
+    // Before image file input
+    const caseBeforeFileInput = document.getElementById('caseBeforeFileInput');
+    const caseBeforePreview = document.getElementById('caseBeforePreview');
+    const caseBeforeUrlInput = document.getElementById('caseBeforeUrlInput');
+    if (caseBeforeFileInput) {
+        caseBeforeFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const base64 = event.target.result;
+                if (caseBeforePreview) caseBeforePreview.src = base64;
+                if (caseBeforeUrlInput) caseBeforeUrlInput.value = base64;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+    if (caseBeforeUrlInput) {
+        caseBeforeUrlInput.addEventListener('input', (e) => {
+            const url = e.target.value.trim();
+            if (url && caseBeforePreview) caseBeforePreview.src = url;
+        });
+    }
+
+    // After image file input
+    const caseAfterFileInput = document.getElementById('caseAfterFileInput');
+    const caseAfterPreview = document.getElementById('caseAfterPreview');
+    const caseAfterUrlInput = document.getElementById('caseAfterUrlInput');
+    if (caseAfterFileInput) {
+        caseAfterFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const base64 = event.target.result;
+                if (caseAfterPreview) caseAfterPreview.src = base64;
+                if (caseAfterUrlInput) caseAfterUrlInput.value = base64;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+    if (caseAfterUrlInput) {
+        caseAfterUrlInput.addEventListener('input', (e) => {
+            const url = e.target.value.trim();
+            if (url && caseAfterPreview) caseAfterPreview.src = url;
+        });
+    }
+
+    // Case Form Submit (Add or Edit)
+    const caseForm = document.getElementById('caseForm');
+    if (caseForm) {
+        caseForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('caseFormId').value.trim();
+            const title = document.getElementById('caseFormTitle').value.trim();
+            const category = document.getElementById('caseFormCategory').value;
+            const badge = document.getElementById('caseFormBadge').value.trim() || categoryNamesMap[category] || 'حالة علاجية';
+            const age = document.getElementById('caseFormAge').value.trim() || '22 عاماً';
+            const duration = document.getElementById('caseFormDuration').value.trim() || '14 شهراً';
+            const visits = document.getElementById('caseFormVisits').value.trim() || '12 زيارة';
+            const desc = document.getElementById('caseFormDesc').value.trim();
+            const beforeImg = (caseBeforeUrlInput && caseBeforeUrlInput.value.trim()) || (caseBeforePreview && caseBeforePreview.src) || 'assets/case1.jpg';
+            const afterImg = (caseAfterUrlInput && caseAfterUrlInput.value.trim()) || (caseAfterPreview && caseAfterPreview.src) || 'assets/case2.jpg';
+
+            const caseData = {
+                id: id || ('case-' + Date.now()),
+                title,
+                category,
+                badge,
+                age,
+                duration,
+                visits,
+                desc,
+                beforeImg,
+                afterImg,
+                isSlider: true,
+                condition: badge
+            };
+
+            const submitBtn = document.getElementById('caseSubmitBtn');
+            const oldText = submitBtn ? submitBtn.innerHTML : '';
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> جاري الحفظ...';
+            }
+
+            if (id) {
+                // Update
+                const idx = AdminState.galleryCases.findIndex(item => item.id === id);
+                if (idx !== -1) {
+                    AdminState.galleryCases[idx] = caseData;
+                } else {
+                    AdminState.galleryCases.unshift(caseData);
+                }
+                showToast(`تم تحديث بيانات الحالة "${title}" بنجاح!`, 'success');
+            } else {
+                // Add new
+                AdminState.galleryCases.unshift(caseData);
+                showToast(`تمت إضافة ونشر الحالة الجديدة "${title}" بالمعرض بنجاح!`, 'success');
+            }
+
+            localStorage.setItem('dr_aktham_gallery_cases', JSON.stringify(AdminState.galleryCases));
+            closeModal('caseModal');
+            caseForm.reset();
+            renderAdminGallery();
+            updateBadges();
+
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = oldText;
+            }
+
+            // Auto sync to GitHub
+            try {
+                const ghCfg = getGithubConfig();
+                if (ghCfg.token && ghCfg.autoSync) {
+                    await pushDataToGitHub(`CMS: حفظ حالة معرض: ${title}`);
+                    showToast('🚀 تم مزامنة الحالة الجديدة مع GitHub و Vercel بنجاح!', 'success');
+                    renderGithubSync();
+                }
+            } catch (err) {}
         });
     }
 
@@ -1747,6 +2285,8 @@ function bindFormsAndModals() {
 }
 
 // Auto Run Admin App when DOM ready
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAdminApp);
+} else {
     initAdminApp();
-});
+}

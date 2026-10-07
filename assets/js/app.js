@@ -187,7 +187,14 @@ export function initApp() {
 // Initialize layout modules
 import './layout.js';
 
-// Auto run app
-document.addEventListener('DOMContentLoaded', () => {
+function onReady(fn) {
+    if (document.readyState !== 'loading') {
+        fn();
+    } else {
+        document.addEventListener('DOMContentLoaded', fn);
+    }
+}
+
+onReady(() => {
     initApp();
 });

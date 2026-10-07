@@ -1,148 +1,166 @@
 import { AppState } from './app.js';
-import { sendTelegramNotification } from './telegram.js';
 
 let currentStep = 1;
 const totalSteps = 6;
 
-// Dynamic Seating Matrix Generator (Replaces Cinema seating layout with clean time badge groups)
+// Available Appointment Slots
+const morningTimes = ["10:00 ص", "11:00 ص", "12:00 م", "01:00 م"];
+const eveningTimes = ["04:30 م", "05:30 م", "06:30 م", "07:30 م", "08:30 م"];
+
+// Dynamic Appointment Slots Generator
 export function generateSeatGrid(dateString) {
     const grid = document.getElementById('cinemaSeatsGrid');
     if (!grid) return;
     grid.innerHTML = '';
 
-    const clinics = [
-        { name: 'جناح VIP 💎', id: 'vip' },
-        { name: 'تقويم الأسنان 🦷', id: 'ortho' },
-        { name: 'تجميل وزراعة 💺', id: 'cosmetic' }
-    ];
-    const times = ["10:00 ص", "12:00 م", "04:00 م", "06:00 م", "08:00 م"];
+    const selectedDate = dateString || document.getElementById('bookingDate')?.value || new Date().toISOString().split('T')[0];
+    const currentSuite = AppState.bookingData.chair || 'عيادة تقويم الأسنان 🦷';
 
-    // Generate random pre-booked seats based on date hash
-    let seed = 0;
-    if (dateString) {
-        for (let i = 0; i < dateString.length; i++) {
-            seed += dateString.charCodeAt(i);
-        }
-    } else {
-        seed = 123;
+    // Retrieve already booked slots for this date and clinic suite
+    let bookedPairs = [];
+    try {
+        const stored = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
+        bookedPairs = stored
+            .filter(b => b.date === selectedDate && b.status !== 'cancelled')
+            .map(b => ({ time: b.time, chair: b.chair }));
+    } catch (e) {
+        bookedPairs = [];
     }
 
-    const renderGrid = (reservedPairs) => {
-        grid.innerHTML = '';
-        
-        clinics.forEach(clinic => {
-            // Create suite block
-            const suiteGroup = document.createElement('div');
-            suiteGroup.className = 'suite-booking-group';
-            suiteGroup.innerHTML = `
-                <h4 class="suite-header-title"><i class="bx bx-clinic"></i> ${clinic.name}</h4>
-                <div class="time-slots-group-grid"></div>
-            `;
-            const slotsGrid = suiteGroup.querySelector('.time-slots-group-grid');
+    const container = document.createElement('div');
+    container.className = 'slots-wrapper-box';
 
-            times.forEach(time => {
-                let isReserved = false;
-                const matchesDb = reservedPairs.some(p => p.time === time && p.chair === clinic.name);
-                if (matchesDb) {
-                    isReserved = true;
-                } else {
-                    const seatHash = (seed * time.charCodeAt(0) * clinic.name.charCodeAt(0)) % 100;
-                    isReserved = seatHash < 35; // 35% chance booked
-                }
+    // 1. Morning Shift
+    const morningGroup = document.createElement('div');
+    morningGroup.className = 'shift-group';
+    morningGroup.innerHTML = `
+        <div class="shift-title"><i class="bx bx-sun"></i> الفترة الصباحية (10:00 ص - 01:00 م)</div>
+        <div class="slots-pill-grid" id="morningSlotsGrid"></div>
+    `;
+    const morningGrid = morningGroup.querySelector('#morningSlotsGrid');
 
-                const container = document.createElement('div');
-                container.className = 'seat-item-container';
+    morningTimes.forEach(time => {
+        const isReserved = bookedPairs.some(p => p.time === time && (p.chair === currentSuite || !p.chair));
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `slot-pill-btn ${isReserved ? 'slot-reserved' : 'slot-available'} ${AppState.bookingData.time === time ? 'selected' : ''}`;
+        btn.disabled = isReserved;
+        btn.innerHTML = `
+            <i class="bx ${isReserved ? 'bx-lock-alt' : 'bx-time-five'}"></i>
+            <span class="slot-time-text">${time}</span>
+            <span class="slot-badge">${isReserved ? 'محجوز' : 'متاح'}</span>
+        `;
 
-                const seat = document.createElement('div');
-                seat.className = `seat ${isReserved ? 'reserved' : 'available'}`;
-                seat.dataset.time = time;
-                seat.dataset.clinic = clinic.name;
-                
-                seat.innerHTML = `<i class="bx ${isReserved ? 'bx-lock-alt' : 'bx-time-five'}"></i>`;
-
-                container.appendChild(seat);
-                slotsGrid.appendChild(container);
-
-                if (!isReserved) {
-                    seat.addEventListener('click', () => {
-                        document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
-                        seat.classList.add('selected');
-                        
-                        AppState.bookingData.time = time;
-                        AppState.bookingData.chair = clinic.name;
-
-                        const infoCard = document.getElementById('selectedSeatInfoCard');
-                        const infoDetail = document.getElementById('selectedSeatDetail');
-                        if (infoCard && infoDetail) {
-                            infoCard.style.display = 'flex';
-                            infoDetail.textContent = `${clinic.name} - في تمام الساعة ${time}`;
-                        }
-                    });
-                }
+        if (!isReserved) {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.slot-pill-btn.selected').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                AppState.bookingData.time = time;
+                AppState.bookingData.chair = currentSuite;
+                updateSelectedSlotFeedback();
             });
+        }
+        morningGrid.appendChild(btn);
+    });
 
-            grid.appendChild(suiteGroup);
-        });
-    };
+    // 2. Evening Shift
+    const eveningGroup = document.createElement('div');
+    eveningGroup.className = 'shift-group';
+    eveningGroup.innerHTML = `
+        <div class="shift-title"><i class="bx bx-moon"></i> الفترة المسائية (04:30 م - 08:30 م)</div>
+        <div class="slots-pill-grid" id="eveningSlotsGrid"></div>
+    `;
+    const eveningGrid = eveningGroup.querySelector('#eveningSlotsGrid');
 
-    // Query reserved bookings for this date from LocalStorage
-    try {
-        const storedBookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
-        const reservedPairs = storedBookings
-            .filter(b => b.date === dateString && b.status !== 'cancelled')
-            .map(b => ({ time: b.time, chair: b.chair }));
-        renderGrid(reservedPairs);
-    } catch (e) {
-        renderGrid([]);
+    eveningTimes.forEach(time => {
+        const isReserved = bookedPairs.some(p => p.time === time && (p.chair === currentSuite || !p.chair));
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `slot-pill-btn ${isReserved ? 'slot-reserved' : 'slot-available'} ${AppState.bookingData.time === time ? 'selected' : ''}`;
+        btn.disabled = isReserved;
+        btn.innerHTML = `
+            <i class="bx ${isReserved ? 'bx-lock-alt' : 'bx-time-five'}"></i>
+            <span class="slot-time-text">${time}</span>
+            <span class="slot-badge">${isReserved ? 'محجوز' : 'متاح'}</span>
+        `;
+
+        if (!isReserved) {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.slot-pill-btn.selected').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                AppState.bookingData.time = time;
+                AppState.bookingData.chair = currentSuite;
+                updateSelectedSlotFeedback();
+            });
+        }
+        eveningGrid.appendChild(btn);
+    });
+
+    container.appendChild(morningGroup);
+    container.appendChild(eveningGroup);
+    grid.appendChild(container);
+
+    // Auto-select first available slot if none selected yet
+    if (!AppState.bookingData.time) {
+        const firstAvailable = grid.querySelector('.slot-pill-btn.slot-available');
+        if (firstAvailable) {
+            firstAvailable.classList.add('selected');
+            const timeSpan = firstAvailable.querySelector('.slot-time-text');
+            if (timeSpan) {
+                AppState.bookingData.time = timeSpan.textContent.trim();
+                AppState.bookingData.chair = currentSuite;
+                updateSelectedSlotFeedback();
+            }
+        }
+    } else {
+        updateSelectedSlotFeedback();
     }
 }
 
-// LocalStorage Booking manager
-export function saveBookingToLocalStorage(bookingId) {
-    const booking = {
-        id: bookingId,
-        name: AppState.bookingData.name,
-        phone: AppState.bookingData.phone,
-        email: AppState.bookingData.email,
-        age: AppState.bookingData.age,
-        service: AppState.bookingData.service,
-        date: AppState.bookingData.date,
-        time: AppState.bookingData.time,
-        chair: AppState.bookingData.chair,
-        notes: AppState.bookingData.notes,
-        status: 'pending',
-        timestamp: new Date().getTime()
-    };
-
-    let bookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
-    bookings.unshift(booking);
-    localStorage.setItem('dr_aktham_bookings', JSON.stringify(bookings));
-
-    localStorage.setItem('current_patient_profile', JSON.stringify({
-        name: AppState.bookingData.name,
-        phone: AppState.bookingData.phone,
-        email: AppState.bookingData.email,
-        age: AppState.bookingData.age,
-        id: bookingId
-    }));
+function updateSelectedSlotFeedback() {
+    const infoCard = document.getElementById('selectedSeatInfoCard');
+    const infoDetail = document.getElementById('selectedSeatDetail');
+    if (infoCard && infoDetail && AppState.bookingData.time) {
+        infoCard.style.display = 'flex';
+        const suite = AppState.bookingData.chair || 'عيادة تقويم الأسنان 🦷';
+        const date = document.getElementById('bookingDate')?.value || 'اليوم';
+        infoDetail.textContent = `${suite} - الساعة ${AppState.bookingData.time} (بتاريخ ${date})`;
+    }
 }
 
 // Populate summaries in Step 6
 function populateSummary() {
-    document.getElementById('summaryName').textContent = document.getElementById('bookingName').value || 'غير محدد';
-    document.getElementById('summaryPhone').textContent = document.getElementById('bookingPhone').value || 'غير محدد';
-    document.getElementById('summaryService').textContent = AppState.bookingData.service || 'غير محدد';
-    document.getElementById('summaryDoctor').textContent = AppState.bookingData.doctor || 'د. أكثم طنطاوي';
-    document.getElementById('summaryDate').textContent = document.getElementById('bookingDate').value || 'لم يتم الاختيار';
-    document.getElementById('summaryTime').textContent = AppState.bookingData.chair ? `${AppState.bookingData.chair} - ${AppState.bookingData.time}` : 'لم يتم تحديد وقت الحجز';
+    const nameVal = document.getElementById('bookingName')?.value.trim() || 'غير محدد';
+    const phoneVal = document.getElementById('bookingPhone')?.value.trim() || 'غير محدد';
+    const serviceVal = AppState.bookingData.service || 'تقويم الأسنان الحديث';
+    const doctorVal = AppState.bookingData.doctor || 'د. أكثم طنطاوي';
+    const dateVal = document.getElementById('bookingDate')?.value || 'اليوم';
+    const chairVal = AppState.bookingData.chair || 'عيادة تقويم الأسنان 🦷';
+    const timeVal = AppState.bookingData.time || '10:00 ص';
+
+    const sumName = document.getElementById('summaryName');
+    const sumPhone = document.getElementById('summaryPhone');
+    const sumService = document.getElementById('summaryService');
+    const sumDoctor = document.getElementById('summaryDoctor');
+    const sumDate = document.getElementById('summaryDate');
+    const sumTime = document.getElementById('summaryTime');
+
+    if (sumName) sumName.textContent = nameVal;
+    if (sumPhone) sumPhone.textContent = phoneVal;
+    if (sumService) sumService.textContent = serviceVal;
+    if (sumDoctor) sumDoctor.textContent = doctorVal;
+    if (sumDate) sumDate.textContent = dateVal;
+    if (sumTime) sumTime.textContent = `${chairVal} - الساعة ${timeVal}`;
 }
 
 // Wizard Transitions
 function showStep(step) {
+    currentStep = step;
     document.querySelectorAll('.wizard-step-panel').forEach(panel => panel.classList.remove('active'));
     document.querySelectorAll('.step-indicator').forEach(ind => ind.classList.remove('active', 'completed'));
     
-    document.getElementById(`stepPanel${step}`).classList.add('active');
+    const panel = document.getElementById(`stepPanel${step}`);
+    if (panel) panel.classList.add('active');
     
     for (let i = 1; i <= totalSteps; i++) {
         const ind = document.getElementById(`stepIndicator${i}`);
@@ -158,6 +176,10 @@ function showStep(step) {
     
     if (prevBtn) prevBtn.style.visibility = step === 1 ? 'hidden' : 'visible';
     
+    if (step === 5) {
+        generateSeatGrid(document.getElementById('bookingDate')?.value);
+    }
+
     if (step === totalSteps) {
         if (nextBtn) nextBtn.style.display = 'none';
         if (submitBtn) submitBtn.style.display = 'inline-flex';
@@ -166,46 +188,92 @@ function showStep(step) {
         if (nextBtn) nextBtn.style.display = 'inline-flex';
         if (submitBtn) submitBtn.style.display = 'none';
     }
+
+    // Scroll to top of wizard on mobile
+    const wrapper = document.querySelector('.booking-card');
+    if (wrapper && window.innerWidth < 768) {
+        wrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 }
 
 function validateStep(step) {
     if (step === 1) {
-        const name = document.getElementById('bookingName').value.trim();
-        const phone = document.getElementById('bookingPhone').value.trim();
-        const age = document.getElementById('bookingAge').value.trim();
+        const nameEl = document.getElementById('bookingName');
+        const phoneEl = document.getElementById('bookingPhone');
+        const ageEl = document.getElementById('bookingAge');
+
+        const name = nameEl?.value.trim() || '';
+        const phone = phoneEl?.value.trim() || '';
+        const age = ageEl?.value.trim() || '';
         
-        if (!name || !phone || !age) {
-            alert('الرجاء تعبئة كافة الحقول المطلوبة (الاسم الكامل، رقم الجوال، والعمر).');
+        if (!name || name.length < 2) {
+            if (nameEl) {
+                nameEl.focus();
+                nameEl.style.borderColor = 'var(--danger)';
+            }
+            alert('الرجاء كتابة اسم المريض الكامل.');
             return false;
         }
+        if (nameEl) nameEl.style.borderColor = '';
+
+        if (!phone || phone.length < 8) {
+            if (phoneEl) {
+                phoneEl.focus();
+                phoneEl.style.borderColor = 'var(--danger)';
+            }
+            alert('الرجاء إدخال رقم جوال صحيح للتواصل (مثال: 05xxxxxxxx).');
+            return false;
+        }
+        if (phoneEl) phoneEl.style.borderColor = '';
+
+        if (age && (parseInt(age) < 3 || parseInt(age) > 120)) {
+            if (ageEl) {
+                ageEl.focus();
+                ageEl.style.borderColor = 'var(--danger)';
+            }
+            alert('الرجاء إدخال عمر صحيح بالسنوات.');
+            return false;
+        }
+        if (ageEl) ageEl.style.borderColor = '';
+
         return true;
     }
     if (step === 2) {
         if (!AppState.bookingData.service) {
-            alert('الرجاء اختيار الخدمة المطلوبة.');
-            return false;
+            AppState.bookingData.service = 'تقويم الأسنان الحديث';
         }
         return true;
     }
     if (step === 3) {
         if (!AppState.bookingData.doctor) {
-            alert('الرجاء اختيار الطبيب المفضل.');
-            return false;
+            AppState.bookingData.doctor = 'د. أكثم طنطاوي';
         }
         return true;
     }
     if (step === 4) {
-        const date = document.getElementById('bookingDate').value;
-        if (!date) {
-            alert('الرجاء اختيار تاريخ الحجز.');
-            return false;
+        const dateInput = document.getElementById('bookingDate');
+        if (!dateInput || !dateInput.value) {
+            const today = new Date().toISOString().split('T')[0];
+            if (dateInput) dateInput.value = today;
+            AppState.bookingData.date = today;
+        } else {
+            AppState.bookingData.date = dateInput.value;
         }
         return true;
     }
     if (step === 5) {
-        if (!AppState.bookingData.chair || !AppState.bookingData.time) {
-            alert('الرجاء اختيار الجناح ووقت المراجعة المفضل من لوحة المواعيد.');
-            return false;
+        if (!AppState.bookingData.chair) {
+            AppState.bookingData.chair = 'عيادة تقويم الأسنان 🦷';
+        }
+        if (!AppState.bookingData.time) {
+            // Auto pick first available
+            const firstAvailable = document.querySelector('.slot-pill-btn.slot-available');
+            if (firstAvailable) {
+                const timeSpan = firstAvailable.querySelector('.slot-time-text');
+                if (timeSpan) AppState.bookingData.time = timeSpan.textContent.trim();
+            } else {
+                AppState.bookingData.time = '10:00 ص';
+            }
         }
         return true;
     }
@@ -218,20 +286,68 @@ export function initBookingFlow() {
 
     if (!bookingForm) return;
 
-    // Set minimum date to today
+    // Set today's date as min and default
     const today = new Date().toISOString().split('T')[0];
-    dateInput.min = today;
+    if (dateInput) {
+        dateInput.min = today;
+        if (!dateInput.value) dateInput.value = today;
+    }
 
     // Default AppState service setup
-    AppState.bookingData.service = 'تنظيف الأسنان';
-    AppState.bookingData.doctor = 'د. أكثم طنطاوي'; // Default Doctor
-    AppState.bookingData.chair = '';
-    AppState.bookingData.time = '';
+    AppState.bookingData.service = 'تقويم الأسنان الحديث';
+    AppState.bookingData.doctor = 'د. أكثم طنطاوي';
+    AppState.bookingData.chair = 'عيادة تقويم الأسنان 🦷';
+    AppState.bookingData.time = '10:00 ص';
+    AppState.bookingData.date = today;
+
+    // Quick Date Chips logic
+    const chipToday = document.getElementById('chipToday');
+    const chipTomorrow = document.getElementById('chipTomorrow');
+    const chipAfterTomorrow = document.getElementById('chipAfterTomorrow');
+    const chips = [chipToday, chipTomorrow, chipAfterTomorrow];
+
+    const setChipActive = (activeBtn) => {
+        chips.forEach(c => c && c.classList.remove('active'));
+        if (activeBtn) activeBtn.classList.add('active');
+    };
+
+    if (chipToday) {
+        chipToday.addEventListener('click', () => {
+            setChipActive(chipToday);
+            dateInput.value = today;
+            AppState.bookingData.date = today;
+            generateSeatGrid(today);
+        });
+    }
+
+    if (chipTomorrow) {
+        chipTomorrow.addEventListener('click', () => {
+            setChipActive(chipTomorrow);
+            const tmr = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+            dateInput.value = tmr;
+            AppState.bookingData.date = tmr;
+            generateSeatGrid(tmr);
+        });
+    }
+
+    if (chipAfterTomorrow) {
+        chipAfterTomorrow.addEventListener('click', () => {
+            setChipActive(chipAfterTomorrow);
+            const aft = new Date(Date.now() + 2 * 86400000).toISOString().split('T')[0];
+            dateInput.value = aft;
+            AppState.bookingData.date = aft;
+            generateSeatGrid(aft);
+        });
+    }
 
     // Handle Date Input changes
-    dateInput.addEventListener('change', (e) => {
-        generateSeatGrid(e.target.value);
-    });
+    if (dateInput) {
+        dateInput.addEventListener('change', (e) => {
+            chips.forEach(c => c && c.classList.remove('active'));
+            AppState.bookingData.date = e.target.value;
+            generateSeatGrid(e.target.value);
+        });
+    }
 
     // Handle Visual Services Selector click
     const serviceItems = document.querySelectorAll('.service-select-item');
@@ -259,6 +375,17 @@ export function initBookingFlow() {
         });
     });
 
+    // Handle Suite Choice in Step 5
+    const suiteCards = document.querySelectorAll('.suite-card');
+    suiteCards.forEach(card => {
+        card.addEventListener('click', () => {
+            suiteCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            AppState.bookingData.chair = card.getAttribute('data-suite');
+            generateSeatGrid(dateInput?.value);
+        });
+    });
+
     // Next/Prev Buttons Controllers
     const nextBtn = document.getElementById('nextStepBtn');
     const prevBtn = document.getElementById('prevStepBtn');
@@ -274,60 +401,115 @@ export function initBookingFlow() {
 
     if (prevBtn) {
         prevBtn.addEventListener('click', () => {
-            currentStep--;
-            showStep(currentStep);
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
         });
     }
 
+    // Step indicators click (allow jumping to previously completed steps)
+    for (let i = 1; i <= totalSteps; i++) {
+        const ind = document.getElementById(`stepIndicator${i}`);
+        if (ind) {
+            ind.addEventListener('click', () => {
+                if (i < currentStep || validateStep(currentStep)) {
+                    showStep(i);
+                }
+            });
+        }
+    }
+
+    // SUBMIT BOOKING HANDLER ("تسجيل الحجز")
     bookingForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        if (!validateStep(5)) return;
+        // If submitted prematurely (e.g. Enter pressed on input), advance to next step
+        if (currentStep < totalSteps) {
+            if (validateStep(currentStep)) {
+                currentStep++;
+                showStep(currentStep);
+            }
+            return;
+        }
 
-        AppState.bookingData.name = document.getElementById('bookingName').value;
-        AppState.bookingData.phone = document.getElementById('bookingPhone').value;
-        AppState.bookingData.email = document.getElementById('bookingEmail').value || 'لا يوجد';
-        AppState.bookingData.age = document.getElementById('bookingAge').value;
-        AppState.bookingData.date = document.getElementById('bookingDate').value;
-        
-        // Compile Doctor and Notes together
-        const selectedDoctor = AppState.bookingData.doctor || 'د. أكثم طنطاوي';
-        const userNotes = document.getElementById('bookingNotes').value || 'لا توجد ملاحظات';
-        AppState.bookingData.notes = `الطبيب المختار: ${selectedDoctor} | ملاحظات المريض: ${userNotes}`;
+        // Validate Step 1
+        if (!validateStep(1)) {
+            showStep(1);
+            return;
+        }
 
-        // Generate Booking ID
+        // Validate Step 4 & 5
+        validateStep(4);
+        validateStep(5);
+
+        const nameVal = document.getElementById('bookingName').value.trim();
+        const phoneVal = document.getElementById('bookingPhone').value.trim();
+        const emailVal = document.getElementById('bookingEmail').value.trim() || 'غير مسجل';
+        const ageVal = parseInt(document.getElementById('bookingAge').value) || 25;
+        const dateVal = document.getElementById('bookingDate').value || today;
+        const timeVal = AppState.bookingData.time || '10:00 ص';
+        const chairVal = AppState.bookingData.chair || 'عيادة تقويم الأسنان 🦷';
+        const serviceVal = AppState.bookingData.service || 'تقويم الأسنان الحديث';
+        const doctorVal = AppState.bookingData.doctor || 'د. أكثم طنطاوي';
+        const notesVal = document.getElementById('bookingNotes').value.trim() || 'لا توجد ملاحظات إضافية';
+
+        // Generate unique Booking ID
         const bookingId = 'DK-' + Math.floor(1000 + Math.random() * 9000);
-        AppState.bookingData.id = bookingId;
 
-        // Save to LocalStorage
-        saveBookingToLocalStorage(bookingId);
+        const newBooking = {
+            id: bookingId,
+            name: nameVal,
+            phone: phoneVal,
+            email: emailVal,
+            age: ageVal,
+            service: serviceVal,
+            doctor: doctorVal,
+            date: dateVal,
+            time: timeVal,
+            chair: chairVal,
+            notes: notesVal,
+            status: 'pending',
+            timestamp: Date.now()
+        };
 
-        // Send Notification to Telegram
-        sendTelegramNotification(bookingId);
+        // Save cleanly to LocalStorage
+        try {
+            let bookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
+            // Filter out any lingering mock test data
+            bookings = bookings.filter(b => b && b.id && !b.id.startsWith('DK-849') && b.name !== 'عبد الرحمن الشمري');
+            bookings.unshift(newBooking);
+            localStorage.setItem('dr_aktham_bookings', JSON.stringify(bookings));
 
-        // Non-blocking sync to Vercel/GitHub API if deployed
+            // Save patient profile
+            localStorage.setItem('current_patient_profile', JSON.stringify({
+                name: newBooking.name,
+                phone: newBooking.phone,
+                email: newBooking.email,
+                age: newBooking.age,
+                id: bookingId
+            }));
+        } catch (err) {
+            console.error('Failed saving to localStorage:', err);
+        }
+
+        // Send Telegram notification (dynamic, non-blocking)
+        try {
+            import('./telegram.js')
+                .then(m => m.sendTelegramNotification && m.sendTelegramNotification(bookingId))
+                .catch(() => {});
+        } catch (err) {}
+
+        // Non-blocking sync to API if available
         try {
             fetch('/api/book', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    id: bookingId,
-                    name: AppState.bookingData.name,
-                    phone: AppState.bookingData.phone,
-                    email: AppState.bookingData.email,
-                    age: AppState.bookingData.age,
-                    service: AppState.bookingData.service,
-                    date: AppState.bookingData.date,
-                    time: AppState.bookingData.time,
-                    chair: AppState.bookingData.chair,
-                    notes: AppState.bookingData.notes,
-                    status: 'pending',
-                    timestamp: Date.now()
-                })
+                body: JSON.stringify(newBooking)
             }).catch(() => {});
         } catch (e) {}
 
-        // Transition to success page
+        // Smooth transition to success page
         window.location.href = 'success.html';
     });
 }
@@ -337,19 +519,45 @@ export function initSuccessPage() {
     const confirmName = document.getElementById('confirmName');
     if (!confirmName) return;
 
-    const bookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
-    if (bookings.length > 0) {
-        const latest = bookings[0];
-        document.getElementById('confirmName').textContent = latest.name || '';
-        document.getElementById('confirmPhone').textContent = latest.phone || '';
-        document.getElementById('confirmService').textContent = latest.service || '';
-        document.getElementById('confirmDate').textContent = latest.date || '';
-        document.getElementById('confirmTime').textContent = `${latest.chair || ''} - ${latest.time || ''}`;
+    try {
+        const bookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
+        if (bookings.length > 0) {
+            const latest = bookings[0];
+            const sumName = document.getElementById('confirmName');
+            const sumPhone = document.getElementById('confirmPhone');
+            const sumService = document.getElementById('confirmService');
+            const sumDate = document.getElementById('confirmDate');
+            const sumTime = document.getElementById('confirmTime');
+            const sumId = document.getElementById('confirmBookingId');
+            const sumDoctor = document.getElementById('confirmDoctor');
+
+            if (sumName) sumName.textContent = latest.name || '';
+            if (sumPhone) sumPhone.textContent = latest.phone || '';
+            if (sumService) sumService.textContent = latest.service || '';
+            if (sumDate) sumDate.textContent = latest.date || '';
+            if (sumTime) sumTime.textContent = `${latest.chair || ''} - الساعة ${latest.time || ''}`;
+            if (sumId) sumId.textContent = latest.id || '';
+            if (sumDoctor) sumDoctor.textContent = latest.doctor || 'د. أكثم طنطاوي';
+
+            const waBtn = document.getElementById('confirmWaBtn');
+            if (waBtn) {
+                const msg = encodeURIComponent(`مرحباً عيادة د. أكثم طنطاوي، قمت بتسجيل حجز موعد باسم (${latest.name}) برقم (${latest.id}) بتاريخ (${latest.date}) الساعة (${latest.time}) لخدمة (${latest.service}). أود تأكيد الحضور.`);
+                waBtn.href = `https://wa.me/966501234567?text=${msg}`;
+            }
+        }
+    } catch (e) {}
+}
+
+// Robust auto-run helper (handles fast-load / interactive DOM state)
+function onReady(fn) {
+    if (document.readyState !== 'loading') {
+        fn();
+    } else {
+        document.addEventListener('DOMContentLoaded', fn);
     }
 }
 
-// Auto-run when module is loaded
-document.addEventListener('DOMContentLoaded', () => {
+onReady(() => {
     initBookingFlow();
     initSuccessPage();
 });

@@ -88,6 +88,6 @@ export const PageSettings = {
         // Prev / Next wizard buttons
         "#prevStepBtn": "<i class=\"bx bx-right-arrow-alt\"></i> السابق",
         "#nextStepBtn": "التالي <i class=\"bx bx-left-arrow-alt\"></i>",
-        "#submitBookingBtn": "تأكيد الحجز النهائي <i class=\"bx bx-check-circle\"></i>"
+        "#submitBookingBtn": "<i class=\"bx bx-check-circle\"></i> تسجيل الحجز الآن"
     }
 };

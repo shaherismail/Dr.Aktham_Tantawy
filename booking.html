@@ -8,7 +8,7 @@
     <!-- Boxicons CDN for premium icons -->
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="assets/css/app.css?v=1.0.2">
+    <link rel="stylesheet" href="assets/css/app.css?v=2.1.0">
     <style>
         .doctor-select-card {
             position: relative;
@@ -143,19 +143,19 @@
                                     <span class="step-label-nav">التأكيد</span>
                                 </div>
                             </div>
-                            
-                            <form id="bookingForm" class="booking-form-grid">
+
+                            <form id="bookingForm" class="booking-form-grid" novalidate>
                                 
                                 <!-- STEP 1: Patient Information -->
                                 <div class="wizard-step-panel active" id="stepPanel1">
                                     <h3 class="profile-sub-title" style="margin-bottom: 24px;"><i class="bx bx-user"></i> البيانات الشخصية للمريض</h3>
                                     <div style="display: flex; flex-direction: column; gap: 20px;">
                                         <div class="form-group">
-                                            <label class="form-label" for="bookingName">الاسم الكامل</label>
+                                            <label class="form-label" for="bookingName">الاسم الكامل <span style="color: var(--danger);">*</span></label>
                                             <input type="text" id="bookingName" class="form-input" placeholder="مثال: أحمد محمد طنطاوي" required>
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="bookingPhone">رقم الجوال</label>
+                                            <label class="form-label" for="bookingPhone">رقم الجوال <span style="color: var(--danger);">*</span></label>
                                             <input type="tel" id="bookingPhone" class="form-input" placeholder="05xxxxxxxx" required>
                                         </div>
                                         <div class="form-group">
@@ -163,8 +163,8 @@
                                             <input type="email" id="bookingEmail" class="form-input" placeholder="name@domain.com">
                                         </div>
                                         <div class="form-group">
-                                            <label class="form-label" for="bookingAge">العمر</label>
-                                            <input type="number" id="bookingAge" class="form-input" placeholder="العمر بالسنوات" required>
+                                            <label class="form-label" for="bookingAge">العمر <span style="color: var(--danger);">*</span></label>
+                                            <input type="number" id="bookingAge" class="form-input" placeholder="العمر بالسنوات" min="5" max="100" required>
                                         </div>
                                     </div>
                                 </div>
@@ -175,39 +175,65 @@
                                     
                                     <!-- Hidden default select for keeping integration logic -->
                                     <select id="bookingService" class="form-input" style="display: none;">
-                                        <option value="تنظيف الأسنان" selected>تنظيف وتلميع الأسنان</option>
-                                        <option value="تبييض الأسنان">تبييض الأسنان بالليزر</option>
-                                        <option value="زراعة الأسنان">زراعة الأسنان الرقمية</option>
-                                        <option value="تقويم الأسنان">تقويم الأسنان الحديث</option>
+                                        <option value="تقويم الأسنان الحديث" selected>تقويم الأسنان الحديث</option>
+                                        <option value="التقويم الشفاف (ألاينرز)">التقويم الشفاف (ألاينرز)</option>
+                                        <option value="تنظيف وتلميع الأسنان">تنظيف وتلميع الأسنان</option>
+                                        <option value="تبييض الأسنان بالليزر">تبييض الأسنان بالليزر</option>
+                                        <option value="زراعة الأسنان الرقمية">زراعة الأسنان الرقمية</option>
                                         <option value="علاج الجذور والأعصاب">علاج الجذور والأعصاب</option>
                                         <option value="ابتسامة هوليود">ابتسامة هوليود (فينير)</option>
                                     </select>
                                     
                                     <!-- Visual Service Cards Selector -->
                                     <div class="services-selector-grid">
-                                        <div class="service-select-item selected" data-value="تنظيف الأسنان">
-                                            <i class="bx bx-clean"></i>
-                                            <span>تنظيف وتلميع الأسنان</span>
-                                        </div>
-                                        <div class="service-select-item" data-value="تبييض الأسنان">
-                                            <i class="bx bx-sun"></i>
-                                            <span>تبييض الأسنان بالليزر</span>
-                                        </div>
-                                        <div class="service-select-item" data-value="زراعة الأسنان">
-                                            <i class="bx bx-outline"></i>
-                                            <span>زراعة الأسنان الرقمية</span>
-                                        </div>
-                                        <div class="service-select-item" data-value="تقويم الأسنان">
+                                        <div class="service-select-item selected" data-value="تقويم الأسنان الحديث">
                                             <i class="bx bx-bracket"></i>
-                                            <span>تقويم الأسنان الحديث</span>
+                                            <div class="srv-text-group">
+                                                <strong>تقويم الأسنان الحديث</strong>
+                                                <small>معدني وخزفي دقيق</small>
+                                            </div>
+                                        </div>
+                                        <div class="service-select-item" data-value="التقويم الشفاف (ألاينرز)">
+                                            <i class="bx bx-shield-plus"></i>
+                                            <div class="srv-text-group">
+                                                <strong>التقويم الشفاف (ألاينرز)</strong>
+                                                <small>مصففات شفافة غير مرئية</small>
+                                            </div>
+                                        </div>
+                                        <div class="service-select-item" data-value="تنظيف وتلميع الأسنان">
+                                            <i class="bx bx-clean"></i>
+                                            <div class="srv-text-group">
+                                                <strong>تنظيف وتلميع الأسنان</strong>
+                                                <small>إزالة الرواسب الكلسية</small>
+                                            </div>
+                                        </div>
+                                        <div class="service-select-item" data-value="تبييض الأسنان بالليزر">
+                                            <i class="bx bx-sun"></i>
+                                            <div class="srv-text-group">
+                                                <strong>تبييض الأسنان بالليزر</strong>
+                                                <small>تبييض Zoom الفوري</small>
+                                            </div>
+                                        </div>
+                                        <div class="service-select-item" data-value="زراعة الأسنان الرقمية">
+                                            <i class="bx bx-outline"></i>
+                                            <div class="srv-text-group">
+                                                <strong>زراعة الأسنان الرقمية</strong>
+                                                <small>زرعات سويسرية معتمدة</small>
+                                            </div>
                                         </div>
                                         <div class="service-select-item" data-value="علاج الجذور والأعصاب">
                                             <i class="bx bx-pulse"></i>
-                                            <span>علاج الجذور والأعصاب</span>
+                                            <div class="srv-text-group">
+                                                <strong>علاج الجذور والأعصاب</strong>
+                                                <small>علاج ميكروسكوبي متطور</small>
+                                            </div>
                                         </div>
                                         <div class="service-select-item" data-value="ابتسامة هوليود">
                                             <i class="bx bx-star"></i>
-                                            <span>ابتسامة هوليود (فينير)</span>
+                                            <div class="srv-text-group">
+                                                <strong>ابتسامة هوليود (فينير)</strong>
+                                                <small>عدسات إيماكس التجميلية</small>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -223,7 +249,7 @@
                                             <span class="doctor-badge-ribbon">الاستشاري الرئيسي</span>
                                             <img src="assets/doctor.jpg" alt="د. أكثم طنطاوي">
                                             <h4 style="font-size: 16px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">د. أكثم طنطاوي</h4>
-                                            <p style="font-size: 12px; color: var(--primary); font-weight: 600; margin-bottom: 8px;">استشاري تقويم الأسنان والفكين</p>
+                                            <p style="font-size: 12px; color: var(--primary); font-weight: 700; margin-bottom: 8px;">استشاري تقويم الأسنان والفكين</p>
                                             <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5; margin: 0;">زمالة الكلية الملكية، خبير التقويم الشفاف ومعدلات نمو الفكين.</p>
                                         </div>
                                         
@@ -231,7 +257,7 @@
                                         <div class="doctor-select-card" data-doctor="د. سارة الأحمد">
                                             <img src="https://images.unsplash.com/photo-1594824813573-246434de83fb?auto=format&fit=crop&w=200&q=80" alt="د. سارة الأحمد">
                                             <h4 style="font-size: 16px; font-weight: 800; color: var(--dark); margin-bottom: 4px;">د. سارة الأحمد</h4>
-                                            <p style="font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 8px;">أخصائية الأسنان العامة والزراعة</p>
+                                            <p style="font-size: 12px; color: var(--text-muted); font-weight: 700; margin-bottom: 8px;">أخصائية الأسنان العامة والزراعة</p>
                                             <p style="font-size: 11px; color: var(--text-muted); line-height: 1.5; margin: 0;">عضو البورد الألماني، متخصصة في العلاج العام والحشوات التجميلية.</p>
                                         </div>
                                     </div>
@@ -239,27 +265,66 @@
                                 
                                 <!-- STEP 4: Choose Date -->
                                 <div class="wizard-step-panel" id="stepPanel4">
-                                    <h3 class="profile-sub-title" style="margin-bottom: 24px;"><i class="bx bx-calendar"></i> حدد تاريخ الحجز المفضل</h3>
+                                    <h3 class="profile-sub-title" style="margin-bottom: 8px;"><i class="bx bx-calendar"></i> حدد تاريخ الحجز المفضل</h3>
+                                    <p class="profile-instructions-text" style="margin-bottom: 20px;">اختر تاريخ المراجعة والكشف المناسب لك</p>
+                                    
+                                    <!-- Quick Date Chips -->
+                                    <div class="quick-date-row" style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                                        <button type="button" class="quick-date-btn active" id="chipToday">اليوم</button>
+                                        <button type="button" class="quick-date-btn" id="chipTomorrow">غداً</button>
+                                        <button type="button" class="quick-date-btn" id="chipAfterTomorrow">بعد غد</button>
+                                    </div>
+
                                     <div class="form-group date-picker-container">
-                                        <label class="form-label" for="bookingDate">تاريخ الفحص والمراجعة</label>
+                                        <label class="form-label" for="bookingDate">أو اختر تاريخاً من التقويم:</label>
                                         <input type="date" id="bookingDate" class="form-input" required>
                                     </div>
                                 </div>
                                 
-                                <!-- STEP 5: Choose Time Slot -->
+                                <!-- STEP 5: Choose Time Slot & Suite -->
                                 <div class="wizard-step-panel" id="stepPanel5">
                                     <h3 class="profile-sub-title" style="margin-bottom: 8px;"><i class="bx bx-time-five"></i> اختر الجناح والوقت المفضل</h3>
-                                    <p class="profile-instructions-text" style="margin-bottom: 20px;">توليد مواعيد فورية ومزامنتها مباشرة مع جدول الطبيب السحابي</p>
+                                    <p class="profile-instructions-text" style="margin-bottom: 20px;">مواعيد فورية ومباشرة مجدولة مع العيادة</p>
                                     
-                                    <div class="cinema-booking-container">
-                                        <div class="cinema-seats-grid" id="cinemaSeatsGrid">
-                                            <!-- Time slot suite groups injected by JS -->
+                                    <!-- Medical Suite Selection -->
+                                    <div style="margin-bottom: 24px;">
+                                        <label class="form-label" style="margin-bottom: 10px; display: block;">حدد الجناح / العيادة:</label>
+                                        <div class="suite-selector-grid">
+                                            <div class="suite-card selected" data-suite="عيادة تقويم الأسنان 🦷">
+                                                <i class="bx bx-clinic"></i>
+                                                <div>
+                                                    <strong>عيادة تقويم الأسنان 🦷</strong>
+                                                    <span>الاستشاري د. أكثم طنطاوي</span>
+                                                </div>
+                                            </div>
+                                            <div class="suite-card" data-suite="عيادة الكشف والاستشارة 🩺">
+                                                <i class="bx bx-pulse"></i>
+                                                <div>
+                                                    <strong>عيادة الاستشارات 🩺</strong>
+                                                    <span>فحص شامل وخطة علاجية</span>
+                                                </div>
+                                            </div>
+                                            <div class="suite-card" data-suite="جناح VIP المتكامل 💎">
+                                                <i class="bx bx-diamond"></i>
+                                                <div>
+                                                    <strong>جناح VIP 💎</strong>
+                                                    <span>خصوصية ورعاية خاصة</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Time Slots Container -->
+                                    <div class="slots-section">
+                                        <label class="form-label" style="margin-bottom: 12px; display: block;">اختر وقت المراجعة:</label>
+                                        <div class="slots-grid-wrapper" id="cinemaSeatsGrid">
+                                            <!-- Dynamically populated by JS with real clickable buttons -->
                                         </div>
                                     </div>
                                     
                                     <!-- Selected Slot Info Card -->
-                                    <div class="selected-seat-info-card" id="selectedSeatInfoCard" style="display: none;">
-                                        <i class="bx bx-calendar-star animate-bounce-custom"></i>
+                                    <div class="selected-seat-info-card" id="selectedSeatInfoCard" style="display: none; margin-top: 18px;">
+                                        <i class="bx bx-check-shield" style="font-size: 24px; color: var(--success);"></i>
                                         <div>
                                             <strong>الموعد المحدد:</strong> 
                                             <span id="selectedSeatDetail">لم يتم الاختيار بعد</span>
@@ -269,17 +334,18 @@
                                 
                                 <!-- STEP 6: Final Confirmation -->
                                 <div class="wizard-step-panel" id="stepPanel6">
-                                    <h3 class="profile-sub-title" style="margin-bottom: 24px;"><i class="bx bx-list-check"></i> مراجعة وتأكيد تفاصيل الحجز</h3>
+                                    <h3 class="profile-sub-title" style="margin-bottom: 8px;"><i class="bx bx-list-check"></i> مراجعة وتأكيد تفاصيل الحجز</h3>
+                                    <p class="profile-instructions-text" style="margin-bottom: 20px;">تحقق من صحة البيانات قبل تسجيل الحجز النهائي</p>
                                     
                                     <!-- Summary details card -->
-                                    <div class="glass-card" style="padding: 24px; display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; border: 1.5px solid rgba(21, 101, 255, 0.1); background: rgba(255, 255, 255, 0.9);">
+                                    <div class="glass-card" style="padding: 24px; display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; border: 1.5px solid rgba(21, 101, 255, 0.15); background: rgba(255, 255, 255, 0.95); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);">
                                         <div class="detail-item">
                                             <span class="item-lbl"><i class="bx bx-user"></i> اسم المريض:</span>
                                             <span class="item-val" id="summaryName">-</span>
                                         </div>
                                         <div class="detail-item">
                                             <span class="item-lbl"><i class="bx bx-phone"></i> الجوال:</span>
-                                            <span class="item-val" id="summaryPhone">-</span>
+                                            <span class="item-val" id="summaryPhone" style="font-family: 'Outfit'; font-weight: 800;">-</span>
                                         </div>
                                         <div class="detail-item">
                                             <span class="item-lbl"><i class="bx bx-purchase-tag"></i> الخدمة:</span>
@@ -291,7 +357,7 @@
                                         </div>
                                         <div class="detail-item">
                                             <span class="item-lbl"><i class="bx bx-calendar"></i> تاريخ الموعد:</span>
-                                            <span class="item-val" id="summaryDate">-</span>
+                                            <span class="item-val" id="summaryDate" style="font-family: 'Outfit'; font-weight: 800;">-</span>
                                         </div>
                                         <div class="detail-item">
                                             <span class="item-lbl"><i class="bx bx-time-five"></i> الوقت والعيادة:</span>
@@ -309,10 +375,10 @@
                                 <div class="wizard-actions-row">
                                     <button type="button" class="btn btn-secondary" id="prevStepBtn" style="visibility: hidden;"><i class="bx bx-right-arrow-alt"></i> السابق</button>
                                     <button type="button" class="btn btn-primary" id="nextStepBtn">التالي <i class="bx bx-left-arrow-alt"></i></button>
-                                    <button type="submit" class="btn btn-primary" id="submitBookingBtn" style="display: none; background: linear-gradient(135deg, var(--success), #128c3e); box-shadow: 0 10px 25px -5px rgba(22, 163, 74, 0.3);">تأكيد الحجز النهائي <i class="bx bx-check-circle"></i></button>
+                                    <button type="submit" class="btn btn-primary" id="submitBookingBtn" style="display: none; background: linear-gradient(135deg, var(--primary), #004ecc); box-shadow: 0 10px 25px -5px rgba(21, 101, 255, 0.4);"><i class="bx bx-check-circle"></i> تسجيل الحجز الآن</button>
                                 </div>
                                 
-                             </form>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -323,7 +389,7 @@
     </div>
 
     <!-- Application Script Logic -->
-    <script type="module" src="assets/js/app.js"></script>
-    <script type="module" src="assets/js/booking.js"></script>
+    <script type="module" src="assets/js/app.js?v=2.1.0"></script>
+    <script type="module" src="assets/js/booking.js?v=2.1.0"></script>
 </body>
 </html>

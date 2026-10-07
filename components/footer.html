@@ -1,3 +1,29 @@
+<!-- Mobile Bottom Sticky Navigation Bar -->
+<nav class="mobile-bottom-bar" id="mobileBottomBar" aria-label="شريط الوصول السريع">
+    <a href="index.html" class="bottom-bar-item" data-page="index">
+        <i class="bx bx-home-alt"></i>
+        <span>الرئيسية</span>
+    </a>
+    <a href="services.html" class="bottom-bar-item" data-page="services">
+        <i class="bx bx-grid-alt"></i>
+        <span>خدماتنا</span>
+    </a>
+    <a href="booking.html" class="bottom-bar-item bottom-bar-cta" data-page="booking">
+        <div class="cta-circle">
+            <i class="bx bx-calendar-check"></i>
+        </div>
+        <span>احجز الآن</span>
+    </a>
+    <a href="https://wa.me/966501234567" target="_blank" class="bottom-bar-item bottom-bar-wa">
+        <i class="bx bxl-whatsapp"></i>
+        <span>واتساب</span>
+    </a>
+    <a href="tel:+966501234567" class="bottom-bar-item">
+        <i class="bx bx-phone-call"></i>
+        <span>اتصال</span>
+    </a>
+</nav>
+
 <!-- Dynamic Unified Footer -->
 <footer class="footer-wrapper">
     <div class="container">
@@ -5,73 +31,75 @@
             <!-- Col 1: Clinic details -->
             <div class="footer-col">
                 <div class="logo-section">
-                    <img src="assets/logo.jpg" alt="شعار د. أكثم" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; border: 1.5px solid var(--primary-light);">
-                    <span class="logo-name" style="color: var(--accent);">د. أكثم طنطاوي</span>
+                    <img src="assets/logo.jpg" alt="شعار د. أكثم" style="width: 44px; height: 44px; border-radius: 12px; object-fit: cover; border: 1.5px solid var(--primary-light);">
+                    <div class="logo-text">
+                        <span class="logo-name" style="color: #FFFFFF;">د. أكثم طنطاوي</span>
+                        <span class="logo-sub" style="color: rgba(255, 255, 255, 0.65);">استشاري تقويم وتجميل الأسنان</span>
+                    </div>
                 </div>
-                <p style="font-size: 14px; line-height: 1.8; margin-top: 10px; color: rgba(255, 255, 255, 0.6);">
-                    المركز الاستشاري الأول لتقويم الأسنان وتعديل نمو الفكين بالرياض. نتميز بتقديم خدمات تقويم الأسنان الشفاف والمعدني والخزفي بأحدث المعايير السويسرية والألمانية لرسم ابتسامتك المثالية.
+                <p class="footer-bio-desc">
+                    المركز الاستشاري الأول لتقويم الأسنان وتعديل نمو الفكين بالرياض. نقدم حلول التقويم الرقمي والمصففات الشفافة والتقويم السويسري المتقدم بأعلى معايير الدقة والتعقيم لرسم ابتسامتك المثالية.
                 </p>
                 <div class="footer-social-row">
-                    <a href="https://facebook.com" target="_blank" class="footer-social-icon"><i class="bx bxl-facebook"></i></a>
-                    <a href="https://instagram.com" target="_blank" class="footer-social-icon"><i class="bx bxl-instagram"></i></a>
-                    <a href="https://twitter.com" target="_blank" class="footer-social-icon"><i class="bx bxl-twitter"></i></a>
-                    <a href="https://wa.me/966501234567?text=استفسار%20عاجل" target="_blank" class="footer-social-icon" style="background: #25D366;" title="تواصل واتساب عاجل"><i class="bx bxl-whatsapp"></i></a>
+                    <a href="https://facebook.com" target="_blank" class="footer-social-icon" aria-label="فيسبوك"><i class="bx bxl-facebook"></i></a>
+                    <a href="https://instagram.com" target="_blank" class="footer-social-icon" aria-label="انستغرام"><i class="bx bxl-instagram"></i></a>
+                    <a href="https://twitter.com" target="_blank" class="footer-social-icon" aria-label="تويتر"><i class="bx bxl-twitter"></i></a>
+                    <a href="https://wa.me/966501234567?text=استفسار%20عاجل" target="_blank" class="footer-social-icon footer-wa" title="تواصل واتساب مباشر" aria-label="واتساب"><i class="bx bxl-whatsapp"></i></a>
                 </div>
             </div>
+
             <!-- Col 2: Quick Links -->
             <div class="footer-col">
                 <h4 class="footer-col-title">روابط سريعة</h4>
                 <ul class="footer-links">
-                    <li><a href="index.html">الرئيسية</a></li>
-                    <li><a href="services.html">خدماتنا</a></li>
-                    <li><a href="about.html">عن الدكتور</a></li>
-                    <li><a href="gallery.html">معرض الحالات</a></li>
-                    <li><a href="profile.html">بوابة المريض</a></li>
-                    <li><a href="admin.html"><i class="bx bxs-dashboard"></i> لوحة تحكم الإدارة</a></li>
-                    <li><a href="index.html#faq">الأسئلة الشائعة (FAQ)</a></li>
-                    <li><a href="#" onclick="alert('سيتم إتاحة وثيقة سياسة الخصوصية التفصيلية قريباً بالتنسيق مع الهيئة السعودية للتخصصات الصحية.'); return false;">سياسة الخصوصية</a></li>
-                    <li><a href="#" onclick="alert('سيتم إتاحة بنود الشروط والأحكام التفصيلية قريباً.'); return false;">الشروط والأحكام</a></li>
+                    <li><a href="index.html"><i class="bx bx-chevron-left"></i> الرئيسية</a></li>
+                    <li><a href="services.html"><i class="bx bx-chevron-left"></i> خدماتنا التخصصية</a></li>
+                    <li><a href="about.html"><i class="bx bx-chevron-left"></i> عن الدكتور والشهادات</a></li>
+                    <li><a href="gallery.html"><i class="bx bx-chevron-left"></i> معرض الحالات ونتائج التقويم</a></li>
+                    <li><a href="profile.html"><i class="bx bx-chevron-left"></i> استعلام ومتابعة الحجز</a></li>
+                    <li><a href="index.html#faq"><i class="bx bx-chevron-left"></i> الأسئلة الشائعة حول التقويم</a></li>
                 </ul>
             </div>
+
             <!-- Col 3: Contact & Hours -->
             <div class="footer-col">
-                <h4 class="footer-col-title">تواصل معنا</h4>
+                <h4 class="footer-col-title">معلومات الاتصال</h4>
                 <div class="footer-info-item">
                     <i class="bx bx-phone footer-info-icon"></i>
-                    <span style="font-family: 'Outfit', sans-serif;">+966 50 123 4567<br>011 123 4567</span>
+                    <span style="direction: ltr; text-align: right; font-family: 'Outfit', sans-serif;">+966 50 123 4567<br>011 123 4567</span>
                 </div>
-                <div class="footer-info-item" style="color: #F87171;">
+                <div class="footer-info-item" style="color: #FCA5A5;">
                     <i class="bx bx-error-alt footer-info-icon" style="color: #EF4444;"></i>
-                    <span style="font-family: 'Outfit', sans-serif; font-weight: 700;">خط الطوارئ العاجل:<br>+966 50 999 1111</span>
+                    <span style="font-family: 'Outfit', sans-serif; font-weight: 700;">طوارئ تقويم الأسنان:<br>+966 50 999 1111</span>
                 </div>
                 <div class="footer-info-item">
                     <i class="bx bx-envelope footer-info-icon"></i>
                     <span style="font-family: 'Outfit', sans-serif;">info@dr-aktham.com</span>
                 </div>
-                <div class="footer-info-item" style="margin-top: 10px;">
+                <div class="footer-info-item">
                     <i class="bx bx-time footer-info-icon"></i>
                     <span>السبت - الخميس:<br>٩:٠٠ ص - ٩:٠٠ م</span>
                 </div>
             </div>
+
             <!-- Col 4: Google Maps -->
             <div class="footer-col">
                 <h4 class="footer-col-title">موقع العيادة</h4>
                 <div class="footer-map-placeholder">
-                    <iframe src="about:blank" data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14498.461622329388!2d46.66699625!3d24.6937402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f03328e1858bb%3A0xe54e6fa16b0810bd!2z2LTYp9ix2Lkg2KfZhNiq2K7Ytdi12Yog2KfZhNix2YrYp9i2!5e0!3m2!1sar!2ssa!4v1719266624000!5m2!1sar!2ssa" style="border:0; width: 100%; height: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="lazy-iframe"></iframe>
+                    <iframe src="about:blank" data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14498.461622329388!2d46.66699625!3d24.6937402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f03328e1858bb%3A0xe54e6fa16b0810bd!2z2LTYp9ix2Lkg2KfZhNiq2K7Ytdi12Yog2KfZhNix2YrYp9i2!5e0!3m2!1sar!2ssa!4v1719266624000!5m2!1sar!2ssa" style="border:0; width: 100%; height: 100%; border-radius: 12px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="lazy-iframe"></iframe>
                 </div>
-                <div style="font-size: 12px; display: flex; align-items: center; gap: 6px; color: rgba(255, 255, 255, 0.5);">
-                    <i class="bx bx-map-pin" style="color: var(--primary-light);"></i>
-                    <span>الرياض، شارع التخصصي</span>
+                <div style="font-size: 13px; display: flex; align-items: center; gap: 8px; color: rgba(255, 255, 255, 0.7); margin-top: 10px;">
+                    <i class="bx bx-map-pin" style="color: #60A5FA; font-size: 16px;"></i>
+                    <span>المملكة العربية السعودية، الرياض - شارع التخصصي</span>
                 </div>
             </div>
         </div>
 
         <div class="footer-bottom">
-            <span>جميع الحقوق محفوظة © ٢٠٢٦ عيادة الدكتور أكثم إسماعيل طنطاوي</span>
-            <div style="display: flex; gap: 16px; align-items: center; font-size: 18px;">
-                <span style="font-size: 12px; color: rgba(255, 255, 255, 0.4);">شريك الرعاية الطبية المعتمد:</span>
-                <i class="bx bx-shield-quarter" title="تعقيم طبي 100%" style="color: #229ED9;"></i>
-                <i class="bx bx-certification" title="معتمد دولياً" style="color: #FBBF24;"></i>
+            <span>جميع الحقوق محفوظة © ٢٠٢٦ عيادة الدكتور أكثم إسماعيل طنطاوي <a href="admin.html" style="color: rgba(255, 255, 255, 0.2); margin-right: 8px; text-decoration: none;" title="بوابة الإدارة"><i class="bx bx-lock-alt"></i></a></span>
+            <div class="footer-badges-row">
+                <span class="badge-accredited"><i class="bx bx-shield-quarter"></i> تعقيم طبي معتمد 100%</span>
+                <span class="badge-accredited"><i class="bx bx-certification"></i> زمالة الكلية الملكية MOrth</span>
             </div>
         </div>
     </div>
