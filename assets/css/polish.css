@@ -110,3 +110,15 @@ input:focus, select:focus, textarea:focus { border-color: #1D70B8 !important; bo
 @media (hover: none) {
     .service-card:hover, .glass-card:hover, .btn:hover { transform: none; }
 }
+/* Error page had no component styles; keep its illustration and copy balanced. */
+.error-page-wrapper { padding-block: 32px 48px; }
+.error-card { max-width: 600px; margin-inline: auto; padding: 32px 24px; text-align: center; }
+.error-illustration { width: 180px; height: 160px; margin: 0 auto 12px; }
+.error-code { font-size: 56px; line-height: 1.1; color: var(--primary); }
+.error-title { font-size: 24px; margin-block: 12px; }
+.error-desc { margin-bottom: 24px; }
+@media (max-width: 768px) {
+    .services-section { padding-inline: 16px !important; }
+    .service-category-title { font-size: 21px; line-height: 1.5; }
+    .service-category-title i { flex-shrink: 0; }
+}
