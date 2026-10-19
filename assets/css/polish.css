@@ -176,3 +176,8 @@ input:focus, select:focus, textarea:focus { border-color: #1D70B8 !important; bo
     .header-container .logo-sub { font-size: 11px; }
     .header-logo-img { flex-shrink: 0; }
 }
+@media (max-width: 768px) {
+    .mobile-drawer { z-index: 1040; overflow-y: auto; overscroll-behavior: contain; padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
+    .mobile-drawer.active { z-index: 1040; }
+    .drawer-overlay.active { z-index: 1030; }
+}
