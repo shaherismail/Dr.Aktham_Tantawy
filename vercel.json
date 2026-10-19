@@ -3,7 +3,10 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/admin", "destination": "/admin.html" }
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    }
   ],
   "headers": [
     {
@@ -40,6 +43,12 @@
           "value": "1; mode=block"
         }
       ]
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/keepalive",
+      "schedule": "0 6 * * *"
     }
   ]
 }
