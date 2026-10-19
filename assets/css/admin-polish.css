@@ -117,3 +117,8 @@
    instead of pushing the whole layout sideways. */
 .admin-main { min-width: 0; }
 .admin-content { min-width: 0; }
+
+/* Grid overflow fix: grid items default to min-width:auto, which forces
+   tracks wider than the container when a table inside has a large
+   min-content width. Let them shrink; tables scroll internally. */
+.overview-layout-grid > *, .kpi-grid > *, .media-management-grid > *, .form-grid-2 > * { min-width: 0; }
