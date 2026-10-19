@@ -122,3 +122,25 @@ input:focus, select:focus, textarea:focus { border-color: #1D70B8 !important; bo
     .service-category-title { font-size: 21px; line-height: 1.5; }
     .service-category-title i { flex-shrink: 0; }
 }
+@media (max-width: 768px) {
+    /* Medical photos must show the whole result rather than a decorative crop. */
+    .clinic-gallery-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+    .gallery-photo-card { aspect-ratio: auto; background: #fff; }
+    .gallery-photo-card img { display: block; height: auto; object-fit: contain; }
+    .case-static-img { height: auto; background: #fff; }
+    .case-static-img img { display: block; height: auto !important; object-fit: contain !important; }
+    .before-img, .after-img { background-size: contain; background-repeat: no-repeat; background-color: #edf2f7; }
+    .before-after-wrapper:not(.case-static-img) { height: auto; aspect-ratio: 1.2; }
+    .case-info-card { padding: 22px; }
+    .case-title { font-size: 20px; line-height: 1.55; }
+    .case-meta-row { gap: 14px 10px; }
+    .meta-item { align-items: flex-start; min-width: 0; }
+    .meta-item i { flex-shrink: 0; }
+    .gallery-filters { gap: 8px; margin-bottom: 28px; }
+    .gallery-section { padding-block: 48px; }
+    .main-content { scroll-padding-top: 84px; }
+    section, .section-header { scroll-margin-top: 84px; }
+    .mobile-bottom-bar { padding-bottom: env(safe-area-inset-bottom, 0px); height: calc(62px + env(safe-area-inset-bottom, 0px)); }
+    body { padding-bottom: calc(82px + env(safe-area-inset-bottom, 0px)); }
+    .footer-bottom { gap: 20px; flex-wrap: wrap; }
+}
