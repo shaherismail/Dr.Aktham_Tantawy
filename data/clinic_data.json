@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-10-07T11:19:58.982Z",
-  "updatedBy": "حجز جديد من الموقع: qw (DK-1762)",
+  "lastUpdated": "2026-10-19T11:16:35.783Z",
+  "updatedBy": "حجز جديد من الموقع: probe (DK-TESTPROBE)",
   "generalSettings": {
     "clinicName": "عيادة الدكتور أكثم إسماعيل",
     "clinicSubName": "لطب وجراحة الأسنان",
@@ -123,6 +123,10 @@
     }
   ],
   "bookings": [
+    {
+      "id": "DK-TESTPROBE",
+      "name": "probe"
+    },
     {
       "id": "DK-1762",
       "name": "qw",
