@@ -152,29 +152,28 @@ export function initNewsletter() {
     if (!newsForm || newsForm.dataset.bound === '1') return;
     newsForm.dataset.bound = '1';
 
-    newsForm.addEventListener('submit', (e) => {
+    newsForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const emailInput = newsForm.querySelector('.newsletter-input');
         if (!emailInput) return;
         const emailVal = emailInput.value.trim();
         if (emailVal) {
-            try {
-                let list = JSON.parse(localStorage.getItem('dr_aktham_newsletter') || '[]');
-                if (list.some(item => (typeof item === 'string' ? item : item.email) === emailVal)) {
-                    alert('أنت مسجل بالفعل في النشرة الطبية للعيادة!');
-                } else {
-                    list.unshift({ email: emailVal, date: new Date().toISOString().split('T')[0] });
-                    localStorage.setItem('dr_aktham_newsletter', JSON.stringify(list));
-                    import('./supabase-client.js')
-                        .then(m => m.insertNewsletter(emailVal))
-                        .catch(() => {});
-                    alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح في النشرة الطبية للعيادة.`);
-                    newsForm.reset();
-                }
-            } catch (err) {
-                alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح.`);
-                newsForm.reset();
+            let list = [];
+            try { list = JSON.parse(localStorage.getItem('dr_aktham_newsletter') || '[]'); } catch (err) {}
+            if (list.some(item => (typeof item === 'string' ? item : item.email) === emailVal)) {
+                alert('أنت مسجل بالفعل في النشرة الطبية للعيادة!');
+                return;
             }
+            list.unshift({ email: emailVal, date: new Date().toISOString().split('T')[0] });
+            try { localStorage.setItem('dr_aktham_newsletter', JSON.stringify(list)); } catch (err) {}
+            // Persist to Supabase BEFORE the blocking alert so the signup is
+            // never lost if the tab closes while the alert is open.
+            try {
+                const m = await import('./supabase-client.js');
+                await m.insertNewsletter(emailVal);
+            } catch (err) {}
+            alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح في النشرة الطبية للعيادة.`);
+            newsForm.reset();
         }
     });
 }
