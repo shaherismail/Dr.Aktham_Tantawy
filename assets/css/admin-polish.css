@@ -1,0 +1,113 @@
+/* Admin UI/UX polish layer - loaded after admin.css. Safe overrides only.
+   Matches the admin design tokens; changes nothing structural. */
+
+/* Text rendering + selection */
+.admin-body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+.admin-body ::selection { background: rgba(37, 99, 235, .22); }
+
+/* Accessible focus rings */
+.admin-body a:focus-visible, .admin-body button:focus-visible,
+.admin-body input:focus-visible, .admin-body select:focus-visible,
+.admin-body textarea:focus-visible, .admin-body [tabindex]:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, .45);
+    outline-offset: 2px;
+    border-radius: 8px;
+}
+
+/* ---- Login screen ---- */
+#adminAuthOverlay {
+    background:
+        radial-gradient(620px 380px at 12% 16%, rgba(37, 99, 235, .16), transparent 70%),
+        radial-gradient(520px 340px at 88% 84%, rgba(13, 148, 136, .12), transparent 70%),
+        linear-gradient(180deg, var(--adm-bg), var(--adm-bg));
+}
+.auth-lock-card {
+    animation: admAuthIn .5s cubic-bezier(.16, 1, .3, 1);
+    box-shadow: 0 24px 60px -18px rgba(15, 23, 42, .28), var(--adm-shadow-lg);
+}
+.auth-lock-card img {
+    box-shadow: 0 10px 24px -8px rgba(37, 99, 235, .35);
+}
+@keyframes admAuthIn {
+    from { opacity: 0; transform: translateY(18px) scale(.98); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* Auth inputs: they take an email + password now, not a numeric PIN.
+   Drop the PIN-era monospace/centered styling for readable text entry. */
+.auth-pin-input {
+    font-family: inherit;
+    font-size: 15px;
+    letter-spacing: 0;
+    text-align: start;
+    height: 46px;
+    padding: 0 14px;
+}
+.auth-pin-input:focus {
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, .14);
+}
+.auth-pin-input::placeholder { font-size: 14px; }
+
+/* ---- Buttons: lift + press feedback ---- */
+.adm-btn {
+    transition: transform .18s ease, box-shadow .2s ease, background .15s ease,
+                border-color .15s ease, filter .15s ease;
+}
+.adm-btn:hover { transform: translateY(-1px); }
+.adm-btn:active { transform: translateY(0) scale(.97); }
+.adm-btn-primary { box-shadow: 0 8px 18px -6px rgba(37, 99, 235, .45); }
+.adm-btn-primary:hover { box-shadow: 0 12px 26px -8px rgba(37, 99, 235, .55); filter: brightness(1.04); }
+.adm-btn-icon:hover { transform: translateY(-1px); }
+
+/* ---- Header: frosted glass ---- */
+.admin-header {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.header-icon-btn, .header-user-badge, .quick-shortcut-chip {
+    transition: all .18s ease;
+}
+.header-icon-btn:hover { transform: translateY(-1px); }
+
+/* ---- Sidebar ---- */
+.sidebar-link { transition: all .18s ease; }
+.sidebar-link:hover { transform: translateX(-3px); }
+.sidebar-item.active .sidebar-link {
+    box-shadow: 0 4px 14px -4px rgba(56, 189, 248, .35);
+}
+
+/* ---- Cards & tables: calmer surfaces, subtle elevation ---- */
+.adm-card, .media-card {
+    transition: box-shadow .25s ease, border-color .25s ease;
+}
+.kpi-card { transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+.kpi-card:hover { transform: translateY(-3px); }
+.adm-table tbody tr { transition: background .15s ease; }
+
+/* ---- Panels & modals: smooth entrances ---- */
+.tab-content-panel.active { animation: admTabIn .32s ease; }
+@keyframes admTabIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+}
+.adm-modal-backdrop.show .adm-modal-card {
+    animation: admModalIn .28s cubic-bezier(.16, 1, .3, 1);
+}
+@keyframes admModalIn {
+    from { opacity: 0; transform: translateY(14px) scale(.97); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* ---- Scrollbars (content areas) ---- */
+.admin-body ::-webkit-scrollbar { width: 8px; height: 8px; }
+.admin-body ::-webkit-scrollbar-thumb { background: var(--adm-border); border-radius: 8px; }
+.admin-body ::-webkit-scrollbar-thumb:hover { background: var(--adm-text-light); }
+.admin-body ::-webkit-scrollbar-track { background: transparent; }
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+    .admin-body *, .admin-body *::before, .admin-body *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
