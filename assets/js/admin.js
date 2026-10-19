@@ -83,15 +83,16 @@ export function initAuth() {
     const pinInput = document.getElementById('adminPinInput');
     const savedPin = localStorage.getItem('dr_aktham_admin_pin') || '1234';
 
-    // Allow direct entry from link without mandatory lock obstruction
-    sessionStorage.setItem('dr_aktham_admin_logged_in', 'true');
-    if (authOverlay) authOverlay.style.display = 'none';
+    // Only skip the lock screen when this browser session already unlocked it
+    if (sessionStorage.getItem('dr_aktham_admin_logged_in') === 'true') {
+        if (authOverlay) authOverlay.style.display = 'none';
+    }
 
     if (pinForm) {
         pinForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const entered = pinInput.value.trim();
-            if (entered === savedPin || entered === 'admin2026') {
+            if (entered === savedPin) {
                 sessionStorage.setItem('dr_aktham_admin_logged_in', 'true');
                 if (authOverlay) authOverlay.style.display = 'none';
                 showToast('مرحباً بك! تم تسجيل الدخول بنجاح إلى لوحة الإدارة.', 'success');
@@ -419,6 +420,8 @@ export function switchTab(tabId, updateHash = true) {
 // Global helpers for button onclick attributes
 window.switchTab = switchTab;
 window.switchTabAndSub = (parent, sub) => switchTab(sub || parent);
+window.openModal = (id) => openModal(id);
+window.closeModal = (id) => closeModal(id);
 
 // --------------------------------------------------------------------------
 // 4. Render Engine
@@ -1293,6 +1296,7 @@ function getCategoryLabel(cat) {
 // 15. Global Action Handlers
 // --------------------------------------------------------------------------
 window.adminActions = {
+    openModal: (id) => openModal(id),
     confirmBooking: (id) => {
         const b = AdminState.bookings.find(item => item.id === id);
         if (b) {
@@ -1315,6 +1319,7 @@ window.adminActions = {
 
     deleteBooking: (id) => {
         if (confirm(`هل أنت متأكد من حذف الموعد رقم ${id} نهائياً؟`)) {
+            rememberDeletedId(id);
             AdminState.bookings = AdminState.bookings.filter(b => b.id !== id);
             saveBookings(`حذف الموعد رقم (${id})`);
             showToast(`تم حذف الموعد (${id}) بنجاح.`, 'warning');
@@ -1563,6 +1568,55 @@ export function closeModal(id) {
 }
 
 // --------------------------------------------------------------------------
+
+// --------------------------------------------------------------------------
+// Pull patient-generated data (bookings / contacts / newsletter) from the
+// deployed clinic_data.json so the admin sees records created on any device.
+// Local edits win for existing IDs; locally deleted IDs are not resurrected.
+// --------------------------------------------------------------------------
+async function mergeRemoteClinicData() {
+    try {
+        const res = await fetch('/data/clinic_data.json?v=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) return;
+        const remote = await res.json();
+        if (!remote) return;
+
+        let deletedIds = [];
+        try { deletedIds = JSON.parse(localStorage.getItem('dr_aktham_deleted_ids') || '[]'); } catch (e) {}
+
+        const mergeById = (localArr, remoteArr) => {
+            const map = new Map();
+            (Array.isArray(remoteArr) ? remoteArr : []).forEach(item => {
+                if (item && item.id && !deletedIds.includes(item.id)) map.set(item.id, item);
+            });
+            (Array.isArray(localArr) ? localArr : []).forEach(item => {
+                if (item && item.id && !deletedIds.includes(item.id)) map.set(item.id, item);
+            });
+            return [...map.values()];
+        };
+
+        AdminState.bookings = mergeById(AdminState.bookings, remote.bookings);
+        AdminState.contacts = mergeById(AdminState.contacts, remote.contacts);
+        AdminState.newsletter = mergeById(AdminState.newsletter, remote.newsletter);
+
+        localStorage.setItem('dr_aktham_bookings', JSON.stringify(AdminState.bookings));
+        localStorage.setItem('dr_aktham_contacts', JSON.stringify(AdminState.contacts));
+        localStorage.setItem('dr_aktham_newsletter', JSON.stringify(AdminState.newsletter));
+
+        extractPatientsFromBookings();
+    } catch (e) {
+        console.warn('Admin: could not pull remote clinic_data.json:', e);
+    }
+}
+
+
+function rememberDeletedId(id) {
+    try {
+        const ids = JSON.parse(localStorage.getItem('dr_aktham_deleted_ids') || '[]');
+        if (!ids.includes(id)) { ids.push(id); localStorage.setItem('dr_aktham_deleted_ids', JSON.stringify(ids)); }
+    } catch (e) {}
+}
+
 // 17. Initialization & Event Listeners Binding
 // --------------------------------------------------------------------------
 export function initAdminApp() {
@@ -1572,6 +1626,7 @@ export function initAdminApp() {
     bindFormsAndModals();
     renderAll();
     initClock();
+    mergeRemoteClinicData().then(() => renderAll());
 }
 
 function initClock() {

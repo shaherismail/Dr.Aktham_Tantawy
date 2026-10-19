@@ -124,10 +124,6 @@
   ],
   "bookings": [
     {
-      "id": "DK-TESTPROBE",
-      "name": "probe"
-    },
-    {
       "id": "DK-1762",
       "name": "qw",
       "phone": "01097396281",

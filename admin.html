@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="لوحة التحكم الإدارية والطبية المتكاملة - عيادة الدكتور أكثم إسماعيل طنطاوي لتقويم وجراحة الأسنان">
     <title>لوحة الإدارة الطبية - د. أكثم طنطاوي</title>
@@ -23,7 +24,7 @@
     <div id="admToastContainer" class="adm-toast-container"></div>
 
     <!-- 0. ADMIN AUTHENTICATION LOCK SCREEN -->
-    <div id="adminAuthOverlay" style="display: none;">
+    <div id="adminAuthOverlay" style="display: flex;">
         <div class="auth-lock-card">
             <img src="assets/logo.jpg" alt="شعار د. أكثم">
             <h3>لوحة الإدارة الطبية</h3>
@@ -35,9 +36,7 @@
                     <i class="bx bx-lock-open-alt"></i> فتح لوحة التحكم
                 </button>
             </form>
-            <div style="margin-top: 18px; font-size: 12px; color: #64748B;">
-                رمز الدخول الافتراضي: <span style="font-family: 'Outfit'; color: var(--adm-primary); font-weight: 700;">1234</span>
-            </div>
+            
             <div style="margin-top: 14px;">
                 <a href="index.html" style="font-size: 13px; color: #94A3B8; text-decoration: underline;"><i class="bx bx-arrow-back"></i> العودة لموقع العيادة</a>
             </div>
@@ -1387,7 +1386,7 @@
     </div>
 
     <!-- ADMIN MODULE SCRIPT (100% STANDALONE) -->
-    <script type="module" src="assets/js/admin.js?v=20261007_03"></script>
+    <script type="module" src="assets/js/admin.js?v=20261019_01"></script>
 
     <script>
         // Inline helper bindings for modals
