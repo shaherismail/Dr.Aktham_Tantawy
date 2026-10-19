@@ -141,5 +141,6 @@
     .header-breadcrumbs { display: none; }
     .header-user-info { display: none; }
     .header-right { flex: 1; justify-content: flex-start; }
-    .cloud-pill { max-width: 46vw; overflow: hidden; text-overflow: ellipsis; }
+    /* keep the bar to essentials: menu, booking CTA, theme, alerts, lock */
+    #admCloudPill, #admHeaderQuickSyncBtn, #admUserProfileBadge { display: none; }
 }
