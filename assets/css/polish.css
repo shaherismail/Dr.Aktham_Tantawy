@@ -181,3 +181,7 @@ input:focus, select:focus, textarea:focus { border-color: #1D70B8 !important; bo
     .mobile-drawer.active { z-index: 1040; }
     .drawer-overlay.active { z-index: 1030; }
 }
+@media (max-width: 768px) {
+    .container.profile-section { padding-inline: 16px !important; }
+    .lookup-panel { padding: 24px 20px; }
+}

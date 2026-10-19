@@ -807,10 +807,10 @@ function renderServices() {
         <div class="adm-card" style="display: flex; flex-direction: column; justify-content: space-between; gap: 14px;">
             <div>
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-                    <h4 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--adm-text-main);">${s.name}</h4>
+                    <h4 style="margin: 0; font-size: 16px; font-weight: 800; color: var(--adm-text-main);">${s.name || s.title || ''}</h4>
                     <span class="status-badge ${s.active ? 'confirmed' : 'cancelled'}">${s.active ? 'نشط ومتاح' : 'متوقف مؤقتاً'}</span>
                 </div>
-                <p style="font-size: 13px; color: var(--adm-text-muted); margin: 0 0 12px 0;">${s.desc}</p>
+                <p style="font-size: 13px; color: var(--adm-text-muted); margin: 0 0 12px 0;">${s.desc || s.description || ''}</p>
                 <div style="display: flex; gap: 12px; font-size: 12.5px; color: var(--adm-text-muted);">
                     <span><i class="bx bx-time"></i> ${s.duration}</span>
                     <span><i class="bx bx-category"></i> ${getCategoryLabel(s.category)}</span>
@@ -1435,7 +1435,7 @@ window.adminActions = {
     },
 
     toggleService: (id) => {
-        const s = AdminState.services.find(item => item.id === id);
+        const s = AdminState.services.find(item => String(item.id) === String(id));
         if (s) {
             s.active = !s.active;
             localStorage.setItem('dr_aktham_services', JSON.stringify(AdminState.services));
@@ -1452,7 +1452,7 @@ window.adminActions = {
     },
 
     editServicePrice: (id) => {
-        const s = AdminState.services.find(item => item.id === id);
+        const s = AdminState.services.find(item => String(item.id) === String(id));
         if (!s) return;
         const newPrice = prompt(`تعديل سعر خدمة "${s.name}" (بالريال السعودي):`, s.price);
         if (newPrice !== null && !isNaN(newPrice) && Number(newPrice) > 0) {

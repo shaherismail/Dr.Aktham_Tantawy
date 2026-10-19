@@ -168,3 +168,9 @@
     .media-actions-group { flex-direction: column; align-items: stretch; gap: 10px; }
     .media-actions-group > * { width: 100%; }
 }
+@media (max-width: 600px) {
+    #servicesGridContainer { grid-template-columns: minmax(0, 1fr) !important; }
+    #servicesGridContainer > * { min-width: 0; }
+    #servicesGridContainer > .adm-card > div:last-child { flex-wrap: wrap; gap: 14px; }
+    #servicesGridContainer h4 { margin-inline-end: 10px !important; }
+}
