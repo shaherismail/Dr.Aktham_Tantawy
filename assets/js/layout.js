@@ -25,6 +25,7 @@ function replaceGeneralSettings(html) {
     html = html.replace(/عيادة د\. أكثم/g, GeneralSettings.clinicName);
     html = html.replace(/د\. أكثم طنطاوي/g, GeneralSettings.clinicName);
     html = html.replace(/عيادة الدكتور أكثم إسماعيل طنطاوي/g, GeneralSettings.clinicName);
+    html = html.replace(/عيادة الدكتور أكثم إسماعيل/g, GeneralSettings.clinicName); // baked default value
     html = html.replace(/لطب وجراحة الأسنان/g, GeneralSettings.clinicSubName);
 
     // Phone numbers
@@ -204,54 +205,57 @@ onReady(() => {
             console.warn(`No separate settings file found for page: ${slug}.js`, err);
         });
 
-    // Load Header component
+    // Header/footer are baked into each page for instant first paint.
+    // Re-apply saved setting overrides to the baked markup, then bind events.
+    // (Old pages with empty placeholders still fetch the components as a fallback.)
+    const afterHeaderReady = () => { highlightActiveLink(); initMobileDrawerHandlers(); };
+    const afterFooterReady = () => {
+        const lazyIframes = document.querySelectorAll('.lazy-iframe');
+        lazyIframes.forEach(iframe => {
+            const dataSrc = iframe.getAttribute('data-src');
+            if (dataSrc) iframe.src = dataSrc;
+        });
+        highlightActiveLink();
+        import('./app.js').then(m => { if (typeof m.initNewsletter === 'function') m.initNewsletter(); }).catch(() => {});
+    };
+
     const headerPlaceholder = document.getElementById('header-nav');
-    if (headerPlaceholder) {
+    const bakedHeader = document.querySelector('.header-nav');
+    if (bakedHeader) {
+        // Baked path: re-apply settings to header, top bar and drawer in place
+        document.querySelectorAll('.top-bar-contact, .mobile-drawer, .header-nav').forEach(el => {
+            el.innerHTML = replaceGeneralSettings(el.innerHTML);
+        });
+        afterHeaderReady();
+    } else if (headerPlaceholder) {
         fetch('components/header.html')
             .then(res => {
                 if (!res.ok) throw new Error('Failed to load header component');
                 return res.text();
             })
             .then(html => {
-                // Apply replacements
-                html = replaceGeneralSettings(html);
-                headerPlaceholder.outerHTML = html; // replace placeholder with template content
-
-                // Highlight active nav item
-                highlightActiveLink();
-
-                // Initialize drawer events
-                initMobileDrawerHandlers();
+                headerPlaceholder.outerHTML = replaceGeneralSettings(html);
+                afterHeaderReady();
             })
             .catch(err => console.error('Error loading header:', err));
     }
 
-    // Load Footer component
     const footerPlaceholder = document.getElementById('footer-wrapper');
-    if (footerPlaceholder) {
+    const bakedFooter = document.querySelector('footer.footer-wrapper');
+    if (bakedFooter) {
+        bakedFooter.innerHTML = replaceGeneralSettings(bakedFooter.innerHTML);
+        const bakedBar = document.querySelector('.mobile-bottom-bar');
+        if (bakedBar) bakedBar.innerHTML = replaceGeneralSettings(bakedBar.innerHTML);
+        afterFooterReady();
+    } else if (footerPlaceholder) {
         fetch('components/footer.html')
             .then(res => {
                 if (!res.ok) throw new Error('Failed to load footer component');
                 return res.text();
             })
             .then(html => {
-                // Apply replacements
-                html = replaceGeneralSettings(html);
-                footerPlaceholder.outerHTML = html; // replace placeholder with template content
-
-                // Lazy load Google Maps iframe in footer
-                const lazyIframes = document.querySelectorAll('.lazy-iframe');
-                lazyIframes.forEach(iframe => {
-                    const dataSrc = iframe.getAttribute('data-src');
-                    if (dataSrc) {
-                        iframe.src = dataSrc;
-                    }
-                });
-
-                highlightActiveLink();
-
-                // Footer-injected widgets need their handlers bound now
-                import('./app.js').then(m => { if (typeof m.initNewsletter === 'function') m.initNewsletter(); }).catch(() => {});
+                footerPlaceholder.outerHTML = replaceGeneralSettings(html);
+                afterFooterReady();
             })
             .catch(err => console.error('Error loading footer:', err));
     }

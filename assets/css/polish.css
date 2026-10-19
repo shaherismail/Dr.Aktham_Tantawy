@@ -68,7 +68,12 @@ input:focus, select:focus, textarea:focus { border-color: #1D70B8 !important; bo
 .fab-wa::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #22C55E; animation: fabPulse 2.4s ease-out infinite; }
 @keyframes fabPulse { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.6); opacity: 0; } }
 
-@media (max-width: 768px) { .fab-wa { display: none; } .section-header { margin-bottom: 30px; } }
+@media (max-width: 768px) {
+    .fab-wa { display: none; }
+    .section-header { margin-bottom: 30px; }
+    /* Phones: show content immediately, no scroll-fade hiding */
+    .reveal-on .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
 
 /* Scroll reveal (only active when JS adds .reveal-on) */
 .reveal-on .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1); }
