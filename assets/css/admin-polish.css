@@ -122,3 +122,13 @@
    tracks wider than the container when a table inside has a large
    min-content width. Let them shrink; tables scroll internally. */
 .overview-layout-grid > *, .kpi-grid > *, .media-management-grid > *, .form-grid-2 > * { min-width: 0; }
+
+/* Mobile: the off-canvas sidebar is moved aside with a transform, which the
+   browser counts as page overflow and lets the whole page scroll sideways.
+   Clip horizontal overflow (clip keeps position:sticky working, unlike
+   hidden) and hide the drawer until it is opened. */
+@media (max-width: 1024px) {
+    html, body.admin-body { overflow-x: clip; }
+    .admin-sidebar { visibility: hidden; }
+    .admin-sidebar.mobile-open { visibility: visible; }
+}
