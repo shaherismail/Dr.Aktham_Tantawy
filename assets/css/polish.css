@@ -144,3 +144,35 @@ input:focus, select:focus, textarea:focus { border-color: #1D70B8 !important; bo
     body { padding-bottom: calc(82px + env(safe-area-inset-bottom, 0px)); }
     .footer-bottom { gap: 20px; flex-wrap: wrap; }
 }
+/* Patient-first design system: calm surfaces, predictable type and actions. */
+:root { --patient-shadow: 0 6px 24px rgba(15, 45, 80, .055); }
+.glass-card, .service-card { box-shadow: var(--patient-shadow); }
+.btn { min-height: 48px; line-height: 1.5; white-space: normal; }
+.section-desc, .case-desc, .doctor-bio-text { line-height: 1.85; }
+@media (max-width: 768px) {
+    .page-view > section { padding-block: 48px !important; }
+    .section-header { margin-bottom: 28px; }
+    .section-title { font-size: 26px; line-height: 1.5; }
+    .section-desc { font-size: 16px; }
+    .section-label { font-size: 13px; }
+    .hero-title { font-size: 28px; line-height: 1.5; }
+    .hero-desc { font-size: 16px; line-height: 1.85; }
+    .hero-content { gap: 18px; }
+    .hero-actions { margin-block: 6px; }
+    .hero-actions .btn { max-width: none; }
+    .service-card { padding: 24px; }
+    .card-title, .service-title, .blog-title { font-size: 20px; line-height: 1.6; }
+    .service-desc, .testimonial-text, .blog-excerpt, .faq-body-inner { font-size: 16px; line-height: 1.85; }
+    .doctor-bio-text { font-size: 16px; }
+    .doctor-info-content { gap: 18px; }
+    .service-features-list { font-size: 14px; line-height: 1.8; }
+    .faq-header-btn { min-height: 56px; padding: 18px 20px; text-align: start; }
+    .case-meta-row { font-size: 13px; line-height: 1.7; }
+    .footer-newsletter { padding: 20px; gap: 20px; }
+    .footer-bottom { padding-bottom: 16px; line-height: 1.9; }
+    .header-container { gap: 10px; }
+    .header-container .logo-section { min-width: 0; }
+    .header-container .logo-name { font-size: clamp(14px, 4.2vw, 17px); }
+    .header-container .logo-sub { font-size: 11px; }
+    .header-logo-img { flex-shrink: 0; }
+}
