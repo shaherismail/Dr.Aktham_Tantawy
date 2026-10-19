@@ -500,13 +500,11 @@ export function initBookingFlow() {
                 .catch(() => {});
         } catch (err) {}
 
-        // Non-blocking sync to API if available
+        // Non-blocking save to Supabase (RLS: public insert only)
         try {
-            fetch('/api/book', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newBooking)
-            }).catch(() => {});
+            import('./supabase-client.js')
+                .then(m => m.insertBooking(newBooking))
+                .catch(() => {});
         } catch (e) {}
 
         // Smooth transition to success page

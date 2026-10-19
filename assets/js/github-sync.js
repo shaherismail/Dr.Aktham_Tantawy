@@ -182,20 +182,11 @@ export function compileCurrentClinicData() {
         testimonials = JSON.parse(localStorage.getItem('dr_aktham_testimonials') || '[]');
     } catch (e) {}
 
-    let bookings = [];
-    try {
-        bookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
-    } catch (e) {}
-
-    let contacts = [];
-    try {
-        contacts = JSON.parse(localStorage.getItem('dr_aktham_contacts') || '[]');
-    } catch (e) {}
-
-    let newsletter = [];
-    try {
-        newsletter = JSON.parse(localStorage.getItem('dr_aktham_newsletter') || '[]');
-    } catch (e) {}
+    // Patient data lives in Supabase (RLS-protected) and is NEVER published
+    // to the public repository JSON.
+    const bookings = [];
+    const contacts = [];
+    const newsletter = [];
 
     let galleryCases = defaultGalleryCases || [];
     try {

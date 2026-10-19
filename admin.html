@@ -28,12 +28,13 @@
         <div class="auth-lock-card">
             <img src="assets/logo.jpg" alt="شعار د. أكثم">
             <h3>لوحة الإدارة الطبية</h3>
-            <p>عيادة الدكتور أكثم طنطاوي لتقويم وجراحة الأسنان<br>يرجى إدخال رمز المرور للمتابعة</p>
+            <p>عيادة الدكتور أكثم طنطاوي لتقويم وجراحة الأسنان<br>يرجى تسجيل الدخول بحساب المدير للمتابعة</p>
             
-            <form id="adminPinForm">
-                <input type="password" id="adminPinInput" class="auth-pin-input" placeholder="••••" maxlength="8" autofocus required>
+            <form id="adminPinForm" style="display: flex; flex-direction: column; gap: 12px;">
+                <input type="email" id="adminEmailInput" class="auth-pin-input" placeholder="البريد الإلكتروني" autocomplete="username" required>
+                <input type="password" id="adminPinInput" class="auth-pin-input" placeholder="كلمة المرور" autocomplete="current-password" required>
                 <button type="submit" class="adm-btn adm-btn-primary" style="width: 100%; padding: 14px; font-size: 15px;">
-                    <i class="bx bx-lock-open-alt"></i> فتح لوحة التحكم
+                    <i class="bx bx-lock-open-alt"></i> تسجيل الدخول
                 </button>
             </form>
             
@@ -1386,7 +1387,7 @@
     </div>
 
     <!-- ADMIN MODULE SCRIPT (100% STANDALONE) -->
-    <script type="module" src="assets/js/admin.js?v=20261019_01"></script>
+    <script type="module" src="assets/js/admin.js?v=20261019_02"></script>
 
     <script>
         // Inline helper bindings for modals

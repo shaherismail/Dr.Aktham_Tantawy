@@ -29,23 +29,13 @@ export function initPatientProfile() {
                 allBookings = [];
             }
 
-            // 2. Fetch latest bookings from remote clinic_data.json (for Vercel / cross-device lookup)
+            // 2. Privacy-safe remote lookup via Supabase RPC (by ID or phone only)
+            let remoteMatches = [];
             try {
-                const res = await fetch('/data/clinic_data.json?v=' + Date.now(), { cache: 'no-store' });
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data && Array.isArray(data.bookings) && data.bookings.length > 0) {
-                        const map = new Map();
-                        // Put remote bookings
-                        data.bookings.forEach(b => { if (b && b.id) map.set(b.id, b); });
-                        // Overlay local bookings (more recent)
-                        allBookings.forEach(b => { if (b && b.id) map.set(b.id, b); });
-                        allBookings = Array.from(map.values());
-                        localStorage.setItem('dr_aktham_bookings', JSON.stringify(allBookings));
-                    }
-                }
+                const m = await import('./supabase-client.js');
+                remoteMatches = await m.lookupBookings(cleanQuery);
             } catch (err) {
-                console.warn('Could not pull remote clinic_data.json:', err);
+                console.warn('Could not look up remote bookings:', err);
             }
 
             // 3. Normalize digits for phone matching (e.g. 010973936821 vs +2010973936821 vs 05xxxxxxxx)
@@ -79,6 +69,12 @@ export function initPatientProfile() {
 
                 return false;
             });
+
+            // Merge remote RPC matches (dedupe by id)
+            if (remoteMatches.length > 0) {
+                const seen = new Set(matches.map(b => b.id));
+                remoteMatches.forEach(b => { if (b && b.id && !seen.has(b.id)) matches.push(b); });
+            }
 
             if (loadingEl) loadingEl.style.display = 'none';
 

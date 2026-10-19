@@ -164,6 +164,9 @@ export function initNewsletter() {
                 } else {
                     list.unshift({ email: emailVal, date: new Date().toISOString().split('T')[0] });
                     localStorage.setItem('dr_aktham_newsletter', JSON.stringify(list));
+                    import('./supabase-client.js')
+                        .then(m => m.insertNewsletter(emailVal))
+                        .catch(() => {});
                     alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح في النشرة الطبية للعيادة.`);
                     newsForm.reset();
                 }

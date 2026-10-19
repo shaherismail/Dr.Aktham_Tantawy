@@ -1,6 +1,6 @@
 {
   "lastUpdated": "2026-10-19T11:16:35.783Z",
-  "updatedBy": "حجز جديد من الموقع: probe (DK-TESTPROBE)",
+  "updatedBy": "Privacy migration: patient data moved to Supabase (RLS-protected)",
   "generalSettings": {
     "clinicName": "عيادة الدكتور أكثم إسماعيل",
     "clinicSubName": "لطب وجراحة الأسنان",
@@ -122,57 +122,7 @@
       "text": "اخترت التقويم الخزفي التجميلي لعدم وضوحه، والخدمة كانت استثنائية! المتابعة الدورية كانت دقيقة ومريحة جداً، وأنصح بشدة بكل من يريد تعديل أسنانه بكفاءة عالية."
     }
   ],
-  "bookings": [
-    {
-      "id": "DK-1762",
-      "name": "qw",
-      "phone": "01097396281",
-      "email": "shaherismail9@gmail.com",
-      "age": 23,
-      "service": "تقويم الأسنان الحديث",
-      "doctor": "د. أكثم طنطاوي",
-      "date": "2026-10-07",
-      "time": "11:00 ص",
-      "chair": "جناح VIP المتكامل 💎",
-      "notes": "لا توجد ملاحظات إضافية",
-      "status": "pending",
-      "timestamp": 1791371998420
-    }
-  ],
-  "contacts": [
-    {
-      "id": "MSG-101",
-      "name": "سلطان بن عبد العزيز",
-      "phone": "0551122334",
-      "email": "sultan@yahoo.com",
-      "message": "السلام عليكم، استفسر عن إمكانية تقسيط تكلفة التقويم الشفاف ومدة الخطة المقترحة؟",
-      "date": "اليوم، ١١:٣٠ ص",
-      "status": "unread",
-      "timestamp": 1791363477377
-    },
-    {
-      "id": "MSG-102",
-      "name": "منى الشريف",
-      "phone": "0549988776",
-      "email": "mona.sh@gmail.com",
-      "message": "أريد حجز موعد كشف استشاري يوم السبت القادم لعلاج عضة معكوسة لطفل عمره ٩ سنوات.",
-      "date": "أمس، ٠٤:١٥ م",
-      "status": "read",
-      "timestamp": 1791284277377
-    }
-  ],
-  "newsletter": [
-    {
-      "email": "patient.care@gmail.com",
-      "date": "2026-09-15"
-    },
-    {
-      "email": "dr.fahad@hospital.sa",
-      "date": "2026-09-22"
-    },
-    {
-      "email": "amira.ortho@outlook.com",
-      "date": "2026-10-02"
-    }
-  ]
+  "bookings": [],
+  "contacts": [],
+  "newsletter": []
 }

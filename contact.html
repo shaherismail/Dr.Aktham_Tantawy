@@ -121,12 +121,10 @@
                         existing.unshift(newMsg);
                         localStorage.setItem('dr_aktham_contacts', JSON.stringify(existing));
 
-                        // Non-blocking sync to Vercel/GitHub API if deployed
-                        fetch('/api/contact', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ name, phone, email, message })
-                        }).catch(() => {});
+                        // Non-blocking save to Supabase (RLS: public insert only)
+                        import('./assets/js/supabase-client.js')
+                            .then(m => m.insertContact(newMsg))
+                            .catch(() => {});
                     } catch (err) {
                         console.error('Error saving contact message:', err);
                     }

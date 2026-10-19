@@ -3,6 +3,7 @@
 // 100% Standalone, Self-Contained, Vercel & GitHub Ready (No External DB)
 // ==========================================================================
 import { getGithubConfig, saveGithubConfig, testGithubConnection, pushDataToGitHub, compileCurrentClinicData } from './github-sync.js?v=20261007_03';
+import { getSupabase } from './supabase-client.js';
 import { defaultGalleryCases } from './gallery.js';
 import { GeneralSettings } from './settings/general.js';
 
@@ -80,51 +81,65 @@ export function showToast(message, type = 'success') {
 export function initAuth() {
     const authOverlay = document.getElementById('adminAuthOverlay');
     const pinForm = document.getElementById('adminPinForm');
+    const emailInput = document.getElementById('adminEmailInput');
     const pinInput = document.getElementById('adminPinInput');
-    const savedPin = localStorage.getItem('dr_aktham_admin_pin') || '1234';
 
-    // Only skip the lock screen when this browser session already unlocked it
-    if (sessionStorage.getItem('dr_aktham_admin_logged_in') === 'true') {
-        if (authOverlay) authOverlay.style.display = 'none';
-    }
+    const unlock = () => { if (authOverlay) authOverlay.style.display = 'none'; };
+    const lock = () => { if (authOverlay) authOverlay.style.display = 'flex'; };
 
-    if (pinForm) {
-        pinForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const entered = pinInput.value.trim();
-            if (entered === savedPin) {
-                sessionStorage.setItem('dr_aktham_admin_logged_in', 'true');
-                if (authOverlay) authOverlay.style.display = 'none';
-                showToast('مرحباً بك! تم تسجيل الدخول بنجاح إلى لوحة الإدارة.', 'success');
-            } else {
-                pinInput.value = '';
-                showToast('رمز الدخول غير صحيح، يرجى المحاولة مرة أخرى.', 'error');
+    getSupabase().then(async (sb) => {
+        try {
+            const { data: { session } } = await sb.auth.getSession();
+            if (session) {
+                unlock();
+                loadAdminCloudData().then(() => renderAll());
             }
-        });
-    }
+            sb.auth.onAuthStateChange((_event, s) => { if (!s) lock(); });
+        } catch (e) {}
 
-    // Logout
-    const logoutBtn = document.getElementById('admLogoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-            if (confirm('هل أنت متأكد من تسجيل الخروج من لوحة التحكم؟')) {
-                sessionStorage.removeItem('dr_aktham_admin_logged_in');
-                window.location.href = 'index.html';
-            }
-        });
-    }
+        if (pinForm) {
+            pinForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                try {
+                    const { error } = await sb.auth.signInWithPassword({
+                        email: (emailInput?.value || '').trim(),
+                        password: pinInput?.value || ''
+                    });
+                    if (error) {
+                        if (pinInput) pinInput.value = '';
+                        showToast('بيانات الدخول غير صحيحة، يرجى المحاولة مرة أخرى.', 'error');
+                    } else {
+                        unlock();
+                        showToast('مرحباً بك! تم تسجيل الدخول بنجاح إلى لوحة الإدارة.', 'success');
+                        await loadAdminCloudData();
+                        renderAll();
+                    }
+                } catch (err) {
+                    showToast('تعذر الاتصال بخادم المصادقة. حاول مرة أخرى.', 'error');
+                }
+            });
+        }
 
-    // Lock screen (Manual lock button)
-    const lockBtn = document.getElementById('admLockBtn');
-    if (lockBtn) {
-        lockBtn.addEventListener('click', () => {
-            sessionStorage.removeItem('dr_aktham_admin_logged_in');
-            if (authOverlay) {
-                authOverlay.style.display = 'flex';
-                if (pinInput) pinInput.value = '';
-            }
-        });
-    }
+        // Logout
+        const logoutBtn = document.getElementById('admLogoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                if (confirm('هل أنت متأكد من تسجيل الخروج من لوحة التحكم؟')) {
+                    sb.auth.signOut().finally(() => { window.location.href = 'index.html'; });
+                }
+            });
+        }
+
+        // Lock screen (Manual lock button)
+        const lockBtn = document.getElementById('admLockBtn');
+        if (lockBtn) {
+            lockBtn.addEventListener('click', () => {
+                sb.auth.signOut().finally(() => { lock(); if (pinInput) pinInput.value = ''; });
+            });
+        }
+    }).catch(() => {
+        showToast('تعذر تحميل خادم المصادقة. تحقق من الاتصال بالإنترنت.', 'error');
+    });
 }
 
 // --------------------------------------------------------------------------
@@ -1300,6 +1315,7 @@ window.adminActions = {
     confirmBooking: (id) => {
         const b = AdminState.bookings.find(item => item.id === id);
         if (b) {
+            sbBookingUpdate(id, { status: 'confirmed' });
             b.status = 'confirmed';
             saveBookings(`تأكيد الموعد رقم (${id})`);
             showToast(`تم تأكيد الموعد (${id}) بنجاح!`, 'success');
@@ -1310,6 +1326,7 @@ window.adminActions = {
     completeBooking: (id) => {
         const b = AdminState.bookings.find(item => item.id === id);
         if (b) {
+            sbBookingUpdate(id, { status: 'completed' });
             b.status = 'completed';
             saveBookings(`إكمال الموعد رقم (${id})`);
             showToast(`تم تمييز الموعد (${id}) كمكتمل وتحديث الملف الطبي.`, 'success');
@@ -1320,6 +1337,7 @@ window.adminActions = {
     deleteBooking: (id) => {
         if (confirm(`هل أنت متأكد من حذف الموعد رقم ${id} نهائياً؟`)) {
             rememberDeletedId(id);
+            sbBookingDelete(id);
             AdminState.bookings = AdminState.bookings.filter(b => b.id !== id);
             saveBookings(`حذف الموعد رقم (${id})`);
             showToast(`تم حذف الموعد (${id}) بنجاح.`, 'warning');
@@ -1471,6 +1489,7 @@ window.adminActions = {
     markContactRead: (id) => {
         const c = AdminState.contacts.find(item => item.id === id);
         if (c) {
+            sbContactUpdate(id, { status: 'read' });
             c.status = 'read';
             localStorage.setItem('dr_aktham_contacts', JSON.stringify(AdminState.contacts));
             showToast('تم تمييز الرسالة كمقروءة.', 'success');
@@ -1486,6 +1505,7 @@ window.adminActions = {
 
     deleteContact: (id) => {
         if (confirm('هل أنت متأكد من حذف هذه الرسالة؟')) {
+            sbContactDelete(id);
             AdminState.contacts = AdminState.contacts.filter(c => c.id !== id);
             localStorage.setItem('dr_aktham_contacts', JSON.stringify(AdminState.contacts));
             showToast('تم حذف الرسالة بنجاح.', 'warning');
@@ -1501,6 +1521,7 @@ window.adminActions = {
 
     deleteNewsletterEmail: (email) => {
         if (confirm(`حذف المشترك (${email}) من النشرة البريدية؟`)) {
+            sbNewsletterDelete(email);
             AdminState.newsletter = AdminState.newsletter.filter(n => n.email !== email);
             localStorage.setItem('dr_aktham_newsletter', JSON.stringify(AdminState.newsletter));
             showToast('تم حذف المشترك بنجاح.', 'warning');
@@ -1574,41 +1595,65 @@ export function closeModal(id) {
 // deployed clinic_data.json so the admin sees records created on any device.
 // Local edits win for existing IDs; locally deleted IDs are not resurrected.
 // --------------------------------------------------------------------------
-async function mergeRemoteClinicData() {
+async function loadAdminCloudData() {
     try {
-        const res = await fetch('/data/clinic_data.json?v=' + Date.now(), { cache: 'no-store' });
-        if (!res.ok) return;
-        const remote = await res.json();
-        if (!remote) return;
-
-        let deletedIds = [];
-        try { deletedIds = JSON.parse(localStorage.getItem('dr_aktham_deleted_ids') || '[]'); } catch (e) {}
-
-        const mergeById = (localArr, remoteArr) => {
-            const map = new Map();
-            (Array.isArray(remoteArr) ? remoteArr : []).forEach(item => {
-                if (item && item.id && !deletedIds.includes(item.id)) map.set(item.id, item);
-            });
-            (Array.isArray(localArr) ? localArr : []).forEach(item => {
-                if (item && item.id && !deletedIds.includes(item.id)) map.set(item.id, item);
-            });
-            return [...map.values()];
-        };
-
-        AdminState.bookings = mergeById(AdminState.bookings, remote.bookings);
-        AdminState.contacts = mergeById(AdminState.contacts, remote.contacts);
-        AdminState.newsletter = mergeById(AdminState.newsletter, remote.newsletter);
-
+        const sb = await getSupabase();
+        const [bookingsRes, contactsRes, newsRes] = await Promise.all([
+            sb.from('bookings').select('*').order('created_at', { ascending: false }),
+            sb.from('contacts').select('*').order('created_at', { ascending: false }),
+            sb.from('newsletter').select('*').order('created_at', { ascending: false })
+        ]);
+        if (bookingsRes.data) {
+            AdminState.bookings = bookingsRes.data.map(b => ({
+                ...b,
+                timestamp: b.created_at ? new Date(b.created_at).getTime() : Date.now()
+            }));
+        }
+        if (contactsRes.data) {
+            AdminState.contacts = contactsRes.data.map(c => ({
+                ...c,
+                date: c.created_at ? new Date(c.created_at).toLocaleString('ar-EG') : '',
+                timestamp: c.created_at ? new Date(c.created_at).getTime() : Date.now()
+            }));
+        }
+        if (newsRes.data) {
+            AdminState.newsletter = newsRes.data.map(n => ({
+                ...n,
+                date: n.created_at ? n.created_at.split('T')[0] : ''
+            }));
+        }
+        extractPatientsFromBookings();
         localStorage.setItem('dr_aktham_bookings', JSON.stringify(AdminState.bookings));
         localStorage.setItem('dr_aktham_contacts', JSON.stringify(AdminState.contacts));
         localStorage.setItem('dr_aktham_newsletter', JSON.stringify(AdminState.newsletter));
-
-        extractPatientsFromBookings();
     } catch (e) {
-        console.warn('Admin: could not pull remote clinic_data.json:', e);
+        console.warn('Admin: could not load data from Supabase:', e);
     }
 }
 
+// Fire-and-forget Supabase mirrors for admin mutations
+function sbBookingInsert(b) {
+    getSupabase().then(sb => sb.from('bookings').insert({
+        id: b.id, name: b.name, phone: b.phone, email: b.email, age: b.age,
+        service: b.service, doctor: b.doctor, date: b.date, time: b.time,
+        chair: b.chair, notes: b.notes, status: b.status || 'pending'
+    })).catch(() => {});
+}
+function sbBookingUpdate(id, patch) {
+    getSupabase().then(sb => sb.from('bookings').update(patch).eq('id', id)).catch(() => {});
+}
+function sbBookingDelete(id) {
+    getSupabase().then(sb => sb.from('bookings').delete().eq('id', id)).catch(() => {});
+}
+function sbContactUpdate(id, patch) {
+    getSupabase().then(sb => sb.from('contacts').update(patch).eq('id', id)).catch(() => {});
+}
+function sbContactDelete(id) {
+    getSupabase().then(sb => sb.from('contacts').delete().eq('id', id)).catch(() => {});
+}
+function sbNewsletterDelete(email) {
+    getSupabase().then(sb => sb.from('newsletter').delete().eq('email', email)).catch(() => {});
+}
 
 function rememberDeletedId(id) {
     try {
@@ -1626,7 +1671,6 @@ export function initAdminApp() {
     bindFormsAndModals();
     renderAll();
     initClock();
-    mergeRemoteClinicData().then(() => renderAll());
 }
 
 function initClock() {
@@ -1690,6 +1734,7 @@ function bindFormsAndModals() {
                 timestamp: Date.now()
             };
 
+            sbBookingInsert(newBooking);
             AdminState.bookings.unshift(newBooking);
             saveBookings(`إضافة موعد جديد للمريض ${newBooking.name}`);
             closeModal('addBookingModal');
@@ -1716,6 +1761,10 @@ function bindFormsAndModals() {
                 b.status = document.getElementById('editBookingStatus').value;
                 b.notes = document.getElementById('editBookingNotes').value.trim();
 
+                sbBookingUpdate(id, {
+                    name: b.name, phone: b.phone, service: b.service, chair: b.chair,
+                    date: b.date, time: b.time, status: b.status, notes: b.notes
+                });
                 saveBookings(`تعديل بيانات الموعد رقم (${id})`);
                 closeModal('editBookingModal');
                 showToast(`تم حفظ تعديلات الموعد (${id}) بنجاح!`, 'success');
