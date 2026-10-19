@@ -158,3 +158,9 @@
     .toolbar-filters { min-width: 0; }
     .toolbar-filters > * { max-width: 100%; }
 }
+@media (max-width: 600px) {
+    .media-management-grid .adm-btn { min-height: 44px; white-space: normal; }
+    .media-management-grid [style*="display: flex"] { flex-wrap: wrap; }
+    .media-management-grid [style*="display:flex"] { flex-wrap: wrap; }
+    .media-management-grid input { width: 100%; }
+}
