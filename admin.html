@@ -687,7 +687,7 @@
                             </div>
                             <div style="display: flex; gap: 10px;">
                                 <button class="adm-btn adm-btn-secondary adm-btn-sm" id="admChangePinBtn">
-                                    <i class="bx bx-key"></i> تغيير رمز مرور اللوحة
+                                    <i class="bx bx-key"></i> تغيير كلمة مرور اللوحة
                                 </button>
                                 <button class="adm-btn adm-btn-primary adm-btn-sm" id="admSaveClinicSettingsBtn">
                                     <i class="bx bx-save"></i> حفظ وتطبيق فوري
@@ -1387,7 +1387,7 @@
     </div>
 
     <!-- ADMIN MODULE SCRIPT (100% STANDALONE) -->
-    <script type="module" src="assets/js/admin.js?v=20261019_02"></script>
+    <script type="module" src="assets/js/admin.js?v=20261019_03"></script>
 
     <script>
         // Inline helper bindings for modals
@@ -1407,6 +1407,8 @@
                 const cfg = ghMod.getGithubConfig();
                 if (cfg.token && cfg.autoSync) {
                     await ghMod.pushDataToGitHub('CMS: إضافة تقييم مريض جديد');
+                } else if (!cfg.token) {
+                    alert('تنبيه: النشر السحابي غير مفعّل على هذا الجهاز. التقييم محلي وسيختفي عند إعادة تحميل الصفحة. فعّل النشر السحابي من تبويب "النشر السحابي" للاحتفاظ بالتعديلات.');
                 }
             } catch (err) {}
 

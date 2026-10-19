@@ -249,6 +249,9 @@ onReady(() => {
                 });
 
                 highlightActiveLink();
+
+                // Footer-injected widgets need their handlers bound now
+                import('./app.js').then(m => { if (typeof m.initNewsletter === 'function') m.initNewsletter(); }).catch(() => {});
             })
             .catch(err => console.error('Error loading footer:', err));
     }

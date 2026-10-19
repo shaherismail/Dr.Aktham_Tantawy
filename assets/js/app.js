@@ -149,7 +149,8 @@ export function initTestimonials() {
 // Newsletter sign-up feedback (Standalone LocalStorage)
 export function initNewsletter() {
     const newsForm = document.getElementById('newsForm');
-    if (!newsForm) return;
+    if (!newsForm || newsForm.dataset.bound === '1') return;
+    newsForm.dataset.bound = '1';
 
     newsForm.addEventListener('submit', (e) => {
         e.preventDefault();

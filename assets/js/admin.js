@@ -1459,6 +1459,9 @@ window.adminActions = {
             s.price = Number(newPrice);
             localStorage.setItem('dr_aktham_services', JSON.stringify(AdminState.services));
             showToast(`تم تحديث سعر "${s.name}" إلى ${s.price} ر.س`, 'success');
+            if (!getGithubConfig().token) {
+                showToast('تنبيه: النشر السحابي غير مفعّل على هذا الجهاز، التعديل محلي وسيختفي عند إعادة التحميل.', 'error');
+            }
             renderServices();
 
             const ghCfg = getGithubConfig();
@@ -2370,19 +2373,23 @@ function bindFormsAndModals() {
     // Change PIN Modal
     const changePinBtn = document.getElementById('admChangePinBtn');
     if (changePinBtn) {
-        changePinBtn.addEventListener('click', () => {
-            const cur = prompt('أدخل رمز الدخول الحالي:');
-            const saved = localStorage.getItem('dr_aktham_admin_pin') || '1234';
-            if (cur === saved || cur === 'admin2026') {
-                const next = prompt('أدخل رمز الدخول الجديد (أرقام أو حروف):');
-                if (next && next.length >= 4) {
-                    localStorage.setItem('dr_aktham_admin_pin', next);
-                    showToast('تم تغيير رمز الدخول بنجاح!', 'success');
+        changePinBtn.addEventListener('click', async () => {
+            const next = prompt('أدخل كلمة المرور الجديدة للوحة الإدارة (6 أحرف على الأقل):');
+            if (next === null) return;
+            if (next.length < 6) {
+                showToast('كلمة المرور يجب أن تكون 6 أحرف على الأقل.', 'error');
+                return;
+            }
+            try {
+                const sb = await getSupabase();
+                const { error } = await sb.auth.updateUser({ password: next });
+                if (error) {
+                    showToast('تعذر تغيير كلمة المرور: ' + (error.message || 'خطأ غير معروف'), 'error');
                 } else {
-                    showToast('رمز الدخول يجب أن يتكون من 4 خانات على الأقل.', 'error');
+                    showToast('تم تغيير كلمة مرور لوحة الإدارة بنجاح!', 'success');
                 }
-            } else {
-                showToast('رمز الدخول الحالي غير صحيح!', 'error');
+            } catch (e) {
+                showToast('تعذر الاتصال بخادم المصادقة. حاول مرة أخرى.', 'error');
             }
         });
     }
