@@ -144,3 +144,17 @@
     /* keep the bar to essentials: menu, booking CTA, theme, alerts, lock */
     #admCloudPill, #admHeaderQuickSyncBtn, #admUserProfileBadge { display: none; }
 }
+/* Phone forms and toolbars must not rely on desktop two-column widths. */
+@media (max-width: 600px) {
+    .admin-content { padding: 20px 16px; }
+    .form-grid-2, .media-management-grid { grid-template-columns: minmax(0, 1fr); }
+    .form-grid-2 > * { grid-column: auto !important; }
+    .adm-card { padding: 20px; }
+    .adm-card-header { flex-direction: column; align-items: stretch; gap: 16px; }
+    .adm-card-header > div { min-width: 0; max-width: 100%; flex-wrap: wrap; }
+    .adm-card-header .adm-btn { white-space: normal; min-height: 44px; }
+    .adm-input, .adm-select, textarea.adm-input { font-size: 16px; min-width: 0; }
+    .adm-modal-card { max-width: calc(100vw - 24px); }
+    .toolbar-filters { min-width: 0; }
+    .toolbar-filters > * { max-width: 100%; }
+}
