@@ -164,3 +164,7 @@
     .media-management-grid [style*="display:flex"] { flex-wrap: wrap; }
     .media-management-grid input { width: 100%; }
 }
+@media (max-width: 600px) {
+    .media-actions-group { flex-direction: column; align-items: stretch; gap: 10px; }
+    .media-actions-group > * { width: 100%; }
+}
