@@ -421,7 +421,7 @@ export function initBookingFlow() {
     }
 
     // SUBMIT BOOKING HANDLER ("تسجيل الحجز")
-    bookingForm.addEventListener('submit', (e) => {
+    bookingForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         // If submitted prematurely (e.g. Enter pressed on input), advance to next step
@@ -500,11 +500,15 @@ export function initBookingFlow() {
                 .catch(() => {});
         } catch (err) {}
 
-        // Non-blocking save to Supabase (RLS: public insert only)
+        // Save to Supabase (RLS: public insert only). Await briefly so the
+        // redirect below cannot abort the request; never blocks the user if
+        // the backend is unreachable (2.5s cap, failures swallowed).
         try {
-            import('./supabase-client.js')
-                .then(m => m.insertBooking(newBooking))
-                .catch(() => {});
+            const m = await import('./supabase-client.js');
+            await Promise.race([
+                m.insertBooking(newBooking),
+                new Promise(r => setTimeout(r, 2500))
+            ]);
         } catch (e) {}
 
         // Smooth transition to success page
