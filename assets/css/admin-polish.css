@@ -111,3 +111,9 @@
         transition-duration: .01ms !important;
     }
 }
+
+/* Flex overflow fix: the main column must be allowed to shrink below its
+   content's min-width; data tables then scroll inside .table-responsive
+   instead of pushing the whole layout sideways. */
+.admin-main { min-width: 0; }
+.admin-content { min-width: 0; }
