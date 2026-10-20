@@ -168,7 +168,7 @@ export function initAdminData() {
         bookings = [];
     }
     // Do NOT seed demoBookings!
-    AdminState.bookings = bookings;
+    AdminState.bookings = bookings.map(scrubRec);
     localStorage.setItem('dr_aktham_bookings', JSON.stringify(bookings));
 
     // Services
@@ -210,7 +210,7 @@ export function initAdminData() {
     } catch (e) {
         contacts = [];
     }
-    AdminState.contacts = contacts;
+    AdminState.contacts = contacts.map(scrubRec);
     localStorage.setItem('dr_aktham_contacts', JSON.stringify(contacts));
 
     // Newsletter Subscribers - Strictly clean out mock emails
@@ -227,7 +227,7 @@ export function initAdminData() {
     } catch (e) {
         newsletter = [];
     }
-    AdminState.newsletter = newsletter;
+    AdminState.newsletter = newsletter.map(scrubRec);
     localStorage.setItem('dr_aktham_newsletter', JSON.stringify(newsletter));
 
     // Gallery Cases (Before & After)
@@ -1598,6 +1598,19 @@ export function closeModal(id) {
 // deployed clinic_data.json so the admin sees records created on any device.
 // Local edits win for existing IDs; locally deleted IDs are not resurrected.
 // --------------------------------------------------------------------------
+// Patient-submitted text is rendered with innerHTML in several admin views. Strip characters that
+// could inject markup (also blocked by DB constraints) so old/stray rows can never run script here.
+function scrubRec(o) {
+    if (typeof o === 'string') return o.replace(/[<>"'`\\]/g, '');
+    if (!o || typeof o !== 'object') return o;
+    const out = {};
+    Object.keys(o).forEach(k => {
+        const v = o[k];
+        out[k] = typeof v === 'string' ? v.replace(/[<>"'`\\]/g, '') : v;
+    });
+    return out;
+}
+
 async function loadAdminCloudData() {
     try {
         const sb = await getSupabase();
@@ -1607,20 +1620,20 @@ async function loadAdminCloudData() {
             sb.from('newsletter').select('*').order('created_at', { ascending: false })
         ]);
         if (bookingsRes.data) {
-            AdminState.bookings = bookingsRes.data.map(b => ({
+            AdminState.bookings = bookingsRes.data.map(scrubRec).map(b => ({
                 ...b,
                 timestamp: b.created_at ? new Date(b.created_at).getTime() : Date.now()
             }));
         }
         if (contactsRes.data) {
-            AdminState.contacts = contactsRes.data.map(c => ({
+            AdminState.contacts = contactsRes.data.map(scrubRec).map(c => ({
                 ...c,
                 date: c.created_at ? new Date(c.created_at).toLocaleString('ar-EG') : '',
                 timestamp: c.created_at ? new Date(c.created_at).getTime() : Date.now()
             }));
         }
         if (newsRes.data) {
-            AdminState.newsletter = newsRes.data.map(n => ({
+            AdminState.newsletter = newsRes.data.map(scrubRec).map(n => ({
                 ...n,
                 date: n.created_at ? n.created_at.split('T')[0] : ''
             }));
@@ -1635,27 +1648,35 @@ async function loadAdminCloudData() {
 }
 
 // Fire-and-forget Supabase mirrors for admin mutations
+function sbReport(promise) {
+    promise.then(r => {
+        if (r && r.error) {
+            console.warn('Supabase write failed:', r.error);
+            showToast('تعذر حفظ التغيير في قاعدة البيانات: ' + (r.error.message || 'خطأ غير معروف'), 'error');
+        }
+    }).catch(() => showToast('تعذر الاتصال بقاعدة البيانات. لم يتم حفظ التغيير.', 'error'));
+}
 function sbBookingInsert(b) {
-    getSupabase().then(sb => sb.from('bookings').insert({
+    sbReport(getSupabase().then(sb => sb.from('bookings').insert({
         id: b.id, name: b.name, phone: b.phone, email: b.email, age: b.age,
         service: b.service, doctor: b.doctor, date: b.date, time: b.time,
         chair: b.chair, notes: b.notes, status: b.status || 'pending'
-    })).catch(() => {});
+    })));
 }
 function sbBookingUpdate(id, patch) {
-    getSupabase().then(sb => sb.from('bookings').update(patch).eq('id', id)).catch(() => {});
+    sbReport(getSupabase().then(sb => sb.from('bookings').update(patch).eq('id', id)));
 }
 function sbBookingDelete(id) {
-    getSupabase().then(sb => sb.from('bookings').delete().eq('id', id)).catch(() => {});
+    sbReport(getSupabase().then(sb => sb.from('bookings').delete().eq('id', id)));
 }
 function sbContactUpdate(id, patch) {
-    getSupabase().then(sb => sb.from('contacts').update(patch).eq('id', id)).catch(() => {});
+    sbReport(getSupabase().then(sb => sb.from('contacts').update(patch).eq('id', id)));
 }
 function sbContactDelete(id) {
-    getSupabase().then(sb => sb.from('contacts').delete().eq('id', id)).catch(() => {});
+    sbReport(getSupabase().then(sb => sb.from('contacts').delete().eq('id', id)));
 }
 function sbNewsletterDelete(email) {
-    getSupabase().then(sb => sb.from('newsletter').delete().eq('email', email)).catch(() => {});
+    sbReport(getSupabase().then(sb => sb.from('newsletter').delete().eq('email', email)));
 }
 
 function rememberDeletedId(id) {

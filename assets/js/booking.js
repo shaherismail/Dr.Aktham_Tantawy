@@ -1,4 +1,48 @@
 import { AppState } from './app.js';
+import { clean, latinDigits, getBookedSlots, insertBooking } from './supabase-client.js';
+
+// Local (device) calendar date as YYYY-MM-DD. toISOString() is UTC and gives the wrong day around midnight.
+function localDate(offsetDays = 0) {
+    const d = new Date();
+    d.setDate(d.getDate() + offsetDays);
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+function slotMinutes(label) {
+    const m = /(\d{1,2}):(\d{2})\s*(ص|م)/.exec(label || '');
+    if (!m) return null;
+    let h = parseInt(m[1], 10) % 12;
+    if (m[3] === 'م') h += 12;
+    return h * 60 + parseInt(m[2], 10);
+}
+function isPastSlot(label, dateStr) {
+    if (dateStr !== localDate()) return false;
+    const mins = slotMinutes(label);
+    const now = new Date();
+    return mins !== null && mins <= now.getHours() * 60 + now.getMinutes();
+}
+const remoteBookedCache = {};
+
+function showFieldError(el, msg) {
+    if (!el) return;
+    el.focus();
+    el.style.borderColor = 'var(--danger)';
+    let n = el.parentElement.querySelector('.field-error-msg');
+    if (!n) {
+        n = document.createElement('div');
+        n.className = 'field-error-msg';
+        n.setAttribute('role', 'alert');
+        n.style.cssText = 'color:#DC2626;font-size:14px;margin-top:6px;font-weight:700;line-height:1.6';
+        el.insertAdjacentElement('afterend', n);
+    }
+    n.textContent = msg;
+    try { el.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (e) {}
+}
+function clearFieldError(el) {
+    if (!el) return;
+    el.style.borderColor = '';
+    const n = el.parentElement && el.parentElement.querySelector('.field-error-msg');
+    if (n) n.remove();
+}
 
 let currentStep = 1;
 const totalSteps = 6;
@@ -13,7 +57,11 @@ export function generateSeatGrid(dateString) {
     if (!grid) return;
     grid.innerHTML = '';
 
-    const selectedDate = dateString || document.getElementById('bookingDate')?.value || new Date().toISOString().split('T')[0];
+    const selectedDate = dateString || document.getElementById('bookingDate')?.value || localDate();
+    if (!(selectedDate in remoteBookedCache)) {
+        remoteBookedCache[selectedDate] = null; // fetching
+        getBookedSlots(selectedDate).then(list => { remoteBookedCache[selectedDate] = list; generateSeatGrid(selectedDate); });
+    }
     const currentSuite = AppState.bookingData.chair || 'عيادة تقويم الأسنان 🦷';
 
     // Retrieve already booked slots for this date and clinic suite
@@ -25,6 +73,16 @@ export function generateSeatGrid(dateString) {
             .map(b => ({ time: b.time, chair: b.chair }));
     } catch (e) {
         bookedPairs = [];
+    }
+
+    if (Array.isArray(remoteBookedCache[selectedDate])) {
+        bookedPairs = bookedPairs.concat(remoteBookedCache[selectedDate]);
+    }
+    const slotTaken = (time) => bookedPairs.some(p => p.time === time && (p.chair === currentSuite || !p.chair));
+    const slotBlocked = (time) => slotTaken(time) || isPastSlot(time, selectedDate);
+    // Drop a previously chosen slot that is no longer available
+    if (AppState.bookingData.time && slotBlocked(AppState.bookingData.time)) {
+        AppState.bookingData.time = '';
     }
 
     const container = document.createElement('div');
@@ -40,7 +98,7 @@ export function generateSeatGrid(dateString) {
     const morningGrid = morningGroup.querySelector('#morningSlotsGrid');
 
     morningTimes.forEach(time => {
-        const isReserved = bookedPairs.some(p => p.time === time && (p.chair === currentSuite || !p.chair));
+        const isReserved = slotBlocked(time);
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = `slot-pill-btn ${isReserved ? 'slot-reserved' : 'slot-available'} ${AppState.bookingData.time === time ? 'selected' : ''}`;
@@ -48,7 +106,7 @@ export function generateSeatGrid(dateString) {
         btn.innerHTML = `
             <i class="bx ${isReserved ? 'bx-lock-alt' : 'bx-time-five'}"></i>
             <span class="slot-time-text">${time}</span>
-            <span class="slot-badge">${isReserved ? 'محجوز' : 'متاح'}</span>
+            <span class="slot-badge">${isReserved ? (isPastSlot(time, selectedDate) && !slotTaken(time) ? 'انتهى' : 'محجوز') : 'متاح'}</span>
         `;
 
         if (!isReserved) {
@@ -73,7 +131,7 @@ export function generateSeatGrid(dateString) {
     const eveningGrid = eveningGroup.querySelector('#eveningSlotsGrid');
 
     eveningTimes.forEach(time => {
-        const isReserved = bookedPairs.some(p => p.time === time && (p.chair === currentSuite || !p.chair));
+        const isReserved = slotBlocked(time);
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = `slot-pill-btn ${isReserved ? 'slot-reserved' : 'slot-available'} ${AppState.bookingData.time === time ? 'selected' : ''}`;
@@ -81,7 +139,7 @@ export function generateSeatGrid(dateString) {
         btn.innerHTML = `
             <i class="bx ${isReserved ? 'bx-lock-alt' : 'bx-time-five'}"></i>
             <span class="slot-time-text">${time}</span>
-            <span class="slot-badge">${isReserved ? 'محجوز' : 'متاح'}</span>
+            <span class="slot-badge">${isReserved ? (isPastSlot(time, selectedDate) && !slotTaken(time) ? 'انتهى' : 'محجوز') : 'متاح'}</span>
         `;
 
         if (!isReserved) {
@@ -99,6 +157,16 @@ export function generateSeatGrid(dateString) {
     container.appendChild(morningGroup);
     container.appendChild(eveningGroup);
     grid.appendChild(container);
+
+    if (!grid.querySelector('.slot-pill-btn.slot-available')) {
+        const msg = document.createElement('p');
+        msg.setAttribute('role', 'alert');
+        msg.style.cssText = 'color:#B45309;font-weight:700;margin-top:14px;line-height:1.8';
+        msg.textContent = 'لا توجد مواعيد متاحة في هذا اليوم. اختر يوماً آخر من الخطوة السابقة.';
+        grid.appendChild(msg);
+        const card = document.getElementById('selectedSeatInfoCard');
+        if (card) card.style.display = 'none';
+    }
 
     // Auto-select first available slot if none selected yet
     if (!AppState.bookingData.time) {
@@ -136,7 +204,7 @@ function populateSummary() {
     const doctorVal = AppState.bookingData.doctor || 'د. أكثم طنطاوي';
     const dateVal = document.getElementById('bookingDate')?.value || 'اليوم';
     const chairVal = AppState.bookingData.chair || 'عيادة تقويم الأسنان 🦷';
-    const timeVal = AppState.bookingData.time || '10:00 ص';
+    const timeVal = AppState.bookingData.time || '-';
 
     const sumName = document.getElementById('summaryName');
     const sumPhone = document.getElementById('summaryPhone');
@@ -200,42 +268,36 @@ function validateStep(step) {
     if (step === 1) {
         const nameEl = document.getElementById('bookingName');
         const phoneEl = document.getElementById('bookingPhone');
+        const emailEl = document.getElementById('bookingEmail');
         const ageEl = document.getElementById('bookingAge');
+        [nameEl, phoneEl, emailEl, ageEl].forEach(clearFieldError);
 
-        const name = nameEl?.value.trim() || '';
-        const phone = phoneEl?.value.trim() || '';
-        const age = ageEl?.value.trim() || '';
-        
-        if (!name || name.length < 2) {
-            if (nameEl) {
-                nameEl.focus();
-                nameEl.style.borderColor = 'var(--danger)';
-            }
-            alert('الرجاء كتابة اسم المريض الكامل.');
+        const name = clean(nameEl?.value, 100);
+        if (nameEl && nameEl.value !== name && nameEl.value.trim() !== name) nameEl.value = name;
+        if (name.length < 2) {
+            showFieldError(nameEl, 'الرجاء كتابة اسم المريض (حرفان على الأقل).');
             return false;
         }
-        if (nameEl) nameEl.style.borderColor = '';
 
-        if (!phone || phone.length < 8) {
-            if (phoneEl) {
-                phoneEl.focus();
-                phoneEl.style.borderColor = 'var(--danger)';
-            }
-            alert('الرجاء إدخال رقم جوال صحيح للتواصل (مثال: 05xxxxxxxx).');
+        const phoneRaw = latinDigits(phoneEl?.value || '').replace(/[\s\-()]/g, '');
+        const phoneDigits = phoneRaw.replace(/^\+/, '');
+        if (!/^\d{8,15}$/.test(phoneDigits)) {
+            showFieldError(phoneEl, 'الرجاء إدخال رقم جوال صحيح من 8 إلى 15 رقماً (أرقام فقط).');
             return false;
         }
-        if (phoneEl) phoneEl.style.borderColor = '';
+        if (phoneEl) phoneEl.value = phoneRaw;
 
-        if (age && (parseInt(age) < 3 || parseInt(age) > 120)) {
-            if (ageEl) {
-                ageEl.focus();
-                ageEl.style.borderColor = 'var(--danger)';
-            }
-            alert('الرجاء إدخال عمر صحيح بالسنوات.');
+        const email = (emailEl?.value || '').trim();
+        if (email && !/^[^@\s<>"'`\\]+@[^@\s<>"'`\\]+\.[^@\s<>"'`\\]+$/.test(email)) {
+            showFieldError(emailEl, 'البريد الإلكتروني غير صحيح. اتركه فارغاً إن لم يكن لديك بريد.');
             return false;
         }
-        if (ageEl) ageEl.style.borderColor = '';
 
+        const age = latinDigits(ageEl?.value || '').trim();
+        if (age && (!/^\d{1,3}$/.test(age) || parseInt(age, 10) < 3 || parseInt(age, 10) > 120)) {
+            showFieldError(ageEl, 'الرجاء إدخال عمر صحيح بالسنوات (من 3 إلى 120).');
+            return false;
+        }
         return true;
     }
     if (step === 2) {
@@ -252,8 +314,8 @@ function validateStep(step) {
     }
     if (step === 4) {
         const dateInput = document.getElementById('bookingDate');
-        if (!dateInput || !dateInput.value) {
-            const today = new Date().toISOString().split('T')[0];
+        const today = localDate();
+        if (!dateInput || !dateInput.value || dateInput.value < today) {
             if (dateInput) dateInput.value = today;
             AppState.bookingData.date = today;
         } else {
@@ -266,14 +328,15 @@ function validateStep(step) {
             AppState.bookingData.chair = 'عيادة تقويم الأسنان 🦷';
         }
         if (!AppState.bookingData.time) {
-            // Auto pick first available
             const firstAvailable = document.querySelector('.slot-pill-btn.slot-available');
             if (firstAvailable) {
                 const timeSpan = firstAvailable.querySelector('.slot-time-text');
                 if (timeSpan) AppState.bookingData.time = timeSpan.textContent.trim();
-            } else {
-                AppState.bookingData.time = '10:00 ص';
             }
+        }
+        if (!AppState.bookingData.time) {
+            alert('لا توجد مواعيد متاحة في هذا اليوم. اختر يوماً آخر.');
+            return false;
         }
         return true;
     }
@@ -287,7 +350,7 @@ export function initBookingFlow() {
     if (!bookingForm) return;
 
     // Set today's date as min and default
-    const today = new Date().toISOString().split('T')[0];
+    const today = localDate();
     if (dateInput) {
         dateInput.min = today;
         if (!dateInput.value) dateInput.value = today;
@@ -297,7 +360,7 @@ export function initBookingFlow() {
     AppState.bookingData.service = 'تقويم الأسنان الحديث';
     AppState.bookingData.doctor = 'د. أكثم طنطاوي';
     AppState.bookingData.chair = 'عيادة تقويم الأسنان 🦷';
-    AppState.bookingData.time = '10:00 ص';
+    AppState.bookingData.time = '';
     AppState.bookingData.date = today;
 
     // Quick Date Chips logic
@@ -323,7 +386,7 @@ export function initBookingFlow() {
     if (chipTomorrow) {
         chipTomorrow.addEventListener('click', () => {
             setChipActive(chipTomorrow);
-            const tmr = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+            const tmr = localDate(1);
             dateInput.value = tmr;
             AppState.bookingData.date = tmr;
             generateSeatGrid(tmr);
@@ -333,7 +396,7 @@ export function initBookingFlow() {
     if (chipAfterTomorrow) {
         chipAfterTomorrow.addEventListener('click', () => {
             setChipActive(chipAfterTomorrow);
-            const aft = new Date(Date.now() + 2 * 86400000).toISOString().split('T')[0];
+            const aft = localDate(2);
             dateInput.value = aft;
             AppState.bookingData.date = aft;
             generateSeatGrid(aft);
@@ -384,6 +447,11 @@ export function initBookingFlow() {
             AppState.bookingData.chair = card.getAttribute('data-suite');
             generateSeatGrid(dateInput?.value);
         });
+    });
+
+    ['bookingName', 'bookingPhone', 'bookingEmail', 'bookingAge'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', () => clearFieldError(el));
     });
 
     // Next/Prev Buttons Controllers
@@ -439,79 +507,83 @@ export function initBookingFlow() {
             return;
         }
 
-        // Validate Step 4 & 5
         validateStep(4);
-        validateStep(5);
 
-        const nameVal = document.getElementById('bookingName').value.trim();
-        const phoneVal = document.getElementById('bookingPhone').value.trim();
-        const emailVal = document.getElementById('bookingEmail').value.trim() || 'غير مسجل';
-        const ageVal = parseInt(document.getElementById('bookingAge').value) || 25;
-        const dateVal = document.getElementById('bookingDate').value || today;
-        const timeVal = AppState.bookingData.time || '10:00 ص';
+        const submitBtn = document.getElementById('submitBookingBtn');
+        if (submitBtn && submitBtn.dataset.busy === '1') return; // block double taps
+        if (!validateStep(5)) { showStep(5); return; }
+
+        const nameVal = clean(document.getElementById('bookingName').value, 100);
+        const phoneVal = latinDigits(document.getElementById('bookingPhone').value).replace(/[\s\-()]/g, '').slice(0, 20);
+        const emailVal = clean(document.getElementById('bookingEmail').value, 254) || 'غير مسجل';
+        const ageParsed = parseInt(latinDigits(document.getElementById('bookingAge').value), 10);
+        const ageVal = Number.isFinite(ageParsed) ? ageParsed : null;
+        const dateVal = document.getElementById('bookingDate').value || localDate();
+        const timeVal = AppState.bookingData.time;
         const chairVal = AppState.bookingData.chair || 'عيادة تقويم الأسنان 🦷';
         const serviceVal = AppState.bookingData.service || 'تقويم الأسنان الحديث';
         const doctorVal = AppState.bookingData.doctor || 'د. أكثم طنطاوي';
-        const notesVal = document.getElementById('bookingNotes').value.trim() || 'لا توجد ملاحظات إضافية';
-
-        // Generate unique Booking ID
-        const bookingId = 'DK-' + Math.floor(1000 + Math.random() * 9000);
+        const notesVal = clean(document.getElementById('bookingNotes').value, 1000) || 'لا توجد ملاحظات إضافية';
 
         const newBooking = {
-            id: bookingId,
-            name: nameVal,
-            phone: phoneVal,
-            email: emailVal,
-            age: ageVal,
-            service: serviceVal,
-            doctor: doctorVal,
-            date: dateVal,
-            time: timeVal,
-            chair: chairVal,
-            notes: notesVal,
-            status: 'pending',
-            timestamp: Date.now()
+            name: nameVal, phone: phoneVal, email: emailVal, age: ageVal,
+            service: serviceVal, doctor: doctorVal, date: dateVal, time: timeVal,
+            chair: chairVal, notes: notesVal, status: 'pending', timestamp: Date.now()
         };
 
-        // Save cleanly to LocalStorage
+        const origLabel = submitBtn ? submitBtn.innerHTML : '';
+        if (submitBtn) { submitBtn.dataset.busy = '1'; submitBtn.disabled = true; submitBtn.textContent = 'جارٍ تسجيل الحجز...'; }
+
+        // Save to the clinic database FIRST. Retry with a new ID if the ID is already taken.
+        let saved = false;
+        let lastTimedOut = false;
+        let bookingId = 'DK-' + Math.floor(1000 + Math.random() * 9000);
+        for (let attempt = 0; attempt < 6 && !saved; attempt++) {
+            newBooking.id = bookingId;
+            let res;
+            try {
+                res = await Promise.race([
+                    insertBooking(newBooking),
+                    new Promise(r => setTimeout(() => r({ error: { code: 'timeout' } }), 10000))
+                ]);
+            } catch (err) {
+                res = { error: { code: 'exception' } };
+            }
+            if (!res || !res.error) { saved = true; break; }
+            if (res.error.code === '23505') {
+                if (lastTimedOut) { saved = true; break; } // our earlier timed-out request actually landed
+                bookingId = 'DK-' + Math.floor(10000 + Math.random() * 90000);
+                lastTimedOut = false;
+                continue;
+            }
+            lastTimedOut = res.error.code === 'timeout';
+            await new Promise(r => setTimeout(r, 800));
+        }
+
+        if (!saved) {
+            if (submitBtn) { submitBtn.dataset.busy = '0'; submitBtn.disabled = false; submitBtn.innerHTML = origLabel; }
+            alert('تعذر تسجيل الحجز الآن. تأكد من الاتصال بالإنترنت وحاول مرة أخرى، أو تواصل مع العيادة مباشرة.');
+            return;
+        }
+
         try {
             let bookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
-            // Filter out any lingering mock test data
             bookings = bookings.filter(b => b && b.id && !b.id.startsWith('DK-849') && b.name !== 'عبد الرحمن الشمري');
             bookings.unshift(newBooking);
             localStorage.setItem('dr_aktham_bookings', JSON.stringify(bookings));
-
-            // Save patient profile
             localStorage.setItem('current_patient_profile', JSON.stringify({
-                name: newBooking.name,
-                phone: newBooking.phone,
-                email: newBooking.email,
-                age: newBooking.age,
-                id: bookingId
+                name: newBooking.name, phone: newBooking.phone, email: newBooking.email, age: newBooking.age, id: bookingId
             }));
         } catch (err) {
             console.error('Failed saving to localStorage:', err);
         }
 
-        // Send Telegram notification (dynamic, non-blocking)
         try {
             import('./telegram.js')
                 .then(m => m.sendTelegramNotification && m.sendTelegramNotification(bookingId))
                 .catch(() => {});
         } catch (err) {}
 
-        // Save to Supabase (RLS: public insert only). Await briefly so the
-        // redirect below cannot abort the request; never blocks the user if
-        // the backend is unreachable (2.5s cap, failures swallowed).
-        try {
-            const m = await import('./supabase-client.js');
-            await Promise.race([
-                m.insertBooking(newBooking),
-                new Promise(r => setTimeout(r, 2500))
-            ]);
-        } catch (e) {}
-
-        // Smooth transition to success page
         window.location.href = 'success.html';
     });
 }

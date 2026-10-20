@@ -1,4 +1,5 @@
 // Profile & Appointment Tracking Module (100% Standalone & LocalStorage/Cloud Driven)
+import { esc, cancelBooking, latinDigits } from './supabase-client.js';
 
 export function initPatientProfile() {
     const lookupForm = document.getElementById('lookupBookingForm');
@@ -71,10 +72,16 @@ export function initPatientProfile() {
             });
 
             // Merge remote RPC matches (dedupe by id)
+            // The clinic database is the source of truth: its status/details replace any local copy.
             if (remoteMatches.length > 0) {
-                const seen = new Set(matches.map(b => b.id));
-                remoteMatches.forEach(b => { if (b && b.id && !seen.has(b.id)) matches.push(b); });
+                remoteMatches.forEach(b => {
+                    if (!b || !b.id) return;
+                    const i = matches.findIndex(x => x.id === b.id);
+                    if (i >= 0) matches[i] = { ...matches[i], ...b }; else matches.push(b);
+                });
             }
+            // Cancelled bookings are not shown as active appointments
+            for (let i = matches.length - 1; i >= 0; i--) { if (matches[i].status === 'cancelled') matches.splice(i, 1); }
 
             if (loadingEl) loadingEl.style.display = 'none';
 
@@ -82,7 +89,7 @@ export function initPatientProfile() {
                 if (notFoundEl) {
                     const notFoundText = notFoundEl.querySelector('p');
                     if (notFoundText) {
-                        notFoundText.innerHTML = `لم نتمكن من مطابقة الرقم <strong>(${cleanQuery})</strong> مع أي حجز في النظام.<br>يرجى التأكد من كتابة الرقم بشكل صحيح أو حجز موعد جديد مباشرة.`;
+                        notFoundText.innerHTML = `لم نتمكن من مطابقة الرقم <strong>(${esc(cleanQuery)})</strong> مع أي حجز في النظام.<br>يرجى التأكد من كتابة الرقم بشكل صحيح أو حجز موعد جديد مباشرة.`;
                     }
                     notFoundEl.style.display = 'block';
                 }
@@ -159,17 +166,17 @@ function renderFoundBookings(bookings, container) {
         const card = document.createElement('div');
         card.className = 'booking-status-card';
 
-        const waText = encodeURIComponent(`مرحباً عيادة د. أكثم، أود الاستفسار/التأكيد بخصوص موعدي رقم ${b.id} باسم ${b.name} بتاريخ ${b.date} الساعة ${b.time}.`);
+        const waText = encodeURIComponent(`مرحباً عيادة د. أكثم، أود الاستفسار/التأكيد بخصوص موعدي رقم ${esc(b.id)} باسم ${esc(b.name)} بتاريخ ${esc(b.date)} الساعة ${esc(b.time)}.`);
         const waLink = `https://wa.me/966501234567?text=${waText}`;
 
         card.innerHTML = `
             <div class="status-header-row">
                 <div>
                     <span style="font-size: 13px; font-weight: 800; color: var(--primary); background: var(--primary-subtle); padding: 4px 12px; border-radius: var(--radius-full); font-family: 'Outfit';">
-                        معرف الحجز: ${b.id}
+                        معرف الحجز: ${esc(b.id)}
                     </span>
                     <h3 style="font-size: 20px; font-weight: 800; color: var(--dark); margin-top: 8px;">
-                        المريض: ${b.name}
+                        المريض: ${esc(b.name)}
                     </h3>
                 </div>
                 <div>
@@ -184,7 +191,7 @@ function renderFoundBookings(bookings, container) {
                     <div class="meta-box-icon"><i class="bx bx-calendar"></i></div>
                     <div>
                         <div class="meta-box-lbl">تاريخ الموعد</div>
-                        <div class="meta-box-val">${b.date}</div>
+                        <div class="meta-box-val">${esc(b.date)}</div>
                     </div>
                 </div>
 
@@ -192,7 +199,7 @@ function renderFoundBookings(bookings, container) {
                     <div class="meta-box-icon"><i class="bx bx-time-five"></i></div>
                     <div>
                         <div class="meta-box-lbl">توقيت الجلسة</div>
-                        <div class="meta-box-val">${b.time}</div>
+                        <div class="meta-box-val">${esc(b.time)}</div>
                     </div>
                 </div>
 
@@ -200,7 +207,7 @@ function renderFoundBookings(bookings, container) {
                     <div class="meta-box-icon"><i class="bx bx-first-aid"></i></div>
                     <div>
                         <div class="meta-box-lbl">الخدمة المطلوبة</div>
-                        <div class="meta-box-val">${b.service}</div>
+                        <div class="meta-box-val">${esc(b.service)}</div>
                     </div>
                 </div>
 
@@ -208,7 +215,7 @@ function renderFoundBookings(bookings, container) {
                     <div class="meta-box-icon"><i class="bx bx-building-house"></i></div>
                     <div>
                         <div class="meta-box-lbl">مكان الكشف</div>
-                        <div class="meta-box-val">${b.chair || 'العيادة الرئيسية 1'}</div>
+                        <div class="meta-box-val">${esc(b.chair || 'العيادة الرئيسية 1')}</div>
                     </div>
                 </div>
             </div>
@@ -222,7 +229,7 @@ function renderFoundBookings(bookings, container) {
                 <a href="${waLink}" target="_blank" class="btn btn-whatsapp" style="flex: 1; min-width: 200px;">
                     <i class="bx bxl-whatsapp"></i> تواصل مع العيادة لتأكيد الموعد
                 </a>
-                <button type="button" class="btn btn-outline cancel-btn" data-id="${b.id}" style="color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">
+                <button type="button" class="btn btn-outline cancel-btn" data-id="${esc(b.id)}" style="color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">
                     <i class="bx bx-trash"></i> إلغاء الحجز
                 </button>
             </div>
@@ -230,17 +237,35 @@ function renderFoundBookings(bookings, container) {
 
         const cancelBtn = card.querySelector('.cancel-btn');
         if (cancelBtn) {
-            cancelBtn.addEventListener('click', () => {
-                if (confirm(`هل أنت متأكد من رغبتك في إلغاء الحجز رقم (${b.id})؟`)) {
+            cancelBtn.addEventListener('click', async () => {
+                if (!confirm(`هل أنت متأكد من رغبتك في إلغاء الحجز رقم (${b.id})؟`)) return;
+                const phoneIn = prompt('للتأكيد، اكتب رقم الجوال الذي حجزت به:');
+                if (!phoneIn) return;
+                cancelBtn.disabled = true;
+                try {
+                    const ok = await cancelBooking(b.id, latinDigits(phoneIn).replace(/[\s\-()]/g, ''));
+                    if (!ok) {
+                        cancelBtn.disabled = false;
+                        alert('رقم الجوال غير مطابق لهذا الحجز، لم يتم الإلغاء. يمكنك التواصل مع العيادة لإلغاء الموعد.');
+                        return;
+                    }
+                } catch (err) {
+                    cancelBtn.disabled = false;
+                    alert('تعذر إلغاء الحجز الآن. حاول مرة أخرى أو تواصل مع العيادة.');
+                    return;
+                }
+                try {
                     let bookingsList = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
                     bookingsList = bookingsList.filter(item => item.id !== b.id);
                     localStorage.setItem('dr_aktham_bookings', JSON.stringify(bookingsList));
-                    alert('تم إلغاء الحجز بنجاح.');
-                    card.remove();
-                    if (container.children.length === 0) {
-                        const notFoundEl = document.getElementById('lookupNotFound');
-                        if (notFoundEl) notFoundEl.style.display = 'block';
-                    }
+                    const prof = JSON.parse(localStorage.getItem('current_patient_profile') || 'null');
+                    if (prof && prof.id === b.id) localStorage.removeItem('current_patient_profile');
+                } catch (e) {}
+                alert('تم إلغاء الحجز بنجاح.');
+                card.remove();
+                if (container.children.length === 0) {
+                    const notFoundEl = document.getElementById('lookupNotFound');
+                    if (notFoundEl) notFoundEl.style.display = 'block';
                 }
             });
         }

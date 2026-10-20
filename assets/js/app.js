@@ -25,9 +25,7 @@ export function checkUrlCallbacks() {
         let bookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
         const idx = bookings.findIndex(b => b.id === id);
         if (idx !== -1) {
-            bookings[idx].status = 'confirmed';
-            localStorage.setItem('dr_aktham_bookings', JSON.stringify(bookings));
-
+            // Status is controlled by the clinic only; never mark as confirmed from a URL parameter.
             localStorage.setItem('current_patient_profile', JSON.stringify({
                 name: bookings[idx].name,
                 phone: bookings[idx].phone,
@@ -157,24 +155,38 @@ export function initNewsletter() {
         const emailInput = newsForm.querySelector('.newsletter-input');
         if (!emailInput) return;
         const emailVal = emailInput.value.trim();
-        if (emailVal) {
-            let list = [];
-            try { list = JSON.parse(localStorage.getItem('dr_aktham_newsletter') || '[]'); } catch (err) {}
-            if (list.some(item => (typeof item === 'string' ? item : item.email) === emailVal)) {
-                alert('أنت مسجل بالفعل في النشرة الطبية للعيادة!');
-                return;
-            }
-            list.unshift({ email: emailVal, date: new Date().toISOString().split('T')[0] });
-            try { localStorage.setItem('dr_aktham_newsletter', JSON.stringify(list)); } catch (err) {}
-            // Persist to Supabase BEFORE the blocking alert so the signup is
-            // never lost if the tab closes while the alert is open.
-            try {
-                const m = await import('./supabase-client.js');
-                await m.insertNewsletter(emailVal);
-            } catch (err) {}
-            alert(`شكراً لك! تم تسجيل البريد الإلكتروني (${emailVal}) بنجاح في النشرة الطبية للعيادة.`);
-            newsForm.reset();
+        if (!emailVal) { alert('الرجاء كتابة بريدك الإلكتروني.'); return; }
+        if (emailVal.length > 254 || !/^[^@\s<>"'`\\]+@[^@\s<>"'`\\]+\.[^@\s<>"'`\\]+$/.test(emailVal)) {
+            alert('البريد الإلكتروني غير صحيح. مثال: name@example.com');
+            return;
         }
+        if (newsForm.dataset.busy === '1') return;
+        newsForm.dataset.busy = '1';
+        let list = [];
+        try { list = JSON.parse(localStorage.getItem('dr_aktham_newsletter') || '[]'); } catch (err) {}
+        if (list.some(item => (typeof item === 'string' ? item : item.email) === emailVal)) {
+            newsForm.dataset.busy = '0';
+            alert('أنت مسجل بالفعل في النشرة الطبية للعيادة!');
+            return;
+        }
+        let result = { error: { code: 'exception' } };
+        try {
+            const m = await import('./supabase-client.js');
+            result = await Promise.race([
+                m.insertNewsletter(emailVal),
+                new Promise(r => setTimeout(() => r({ error: { code: 'timeout' } }), 10000))
+            ]);
+        } catch (err) {}
+        newsForm.dataset.busy = '0';
+        const dup = result && result.error && result.error.code === '23505';
+        if (result && result.error && !dup) {
+            alert('تعذر التسجيل الآن. حاول مرة أخرى بعد قليل.');
+            return;
+        }
+        list.unshift({ email: emailVal, date: new Date().toISOString().split('T')[0] });
+        try { localStorage.setItem('dr_aktham_newsletter', JSON.stringify(list)); } catch (err) {}
+        alert(dup ? 'أنت مسجل بالفعل في النشرة الطبية للعيادة!' : 'شكراً لك! تم تسجيل البريد الإلكتروني (' + emailVal + ') بنجاح في النشرة الطبية للعيادة.');
+        newsForm.reset();
     });
 }
 

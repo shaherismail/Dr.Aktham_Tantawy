@@ -195,14 +195,15 @@ onReady(() => {
     const page = path.split('/').pop() || 'index.html';
     const slug = page.replace('.html', '') || 'index';
 
-    import(`./settings/${slug}.js`)
+    const KNOWN_PAGE_SETTINGS = ['404', 'about', 'blog', 'booking', 'contact', 'gallery', 'general', 'index', 'profile', 'services', 'success'];
+    (KNOWN_PAGE_SETTINGS.includes(slug) ? import(`./settings/${slug}.js`) : Promise.reject(new Error('no page settings')))
         .then(module => {
             if (module && module.PageSettings) {
                 applyPageSettings(module.PageSettings);
             }
         })
         .catch(err => {
-            console.warn(`No separate settings file found for page: ${slug}.js`, err);
+            /* page has no separate settings file */
         });
 
     // Header/footer are baked into each page for instant first paint.

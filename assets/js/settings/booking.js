@@ -56,7 +56,7 @@ export const PageSettings = {
 
         // Dr. Sara Card
         ".doctors-selector-grid > div:nth-child(2) img": {
-            src: "https://images.unsplash.com/photo-1594824813573-246434de83fb?auto=format&fit=crop&w=200&q=80",
+            src: "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23EBF3FF'/%3E%3Ccircle cx='100' cy='78' r='38' fill='%236FA8FF'/%3E%3Cpath d='M30 190c6-46 36-68 70-68s64 22 70 68z' fill='%236FA8FF'/%3E%3C/svg%3E",
             alt: "د. سارة الأحمد"
         },
         ".doctors-selector-grid > div:nth-child(2) h4": "د. سارة الأحمد",
