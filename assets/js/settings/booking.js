@@ -20,7 +20,7 @@ export const PageSettings = {
         },
         "#stepPanel1 div div:nth-child(2) label": "رقم الجوال",
         "#stepPanel1 div div:nth-child(2) input": {
-            placeholder: "05xxxxxxxx"
+            placeholder: "01xxxxxxxxx"
         },
         "#stepPanel1 div div:nth-child(3) label": "البريد الإلكتروني (اختياري)",
         "#stepPanel1 div div:nth-child(3) input": {

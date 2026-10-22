@@ -27,7 +27,7 @@ export const PageSettings = {
         },
         "#contactForm div:nth-child(2) label": "رقم الجوال",
         "#contactForm div:nth-child(2) input": {
-            placeholder: "05xxxxxxxx"
+            placeholder: "01xxxxxxxxx"
         },
         "#contactForm div:nth-child(3) label": "البريد الإلكتروني",
         "#contactForm div:nth-child(3) input": {
