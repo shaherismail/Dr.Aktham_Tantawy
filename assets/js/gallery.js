@@ -2,19 +2,19 @@
 
 export function initBeforeAfterSliders() {
     const sliders = document.querySelectorAll('.before-after-wrapper');
-    
+
     sliders.forEach(slider => {
         const handle = slider.querySelector('.slider-handle');
         const afterImg = slider.querySelector('.after-img');
         if (!handle || !afterImg) return;
-        
+
         let isDragging = false;
 
         const updateSlider = (clientX) => {
             const rect = slider.getBoundingClientRect();
             const x = clientX - rect.left;
             let percentage = (x / rect.width) * 100;
-            
+
             // Boundary constraints
             if (percentage < 0) percentage = 0;
             if (percentage > 100) percentage = 100;
@@ -127,101 +127,73 @@ export function initGalleryLightbox() {
 export const defaultGalleryCases = [
     {
         id: 'case-1',
-        title: 'تعديل الازدحام الشديد وتطابق الفكين',
+        title: 'صور من العيادة',
         category: 'crowding',
-        badge: 'تقويم الأسنان المعدني',
+        badge: 'صور من العيادة',
         beforeImg: 'assets/case2.jpg',
         afterImg: 'assets/case2.jpg',
         isSlider: false,
-        desc: 'علاج تزاحم الأسنان الحاد وتوسيع القوس السني دون الحاجة لخلع أي أسنان دائمية، مع ضبط مالي للإطباق.',
-        condition: 'تزاحم بالفكين',
-        age: '18 عاماً',
-        duration: '14 شهراً',
-        visits: '12 زيارة'
+        desc: 'صور من العيادة.',
     },
     {
         id: 'case-2',
-        title: 'إغلاق الفراغات الأمامية وتصحيح المحاذاة',
+        title: 'صور من العيادة',
         category: 'spacing',
-        badge: 'تقويم الأسنان التجميلي',
+        badge: 'صور من العيادة',
         beforeImg: 'assets/case1.jpg',
         afterImg: 'assets/case1.jpg',
         isSlider: false,
-        desc: 'علاج الفراغات الواسعة (الستيرما) بين الثنايا والرباعيات العلوية وإعادة بناء تماثل خط الابتسامة بنجاح تام.',
-        condition: 'فراغات متفرقة',
-        age: '22 عاماً',
-        duration: '11 شهراً',
-        visits: '9 زيارات'
+        desc: 'صور من العيادة.',
     },
     {
         id: 'case-3',
-        title: 'تصحيح العضة العميقة (Overbite)',
+        title: 'صور من العيادة',
         category: 'overbite',
-        badge: 'تعديل الإطباق الهيكلي',
+        badge: 'صور من العيادة',
         beforeImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.23 PM.jpeg',
         afterImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.23 PM (1).jpeg',
         isSlider: true,
-        desc: 'علاج التغطية الزائدة للأسنان السفلية ورفع العضة وتقديم الفك السفلي لتحسين المظهر الجانبي للوجه والابتسامة.',
-        condition: 'عضة عميقة',
-        age: '24 عاماً',
-        duration: '16 شهراً',
-        visits: '14 زيارة'
+        desc: 'صور من العيادة.',
     },
     {
         id: 'case-4',
-        title: 'تصحيح العضة المعكوسة الجانبية',
+        title: 'صور من العيادة',
         category: 'crossbite',
-        badge: 'تقويم وقائي وعلاجي',
+        badge: 'صور من العيادة',
         beforeImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.24 PM.jpeg',
         afterImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.24 PM (1).jpeg',
         isSlider: true,
-        desc: 'تصحيح انطباق الأسنان العلوية خلف السفلية جانبياً، وتحقيق محاذاة سليمة تمنع تآكل المفصل الصدغي.',
-        condition: 'عضة معكوسة',
-        age: '16 عاماً',
-        duration: '16 شهراً',
-        visits: '14 زيارة'
+        desc: 'صور من العيادة.',
     },
     {
         id: 'case-5',
-        title: 'علاج العضة المفتوحة الأمامية (Open Bite)',
+        title: 'صور من العيادة',
         category: 'openbite',
-        badge: 'تقويم الأسنان المتقدم',
+        badge: 'صور من العيادة',
         beforeImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.24 PM.jpeg',
         afterImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.24 PM (2).jpeg',
         isSlider: true,
-        desc: 'إعادة توجيه الأسنان الأمامية وتنزيلها لتتطابق بشكل سليم، وتصحيح وظائف التحدث والمضغ لثقة متجددة.',
-        condition: 'عضة مفتوحة',
-        age: '20 عاماً',
-        duration: '20 شهراً',
-        visits: '18 زيارة'
+        desc: 'صور من العيادة.',
     },
     {
         id: 'case-6',
-        title: 'تقويم غير مرئي لمشكلة الفراغات والاعوجاج',
+        title: 'صور من العيادة',
         category: 'aligners',
-        badge: 'التقويم الشفاف (ألاينرز)',
+        badge: 'صور من العيادة',
         beforeImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.21 PM.jpeg',
         afterImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.21 PM (1).jpeg',
         isSlider: true,
-        desc: 'علاج تجميلي ووظيفي بالكامل باستخدام قوالب الألاينرز الشفافة سريعة الفك والتركيب والمصممة رقمياً بالكامل.',
-        condition: 'تقويم شفاف',
-        age: '28 عاماً',
-        duration: '12 شهراً',
-        visits: '8 زيارات'
+        desc: 'صور من العيادة.',
     },
     {
         id: 'case-7',
-        title: 'زراعة فورية وتجميل فينير للأسنان الأمامية',
+        title: 'صور من العيادة',
         category: 'other',
-        badge: 'زراعة وتجميل الأسنان',
+        badge: 'صور من العيادة',
         beforeImg: 'assets/WhatsApp Image 2026-06-25 at 7.41.45 PM.jpeg',
         afterImg: 'assets/WhatsApp Image 2026-06-25 at 7.41.45 PM (1).jpeg',
         isSlider: true,
-        desc: 'تعويض سن مفقود بالزراعة الألمانية الفورية وتركيب عدسات الفينير الرقيقة لبقية الأسنان لابتسامة هوليودية متناسقة.',
-        condition: 'زراعة + تجميل',
-        age: '35 عاماً',
-        duration: 'جلسات متعددة',
-        visits: '6 زيارات'
+        desc: 'صور من العيادة.',
     }
 ];
 
@@ -230,19 +202,7 @@ export function renderGalleryCases() {
     const grid = document.querySelector('.gallery-grid');
     if (!grid) return;
 
-    let cases = [];
-    try {
-        const stored = localStorage.getItem('dr_aktham_gallery_cases');
-        if (stored) {
-            cases = JSON.parse(stored);
-        }
-    } catch (e) {
-        cases = [];
-    }
-
-    if (!cases || cases.length === 0) {
-        cases = defaultGalleryCases;
-    }
+    const cases = defaultGalleryCases;
 
     grid.innerHTML = cases.map(c => `
         <div class="glass-card" data-category="${c.category}">
@@ -253,37 +213,19 @@ export function renderGalleryCases() {
                 <div class="slider-handle">
                     <div class="slider-button"><i class="bx bx-chevrons-left"></i></div>
                 </div>
-                <span class="label-before">قبل</span>
-                <span class="label-after">بعد العلاج</span>
+                <span class="label-before">الصورة الأولى</span>
+                <span class="label-after">الصورة الثانية</span>
             </div>
             ` : `
             <div class="before-after-wrapper case-static-img" style="cursor: zoom-in;">
                 <img src="${c.afterImg || c.beforeImg}" alt="${c.title}" style="width: 100%; height: 100%; object-fit: cover;">
-                <span class="label-before" style="background: var(--primary);">حالة واقعية للعيادة</span>
+                <span class="label-before" style="background: var(--primary);">صورة من العيادة</span>
             </div>
             `}
             <div class="case-info-card">
                 <span class="case-badge">${c.badge || 'علاج سريري'}</span>
                 <h4 class="case-title">${c.title}</h4>
                 <p class="case-desc">${c.desc}</p>
-                <div class="case-meta-row">
-                    <div class="meta-item">
-                        <i class="bx bx-purchase-tag-alt"></i>
-                        <span><strong>الحالة:</strong> ${c.condition || '-'}</span>
-                    </div>
-                    <div class="meta-item">
-                        <i class="bx bx-user"></i>
-                        <span><strong>العمر:</strong> ${c.age || '-'}</span>
-                    </div>
-                    <div class="meta-item">
-                        <i class="bx bx-time-five"></i>
-                        <span><strong>المدة:</strong> ${c.duration || '-'}</span>
-                    </div>
-                    <div class="meta-item">
-                        <i class="bx bx-calendar-check"></i>
-                        <span><strong>الزيارات:</strong> ${c.visits || '-'}</span>
-                    </div>
-                </div>
             </div>
         </div>
     `).join('');
