@@ -5,8 +5,8 @@ export const PageSettings = {
     keywords: "تأكيد موعد أسنان, حجز ناجح, عيادة الدكتور أكثم",
     dynamicContent: {
         // Page headers
-        ".success-card-title": "تهانينا! تم تسجيل طلب حجز موعدك بنجاح",
-        ".success-card-desc": "لقد تلقينا طلبك الطبي وسيتم إرسال إشعار تأكيد الموعد النهائي عبر تليجرام أو رسائل الجوال النصية مباشرة.",
+        ".success-card-title": "تم تسجيل طلب الحجز",
+        ".success-card-desc": "وصل طلب الحجز إلى العيادة. ستتواصل العيادة لتأكيد الموعد.",
         
         // Go back buttons
         ".success-actions .btn-primary": "الدخول إلى ملفي الطبي الموحد <i class=\"bx bx-user-circle\"></i>",

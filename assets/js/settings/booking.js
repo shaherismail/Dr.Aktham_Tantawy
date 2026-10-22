@@ -34,25 +34,25 @@ export const PageSettings = {
         // Step 2: Choose Service
         "#stepPanel2 .profile-sub-title": "<i class=\"bx bx-check-shield\"></i> حدد الخدمة الطبية المطلوبة",
         ".services-selector-grid div:nth-child(1) span": "تنظيف وتلميع الأسنان",
-        ".services-selector-grid div:nth-child(2) span": "تبييض الأسنان بالليزر",
-        ".services-selector-grid div:nth-child(3) span": "زراعة الأسنان الرقمية",
+        ".services-selector-grid div:nth-child(2) span": "تبييض الأسنان",
+        ".services-selector-grid div:nth-child(3) span": "زراعة الأسنان",
         ".services-selector-grid div:nth-child(4) span": "تقويم الأسنان الحديث",
         ".services-selector-grid div:nth-child(5) span": "علاج الجذور والأعصاب",
-        ".services-selector-grid div:nth-child(6) span": "ابتسامة هوليود (فينير)",
+        ".services-selector-grid div:nth-child(6) span": "الفينير",
 
         // Step 3: Choose Doctor
         "#stepPanel3 .profile-sub-title": "<i class=\"bx bx-user-voice\"></i> اختر الطبيب المعالج",
-        "#stepPanel3 .profile-instructions-text": "نتميز بتخصص تقويم الأسنان الفريد تحت إشراف مباشر للدكتور أكثم",
-        
+        "#stepPanel3 .profile-instructions-text": "اختر الطبيب الذي تود مراجعته",
+
         // Dr. Aktham Card
-        ".doctors-selector-grid > div:nth-child(1) .doctor-badge-ribbon": "الاستشاري الرئيسي",
+        ".doctors-selector-grid > div:nth-child(1) .doctor-badge-ribbon": "الطبيب المعالج",
         ".doctors-selector-grid > div:nth-child(1) img": {
             src: "assets/doctor.jpg",
             alt: "د. أكثم طنطاوي"
         },
         ".doctors-selector-grid > div:nth-child(1) h4": "د. أكثم طنطاوي",
-        ".doctors-selector-grid > div:nth-child(1) p:nth-of-type(1)": "استشاري تقويم الأسنان والفكين",
-        ".doctors-selector-grid > div:nth-child(1) p:nth-of-type(2)": "زمالة الكلية الملكية، خبير التقويم الشفاف ومعدلات نمو الفكين.",
+        ".doctors-selector-grid > div:nth-child(1) p:nth-of-type(1)": "طب الأسنان وتقويم الأسنان",
+        ".doctors-selector-grid > div:nth-child(1) p:nth-of-type(2)": "",
 
 
         // Step 4: Choose Date
@@ -61,7 +61,7 @@ export const PageSettings = {
 
         // Step 5: Choose Time Slot
         "#stepPanel5 .profile-sub-title": "<i class=\"bx bx-time-five\"></i> اختر الجناح والوقت المفضل",
-        "#stepPanel5 .profile-instructions-text": "توليد مواعيد فورية ومزامنتها مباشرة مع جدول الطبيب السحابي",
+        "#stepPanel5 .profile-instructions-text": "اختر موعداً من المواعيد المتاحة",
         "#selectedSeatInfoCard strong": "الموعد المحدد:",
 
         // Step 6: Final Confirmation

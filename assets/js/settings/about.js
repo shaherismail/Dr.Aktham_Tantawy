@@ -1,8 +1,8 @@
 // Settings for about.html (About Page)
 export const PageSettings = {
-    title: "عن د. أكثم طنطاوي - استشاري تقويم الأسنان بالزقازيق",
-    description: "تعرف على د. أكثم إسماعيل طنطاوي، استشاري تقويم الأسنان والفكين بالزقازيق: خبرته وشهاداته المهنية وزمالاته الدولية في تقويم وتجميل الأسنان.",
-    keywords: "الدكتور أكثم طنطاوي, Dr Aktham Tantawy, استشاري تقويم الأسنان, زمالة تقويم الأسنان, دكتور أسنان الزقازيق",
+    title: "عن د. أكثم طنطاوي - طب وتقويم الأسنان بالزقازيق",
+    description: "تعرف على د. أكثم إسماعيل طنطاوي وعيادته لطب وتقويم الأسنان في الزقازيق.",
+    keywords: "الدكتور أكثم طنطاوي, Dr Aktham Tantawy, طبيب أسنان الزقازيق, تقويم الأسنان",
     dynamicContent: {
         // Portrait Image
         ".doctor-image-container img": {
@@ -10,58 +10,32 @@ export const PageSettings = {
             alt: "د. أكثم طنطاوي"
         },
         ".doctor-stats-badge .tag-title": "د. أكثم طنطاوي",
-        ".doctor-stats-badge .tag-subtitle": "استشاري تقويم الأسنان",
+        ".doctor-stats-badge .tag-subtitle": "تقويم الأسنان",
 
         // Biography Text
-        ".doctor-info-content .section-label": "استشاري الحالة",
+        ".doctor-info-content .section-label": "عن الطبيب",
         ".doctor-bio-title": "د. أكثم إسماعيل طنطاوي",
-        ".doctor-specialty-tag": "استشاري تقويم الأسنان والفكين للبالغين والأطفال",
-        ".doctor-bio-text": "استشاري رائد ومتميز في تقويم الأسنان وتعديل نمو الفكين للأطفال والكبار، يمتلك مسيرة علمية وعملية حافلة تمتد لأكثر من 15 عاماً في تصميم الابتسامات ورصف الأسنان المزدحمة. كرس مسيرته المهنية لتطبيق أحدث التقنيات الرقمية ثلاثية الأبعاد وتخطيط العلاج المعتمد على محاكاة الابتسامة المتقدمة، لتقديم رعاية تقويمية فاخرة ونتائج تضمن المظهر الجمالي والوظيفة المثالية لمدى الحياة.",
+        ".doctor-specialty-tag": "طب الأسنان وتقويم الأسنان",
+        ".doctor-bio-text": "يقدم د. أكثم إسماعيل طنطاوي رعاية في مجال طب الأسنان وتقويم الأسنان في الزقازيق. يشرح الطبيب خيارات العلاج بعد فحص الحالة، وقد تختلف الخطة والمدة من شخص لآخر.",
 
-        // Highlights
-        ".doctor-highlights .highlight-box:nth-child(1) .highlight-text": "زمالة تقويم الأسنان من الكلية الملكية للجراحين بإدنبرة (MOrth RCSEd)",
-        ".doctor-highlights .highlight-box:nth-child(2) .highlight-text": "عضو الجمعية العالمية لتقويم الأسنان (WFO) والجمعية الأمريكية لتقويم الأسنان (AAO)",
-        ".doctor-highlights .highlight-box:nth-child(3) .highlight-text": "دبلوم تخصصي معتمد في التقويم الشفاف الرقمي وتخطيط الابتسامات ثلاثي الأبعاد",
-        ".doctor-highlights .highlight-box:nth-child(4) .highlight-text": "أكثر من 5,000 حالة تقويم أسنان وتعديل إطباق ناجحة وموثقة إكلينيكياً",
+        // Verified credential shown in the certificate image
+        ".doctor-highlights .highlight-box:nth-child(1) .highlight-text": "طب الأسنان وتقويم الأسنان",
+        ".doctor-highlights .highlight-box:nth-child(2) .highlight-text": "",
+        ".doctor-highlights .highlight-box:nth-child(3) .highlight-text": "",
+        ".doctor-highlights .highlight-box:nth-child(4) .highlight-text": "",
+        ".doctor-info-content .glass-card h4": "الملف المهني",
+        ".doctor-info-content .glass-card p": "للاطلاع على المعلومات المهنية كما يعرضها الملف على فيزيتا، يرجى زيارة الرابط التالي.",
 
-        // Accreditations Certificate Card
-        ".doctor-info-content .glass-card img": {
-            src: "assets/congrats.jpg",
-            alt: "شهادة د. أكثم"
-        },
-        ".doctor-info-content .glass-card h4": "الاعتمادات والزمالات الدولية",
-        ".doctor-info-content .glass-card p": "حاصل على زمالة الكلية الملكية لتقويم الأسنان بالمملكة المتحدة واجتياز اختباراتها بنجاح باهر لتقديم أفضل رعاية لتقويم وتعديل الإطباق وتشوهات الفكين.",
-
-        // Timeline Header
-        ".about-doctor-section > div:nth-child(2) .section-header .section-label": "مسيرة التطور",
-        ".about-doctor-section > div:nth-child(2) .section-header .section-title": "المحطات المهنية والأكاديمية",
-        ".about-doctor-section > div:nth-child(2) .section-header .section-desc": "أبرز الشهادات والدراسات والمشاركات الدولية للاستشاري د. أكثم طنطاوي",
-
-        // Timeline Items
-        ".experience-timeline .timeline-item:nth-child(1) .timeline-year": "2011",
-        ".experience-timeline .timeline-item:nth-child(1) .timeline-title": "بكالوريوس طب وجراحة الفم والأسنان",
-        ".experience-timeline .timeline-item:nth-child(1) .timeline-desc": "التخرج بمرتبة الشرف الأولى والبدء في الممارسة الإكلينيكية والتركيز على تشخيص المشاكل الإطباقية للأسنان.",
-        
-        ".experience-timeline .timeline-item:nth-child(2) .timeline-year": "2014",
-        ".experience-timeline .timeline-item:nth-child(2) .timeline-title": "دبلوم الدراسات العليا التخصصي في تقويم الأسنان",
-        ".experience-timeline .timeline-item:nth-child(2) .timeline-desc": "دراسة تخصصية مكثفة في أنظمة تقويم الأسنان التقليدية والوقائية وكيفية معالجة نمو الفكين غير المتطابق.",
-        
-        ".experience-timeline .timeline-item:nth-child(3) .timeline-year": "2018",
-        ".experience-timeline .timeline-item:nth-child(3) .timeline-title": "زمالة الكلية الملكية البريطانية لتقويم الأسنان (MOrth)",
-        ".experience-timeline .timeline-item:nth-child(3) .timeline-desc": "الحصول على الزمالة المرموقة من الكلية الملكية للجراحين بإدنبرة لتقويم الأسنان والمشاركة في اللقاءات العلمية الأوروبية.",
-        
-        ".experience-timeline .timeline-item:nth-child(4) .timeline-year": "2021",
-        ".experience-timeline .timeline-item:nth-child(4) .timeline-title": "الاعتماد الدولي لأنظمة التقويم الشفاف (Clear Aligners)",
-        ".experience-timeline .timeline-item:nth-child(4) .timeline-desc": "إتقان التخطيط ثلاثي الأبعاد وتصميم قوالب التقويم الشفافة غير المرئية بالكامل ومتابعة المرضى رقمياً.",
-        
-        ".experience-timeline .timeline-item:nth-child(5) .timeline-year": "2024",
-        ".experience-timeline .timeline-item:nth-child(5) .timeline-title": "المشاركة في المؤتمر العالمي لتقويم الأسنان (سويسرا)",
-        ".experience-timeline .timeline-item:nth-child(5) .timeline-desc": "تمثيل العيادة بورقة بحثية رائدة حول استخدام التخطيط الرقمي لتقليص مدة علاج التقويم وتحسين استقرار النتائج.",
+        // Remove unsupported timeline claims from the rendered page
+        ".about-doctor-section > div:nth-child(2) .section-header .section-label": "",
+        ".about-doctor-section > div:nth-child(2) .section-header .section-title": "",
+        ".about-doctor-section > div:nth-child(2) .section-header .section-desc": "",
+        ".experience-timeline": "",
 
         // Video Introduction Section
         ".about-doctor-section > div:nth-child(3) .section-header .section-label": "فيديو ترحيبي",
         ".about-doctor-section > div:nth-child(3) .section-header .section-title": "فيديو تعريفي بالعيادة والتجهيزات",
-        ".about-doctor-section > div:nth-child(3) .section-header .section-desc": "شاهد رسالة ترحيبية من الدكتور أكثم طنطاوي وجولة حول التقنيات الطبية الرقمية المعتمدة لضمان أفضل تشخيص وراحة تامة لمرضانا",
+        ".about-doctor-section > div:nth-child(3) .section-header .section-desc": "مقطع مصوّر من العيادة.",
         ".about-doctor-section .video-wrapper video": {
             src: "assets/WhatsApp Video 2026-06-25 at 8.02.08 PM.mp4",
             poster: "assets/doctor.jpg"
@@ -69,25 +43,28 @@ export const PageSettings = {
 
         // Clinic Interior Gallery Section
         ".about-doctor-section > div:nth-child(4) .section-header .section-label": "صور العيادة",
-        ".about-doctor-section > div:nth-child(4) .section-header .section-title": "بيئة علاجية فاخرة ومجهزة بأعلى التقنيات",
-        ".about-doctor-section > div:nth-child(4) .section-header .section-desc": "صور حقيقية لعيادتنا وتجهيزات تقويم الأسنان المتقدمة وصور أثناء الجلسات العلاجية مع مرضانا",
-        
+        ".about-doctor-section > div:nth-child(4) .section-header .section-title": "صور من العيادة",
+        ".about-doctor-section > div:nth-child(4) .section-header .section-desc": "لقطات مصوّرة داخل العيادة.",
+        ".about-doctor-section > div:nth-child(2)": "",
+        ".about-doctor-section > div:nth-child(3) .section-header .section-desc": "مقطع مصوّر من العيادة.",
+        ".clinic-gallery-grid .gallery-photo-card img": { alt: "صورة من العيادة" },
+
         // Gallery Photos
         ".clinic-gallery-grid .gallery-photo-card:nth-child(1) img": {
             src: "assets/WhatsApp Image 2026-06-25 at 7.41.42 PM.jpeg",
-            alt: "جلسة استشارية وتعديل تقويم الأسنان مع المريض"
+            alt: "صورة من العيادة"
         },
         ".clinic-gallery-grid .gallery-photo-card:nth-child(2) img": {
             src: "assets/WhatsApp Image 2026-06-24 at 10.52.22 PM.jpeg",
-            alt: "أجهزة التخطيط الرقمي والماسح ثلاثي الأبعاد للتقويم الشفاف"
+            alt: "صورة من العيادة"
         },
         ".clinic-gallery-grid .gallery-photo-card:nth-child(3) img": {
             src: "assets/WhatsApp Image 2026-06-24 at 10.52.23 PM.jpeg",
-            alt: "صالة الاستقبال وخدمة كبار الشخصيات بالعيادة"
+            alt: "صورة من العيادة"
         },
         ".clinic-gallery-grid .gallery-photo-card:nth-child(4) img": {
             src: "assets/WhatsApp Image 2026-06-24 at 10.52.24 PM.jpeg",
-            alt: "تسليم جهاز التقويم الشفاف ومناقشة الخطة العلاجية"
+            alt: "صورة من العيادة"
         },
 
         // Call to action button

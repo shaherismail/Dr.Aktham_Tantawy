@@ -7,7 +7,7 @@ export const PageSettings = {
         // Page header
         ".contact-section .section-label": "تواصل معنا",
         ".contact-section .section-title": "نحن هنا للإجابة على استفساراتكم",
-        ".contact-section .section-desc": "يسعدنا تواصلكم معنا لحجز المواعيد أو الاستفسار عن العلاجات والأسعار المتاحة",
+        ".contact-section .section-desc": "للحجز أو الاستفسار عن الخدمات والمواعيد، تواصل مع العيادة.",
         
         // Right Column: Contact Details Cards
         ".patient-info-card:nth-child(1) .profile-box-title": "<i class=\"bx bx-info-circle\"></i> معلومات الاتصال",

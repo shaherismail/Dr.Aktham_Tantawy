@@ -100,11 +100,6 @@ export function initTestimonials() {
     const track = document.getElementById('testimonialsTrack');
     if (!track) return;
 
-    const defaultTestimonials = [
-        { name: "سحر الحربي", tag: "علاج: 14 شهراً (تقويم شفاف) • العمر: 22 سنة", stars: 5, text: "تجربة رائعة للغاية مع الدكتور أكثم في تركيب المصففات الشفافة. النتيجة فاقت توقعاتي، والتحول كان تدريجياً وبدون أي ألم يذكر. العيادة راقية والتعقيم ممتاز." },
-        { name: "خالد بن طلال", tag: "علاج: 18 شهراً (تقويم معدني) • العمر: 19 سنة", stars: 5, text: "كنت أعاني من ازدحام شديد في الفك العلوي والحمد لله بعد خطة علاجية دقيقة مدتها سنة ونصف مع د. أكثم، حصلت على ابتسامة متناسقة تماماً وثقة متجددة بالكامل." },
-        { name: "ريما عبد الله", tag: "علاج: 12 شهراً (تقويم خزفي) • العمر: 27 سنة", stars: 5, text: "اخترت التقويم الخزفي التجميلي لعدم وضوحه، والخدمة كانت استثنائية! المتابعة الدورية كانت دقيقة ومريحة جداً، وأنصح بشدة بكل من يريد تعديل أسنانه بكفاءة عالية." }
-    ];
 
     const render = (list) => {
         track.innerHTML = '';
@@ -125,7 +120,6 @@ export function initTestimonials() {
                 <p class="testimonial-text">"${t.text}"</p>
                 <div class="testimonial-footer">
                     <span class="testimonial-name">${t.name}</span>
-                    <span class="testimonial-tag">${t.tag || 'مريض مـؤكّد ✓'}</span>
                 </div>
             `;
             track.appendChild(card);
@@ -137,10 +131,10 @@ export function initTestimonials() {
         if (stored && stored.length > 0) {
             render(stored);
         } else {
-            render(defaultTestimonials);
+            track.innerHTML = '<p class="testimonial-empty" role="status">لا توجد تقييمات منشورة حالياً.</p>';
         }
     } catch (e) {
-        render(defaultTestimonials);
+        track.innerHTML = '<p class="testimonial-empty" role="status">تعذر تحميل التقييمات حالياً.</p>';
     }
 }
 

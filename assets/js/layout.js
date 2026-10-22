@@ -45,6 +45,7 @@ function replaceGeneralSettings(html) {
 
     // Social Media
     html = html.replace(/href="https:\/\/www\.facebook\.com\/p\/Dr-Aktham-Tantawy-Dental-Clinic-100076245157975\/"/g, `href="${GeneralSettings.facebook}"`);
+    html = html.replace(/href="https:\/\/www\.vezeeta\.com\/ar\/dr\/[^"]*"/g, `href="${GeneralSettings.vezeeta}"`);
     html = html.replace(/href="https:\/\/instagram\.com"/g, `href="${GeneralSettings.instagram}"`);
     html = html.replace(/href="https:\/\/twitter\.com"/g, `href="${GeneralSettings.twitter}"`);
 
