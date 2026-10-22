@@ -230,7 +230,7 @@ onReady(() => {
         });
         afterHeaderReady();
     } else if (headerPlaceholder) {
-        fetch('components/header.html')
+        fetch('components/header')
             .then(res => {
                 if (!res.ok) throw new Error('Failed to load header component');
                 return res.text();
@@ -250,7 +250,7 @@ onReady(() => {
         if (bakedBar) bakedBar.innerHTML = replaceGeneralSettings(bakedBar.innerHTML);
         afterFooterReady();
     } else if (footerPlaceholder) {
-        fetch('components/footer.html')
+        fetch('components/footer')
             .then(res => {
                 if (!res.ok) throw new Error('Failed to load footer component');
                 return res.text();
@@ -263,7 +263,7 @@ onReady(() => {
     }
 
     // Load Telegram Simulator component dynamically
-    fetch('components/telegram.html')
+    fetch('components/telegram')
         .then(res => {
             if (res.ok) return res.text();
         })
