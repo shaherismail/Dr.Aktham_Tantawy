@@ -574,7 +574,7 @@ function renderOverview() {
     if (kpiPatients) kpiPatients.textContent = patientsCount;
 
     const kpiRevenue = document.getElementById('kpiTotalRevenue');
-    if (kpiRevenue) kpiRevenue.textContent = totalRevenue.toLocaleString('ar-SA') + ' ر.س';
+    if (kpiRevenue) kpiRevenue.textContent = totalRevenue.toLocaleString('ar-EG') + ' ج.م';
 
     // Render Today's Live Queue
     const todayStr = new Date().toISOString().split('T')[0];
@@ -619,7 +619,12 @@ function renderOverview() {
     if (serviceDistributionContainer) {
         const counts = {};
         AdminState.bookings.forEach(b => {
-            counts[b.service] = (counts[b.service] || 0) + 1;
+            const rawService = b?.service;
+            const serviceName = typeof rawService === 'string' ? rawService.trim() : '';
+            const label = serviceName && !['null', 'undefined'].includes(serviceName.toLowerCase())
+                ? serviceName
+                : 'خدمة غير محددة';
+            counts[label] = (counts[label] || 0) + 1;
         });
 
         const total = AdminState.bookings.length || 1;
@@ -820,7 +825,7 @@ function renderServices() {
             <div style="padding-top: 12px; border-top: 1px solid var(--adm-border); display: flex; justify-content: space-between; align-items: center;">
                 <div>
                     <span style="font-size: 11px; color: var(--adm-text-muted); display: block;">سعر الخدمة:</span>
-                    <strong style="font-size: 20px; font-family: 'Outfit'; color: var(--adm-primary);">${s.price.toLocaleString('ar-SA')} ر.س</strong>
+                    <strong style="font-size: 20px; font-family: 'Outfit'; color: var(--adm-primary);">${s.price.toLocaleString('ar-EG')} ج.م</strong>
                 </div>
                 <div style="display: flex; gap: 6px;">
                     <button class="adm-btn adm-btn-secondary adm-btn-sm" onclick="window.adminActions.toggleService('${s.id}')" title="تبديل الحالة">
@@ -1454,11 +1459,11 @@ window.adminActions = {
     editServicePrice: (id) => {
         const s = AdminState.services.find(item => String(item.id) === String(id));
         if (!s) return;
-        const newPrice = prompt(`تعديل سعر خدمة "${s.name}" (بالريال السعودي):`, s.price);
+        const newPrice = prompt(`تعديل سعر خدمة "${s.name}" (بالجنيه المصري):`, s.price);
         if (newPrice !== null && !isNaN(newPrice) && Number(newPrice) > 0) {
             s.price = Number(newPrice);
             localStorage.setItem('dr_aktham_services', JSON.stringify(AdminState.services));
-            showToast(`تم تحديث سعر "${s.name}" إلى ${s.price} ر.س`, 'success');
+            showToast(`تم تحديث سعر "${s.name}" إلى ${s.price} ج.م`, 'success');
             if (!getGithubConfig().token) {
                 showToast('تنبيه: النشر السحابي غير مفعّل على هذا الجهاز، التعديل محلي وسيختفي عند إعادة التحميل.', 'error');
             }
@@ -1466,7 +1471,7 @@ window.adminActions = {
 
             const ghCfg = getGithubConfig();
             if (ghCfg.token && ghCfg.autoSync) {
-                pushDataToGitHub(`CMS: تحديث سعر خدمة ${s.name} إلى ${s.price} ر.س`)
+                pushDataToGitHub(`CMS: تحديث سعر خدمة ${s.name} إلى ${s.price} ج.م`)
                     .then(res => showToast(`🚀 تم تحديث السعر في GitHub (${res.commitSha}) وجاري النشر على Vercel!`, 'success'))
                     .catch(() => {});
             }
@@ -2421,4 +2426,4 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAdminApp);
 } else {
     initAdminApp();
-}
+                                                                         }
