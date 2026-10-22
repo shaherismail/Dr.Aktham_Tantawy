@@ -167,7 +167,7 @@ function renderFoundBookings(bookings, container) {
         card.className = 'booking-status-card';
 
         const waText = encodeURIComponent(`مرحباً عيادة د. أكثم، أود الاستفسار/التأكيد بخصوص موعدي رقم ${esc(b.id)} باسم ${esc(b.name)} بتاريخ ${esc(b.date)} الساعة ${esc(b.time)}.`);
-        const waLink = `https://wa.me/966501234567?text=${waText}`;
+        const waLink = `https://wa.me/201070542331?text=${waText}`;
 
         card.innerHTML = `
             <div class="status-header-row">
@@ -222,7 +222,7 @@ function renderFoundBookings(bookings, container) {
 
             <div style="background: var(--bg); padding: 14px 18px; border-radius: var(--radius-md); margin-bottom: 20px; border: 1px solid var(--border-light); font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 8px;">
                 <i class="bx bx-map-pin" style="color: var(--primary); font-size: 18px;"></i>
-                <span>موقع العيادة: الرياض، شارع التخصصي - عيادة د. أكثم إسماعيل طنطاوي لتقويم الأسنان.</span>
+                <span>موقع العيادة: الزقازيق، موقف المنصورة، بجوار مستشفى الطوارئ التخصصي - عيادة د. أكثم طنطاوي لطب الأسنان.</span>
             </div>
 
             <div style="display: flex; gap: 12px; flex-wrap: wrap;">

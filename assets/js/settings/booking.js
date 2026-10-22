@@ -1,8 +1,8 @@
 // Settings for booking.html (Booking Page)
 export const PageSettings = {
-    title: "احجز موعدك - عيادة د. أكثم طنطاوي",
-    description: "احجز موعد استشارتك الآن لتقويم الأسنان وتحديد الخطة العلاجية المناسبة لك.",
-    keywords: "حجز موعد اسنان, حجز تقويم اسنان, عيادة الدكتور اكثم",
+    title: "احجز موعدك أونلاين | عيادة د. أكثم طنطاوي بالزقازيق",
+    description: "احجز موعدك إلكترونياً في عيادة د. أكثم طنطاوي لطب وتقويم الأسنان بالزقازيق - موقف المنصورة. اختر الخدمة والطبيب والتاريخ والوقت المناسب لك.",
+    keywords: "حجز موعد أسنان الزقازيق, حجز تقويم أسنان, عيادة الدكتور أكثم طنطاوي, حجز أونلاين دكتور أسنان",
     dynamicContent: {
         // Step Indicators
         "#stepIndicator1": "1 <span class=\"step-label-nav\">المعلومات</span>",
@@ -54,14 +54,6 @@ export const PageSettings = {
         ".doctors-selector-grid > div:nth-child(1) p:nth-of-type(1)": "استشاري تقويم الأسنان والفكين",
         ".doctors-selector-grid > div:nth-child(1) p:nth-of-type(2)": "زمالة الكلية الملكية، خبير التقويم الشفاف ومعدلات نمو الفكين.",
 
-        // Dr. Sara Card
-        ".doctors-selector-grid > div:nth-child(2) img": {
-            src: "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23EBF3FF'/%3E%3Ccircle cx='100' cy='78' r='38' fill='%236FA8FF'/%3E%3Cpath d='M30 190c6-46 36-68 70-68s64 22 70 68z' fill='%236FA8FF'/%3E%3C/svg%3E",
-            alt: "د. سارة الأحمد"
-        },
-        ".doctors-selector-grid > div:nth-child(2) h4": "د. سارة الأحمد",
-        ".doctors-selector-grid > div:nth-child(2) p:nth-of-type(1)": "أخصائية الأسنان العامة والزراعة",
-        ".doctors-selector-grid > div:nth-child(2) p:nth-of-type(2)": "عضو البورد الألماني، متخصصة في العلاج العام والحشوات التجميلية.",
 
         // Step 4: Choose Date
         "#stepPanel4 .profile-sub-title": "<i class=\"bx bx-calendar\"></i> حدد تاريخ الحجز المفضل",

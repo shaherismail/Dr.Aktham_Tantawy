@@ -5,18 +5,18 @@ const defaultSettings = {
     logoUrl: "assets/logo.jpg",
     doctorPhotoUrl: "assets/doctor.jpg",
     heroCoverUrl: "",
-    phone: "+966 50 123 4567",
-    phoneFormatted: "011 123 4567", // Landline/Extra phone
-    whatsapp: "+966501234567",
+    phone: "0107 054 2331",
+    phoneFormatted: "0100 993 5493", // Landline/Extra phone
+    whatsapp: "201070542331",
     whatsappText: "استفسار عاجل",
-    emergencyPhone: "+966 50 999 1111",
-    email: "info@dr-aktham.com",
-    address: "الرياض، شارع التخصصي",
-    googleMapsIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14498.461622329388!2d46.66699625!3d24.6937402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e2f03328e1858bb%3A0xe54e6fa16b0810bd!2z2LTYp9ix2Lkg2KfZhNiq2K7Ytdi12Yog2KfZhNix2YrYp9i2!5e0!3m2!1sar!2ssa!4v1719266624000!5m2!1sar!2ssa",
-    facebook: "https://facebook.com",
-    instagram: "https://instagram.com",
-    twitter: "https://twitter.com",
-    workingHours: "السبت - الخميس:\n٩:٠٠ ص - ٩:٠٠ م",
+    emergencyPhone: "0107 054 2331",
+    email: "",
+    address: "الزقازيق، موقف المنصورة، بجوار مستشفى الطوارئ التخصصي",
+    googleMapsIframe: "https://www.google.com/maps?q=%D9%85%D9%88%D9%82%D9%81%20%D8%A7%D9%84%D9%85%D9%86%D8%B5%D9%88%D8%B1%D8%A9%D8%8C%20%D8%A7%D9%84%D8%B2%D9%82%D8%A7%D8%B2%D9%8A%D9%82%D8%8C%20%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D8%A9%20%D8%A7%D9%84%D8%B4%D8%B1%D9%82%D9%8A%D8%A9&output=embed",
+    facebook: "https://www.facebook.com/p/Dr-Aktham-Tantawy-Dental-Clinic-100076245157975/",
+    instagram: "",
+    twitter: "",
+    workingHours: "السبت والاثنين للأربعاء: ٥ - ١٠ م\nالأحد: ١ - ٦ م • الخميس والجمعة: إجازة",
 
 
     // Website Theme Color Palette - Customize your clinic style colors here

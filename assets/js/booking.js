@@ -47,9 +47,13 @@ function clearFieldError(el) {
 let currentStep = 1;
 const totalSteps = 6;
 
-// Available Appointment Slots
-const morningTimes = ["10:00 ص", "11:00 ص", "12:00 م", "01:00 م"];
-const eveningTimes = ["04:30 م", "05:30 م", "06:30 م", "07:30 م", "08:30 م"];
+// Real clinic schedule (Zagazig): Sat & Mon-Wed 5-10 PM, Sun 1-6 PM, Thu & Fri closed.
+function slotsForDate(dateStr) {
+    const day = new Date((dateStr || localDate()) + 'T12:00:00').getDay();
+    if (day === 4 || day === 5) return { closed: true, morning: [], evening: [] };
+    if (day === 0) return { closed: false, morning: [], evening: ["01:00 م", "02:00 م", "03:00 م", "04:00 م", "05:00 م"] };
+    return { closed: false, morning: [], evening: ["05:00 م", "06:00 م", "07:00 م", "08:00 م", "09:00 م"] };
+}
 
 // Dynamic Appointment Slots Generator
 export function generateSeatGrid(dateString) {
@@ -80,9 +84,20 @@ export function generateSeatGrid(dateString) {
     }
     const slotTaken = (time) => bookedPairs.some(p => p.time === time && (p.chair === currentSuite || !p.chair));
     const slotBlocked = (time) => slotTaken(time) || isPastSlot(time, selectedDate);
-    // Drop a previously chosen slot that is no longer available
-    if (AppState.bookingData.time && slotBlocked(AppState.bookingData.time)) {
+    const daySlots = slotsForDate(selectedDate);
+    const allDaySlots = daySlots.morning.concat(daySlots.evening);
+    // Drop a previously chosen slot that is no longer available (taken, past, or outside this day's schedule)
+    if (AppState.bookingData.time && (!allDaySlots.includes(AppState.bookingData.time) || slotBlocked(AppState.bookingData.time))) {
         AppState.bookingData.time = '';
+    }
+
+    if (daySlots.closed) {
+        const closedMsg = document.createElement('p');
+        closedMsg.setAttribute('role', 'alert');
+        closedMsg.style.cssText = 'color:#B45309;font-weight:700;margin-top:14px;line-height:1.8';
+        closedMsg.textContent = 'العيادة مغلقة يومي الخميس والجمعة. برجاء اختيار يوماً آخر.';
+        grid.appendChild(closedMsg);
+        return;
     }
 
     const container = document.createElement('div');
@@ -92,12 +107,12 @@ export function generateSeatGrid(dateString) {
     const morningGroup = document.createElement('div');
     morningGroup.className = 'shift-group';
     morningGroup.innerHTML = `
-        <div class="shift-title"><i class="bx bx-sun"></i> الفترة الصباحية (10:00 ص - 01:00 م)</div>
+        <div class="shift-title"><i class="bx bx-sun"></i> الفترة الصباحية (${daySlots.morning[0]} - ${daySlots.morning[daySlots.morning.length - 1]})</div>
         <div class="slots-pill-grid" id="morningSlotsGrid"></div>
     `;
     const morningGrid = morningGroup.querySelector('#morningSlotsGrid');
 
-    morningTimes.forEach(time => {
+    daySlots.morning.forEach(time => {
         const isReserved = slotBlocked(time);
         const btn = document.createElement('button');
         btn.type = 'button';
@@ -125,12 +140,12 @@ export function generateSeatGrid(dateString) {
     const eveningGroup = document.createElement('div');
     eveningGroup.className = 'shift-group';
     eveningGroup.innerHTML = `
-        <div class="shift-title"><i class="bx bx-moon"></i> الفترة المسائية (04:30 م - 08:30 م)</div>
+        <div class="shift-title"><i class="bx bx-moon"></i> الفترة المسائية (${daySlots.evening[0]} - ${daySlots.evening[daySlots.evening.length - 1]})</div>
         <div class="slots-pill-grid" id="eveningSlotsGrid"></div>
     `;
     const eveningGrid = eveningGroup.querySelector('#eveningSlotsGrid');
 
-    eveningTimes.forEach(time => {
+    daySlots.evening.forEach(time => {
         const isReserved = slotBlocked(time);
         const btn = document.createElement('button');
         btn.type = 'button';
@@ -154,8 +169,8 @@ export function generateSeatGrid(dateString) {
         eveningGrid.appendChild(btn);
     });
 
-    container.appendChild(morningGroup);
-    container.appendChild(eveningGroup);
+    if (daySlots.morning.length) container.appendChild(morningGroup);
+    if (daySlots.evening.length) container.appendChild(eveningGroup);
     grid.appendChild(container);
 
     if (!grid.querySelector('.slot-pill-btn.slot-available')) {
@@ -616,7 +631,7 @@ export function initSuccessPage() {
             const waBtn = document.getElementById('confirmWaBtn');
             if (waBtn) {
                 const msg = encodeURIComponent(`مرحباً عيادة د. أكثم طنطاوي، قمت بتسجيل حجز موعد باسم (${latest.name}) برقم (${latest.id}) بتاريخ (${latest.date}) الساعة (${latest.time}) لخدمة (${latest.service}). أود تأكيد الحضور.`);
-                waBtn.href = `https://wa.me/966501234567?text=${msg}`;
+                waBtn.href = `https://wa.me/201070542331?text=${msg}`;
             }
         }
     } catch (e) {}

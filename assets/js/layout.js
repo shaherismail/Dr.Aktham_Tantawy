@@ -29,21 +29,22 @@ function replaceGeneralSettings(html) {
     html = html.replace(/لطب وجراحة الأسنان/g, GeneralSettings.clinicSubName);
 
     // Phone numbers
-    html = html.replace(/\+966 50 123 4567<br>011 123 4567/g, `${GeneralSettings.phone}<br>${GeneralSettings.phoneFormatted}`);
-    html = html.replace(/\+966 50 999 1111/g, GeneralSettings.emergencyPhone);
+    html = html.replace(/0107 054 2331<br>0100 993 5493/g, `${GeneralSettings.phone}<br>${GeneralSettings.phoneFormatted}`);
+    html = html.replace(/طوارئ تقويم الأسنان:<br>0107 054 2331/g, 'طوارئ تقويم الأسنان:<br>' + GeneralSettings.emergencyPhone);
     html = html.replace(/info@dr-aktham\.com/g, GeneralSettings.email);
-    html = html.replace(/الرياض، شارع التخصصي/g, GeneralSettings.address);
+    html = html.replace(/الزقازيق، موقف المنصورة، بجوار مستشفى الطوارئ التخصصي/g, GeneralSettings.address);
 
+    html = html.replace(/السبت والاثنين للأربعاء: ٥ - ١٠ م • الأحد: ١ - ٦ م • الخميس والجمعة: إجازة/g, GeneralSettings.workingHours.replace(/\n/g, ' '));
     // Working Hours
-    html = html.replace(/السبت - الخميس:<br>٩:٠٠ ص - ٩:٠٠ م/g, GeneralSettings.workingHours.replace(/\n/g, '<br>'));
+    html = html.replace(/السبت والاثنين للأربعاء: ٥ - ١٠ م<br>الأحد: ١ - ٦ م • الخميس والجمعة: إجازة/g, GeneralSettings.workingHours.replace(/\n/g, '<br>'));
 
     // Map iframe
     if (GeneralSettings.googleMapsIframe) {
-        html = html.replace(/data-src="https:\/\/www\.google\.com\/maps\/embed[^"]*"/, `data-src="${GeneralSettings.googleMapsIframe}"`);
+        html = html.replace(/data-src="https:\/\/www\.google\.com\/maps[^"]*"/, `data-src="${GeneralSettings.googleMapsIframe}"`);
     }
 
     // Social Media
-    html = html.replace(/href="https:\/\/facebook\.com"/g, `href="${GeneralSettings.facebook}"`);
+    html = html.replace(/href="https:\/\/www\.facebook\.com\/p\/Dr-Aktham-Tantawy-Dental-Clinic-100076245157975\/"/g, `href="${GeneralSettings.facebook}"`);
     html = html.replace(/href="https:\/\/instagram\.com"/g, `href="${GeneralSettings.instagram}"`);
     html = html.replace(/href="https:\/\/twitter\.com"/g, `href="${GeneralSettings.twitter}"`);
 
@@ -154,11 +155,11 @@ function applyGeneralSettingsToPage() {
     const detailsContainer = document.querySelector('.patient-details-list');
     if (detailsContainer) {
         let html = detailsContainer.innerHTML;
-        html = html.replace(/\+966 50 123 4567/g, GeneralSettings.phone);
-        html = html.replace(/011 123 4567/g, GeneralSettings.phoneFormatted);
+        html = html.replace(/0107 054 2331/g, GeneralSettings.phone);
+        html = html.replace(/0100 993 5493/g, GeneralSettings.phoneFormatted);
         html = html.replace(/info@dr-aktham\.com/g, GeneralSettings.email);
-        html = html.replace(/الرياض، شارع التخصصي/g, GeneralSettings.address);
-        html = html.replace(/السبت - الخميس: ٩:٠٠ ص - ٩:٠٠ م/g, GeneralSettings.workingHours.replace(/\n/g, ' '));
+        html = html.replace(/الزقازيق، موقف المنصورة، بجوار مستشفى الطوارئ التخصصي/g, GeneralSettings.address);
+        html = html.replace(/السبت والاثنين للأربعاء: ٥ - ١٠ م • الأحد: ١ - ٦ م • الخميس والجمعة: إجازة/g, GeneralSettings.workingHours.replace(/\n/g, ' '));
         detailsContainer.innerHTML = html;
     }
 

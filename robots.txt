@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin.html
+Disallow: /success
+Disallow: /success.html
+Disallow: /profile
+Disallow: /profile.html
+
+Sitemap: https://dr-aktham-tantawy.vercel.app/sitemap.xml

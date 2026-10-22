@@ -1,8 +1,8 @@
 // Settings for profile.html (Patient Profile/Portal Page)
 export const PageSettings = {
-    title: "بوابة المريض - عيادة د. أكثم طنطاوي",
-    description: "الملف الشخصي للمريض لمتابعة الخطة العلاجية والمواعيد الطبية لتقويم الأسنان.",
-    keywords: "بوابة المريض, ملف المريض, مواعيد عيادة الاسنان",
+    title: "استعلام ومتابعة الحجز | عيادة د. أكثم طنطاوي",
+    description: "بوابة استعلام ومتابعة المواعيد والحجوزات الطبية - عيادة د. أكثم طنطاوي لطب وتقويم الأسنان بالزقازيق.",
+    keywords: "استعلام حجز, متابعة موعد, عيادة د. أكثم طنطاوي",
     dynamicContent: {
         // Page header
         ".profile-section .section-label": "البوابة الرقمية للمريض",
