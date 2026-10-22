@@ -29,24 +29,20 @@ export const AdminState = {
 
 // Default Clinic Services Database
 const defaultServices = [
-    { id: 'srv-1', name: 'التقويم الشفاف (ألاينرز)', price: 9500, duration: '12 - 18 شهراً', category: 'ortho', active: true, desc: 'تقويم غير مرئي مريح ومصمم رقمياً بالكامل' },
-    { id: 'srv-2', name: 'تقويم الأسنان المعدني', price: 6000, duration: '14 - 24 شهراً', category: 'ortho', active: true, desc: 'تقويم تقليدي عالي الدقة لحالات التزاحم المتقدمة' },
-    { id: 'srv-3', name: 'التقويم الخزفي التجميلي', price: 7500, duration: '12 - 20 شهراً', category: 'ortho', active: true, desc: 'حواصر بلون السن الطبيعي لمظهر أنيق' },
-    { id: 'srv-4', name: 'ابتسامة هوليوود وزراعة الأسنان', price: 12000, duration: 'جلسات متعددة', category: 'cosmetic', active: true, desc: 'عدسات تجميلية وزرعات سويسرية معتمدة' },
-    { id: 'srv-5', name: 'تبييض الأسنان بالليزر Zoom', price: 1200, duration: '٤٥ دقيقة', category: 'cosmetic', active: true, desc: 'تبييض فوري فعال بتقنية الليزر الألمانية' },
-    { id: 'srv-6', name: 'تنظيف الأسنان وإزالة الجير والتلميع', price: 350, duration: '٣٠ دقيقة', category: 'general', active: true, desc: 'إزالة الرواسب الكلسية والتلميع بمواد سويسرية' },
-    { id: 'srv-7', name: 'علاج جذور الأسنان وحشو العصب', price: 850, duration: 'جلسة إلى جلستين', category: 'general', active: true, desc: 'علاج ميكروسكوبي متطور بدون ألم' }
+    { id: 'srv-1', name: 'التقويم الشفاف (ألاينرز)', price: 9500, duration: 'تحدد بعد التقييم', category: 'ortho', active: true, desc: 'المصففات الشفافة قابلة للإزالة. تُحدد الملاءمة بعد الفحص.' },
+    { id: 'srv-2', name: 'تقويم الأسنان المعدني', price: 6000, duration: 'تحدد بعد التقييم', category: 'ortho', active: true, desc: 'تقويم معدني ثابت، وتُحدد ملاءمته بعد الفحص.' },
+    { id: 'srv-3', name: 'التقويم الخزفي التجميلي', price: 7500, duration: 'تحدد بعد التقييم', category: 'ortho', active: true, desc: 'حواصر بلون السن، وتُحدد ملاءمتها بعد الفحص.' },
+    { id: 'srv-4', name: 'الفينير وزراعة الأسنان', price: 12000, duration: 'تحدد بعد التقييم', category: 'cosmetic', active: true, desc: 'تُناقش الخيارات ومدى ملاءمتها بعد تقييم الحالة.' },
+    { id: 'srv-5', name: 'تبييض الأسنان', price: 1200, duration: 'تحدد بعد التقييم', category: 'cosmetic', active: true, desc: 'تُناقش خيارات تبييض الأسنان ومدى ملاءمتها بعد الفحص.' },
+    { id: 'srv-6', name: 'تنظيف الأسنان وإزالة الجير', price: 350, duration: 'تحدد بعد التقييم', category: 'general', active: true, desc: 'تُحدد الحاجة إلى تنظيف الأسنان بعد التقييم.' },
+    { id: 'srv-7', name: 'علاج جذور الأسنان', price: 850, duration: 'تحدد بعد التقييم', category: 'general', active: true, desc: 'تُناقش خيارات علاج الجذور بعد فحص الحالة.' }
 ];
 
 // Clean Production Data (Demo mock bookings removed as requested)
 const demoBookings = [];
 
-// Initial Demo Testimonials
-const defaultTestimonials = [
-    { id: 1, name: "سحر الحربي", tag: "علاج: 14 شهراً (تقويم شفاف) • العمر: 22 سنة", stars: 5, text: "تجربة رائعة للغاية مع الدكتور أكثم في تركيب المصففات الشفافة. النتيجة فاقت توقعاتي، والتحول كان تدريجياً وبدون أي ألم يذكر. العيادة راقية والتعقيم ممتاز." },
-    { id: 2, name: "خالد بن طلال", tag: "علاج: 18 شهراً (تقويم معدني) • العمر: 19 سنة", stars: 5, text: "كنت أعاني من ازدحام شديد في الفك العلوي والحمد لله بعد خطة علاجية دقيقة مدتها سنة ونصف مع د. أكثم، حصلت على ابتسامة متناسقة تماماً وثقة متجددة بالكامل." },
-    { id: 3, name: "ريما عبد الله", tag: "علاج: 12 شهراً (تقويم خزفي) • العمر: 27 سنة", stars: 5, text: "اخترت التقويم الخزفي التجميلي لعدم وضوحه، والخدمة كانت استثنائية! المتابعة الدورية كانت دقيقة ومريحة جداً، وأنصح بشدة بكل من يريد تعديل أسنانه بكفاءة عالية." }
-];
+// Testimonials are only shown when entered and verified by the clinic.
+const defaultTestimonials = [];
 
 // Helper: Toast notification
 export function showToast(message, type = 'success') {
@@ -855,7 +851,7 @@ function renderTestimonials() {
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
                     <div>
                         <div style="font-weight: 800; font-size: 15px;">${t.name}</div>
-                        <div style="font-size: 12px; color: var(--adm-text-muted);">${t.tag || 'مريض مـؤكّد ✓'}</div>
+                        <div style="font-size: 12px; color: var(--adm-text-muted);">${t.tag || ''}</div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <div style="display: flex; gap: 2px;">${starsHtml}</div>
@@ -2193,9 +2189,9 @@ function bindFormsAndModals() {
             const title = document.getElementById('caseFormTitle').value.trim();
             const category = document.getElementById('caseFormCategory').value;
             const badge = document.getElementById('caseFormBadge').value.trim() || categoryNamesMap[category] || 'حالة علاجية';
-            const age = document.getElementById('caseFormAge').value.trim() || '22 عاماً';
-            const duration = document.getElementById('caseFormDuration').value.trim() || '14 شهراً';
-            const visits = document.getElementById('caseFormVisits').value.trim() || '12 زيارة';
+            const age = document.getElementById('caseFormAge').value.trim();
+            const duration = document.getElementById('caseFormDuration').value.trim() || 'تحدد بعد التقييم';
+            const visits = document.getElementById('caseFormVisits').value.trim();
             const desc = document.getElementById('caseFormDesc').value.trim();
             const beforeImg = (caseBeforeUrlInput && caseBeforeUrlInput.value.trim()) || (caseBeforePreview && caseBeforePreview.src) || 'assets/case1.jpg';
             const afterImg = (caseAfterUrlInput && caseAfterUrlInput.value.trim()) || (caseAfterPreview && caseAfterPreview.src) || 'assets/case2.jpg';
