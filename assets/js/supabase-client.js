@@ -72,10 +72,10 @@ export async function insertNewsletter(email) {
     });
 }
 
-// Privacy-safe lookup: server-side filtered by booking ID or phone digits only
-export async function lookupBookings(query) {
+// Privacy-safe lookup: server returns a row only when booking ID AND phone both match
+export async function lookupBookings(query, phone) {
     const sb = await getSupabase();
-    const { data, error } = await sb.rpc('lookup_booking', { query });
+    const { data, error } = await sb.rpc('lookup_booking', { query, ph: phone });
     if (error) throw error;
     return data || [];
 }

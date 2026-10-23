@@ -39,7 +39,7 @@ export function initPatientProfile() {
                 const typedPhone = latinDigits(phoneEl ? phoneEl.value : '').replace(/\D/g, '');
                 const core = typedPhone.length >= 9 ? typedPhone.slice(-9) : '';
                 if (core && /[a-z]/i.test(cleanQuery)) {
-                    const found = await m.lookupBookings(cleanQuery);
+                    const found = await m.lookupBookings(cleanQuery, typedPhone);
                     remoteMatches = (found || []).filter(b => b && (b.id || '').toLowerCase() === cleanQuery && (b.phone || '').replace(/\D/g, '').slice(-9) === core);
                 }
             } catch (err) {
