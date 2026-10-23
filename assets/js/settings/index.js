@@ -1,7 +1,7 @@
 // Settings for index.html (Home Page)
 export const PageSettings = {
-    title: "عيادة د. أكثم طنطاوي لطب وتقويم الأسنان بالزقازيق | Dr. Aktham Tantawy",
-    description: "عيادة د. أكثم طنطاوي لطب وتقويم الأسنان بالزقازيق - موقف المنصورة بجوار مستشفى الطوارئ التخصصي. تقويم شفاف ومعدني، تبييض، فينير وزراعة. للحجز: 01070542331",
+    title: "Dr. Aktham | د. أكثم طنطاوي - دكتور أسنان في الزقازيق",
+    description: "Dr. Aktham (د. أكثم إسماعيل طنطاوي)، طب الأسنان في الزقازيق. تعرّف على خدمات تقويم الأسنان وطرق الحجز.",
     keywords: "دكتور أكثم طنطاوي, Dr Aktham Tantawy, dr.aktham, عيادة أسنان الزقازيق, دكتور تقويم أسنان في الزقازيق, تقويم شفاف, Aktham Tantawy Dental Clinic",
     dynamicContent: {
         // Hero Section

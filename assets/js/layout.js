@@ -77,17 +77,6 @@ function applyPageSettings(settings) {
         metaDesc.content = settings.description;
     }
 
-    // 3. Update keywords
-    if (settings.keywords) {
-        let metaKeywords = document.querySelector('meta[name="keywords"]');
-        if (!metaKeywords) {
-            metaKeywords = document.createElement('meta');
-            metaKeywords.name = 'keywords';
-            document.head.appendChild(metaKeywords);
-        }
-        metaKeywords.content = settings.keywords;
-    }
-
     // 4. Update dynamic elements matching selectors
     if (settings.dynamicContent) {
         for (const selector in settings.dynamicContent) {

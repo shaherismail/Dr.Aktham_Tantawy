@@ -630,7 +630,7 @@ export function initSuccessPage() {
 
             const waBtn = document.getElementById('confirmWaBtn');
             if (waBtn) {
-                const msg = encodeURIComponent(`مرحباً عيادة د. أكثم طنطاوي، قمت بتسجيل حجز موعد باسم (${latest.name}) برقم (${latest.id}) بتاريخ (${latest.date}) الساعة (${latest.time}) لخدمة (${latest.service}). أود تأكيد الحضور.`);
+                const msg = encodeURIComponent(`مرحباً عيادة د. أكثم طنطاوي، قمت بتسجيل حجز موعد باسم (${latest.name || '-'}) برقم (${latest.id || '-'}) بتاريخ (${latest.date || '-'}) الساعة (${latest.time || '-'}) لخدمة (${latest.service || '-'}). أود تأكيد الحضور.`);
                 waBtn.href = `https://wa.me/201070542331?text=${msg}`;
             }
         }

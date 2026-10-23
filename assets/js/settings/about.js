@@ -1,6 +1,6 @@
 // Settings for about.html (About Page)
 export const PageSettings = {
-    title: "عن د. أكثم طنطاوي - طب وتقويم الأسنان بالزقازيق",
+    title: "Dr. Aktham | عن د. أكثم طنطاوي - تقويم الأسنان بالزقازيق",
     description: "تعرف على د. أكثم إسماعيل طنطاوي وعيادته لطب وتقويم الأسنان في الزقازيق.",
     keywords: "الدكتور أكثم طنطاوي, Dr Aktham Tantawy, طبيب أسنان الزقازيق, تقويم الأسنان",
     dynamicContent: {

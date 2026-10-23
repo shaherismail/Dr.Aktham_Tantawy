@@ -12,9 +12,9 @@ export const PageSettings = {
         // Right Column: Contact Details Cards
         ".patient-info-card:nth-child(1) .profile-box-title": "<i class=\"bx bx-info-circle\"></i> معلومات الاتصال",
         ".patient-details-list .detail-item:nth-child(1) .item-lbl": "<i class=\"bx bx-phone\"></i> أرقام الهاتف والجوال:",
-        ".patient-details-list .detail-item:nth-child(2) .item-lbl": "<i class=\"bx bx-envelope\"></i> البريد الإلكتروني:",
-        ".patient-details-list .detail-item:nth-child(3) .item-lbl": "<i class=\"bx bx-map\"></i> موقع العيادة:",
-        ".patient-details-list .detail-item:nth-child(4) .item-lbl": "<i class=\"bx bx-time\"></i> ساعات العمل الرسمية:",
+        ".patient-details-list .detail-item:nth-child(2) .item-lbl": "<i class=\"bx bx-map\"></i> موقع العيادة:",
+        ".patient-details-list .detail-item:nth-child(3) .item-lbl": "<i class=\"bx bx-time\"></i> ساعات العمل الرسمية:",
+        ".patient-details-list .detail-item:nth-child(4) .item-lbl": "<i class=\"bx bx-money\"></i> سعر الكشف المباشر:",
         
         // Direct WhatsApp Button
         ".patient-info-card:nth-child(1) a.btn-secondary": "<i class=\"bx bxl-whatsapp\" style=\"font-size: 22px;\"></i> تواصل معنا عبر واتساب مباشرة",
