@@ -96,7 +96,7 @@ export function initPatientProfile() {
                 if (notFoundEl) {
                     const notFoundText = notFoundEl.querySelector('p');
                     if (notFoundText) {
-                        notFoundText.innerHTML = `لم نتمكن من مطابقة الرقم <strong>(${esc(cleanQuery)})</strong> مع أي حجز في النظام.<br>يرجى التأكد من كتابة الرقم بشكل صحيح أو حجز موعد جديد مباشرة.`;
+                        notFoundText.innerHTML = `لم نتمكن من مطابقة رقم الحجز مع رقم الجوال.<br>تأكد من كتابتهما بشكل صحيح أو تواصل مع العيادة على 01070542331.`;
                     }
                     notFoundEl.style.display = 'block';
                 }

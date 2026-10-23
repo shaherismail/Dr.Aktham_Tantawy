@@ -6,11 +6,11 @@ export const PageSettings = {
     dynamicContent: {
         ".profile-section .section-label": "متابعة الحجز",
         ".profile-section .section-title": "استعلام ومتابعة الحجز",
-        ".profile-section .section-desc": "أدخل رقم الجوال أو رقم الحجز لمتابعة حالة طلبك.",
+        ".profile-section .section-desc": "أدخل رقم الحجز ورقم الجوال المسجل به لمتابعة حالة طلبك.",
         ".lookup-box h3": "البحث عن طلب الحجز",
         ".lookup-box p": "أدخل رقم الحجز ورقم الجوال المسجل به.",
         ".lookup-box div[style*='margin-top: 18px']": "ليس لديك طلب حجز؟ احجز موعداً أو تواصل مع العيادة.",
-        "#lookupNotFound h3": "لم يُعثر على طلب بهذا الرقم",
+        "#lookupNotFound h3": "لم يُعثر على حجز مطابق",
         "#lookupNotFound p": "تحقق من الرقم المدخل أو تواصل مع العيادة للمساعدة."
     }
 };
