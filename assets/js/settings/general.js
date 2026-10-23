@@ -6,7 +6,7 @@ const defaultSettings = {
     doctorPhotoUrl: "assets/doctor.jpg",
     heroCoverUrl: "",
     phone: "0107 054 2331",
-    phoneFormatted: "0100 993 5493", // Landline/Extra phone
+    phoneFormatted: "",
     whatsapp: "201070542331",
     whatsappText: "استفسار عاجل",
     emergencyPhone: "0107 054 2331",
@@ -17,7 +17,7 @@ const defaultSettings = {
     vezeeta: "https://www.vezeeta.com/ar/dr/%D8%AF%D9%83%D8%AA%D9%88%D8%B1-%D8%A3%D9%83%D8%AB%D9%85-%D8%A5%D8%B3%D9%85%D8%A7%D8%B9%D9%8A%D9%84-%D8%B7%D9%86%D8%B7%D8%A7%D9%88%D9%8A-%D8%A7%D8%B3%D9%86%D8%A7%D9%86",
     instagram: "",
     twitter: "",
-    workingHours: "السبت والاثنين للأربعاء: ٥ - ١٠ م\nالأحد: ١ - ٦ م • الخميس والجمعة: إجازة",
+    workingHours: "السبت والاثنين والثلاثاء والأربعاء: 5 - 10 م\nالأحد: 1 - 6 م\nالخميس والجمعة: إجازة",
 
 
     // Website Theme Color Palette - Customize your clinic style colors here
