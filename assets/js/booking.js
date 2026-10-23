@@ -593,11 +593,7 @@ export function initBookingFlow() {
             console.error('Failed saving confirmation:', err);
         }
 
-        try {
-            import('./telegram.js')
-                .then(m => m.sendTelegramNotification && m.sendTelegramNotification(bookingId))
-                .catch(() => {});
-        } catch (err) {}
+        // Booking alerts are sent server-side by a database trigger.
 
         window.location.href = 'success.html';
     });
