@@ -391,12 +391,6 @@
                         alert('تعذر إرسال رسالتك الآن. تأكد من الاتصال بالإنترنت وحاول مرة أخرى، أو اتصل بالعيادة مباشرة.');
                         return;
                     }
-                    try {
-                        const existing = JSON.parse(localStorage.getItem('dr_aktham_contacts') || '[]');
-                        existing.unshift({ id, name, phone, email: email || 'غير محدد', message, status: 'unread', timestamp: Date.now(),
-                            date: new Date().toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) });
-                        localStorage.setItem('dr_aktham_contacts', JSON.stringify(existing));
-                    } catch (err) {}
                     alert('شكراً لتواصلك معنا يا ' + name + '! تم إرسال استفسارك بنجاح وسيتواصل معك فريق الاستقبال قريباً.');
                     contactForm.reset();
                 });
