@@ -581,16 +581,16 @@ export function initBookingFlow() {
             return;
         }
 
+        // Confirmation data is kept for this browser tab/session only (not persisted on the device).
         try {
-            let bookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
-            bookings = bookings.filter(b => b && b.id && !b.id.startsWith('DK-849') && b.name !== 'عبد الرحمن الشمري');
-            bookings.unshift(newBooking);
-            localStorage.setItem('dr_aktham_bookings', JSON.stringify(bookings));
-            localStorage.setItem('current_patient_profile', JSON.stringify({
+            sessionStorage.setItem('dr_aktham_last_booking', JSON.stringify(newBooking));
+            sessionStorage.setItem('current_patient_profile', JSON.stringify({
                 name: newBooking.name, phone: newBooking.phone, email: newBooking.email, age: newBooking.age, id: bookingId
             }));
+            // Remove any profile saved on this device by earlier versions of the site
+            localStorage.removeItem('current_patient_profile');
         } catch (err) {
-            console.error('Failed saving to localStorage:', err);
+            console.error('Failed saving confirmation:', err);
         }
 
         try {
@@ -609,7 +609,8 @@ export function initSuccessPage() {
     if (!confirmName) return;
 
     try {
-        const bookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
+        const last = JSON.parse(sessionStorage.getItem('dr_aktham_last_booking') || 'null');
+        const bookings = last ? [last] : [];
         if (bookings.length > 0) {
             const latest = bookings[0];
             const sumName = document.getElementById('confirmName');

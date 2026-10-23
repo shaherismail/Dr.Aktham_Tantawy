@@ -6,13 +6,13 @@
     "clinicSubName": "لطب وجراحة الأسنان",
     "logoUrl": "assets/logo.jpg",
     "phone": "0107 054 2331",
-    "phoneFormatted": "0100 993 5493",
+    "phoneFormatted": "0107 054 2331",
     "whatsapp": "201070542331",
     "whatsappText": "استفسار عاجل",
     "emergencyPhone": "0107 054 2331",
     "email": "",
     "address": "الزقازيق، موقف المنصورة، بجوار مستشفى الطوارئ التخصصي",
-    "googleMapsIframe": "https://www.google.com/maps?q=%D9%85%D9%88%D9%82%D9%81%20%D8%A7%D9%84%D9%85%D9%86%D8%B5%D9%88%D8%B1%D8%A9%D8%8C%20%D8%A7%D9%84%D8%B2%D9%82%D8%A7%D8%B2%D9%8A%D9%82%D8%8C%20%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D8%A9%20%D8%A7%D9%84%D8%B4%D8%B1%D9%82%D9%8A%D8%A9&output=embed",
+    "googleMapsIframe": "",
     "facebook": "https://www.facebook.com/p/Dr-Aktham-Tantawy-Dental-Clinic-100076245157975/",
     "instagram": "",
     "twitter": "",
@@ -37,66 +37,18 @@
   "services": [
     {
       "id": 1,
-      "title": "تقويم الأسنان الشفاف (Invisalign)",
-      "price": 7500,
-      "duration": "تحدد بعد التقييم",
+      "title": "تقويم الأسنان",
       "badge": "تقويم الأسنان",
       "active": true,
-      "description": "مصففات شفافة قابلة للإزالة. تُحدد الملاءمة بعد الفحص."
+      "description": "يُحدد التقييم والخطة بعد الفحص."
     },
     {
       "id": 2,
-      "title": "تقويم الأسنان الخزفي التجميلي",
-      "price": 5800,
-      "duration": "تحدد بعد التقييم",
-      "badge": "تقويم الأسنان",
+      "title": "الكشف والاستشارة",
+      "price": 100,
+      "badge": "كشف",
       "active": true,
-      "description": "حاصرات بلون السن. تُحدد الملاءمة بعد الفحص."
-    },
-    {
-      "id": 3,
-      "title": "تقويم الأسنان المعدني",
-      "price": 4200,
-      "duration": "تحدد بعد التقييم",
-      "badge": "تقويم الأسنان",
-      "active": true,
-      "description": "تقويم معدني ثابت، وتُحدد ملاءمته بعد الفحص."
-    },
-    {
-      "id": 4,
-      "title": "الفينير",
-      "price": 9500,
-      "duration": "تحدد بعد التقييم",
-      "badge": "الفينير",
-      "active": true,
-      "description": "تُناقش خيارات الفينير ومدى ملاءمتها بعد تقييم الحالة."
-    },
-    {
-      "id": 5,
-      "title": "زراعة الأسنان",
-      "price": 3200,
-      "duration": "تحدد بعد التقييم",
-      "badge": "زراعة الأسنان",
-      "active": true,
-      "description": "تُناقش خيارات زراعة الأسنان ومدى ملاءمتها بعد تقييم الحالة."
-    },
-    {
-      "id": 6,
-      "title": "تنظيف الأسنان وإزالة الجير",
-      "price": 250,
-      "duration": "تحدد بعد التقييم",
-      "badge": "تنظيف الأسنان",
-      "active": true,
-      "description": "خدمة تنظيف الأسنان وإزالة الجير، وتُحدد الحاجة إليها بعد التقييم."
-    },
-    {
-      "id": 7,
-      "title": "تبييض الأسنان",
-      "price": 600,
-      "duration": "تحدد بعد التقييم",
-      "badge": "تبييض الأسنان",
-      "active": true,
-      "description": "تُناقش خيارات تبييض الأسنان ومدى ملاءمتها بعد الفحص."
+      "description": "الكشف المباشر في العيادة: 100 جنيه مصري."
     }
   ],
   "testimonials": [],

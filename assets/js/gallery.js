@@ -124,78 +124,7 @@ export function initGalleryLightbox() {
 }
 
 // Default Cases Collection
-export const defaultGalleryCases = [
-    {
-        id: 'case-1',
-        title: 'صور من العيادة',
-        category: 'crowding',
-        badge: 'صور من العيادة',
-        beforeImg: 'assets/case2.jpg',
-        afterImg: 'assets/case2.jpg',
-        isSlider: false,
-        desc: 'صور من العيادة.',
-    },
-    {
-        id: 'case-2',
-        title: 'صور من العيادة',
-        category: 'spacing',
-        badge: 'صور من العيادة',
-        beforeImg: 'assets/case1.jpg',
-        afterImg: 'assets/case1.jpg',
-        isSlider: false,
-        desc: 'صور من العيادة.',
-    },
-    {
-        id: 'case-3',
-        title: 'صور من العيادة',
-        category: 'overbite',
-        badge: 'صور من العيادة',
-        beforeImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.23 PM.jpeg',
-        afterImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.23 PM (1).jpeg',
-        isSlider: true,
-        desc: 'صور من العيادة.',
-    },
-    {
-        id: 'case-4',
-        title: 'صور من العيادة',
-        category: 'crossbite',
-        badge: 'صور من العيادة',
-        beforeImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.24 PM.jpeg',
-        afterImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.24 PM (1).jpeg',
-        isSlider: true,
-        desc: 'صور من العيادة.',
-    },
-    {
-        id: 'case-5',
-        title: 'صور من العيادة',
-        category: 'openbite',
-        badge: 'صور من العيادة',
-        beforeImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.24 PM.jpeg',
-        afterImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.24 PM (2).jpeg',
-        isSlider: true,
-        desc: 'صور من العيادة.',
-    },
-    {
-        id: 'case-6',
-        title: 'صور من العيادة',
-        category: 'aligners',
-        badge: 'صور من العيادة',
-        beforeImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.21 PM.jpeg',
-        afterImg: 'assets/WhatsApp Image 2026-06-24 at 10.52.21 PM (1).jpeg',
-        isSlider: true,
-        desc: 'صور من العيادة.',
-    },
-    {
-        id: 'case-7',
-        title: 'صور من العيادة',
-        category: 'other',
-        badge: 'صور من العيادة',
-        beforeImg: 'assets/WhatsApp Image 2026-06-25 at 7.41.45 PM.jpeg',
-        afterImg: 'assets/WhatsApp Image 2026-06-25 at 7.41.45 PM (1).jpeg',
-        isSlider: true,
-        desc: 'صور من العيادة.',
-    }
-];
+export const defaultGalleryCases = [];
 
 // Dynamic Renderer
 export function renderGalleryCases() {

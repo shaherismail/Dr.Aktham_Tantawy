@@ -36,10 +36,6 @@ export const PageSettings = {
         ".about-doctor-section > div:nth-child(3) .section-header .section-label": "فيديو ترحيبي",
         ".about-doctor-section > div:nth-child(3) .section-header .section-title": "فيديو تعريفي بالعيادة والتجهيزات",
         ".about-doctor-section > div:nth-child(3) .section-header .section-desc": "مقطع مصوّر من العيادة.",
-        ".about-doctor-section .video-wrapper video": {
-            src: "assets/WhatsApp Video 2026-06-25 at 8.02.08 PM.mp4",
-            poster: "assets/doctor.jpg"
-        },
 
         // Clinic Interior Gallery Section
         ".about-doctor-section > div:nth-child(4) .section-header .section-label": "صور العيادة",
@@ -47,25 +43,8 @@ export const PageSettings = {
         ".about-doctor-section > div:nth-child(4) .section-header .section-desc": "لقطات مصوّرة داخل العيادة.",
         ".about-doctor-section > div:nth-child(2)": "",
         ".about-doctor-section > div:nth-child(3) .section-header .section-desc": "مقطع مصوّر من العيادة.",
-        ".clinic-gallery-grid .gallery-photo-card img": { alt: "صورة من العيادة" },
 
         // Gallery Photos
-        ".clinic-gallery-grid .gallery-photo-card:nth-child(1) img": {
-            src: "assets/WhatsApp Image 2026-06-25 at 7.41.42 PM.jpeg",
-            alt: "صورة من العيادة"
-        },
-        ".clinic-gallery-grid .gallery-photo-card:nth-child(2) img": {
-            src: "assets/WhatsApp Image 2026-06-24 at 10.52.22 PM.jpeg",
-            alt: "صورة من العيادة"
-        },
-        ".clinic-gallery-grid .gallery-photo-card:nth-child(3) img": {
-            src: "assets/WhatsApp Image 2026-06-24 at 10.52.23 PM.jpeg",
-            alt: "صورة من العيادة"
-        },
-        ".clinic-gallery-grid .gallery-photo-card:nth-child(4) img": {
-            src: "assets/WhatsApp Image 2026-06-24 at 10.52.24 PM.jpeg",
-            alt: "صورة من العيادة"
-        },
 
         // Call to action button
         ".about-doctor-section > div:nth-child(5) a": "احجز استشارة تقويم مع الدكتور الآن"

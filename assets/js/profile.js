@@ -156,7 +156,7 @@ export function initPatientProfile() {
 
     // Otherwise check if patient recently booked in this session
     try {
-        const savedProfile = JSON.parse(localStorage.getItem('current_patient_profile') || 'null');
+        const savedProfile = JSON.parse(sessionStorage.getItem('current_patient_profile') || 'null');
         if (savedProfile && (savedProfile.id || savedProfile.phone)) {
             lookupInput.value = savedProfile.id || savedProfile.phone;
             const pe = document.getElementById('lookupPhone'); if (pe && savedProfile.phone) pe.value = savedProfile.phone;
@@ -266,8 +266,8 @@ function renderFoundBookings(bookings, container) {
                     let bookingsList = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
                     bookingsList = bookingsList.filter(item => item.id !== b.id);
                     localStorage.setItem('dr_aktham_bookings', JSON.stringify(bookingsList));
-                    const prof = JSON.parse(localStorage.getItem('current_patient_profile') || 'null');
-                    if (prof && prof.id === b.id) localStorage.removeItem('current_patient_profile');
+                    const prof = JSON.parse(sessionStorage.getItem('current_patient_profile') || 'null');
+                    if (prof && prof.id === b.id) { sessionStorage.removeItem('current_patient_profile'); sessionStorage.removeItem('dr_aktham_last_booking'); }
                 } catch (e) {}
                 alert('تم إلغاء الحجز بنجاح.');
                 card.remove();

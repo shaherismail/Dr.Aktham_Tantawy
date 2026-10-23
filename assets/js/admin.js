@@ -1,3 +1,4 @@
+const BLANK_IMG = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 // ==========================================================================
 // Dr. Aktham Dental Clinic - Comprehensive Admin Dashboard Logic
 // 100% Standalone, Self-Contained, Vercel & GitHub Ready (No External DB)
@@ -29,13 +30,8 @@ export const AdminState = {
 
 // Default Clinic Services Database
 const defaultServices = [
-    { id: 'srv-1', name: 'التقويم الشفاف (ألاينرز)', price: 9500, duration: 'تحدد بعد التقييم', category: 'ortho', active: true, desc: 'المصففات الشفافة قابلة للإزالة. تُحدد الملاءمة بعد الفحص.' },
-    { id: 'srv-2', name: 'تقويم الأسنان المعدني', price: 6000, duration: 'تحدد بعد التقييم', category: 'ortho', active: true, desc: 'تقويم معدني ثابت، وتُحدد ملاءمته بعد الفحص.' },
-    { id: 'srv-3', name: 'التقويم الخزفي التجميلي', price: 7500, duration: 'تحدد بعد التقييم', category: 'ortho', active: true, desc: 'حواصر بلون السن، وتُحدد ملاءمتها بعد الفحص.' },
-    { id: 'srv-4', name: 'الفينير وزراعة الأسنان', price: 12000, duration: 'تحدد بعد التقييم', category: 'cosmetic', active: true, desc: 'تُناقش الخيارات ومدى ملاءمتها بعد تقييم الحالة.' },
-    { id: 'srv-5', name: 'تبييض الأسنان', price: 1200, duration: 'تحدد بعد التقييم', category: 'cosmetic', active: true, desc: 'تُناقش خيارات تبييض الأسنان ومدى ملاءمتها بعد الفحص.' },
-    { id: 'srv-6', name: 'تنظيف الأسنان وإزالة الجير', price: 350, duration: 'تحدد بعد التقييم', category: 'general', active: true, desc: 'تُحدد الحاجة إلى تنظيف الأسنان بعد التقييم.' },
-    { id: 'srv-7', name: 'علاج جذور الأسنان', price: 850, duration: 'تحدد بعد التقييم', category: 'general', active: true, desc: 'تُناقش خيارات علاج الجذور بعد فحص الحالة.' }
+    { id: 'srv-ortho', name: 'تقويم الأسنان', price: 0, duration: 'تحدد بعد الفحص', category: 'ortho', active: true, desc: 'يُحدد التكلفة والخطة بعد الفحص.' },
+    { id: 'srv-consult', name: 'الكشف والاستشارة', price: 100, duration: 'تحدد بعد الفحص', category: 'general', active: true, desc: 'الكشف المباشر في العيادة: 100 جنيه مصري.' }
 ];
 
 // Clean Production Data (Demo mock bookings removed as requested)
@@ -170,6 +166,11 @@ export function initAdminData() {
     // Services
     let services = [];
     try {
+        // One-time reset of the saved service catalog: older saved lists held unverified template services and prices.
+        if (localStorage.getItem('dr_aktham_services_v') !== '2') {
+            localStorage.removeItem('dr_aktham_services');
+            localStorage.setItem('dr_aktham_services_v', '2');
+        }
         const stored = localStorage.getItem('dr_aktham_services');
         if (stored) services = JSON.parse(stored);
         if (!services || services.length === 0) {
@@ -1168,11 +1169,11 @@ export function renderAdminGallery() {
         <div class="admin-case-card" data-case-id="${c.id}">
             <div class="admin-case-media-header">
                 <div class="admin-case-thumb">
-                    <img src="${c.beforeImg || 'assets/case1.jpg'}" alt="قبل" onerror="this.src='assets/case1.jpg'">
+                    <img src="${c.beforeImg || BLANK_IMG}" alt="قبل" onerror="this.src=BLANK_IMG">
                     <span class="admin-thumb-badge badge-before">قبل</span>
                 </div>
                 <div class="admin-case-thumb">
-                    <img src="${c.afterImg || 'assets/case2.jpg'}" alt="بعد" onerror="this.src='assets/case2.jpg'">
+                    <img src="${c.afterImg || BLANK_IMG}" alt="بعد" onerror="this.src=BLANK_IMG">
                     <span class="admin-thumb-badge badge-after">بعد</span>
                 </div>
             </div>
@@ -1229,10 +1230,10 @@ export function openAddCaseModal() {
     const beforeUrl = document.getElementById('caseBeforeUrlInput');
     const afterUrl = document.getElementById('caseAfterUrlInput');
 
-    if (beforePreview) beforePreview.src = 'assets/case1.jpg';
-    if (afterPreview) afterPreview.src = 'assets/case2.jpg';
-    if (beforeUrl) beforeUrl.value = 'assets/case1.jpg';
-    if (afterUrl) afterUrl.value = 'assets/case2.jpg';
+    if (beforePreview) beforePreview.src = BLANK_IMG;
+    if (afterPreview) afterPreview.src = BLANK_IMG;
+    if (beforeUrl) beforeUrl.value = BLANK_IMG;
+    if (afterUrl) afterUrl.value = BLANK_IMG;
 
     openModal('caseModal');
 }
@@ -1255,8 +1256,8 @@ export function editCase(caseId) {
     const beforeUrl = document.getElementById('caseBeforeUrlInput');
     const afterUrl = document.getElementById('caseAfterUrlInput');
 
-    if (beforePreview) beforePreview.src = c.beforeImg || 'assets/case1.jpg';
-    if (afterPreview) afterPreview.src = c.afterImg || 'assets/case2.jpg';
+    if (beforePreview) beforePreview.src = c.beforeImg || BLANK_IMG;
+    if (afterPreview) afterPreview.src = c.afterImg || BLANK_IMG;
     if (beforeUrl) beforeUrl.value = c.beforeImg || '';
     if (afterUrl) afterUrl.value = c.afterImg || '';
 
@@ -2193,8 +2194,8 @@ function bindFormsAndModals() {
             const duration = document.getElementById('caseFormDuration').value.trim() || 'تحدد بعد التقييم';
             const visits = document.getElementById('caseFormVisits').value.trim();
             const desc = document.getElementById('caseFormDesc').value.trim();
-            const beforeImg = (caseBeforeUrlInput && caseBeforeUrlInput.value.trim()) || (caseBeforePreview && caseBeforePreview.src) || 'assets/case1.jpg';
-            const afterImg = (caseAfterUrlInput && caseAfterUrlInput.value.trim()) || (caseAfterPreview && caseAfterPreview.src) || 'assets/case2.jpg';
+            const beforeImg = (caseBeforeUrlInput && caseBeforeUrlInput.value.trim()) || (caseBeforePreview && caseBeforePreview.src) || BLANK_IMG;
+            const afterImg = (caseAfterUrlInput && caseAfterUrlInput.value.trim()) || (caseAfterPreview && caseAfterPreview.src) || BLANK_IMG;
 
             const caseData = {
                 id: id || ('case-' + Date.now()),
