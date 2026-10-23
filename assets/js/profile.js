@@ -35,7 +35,8 @@ export function initPatientProfile() {
                 const core = typedPhone.length >= 9 ? typedPhone.slice(-9) : '';
                 if (core && /[a-z]/i.test(cleanQuery)) {
                     const found = await m.lookupBookings(cleanQuery, typedPhone);
-                    remoteMatches = (found || []).filter(b => b && (b.id || '').toLowerCase() === cleanQuery && (b.phone || '').replace(/\D/g, '').slice(-9) === core);
+                    // The server already required ID + phone to match; it does not return the phone, so attach the one typed (needed for cancel).
+                    remoteMatches = (found || []).filter(b => b && (b.id || '').toLowerCase() === cleanQuery).map(b => ({ ...b, phone: typedPhone }));
                 }
             } catch (err) {
                 console.warn('Could not look up remote bookings:', err);
