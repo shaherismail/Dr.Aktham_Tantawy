@@ -22,13 +22,8 @@ export function initPatientProfile() {
         foundCardsEl.innerHTML = '';
 
         try {
-            // 1. Gather local bookings
-            let allBookings = [];
-            try {
-                allBookings = JSON.parse(localStorage.getItem('dr_aktham_bookings') || '[]');
-            } catch (e) {
-                allBookings = [];
-            }
+            // 1. Public lookup never reads bookings stored on this device: results come only from the server check (ID + phone).
+            const allBookings = [];
 
             // 2. Privacy-safe remote lookup via Supabase RPC (by ID or phone only)
             let remoteMatches = [];

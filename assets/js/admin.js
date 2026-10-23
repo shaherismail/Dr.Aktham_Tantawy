@@ -550,11 +550,14 @@ function renderOverview() {
     const confirmedCount = AdminState.bookings.filter(b => b.status === 'confirmed').length;
     const patientsCount = AdminState.patients.length;
 
+    // Revenue counts only bookings whose service has a real saved price. No invented default price.
     let totalRevenue = 0;
+    let unpricedCount = 0;
     AdminState.bookings.forEach(b => {
         if (b.status !== 'cancelled') {
-            const srv = AdminState.services.find(s => s.name === b.service);
-            totalRevenue += srv ? srv.price : 1500;
+            const srv = AdminState.services.find(s => (s.name || s.title) === b.service);
+            const price = srv ? Number(srv.price) : 0;
+            if (price > 0) totalRevenue += price; else unpricedCount++;
         }
     });
 
@@ -571,7 +574,10 @@ function renderOverview() {
     if (kpiPatients) kpiPatients.textContent = patientsCount;
 
     const kpiRevenue = document.getElementById('kpiTotalRevenue');
-    if (kpiRevenue) kpiRevenue.textContent = totalRevenue.toLocaleString('ar-EG') + ' ج.م';
+    if (kpiRevenue) {
+        const note = unpricedCount > 0 ? ` <span style="font-size: 12px; color: var(--adm-text-muted); font-weight: normal;">(${unpricedCount} حجز بلا سعر محدد غير محتسب)</span>` : '';
+        kpiRevenue.innerHTML = (totalRevenue > 0 ? totalRevenue.toLocaleString('ar-EG') + ' ج.م' : 'غير متاح') + note;
+    }
 
     // Render Today's Live Queue
     const todayStr = new Date().toISOString().split('T')[0];
