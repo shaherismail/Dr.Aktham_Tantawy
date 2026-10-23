@@ -34,7 +34,14 @@ export function initPatientProfile() {
             let remoteMatches = [];
             try {
                 const m = await import('./supabase-client.js');
-                remoteMatches = await m.lookupBookings(cleanQuery);
+                // Privacy: a booking is only shown remotely when BOTH the booking ID and its phone match.
+                const phoneEl = document.getElementById('lookupPhone');
+                const typedPhone = latinDigits(phoneEl ? phoneEl.value : '').replace(/\D/g, '');
+                const core = typedPhone.length >= 9 ? typedPhone.slice(-9) : '';
+                if (core && /[a-z]/i.test(cleanQuery)) {
+                    const found = await m.lookupBookings(cleanQuery);
+                    remoteMatches = (found || []).filter(b => b && (b.id || '').toLowerCase() === cleanQuery && (b.phone || '').replace(/\D/g, '').slice(-9) === core);
+                }
             } catch (err) {
                 console.warn('Could not look up remote bookings:', err);
             }
@@ -152,6 +159,7 @@ export function initPatientProfile() {
         const savedProfile = JSON.parse(localStorage.getItem('current_patient_profile') || 'null');
         if (savedProfile && (savedProfile.id || savedProfile.phone)) {
             lookupInput.value = savedProfile.id || savedProfile.phone;
+            const pe = document.getElementById('lookupPhone'); if (pe && savedProfile.phone) pe.value = savedProfile.phone;
             executeLookup(lookupInput.value);
         }
     } catch (e) {}

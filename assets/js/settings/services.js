@@ -2,8 +2,7 @@
 export const PageSettings = {
     title: "خدمات طب وتقويم الأسنان بالزقازيق | عيادة د. أكثم طنطاوي",
     description: "خدمات عيادة د. أكثم طنطاوي لطب وتقويم الأسنان في الزقازيق.",
-    keywords: "خدمات عيادة أسنان الزقازيق, تقويم شفاف, تقويم معدني, تقويم خزفي, فينير, زراعة الأسنان, تبييض الأسنان",
-    dynamicContent: {
+        dynamicContent: {
         // Page header
         ".services-section .section-title": "خدمات طب الأسنان",
         ".services-section .section-desc": "تعرف على خدمات طب الأسنان وتقويم الأسنان المتاحة. تُشرح الخيارات بعد تقييم الحالة.",
@@ -97,7 +96,7 @@ export const PageSettings = {
             src: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=400&q=80",
             alt: "طب الأسنان العام والتنظيف"
         },
-        ".grid-4 > div:nth-child(11) .card-title": "طب الأسنان العام والتنظيف",
-        ".grid-4 > div:nth-child(11) .service-card-desc": "تُناقش خدمات طب الأسنان العام المناسبة بعد الفحص."
+        ".grid-4 > div:nth-child(11) .card-title": "الكشف والاستشارة",
+        ".grid-4 > div:nth-child(11) .service-card-desc": "كشف واستشارة لتقييم حالة أسنانك وتحديد الخطوة المناسبة."
     }
 };

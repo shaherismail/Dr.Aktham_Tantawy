@@ -7,7 +7,7 @@ export const PageSettings = {
         // Page header
         ".gallery-section .section-label": "صور العيادة",
         ".gallery-section .section-title": "صور العيادة",
-        ".gallery-section .section-desc": "تختلف صور العيادة، ولا تمثل وصفاً لخطة علاجية أو نتيجة مضمونة.",
+        ".gallery-section .section-desc": "صور العيادة",
 
         // Case 1
         ".gallery-grid > div:nth-child(1) img": {

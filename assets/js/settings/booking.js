@@ -33,12 +33,6 @@ export const PageSettings = {
 
         // Step 2: Choose Service
         "#stepPanel2 .profile-sub-title": "<i class=\"bx bx-check-shield\"></i> حدد الخدمة الطبية المطلوبة",
-        ".services-selector-grid div:nth-child(1) span": "تنظيف وتلميع الأسنان",
-        ".services-selector-grid div:nth-child(2) span": "تبييض الأسنان",
-        ".services-selector-grid div:nth-child(3) span": "زراعة الأسنان",
-        ".services-selector-grid div:nth-child(4) span": "تقويم الأسنان الحديث",
-        ".services-selector-grid div:nth-child(5) span": "علاج الجذور والأعصاب",
-        ".services-selector-grid div:nth-child(6) span": "الفينير",
 
         // Step 3: Choose Doctor
         "#stepPanel3 .profile-sub-title": "<i class=\"bx bx-user-voice\"></i> اختر الطبيب المعالج",

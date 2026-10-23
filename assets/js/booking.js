@@ -215,7 +215,7 @@ function updateSelectedSlotFeedback() {
 function populateSummary() {
     const nameVal = document.getElementById('bookingName')?.value.trim() || 'غير محدد';
     const phoneVal = document.getElementById('bookingPhone')?.value.trim() || 'غير محدد';
-    const serviceVal = AppState.bookingData.service || 'تقويم الأسنان الحديث';
+    const serviceVal = AppState.bookingData.service || 'تقويم الأسنان';
     const doctorVal = AppState.bookingData.doctor || 'د. أكثم طنطاوي';
     const dateVal = document.getElementById('bookingDate')?.value || 'اليوم';
     const chairVal = AppState.bookingData.chair || 'عيادة تقويم الأسنان 🦷';
@@ -317,7 +317,7 @@ function validateStep(step) {
     }
     if (step === 2) {
         if (!AppState.bookingData.service) {
-            AppState.bookingData.service = 'تقويم الأسنان الحديث';
+            AppState.bookingData.service = 'تقويم الأسنان';
         }
         return true;
     }
@@ -372,7 +372,7 @@ export function initBookingFlow() {
     }
 
     // Default AppState service setup
-    AppState.bookingData.service = 'تقويم الأسنان الحديث';
+    AppState.bookingData.service = 'تقويم الأسنان';
     AppState.bookingData.doctor = 'د. أكثم طنطاوي';
     AppState.bookingData.chair = 'عيادة تقويم الأسنان 🦷';
     AppState.bookingData.time = '';
@@ -536,7 +536,7 @@ export function initBookingFlow() {
         const dateVal = document.getElementById('bookingDate').value || localDate();
         const timeVal = AppState.bookingData.time;
         const chairVal = AppState.bookingData.chair || 'عيادة تقويم الأسنان 🦷';
-        const serviceVal = AppState.bookingData.service || 'تقويم الأسنان الحديث';
+        const serviceVal = AppState.bookingData.service || 'تقويم الأسنان';
         const doctorVal = AppState.bookingData.doctor || 'د. أكثم طنطاوي';
         const notesVal = clean(document.getElementById('bookingNotes').value, 1000) || 'لا توجد ملاحظات إضافية';
 
