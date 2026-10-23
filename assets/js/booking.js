@@ -552,7 +552,7 @@ export function initBookingFlow() {
         // Save to the clinic database FIRST. Retry with a new ID if the ID is already taken.
         let saved = false;
         let lastTimedOut = false;
-        let bookingId = 'DK-' + Math.floor(1000 + Math.random() * 9000);
+        let bookingId = newBookingId();
         for (let attempt = 0; attempt < 6 && !saved; attempt++) {
             newBooking.id = bookingId;
             let res;
@@ -567,7 +567,7 @@ export function initBookingFlow() {
             if (!res || !res.error) { saved = true; break; }
             if (res.error.code === '23505') {
                 if (lastTimedOut) { saved = true; break; } // our earlier timed-out request actually landed
-                bookingId = 'DK-' + Math.floor(10000 + Math.random() * 90000);
+                bookingId = newBookingId();
                 lastTimedOut = false;
                 continue;
             }
@@ -650,3 +650,14 @@ onReady(() => {
     initBookingFlow();
     initSuccessPage();
 });
+
+
+// Unpredictable booking ID: DK- + 8 chars from an unambiguous alphabet (crypto-random)
+function newBookingId() {
+    const A = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+    const b = new Uint8Array(8);
+    (self.crypto || window.crypto).getRandomValues(b);
+    let o = 'DK-';
+    for (let i = 0; i < 8; i++) o += A[b[i] % A.length];
+    return o;
+}

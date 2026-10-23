@@ -3210,3 +3210,7 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 640px) {
     .footer-news-form { max-width: none; }
 }
+
+/* Embedded maps removed until the exact clinic pin is verified */
+.footer-map-placeholder{display:none!important}
+#submitBookingBtn{white-space:nowrap}
