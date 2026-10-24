@@ -565,6 +565,13 @@ export function initBookingFlow() {
                 res = { error: { code: 'exception' } };
             }
             if (!res || !res.error) { saved = true; break; }
+            if (res.error.code === '23505' && /bookings_active_slot_uniq/.test((res.error.message || '') + ' ' + (res.error.details || ''))) {
+                // Someone else booked this exact slot a moment ago.
+                if (submitBtn) { submitBtn.dataset.busy = '0'; submitBtn.disabled = false; submitBtn.innerHTML = origLabel; }
+                alert('عذراً، هذا الموعد تم حجزه للتو. من فضلك اختر موعداً آخر.');
+                try { delete remoteBookedCache[newBooking.date]; generateSeatGrid(newBooking.date); } catch (e) {}
+                return;
+            }
             if (res.error.code === '23505') {
                 if (lastTimedOut) { saved = true; break; } // our earlier timed-out request actually landed
                 bookingId = newBookingId();
