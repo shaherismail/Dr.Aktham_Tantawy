@@ -21,6 +21,7 @@ function isPastSlot(label, dateStr) {
     return mins !== null && mins <= now.getHours() * 60 + now.getMinutes();
 }
 const remoteBookedCache = {};
+let needSlotChoice = false; // set after a slot conflict: the visitor must pick a new time deliberately
 
 function showFieldError(el, msg) {
     if (!el) return;
@@ -129,6 +130,7 @@ export function generateSeatGrid(dateString) {
                 document.querySelectorAll('.slot-pill-btn.selected').forEach(b => b.classList.remove('selected'));
                 btn.classList.add('selected');
                 AppState.bookingData.time = time;
+                needSlotChoice = false;
                 AppState.bookingData.chair = currentSuite;
                 updateSelectedSlotFeedback();
             });
@@ -162,6 +164,7 @@ export function generateSeatGrid(dateString) {
                 document.querySelectorAll('.slot-pill-btn.selected').forEach(b => b.classList.remove('selected'));
                 btn.classList.add('selected');
                 AppState.bookingData.time = time;
+                needSlotChoice = false;
                 AppState.bookingData.chair = currentSuite;
                 updateSelectedSlotFeedback();
             });
@@ -184,7 +187,7 @@ export function generateSeatGrid(dateString) {
     }
 
     // Auto-select first available slot if none selected yet
-    if (!AppState.bookingData.time) {
+    if (!AppState.bookingData.time && !needSlotChoice) {
         const firstAvailable = grid.querySelector('.slot-pill-btn.slot-available');
         if (firstAvailable) {
             firstAvailable.classList.add('selected');
@@ -342,12 +345,16 @@ function validateStep(step) {
         if (!AppState.bookingData.chair) {
             AppState.bookingData.chair = 'عيادة تقويم الأسنان 🦷';
         }
-        if (!AppState.bookingData.time) {
+        if (!AppState.bookingData.time && !needSlotChoice) {
             const firstAvailable = document.querySelector('.slot-pill-btn.slot-available');
             if (firstAvailable) {
                 const timeSpan = firstAvailable.querySelector('.slot-time-text');
                 if (timeSpan) AppState.bookingData.time = timeSpan.textContent.trim();
             }
+        }
+        if (!AppState.bookingData.time && needSlotChoice) {
+            alert('من فضلك اختر موعداً جديداً من المواعيد المتاحة.');
+            return false;
         }
         if (!AppState.bookingData.time) {
             alert('لا توجد مواعيد متاحة في هذا اليوم. اختر يوماً آخر.');
@@ -569,7 +576,11 @@ export function initBookingFlow() {
                 // Someone else booked this exact slot a moment ago.
                 if (submitBtn) { submitBtn.dataset.busy = '0'; submitBtn.disabled = false; submitBtn.innerHTML = origLabel; }
                 alert('عذراً، هذا الموعد تم حجزه للتو. من فضلك اختر موعداً آخر.');
-                try { delete remoteBookedCache[newBooking.date]; generateSeatGrid(newBooking.date); } catch (e) {}
+                AppState.bookingData.time = '';
+                needSlotChoice = true;
+                try { delete remoteBookedCache[newBooking.date]; showStep(5); generateSeatGrid(newBooking.date); } catch (e) {}
+                const infoCard = document.getElementById('selectedSeatInfoCard');
+                if (infoCard) infoCard.style.display = 'none';
                 return;
             }
             if (res.error.code === '23505') {
