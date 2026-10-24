@@ -2,7 +2,7 @@
 export const PageSettings = {
     title: "Dr. Aktham | د. أكثم طنطاوي - دكتور أسنان في الزقازيق",
     description: "Dr. Aktham (د. أكثم إسماعيل طنطاوي)، طب الأسنان في الزقازيق. تعرّف على خدمات تقويم الأسنان وطرق الحجز.",
-    keywords: "دكتور أكثم طنطاوي, Dr Aktham Tantawy, dr.aktham, عيادة أسنان الزقازيق, دكتور تقويم أسنان في الزقازيق, تقويم شفاف, Aktham Tantawy Dental Clinic",
+    keywords: "دكتور أكثم طنطاوي, Dr Aktham Tantawy, dr.aktham, عيادة أسنان الزقازيق, دكتور تقويم أسنان في الزقازيق, Aktham Tantawy Dental Clinic",
     dynamicContent: {
         // Hero Section
         ".badge-new": "<span class=\"badge-dot\"></span> طب وتقويم الأسنان",
@@ -50,12 +50,10 @@ export const PageSettings = {
         ".faq-item:nth-child(2) .faq-body-inner": "قد يختلف الشعور أثناء تركيب التقويم أو تعديله من شخص لآخر. يمكن للطبيب شرح ما قد تتوقعه وكيفية التعامل مع أي انزعاج.",
         ".faq-item:nth-child(3) .faq-header-btn span": "هل يمكن للبالغين تركيب التقويم؟",
         ".faq-item:nth-child(3) .faq-body-inner": "يمكن تقييم تقويم الأسنان للبالغين بعد فحص صحة الأسنان واللثة والعظام، ويشرح الطبيب الخيارات المناسبة لكل حالة.",
-        ".faq-item:nth-child(4) .faq-header-btn span": "ما الفرق الأساسي بين المصففات الشفافة والتقويم المعدني؟",
-        ".faq-item:nth-child(4) .faq-body-inner": "المصففات الشفافة قابلة للإزالة، بينما التقويم المعدني ثابت. يحدد الطبيب الخيار المناسب بعد فحص الحالة.",
+        ".faq-item:nth-child(4) .faq-header-btn span": "هل يبدأ علاج التقويم بتركيب الحاصرات مباشرة؟",
+        ".faq-item:nth-child(4) .faq-body-inner": "يبدأ علاج التقويم بالتشخيص الدقيق للأسنان والفكين والإطباق، لأن كل حالة لها احتياجات مختلفة. بعد الفحص يحدد الطبيب خطة العلاج المناسبة.",
         ".faq-item:nth-child(5) .faq-header-btn span": "هل يؤثر التقويم على طريقة النطق والكلام ومخارج الحروف؟",
         ".faq-item:nth-child(5) .faq-body-inner": "قد يختلف تأثير التقويم على النطق من شخص لآخر. يمكن للطبيب شرح ما قد تتوقعه.",
-        ".faq-item:nth-child(6) .faq-header-btn span": "كم مرة يجب زيارة العيادة للمتابعة وضبط التقويم؟",
-        ".faq-item:nth-child(6) .faq-body-inner": "يحدد الطبيب مواعيد المتابعة بحسب نوع العلاج وخطة الحالة.",
         
         // Newsletter
         ".newsletter-card .newsletter-title": "تحديثات العيادة",
