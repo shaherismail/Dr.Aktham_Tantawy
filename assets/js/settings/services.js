@@ -4,7 +4,7 @@ export const PageSettings = {
     description: "خدمات عيادة د. أكثم طنطاوي لطب وتقويم الأسنان في الزقازيق.",
         dynamicContent: {
         // Page header
-        ".services-section .section-title": "خدمات طب الأسنان",
-        ".services-section .section-desc": "تعرف على خدمات طب الأسنان وتقويم الأسنان المتاحة. تُشرح الخيارات بعد تقييم الحالة."
+        ".services-section > .section-header .section-title": "خدمات طب الأسنان",
+        ".services-section > .section-header .section-desc": "تعرف على خدمات طب الأسنان وتقويم الأسنان المتاحة. تُشرح الخيارات بعد تقييم الحالة."
     }
 };
