@@ -278,9 +278,12 @@ onReady(() => {
 
 // Highlights current nav link based on location filename
 export function highlightActiveLink() {
-    const path = window.location.pathname;
-    const page = path.split('/').pop() || 'index.html';
-    const cleanPage = page.endsWith('.html') ? page : page + '.html';
+    const norm = h => {
+        if (!h) return h;
+        const p = h.split('#')[0].split('/').pop() || 'index.html';
+        return p.endsWith('.html') ? p : p + '.html';
+    };
+    const cleanPage = norm(window.location.pathname);
 
     // Desktop navbar item highlight
     const navItems = document.querySelectorAll('.nav-links .nav-item');
@@ -288,7 +291,7 @@ export function highlightActiveLink() {
         const link = item.querySelector('a');
         if (link) {
             const href = link.getAttribute('href');
-            if (href === cleanPage || (cleanPage === 'index.html' && href === 'index.html')) {
+            if (norm(href) === cleanPage) {
                 item.classList.add('active');
             } else {
                 item.classList.remove('active');
@@ -300,7 +303,7 @@ export function highlightActiveLink() {
     const drawerLinks = document.querySelectorAll('.drawer-links a');
     drawerLinks.forEach(link => {
         const href = link.getAttribute('href');
-        if (href === cleanPage || (cleanPage === 'index.html' && href === 'index.html')) {
+        if (norm(href) === cleanPage) {
             link.classList.add('active');
         } else {
             link.classList.remove('active');
@@ -311,7 +314,7 @@ export function highlightActiveLink() {
     const bottomBarItems = document.querySelectorAll('.mobile-bottom-bar .bottom-bar-item');
     bottomBarItems.forEach(item => {
         const href = item.getAttribute('href');
-        if (href && (href === cleanPage || (cleanPage === 'index.html' && href === 'index.html'))) {
+        if (href && norm(href) === cleanPage) {
             item.classList.add('active');
         } else {
             item.classList.remove('active');
