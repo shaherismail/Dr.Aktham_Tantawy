@@ -514,6 +514,12 @@ export function initBookingFlow() {
     bookingForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
+        // PREVIEW BRANCH ONLY: block real booking writes on Vercel preview deployments (never on production)
+        if (location.hostname.includes('-git-') || location.hostname.includes('preview')) {
+            alert('نسخة معاينة تصميم مؤقتة - الحجز الفعلي من الموقع الأساسي: dr-aktham-tantawy.vercel.app/booking');
+            return;
+        }
+
         // If submitted prematurely (e.g. Enter pressed on input), advance to next step
         if (currentStep < totalSteps) {
             if (validateStep(currentStep)) {
