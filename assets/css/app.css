@@ -3221,10 +3221,10 @@ h1, h2, h3, h4, h5, h6 {
     flex-direction: column;
     justify-content: flex-start;
     gap: 3px;
-    min-height: 76px;
-    padding: 13px 10px 10px;
+    min-height: 86px;
+    padding: 14px 10px 10px;
     border-width: 2px;
-    border-radius: 44% 44% 36% 36% / 52% 52% 26% 26%;
+    border-radius: 46% 46% 38% 38% / 58% 58% 30% 30%;
 }
 
 .slot-pill-btn i {
@@ -3236,7 +3236,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .slot-pill-btn .slot-badge {
-    margin-top: 15px;
+    margin-top: 22px;
 }
 
 /* braces wire across the tooth */
@@ -3245,7 +3245,7 @@ h1, h2, h3, h4, h5, h6 {
     position: absolute;
     left: -2px;
     right: -2px;
-    top: 58%;
+    top: 50%;
     height: 3px;
     background: #94A3B8;
     transition: var(--transition-fast);
@@ -3255,7 +3255,7 @@ h1, h2, h3, h4, h5, h6 {
 .slot-pill-btn::after {
     content: '';
     position: absolute;
-    top: calc(58% - 6px);
+    top: calc(50% - 6px);
     left: 50%;
     transform: translateX(-50%);
     width: 14px;
