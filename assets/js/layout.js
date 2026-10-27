@@ -110,7 +110,17 @@ function applyPageSettings(settings) {
 function applyGeneralSettingsToPage() {
     // Replace telephone links
     const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
-    const numericPhone = GeneralSettings.phone.replace(/[^0-9+]/g, '');
+    let numericPhone = GeneralSettings.phone.replace(/[^0-9+]/g, '');
+    // Normalize to international format for tel: links (Egypt): 010... -> +2010...
+    if (numericPhone.startsWith('+')) {
+        // already international
+    } else if (numericPhone.startsWith('0')) {
+        numericPhone = '+2' + numericPhone;
+    } else if (!numericPhone.startsWith('20')) {
+        numericPhone = '+' + numericPhone;
+    } else {
+        numericPhone = '+' + numericPhone;
+    }
     phoneLinks.forEach(link => {
         link.href = `tel:${numericPhone}`;
     });
