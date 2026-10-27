@@ -1661,35 +1661,78 @@ async function loadAdminCloudData() {
 }
 
 // Fire-and-forget Supabase mirrors for admin mutations
+function sbIsAuthError(err) {
+    if (!err) return false;
+    const msg = String(err.message || '').toLowerCase();
+    return err.code === '42501' || err.status === 401 || err.status === 403
+        || msg.includes('permission denied') || msg.includes('jwt');
+}
+
+// A failed write must not leave the UI showing a change the DB never stored.
+// Auth/permission failures force re-login; other failures reload the
+// authoritative cloud state so the panel matches the database again.
 function sbReport(promise) {
     promise.then(r => {
         if (r && r.error) {
             console.warn('Supabase write failed:', r.error);
-            showToast('تعذر حفظ التغيير في قاعدة البيانات: ' + (r.error.message || 'خطأ غير معروف'), 'error');
+            if (sbIsAuthError(r.error)) {
+                showToast('انتهت الجلسة أو لا توجد صلاحية. سجّل الدخول مرة أخرى - لم يتم حفظ التغيير.', 'error');
+                lockAdminPanel();
+            } else {
+                showToast('تعذر حفظ التغيير في قاعدة البيانات: ' + (r.error.message || 'خطأ غير معروف'), 'error');
+                loadAdminCloudData().then(() => renderAll()).catch(() => {});
+            }
         }
-    }).catch(() => showToast('تعذر الاتصال بقاعدة البيانات. لم يتم حفظ التغيير.', 'error'));
+    }).catch(() => {
+        showToast('تعذر الاتصال بقاعدة البيانات. لم يتم حفظ التغيير.', 'error');
+        getSupabase().then(sb => sb.auth.getSession()).then(({ data }) => {
+            if (data && data.session) {
+                loadAdminCloudData().then(() => renderAll()).catch(() => {});
+            } else {
+                lockAdminPanel();
+            }
+        }).catch(() => lockAdminPanel());
+    });
+}
+
+// Guard every admin mutation: without a valid Supabase Auth session the DB
+// will reject the write (RLS), so require re-login before attempting it.
+async function requireAdminSession() {
+    try {
+        const sb = await getSupabase();
+        const { data } = await sb.auth.getSession();
+        if (data && data.session) return sb;
+    } catch (e) { /* fall through to lock */ }
+    showToast('انتهت الجلسة. سجّل الدخول مرة أخرى قبل تعديل البيانات.', 'error');
+    lockAdminPanel();
+    return null;
+}
+
+function lockAdminPanel() {
+    const authOverlay = document.getElementById('adminAuthOverlay');
+    if (authOverlay) authOverlay.style.display = 'flex';
 }
 function sbBookingInsert(b) {
-    sbReport(getSupabase().then(sb => sb.from('bookings').insert({
+    sbReport(requireAdminSession().then(sb => sb && sb.from('bookings').insert({
         id: b.id, name: b.name, phone: b.phone, email: b.email, age: b.age,
         service: b.service, doctor: b.doctor, date: b.date, time: b.time,
         chair: b.chair, notes: b.notes, status: b.status || 'pending'
     })));
 }
 function sbBookingUpdate(id, patch) {
-    sbReport(getSupabase().then(sb => sb.from('bookings').update(patch).eq('id', id)));
+    sbReport(requireAdminSession().then(sb => sb && sb.from('bookings').update(patch).eq('id', id)));
 }
 function sbBookingDelete(id) {
-    sbReport(getSupabase().then(sb => sb.from('bookings').delete().eq('id', id)));
+    sbReport(requireAdminSession().then(sb => sb && sb.from('bookings').delete().eq('id', id)));
 }
 function sbContactUpdate(id, patch) {
-    sbReport(getSupabase().then(sb => sb.from('contacts').update(patch).eq('id', id)));
+    sbReport(requireAdminSession().then(sb => sb && sb.from('contacts').update(patch).eq('id', id)));
 }
 function sbContactDelete(id) {
-    sbReport(getSupabase().then(sb => sb.from('contacts').delete().eq('id', id)));
+    sbReport(requireAdminSession().then(sb => sb && sb.from('contacts').delete().eq('id', id)));
 }
 function sbNewsletterDelete(email) {
-    sbReport(getSupabase().then(sb => sb.from('newsletter').delete().eq('email', email)));
+    sbReport(requireAdminSession().then(sb => sb && sb.from('newsletter').delete().eq('email', email)));
 }
 
 function rememberDeletedId(id) {
