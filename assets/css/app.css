@@ -3215,7 +3215,7 @@ h1, h2, h3, h4, h5, h6 {
 .footer-map-placeholder{display:none!important}
 #submitBookingBtn{white-space:nowrap}
 
-/* === Preview: cinema seat-map of braces-teeth for appointment slots v3 (user request 2026-10-27) === */
+/* === Preview: cinema seat-map of braces-teeth for appointment slots v3.2 (user request 2026-10-27) === */
 .slots-pill-grid {
     display: flex;
     flex-wrap: wrap;
@@ -3285,12 +3285,13 @@ h1, h2, h3, h4, h5, h6 {
 
 /* status text stays for screen readers; the seat colour carries it visually */
 .slot-pill-btn .slot-badge {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    padding: 0 !important;
 }
 
 .slot-pill-btn.slot-available:hover {
@@ -3299,16 +3300,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .slot-pill-btn.selected {
-    box-shadow: none !important;
-    background-color: transparent !important;
-    background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20120%20120%22%3E%0A%3Cpath%20d%3D%22M30%208%20C16%208%208%2022%2010%2038%20C12%2052%2018%2060%2022%2076%20C25%2090%2028%20106%2036%20106%20C44%20106%2043%2092%2046%2080%20C48%2070%2054%2066%2060%2066%20C66%2066%2072%2070%2074%2080%20C77%2092%2076%20106%2084%20106%20C92%20106%2095%2090%2098%2076%20C102%2060%20108%2052%20110%2038%20C112%2022%20104%208%2090%208%20C78%208%2074%2014%2060%2014%20C46%2014%2042%208%2030%208%20Z%22%20fill%3D%22%231565FF%22%20stroke%3D%22%230F4C81%22%20stroke-width%3D%223%22/%3E%0A%3Cline%20x1%3D%2213%22%20y1%3D%2244%22%20x2%3D%22107%22%20y2%3D%2244%22%20stroke%3D%22rgba%28255%2C255%2C255%2C0.85%29%22%20stroke-width%3D%224%22/%3E%0A%3Crect%20x%3D%2252%22%20y%3D%2236%22%20width%3D%2216%22%20height%3D%2216%22%20rx%3D%224%22%20fill%3D%22%23FFFFFF%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%222%22/%3E%0A%3C/svg%3E") !important;
+    background: transparent url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20120%20120%22%3E%0A%3Cpath%20d%3D%22M30%208%20C16%208%208%2022%2010%2038%20C12%2052%2018%2060%2022%2076%20C25%2090%2028%20106%2036%20106%20C44%20106%2043%2092%2046%2080%20C48%2070%2054%2066%2060%2066%20C66%2066%2072%2070%2074%2080%20C77%2092%2076%20106%2084%20106%20C92%20106%2095%2090%2098%2076%20C102%2060%20108%2052%20110%2038%20C112%2022%20104%208%2090%208%20C78%208%2074%2014%2060%2014%20C46%2014%2042%208%2030%208%20Z%22%20fill%3D%22%231565FF%22%20stroke%3D%22%230F4C81%22%20stroke-width%3D%223%22/%3E%0A%3Cline%20x1%3D%2213%22%20y1%3D%2244%22%20x2%3D%22107%22%20y2%3D%2244%22%20stroke%3D%22rgba%28255%2C255%2C255%2C0.85%29%22%20stroke-width%3D%224%22/%3E%0A%3Crect%20x%3D%2252%22%20y%3D%2236%22%20width%3D%2216%22%20height%3D%2216%22%20rx%3D%224%22%20fill%3D%22%23FFFFFF%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%222%22/%3E%0A%3C/svg%3E") no-repeat center / 100% 100% !important;
     border: none !important;
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .slot-pill-btn.slot-reserved {
-    background-color: transparent;
-    background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20120%20120%22%3E%0A%3Cpath%20d%3D%22M30%208%20C16%208%208%2022%2010%2038%20C12%2052%2018%2060%2022%2076%20C25%2090%2028%20106%2036%20106%20C44%20106%2043%2092%2046%2080%20C48%2070%2054%2066%2060%2066%20C66%2066%2072%2070%2074%2080%20C77%2092%2076%20106%2084%20106%20C92%20106%2095%2090%2098%2076%20C102%2060%20108%2052%20110%2038%20C112%2022%20104%208%2090%208%20C78%208%2074%2014%2060%2014%20C46%2014%2042%208%2030%208%20Z%22%20fill%3D%22%23E2E8F0%22%20stroke%3D%22%23CBD5E1%22%20stroke-width%3D%223%22/%3E%0A%3Cline%20x1%3D%2213%22%20y1%3D%2244%22%20x2%3D%22107%22%20y2%3D%2244%22%20stroke%3D%22%23CBD5E1%22%20stroke-width%3D%224%22/%3E%0A%3Crect%20x%3D%2252%22%20y%3D%2236%22%20width%3D%2216%22%20height%3D%2216%22%20rx%3D%224%22%20fill%3D%22%23CBD5E1%22%20stroke%3D%22%2394A3B8%22%20stroke-width%3D%222%22/%3E%0A%3C/svg%3E");
+    background: transparent url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20120%20120%22%3E%0A%3Cpath%20d%3D%22M30%208%20C16%208%208%2022%2010%2038%20C12%2052%2018%2060%2022%2076%20C25%2090%2028%20106%2036%20106%20C44%20106%2043%2092%2046%2080%20C48%2070%2054%2066%2060%2066%20C66%2066%2072%2070%2074%2080%20C77%2092%2076%20106%2084%20106%20C92%20106%2095%2090%2098%2076%20C102%2060%20108%2052%20110%2038%20C112%2022%20104%208%2090%208%20C78%208%2074%2014%2060%2014%20C46%2014%2042%208%2030%208%20Z%22%20fill%3D%22%23E2E8F0%22%20stroke%3D%22%23CBD5E1%22%20stroke-width%3D%223%22/%3E%0A%3Cline%20x1%3D%2213%22%20y1%3D%2244%22%20x2%3D%22107%22%20y2%3D%2244%22%20stroke%3D%22%23CBD5E1%22%20stroke-width%3D%224%22/%3E%0A%3Crect%20x%3D%2252%22%20y%3D%2236%22%20width%3D%2216%22%20height%3D%2216%22%20rx%3D%224%22%20fill%3D%22%23CBD5E1%22%20stroke%3D%22%2394A3B8%22%20stroke-width%3D%222%22/%3E%0A%3C/svg%3E") no-repeat center / 100% 100%;
     border: none;
     opacity: 0.85;
 }
