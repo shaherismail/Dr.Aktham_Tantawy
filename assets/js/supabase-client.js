@@ -50,7 +50,8 @@ export async function lookupBookings() {
 }
 
 export async function getBookedSlots() {
-    return { data: DEMO_TAKEN.slice(), error: null };
+    // matches the real client: resolves to an array of {time, chair} pairs
+    return DEMO_TAKEN.slice();
 }
 
 export async function cancelBooking() {
