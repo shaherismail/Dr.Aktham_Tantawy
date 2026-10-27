@@ -104,6 +104,16 @@ export function generateSeatGrid(dateString) {
     const container = document.createElement('div');
     container.className = 'slots-wrapper-box';
 
+    // Cinema seat-map legend for the teeth seats
+    const legend = document.createElement('div');
+    legend.className = 'slots-seat-legend';
+    legend.innerHTML = `
+        <span class="seat-key seat-key-available"><i class="seat-tooth-mini"></i> متاح</span>
+        <span class="seat-key seat-key-selected"><i class="seat-tooth-mini"></i> اخترت هذا الموعد</span>
+        <span class="seat-key seat-key-reserved"><i class="seat-tooth-mini"></i> محجوز / انتهى</span>
+    `;
+    container.appendChild(legend);
+
     // 1. Morning Shift
     const morningGroup = document.createElement('div');
     morningGroup.className = 'shift-group';
