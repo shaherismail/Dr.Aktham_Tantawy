@@ -820,7 +820,7 @@ function renderServices() {
                 </div>
                 <p style="font-size: 13px; color: var(--adm-text-muted); margin: 0 0 12px 0;">${s.desc || s.description || ''}</p>
                 <div style="display: flex; gap: 12px; font-size: 12.5px; color: var(--adm-text-muted);">
-                    <span><i class="bx bx-time"></i> ${s.duration}</span>
+                    <span><i class="bx bx-time"></i> ${s.duration || 'تحدد بعد الفحص'}</span>
                     <span><i class="bx bx-category"></i> ${getCategoryLabel(s.category)}</span>
                 </div>
             </div>
