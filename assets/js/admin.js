@@ -1,4 +1,4 @@
-const BLANK_IMG = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+window.BLANK_IMG = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 // ==========================================================================
 // Dr. Aktham Dental Clinic - Comprehensive Admin Dashboard Logic
 // 100% Standalone, Self-Contained, Vercel & GitHub Ready (No External DB)
