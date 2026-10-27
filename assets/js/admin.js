@@ -1325,7 +1325,8 @@ function getCategoryLabel(cat) {
 // --------------------------------------------------------------------------
 window.adminActions = {
     openModal: (id) => openModal(id),
-    confirmBooking: (id) => {
+    confirmBooking: async (id) => {
+        if (!(await hasAdminSessionOrLock())) return;
         const b = AdminState.bookings.find(item => item.id === id);
         if (b) {
             sbBookingUpdate(id, { status: 'confirmed' });
@@ -1336,7 +1337,8 @@ window.adminActions = {
         }
     },
 
-    completeBooking: (id) => {
+    completeBooking: async (id) => {
+        if (!(await hasAdminSessionOrLock())) return;
         const b = AdminState.bookings.find(item => item.id === id);
         if (b) {
             sbBookingUpdate(id, { status: 'completed' });
@@ -1347,7 +1349,8 @@ window.adminActions = {
         }
     },
 
-    deleteBooking: (id) => {
+    deleteBooking: async (id) => {
+        if (!(await hasAdminSessionOrLock())) return;
         if (confirm(`هل أنت متأكد من حذف الموعد رقم ${id} نهائياً؟`)) {
             rememberDeletedId(id);
             sbBookingDelete(id);
@@ -1502,7 +1505,8 @@ window.adminActions = {
         }
     },
 
-    markContactRead: (id) => {
+    markContactRead: async (id) => {
+        if (!(await hasAdminSessionOrLock())) return;
         const c = AdminState.contacts.find(item => item.id === id);
         if (c) {
             sbContactUpdate(id, { status: 'read' });
@@ -1519,7 +1523,8 @@ window.adminActions = {
         }
     },
 
-    deleteContact: (id) => {
+    deleteContact: async (id) => {
+        if (!(await hasAdminSessionOrLock())) return;
         if (confirm('هل أنت متأكد من حذف هذه الرسالة؟')) {
             sbContactDelete(id);
             AdminState.contacts = AdminState.contacts.filter(c => c.id !== id);
@@ -1535,7 +1540,8 @@ window.adminActions = {
         }
     },
 
-    deleteNewsletterEmail: (email) => {
+    deleteNewsletterEmail: async (email) => {
+        if (!(await hasAdminSessionOrLock())) return;
         if (confirm(`حذف المشترك (${email}) من النشرة البريدية؟`)) {
             sbNewsletterDelete(email);
             AdminState.newsletter = AdminState.newsletter.filter(n => n.email !== email);
@@ -1708,6 +1714,10 @@ async function requireAdminSession() {
     return null;
 }
 
+async function hasAdminSessionOrLock() {
+    return (await requireAdminSession()) !== null;
+}
+
 function lockAdminPanel() {
     const authOverlay = document.getElementById('adminAuthOverlay');
     if (authOverlay) authOverlay.style.display = 'flex';
@@ -1797,8 +1807,9 @@ function bindFormsAndModals() {
     // Add Booking Form Submit
     const addBookingForm = document.getElementById('addBookingForm');
     if (addBookingForm) {
-        addBookingForm.addEventListener('submit', (e) => {
+        addBookingForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!(await hasAdminSessionOrLock())) return;
             const newBooking = {
                 id: 'DK-' + Math.floor(1000 + Math.random() * 9000),
                 name: document.getElementById('addBookingName').value.trim(),
@@ -1827,8 +1838,9 @@ function bindFormsAndModals() {
     // Edit Booking Form Submit
     const editBookingForm = document.getElementById('editBookingForm');
     if (editBookingForm) {
-        editBookingForm.addEventListener('submit', (e) => {
+        editBookingForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!(await hasAdminSessionOrLock())) return;
             const id = document.getElementById('editBookingId').value;
             const b = AdminState.bookings.find(item => item.id === id);
             if (b) {
