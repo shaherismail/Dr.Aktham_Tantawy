@@ -3214,3 +3214,76 @@ h1, h2, h3, h4, h5, h6 {
 /* Embedded maps removed until the exact clinic pin is verified */
 .footer-map-placeholder{display:none!important}
 #submitBookingBtn{white-space:nowrap}
+
+/* === Preview: appointment slots as teeth with braces (user request 2026-10-27) === */
+.slot-pill-btn {
+    position: relative;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 3px;
+    min-height: 86px;
+    padding: 14px 10px 10px;
+    border-width: 2px;
+    border-radius: 46% 46% 38% 38% / 58% 58% 30% 30%;
+}
+
+.slot-pill-btn i {
+    display: none;
+}
+
+.slot-pill-btn .slot-time-text {
+    font-size: 14.5px;
+}
+
+.slot-pill-btn .slot-badge {
+    margin-top: 22px;
+}
+
+/* braces wire across the tooth */
+.slot-pill-btn::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    right: -2px;
+    top: 50%;
+    height: 3px;
+    background: #94A3B8;
+    transition: var(--transition-fast);
+}
+
+/* bracket centred on the wire */
+.slot-pill-btn::after {
+    content: '';
+    position: absolute;
+    top: calc(50% - 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 14px;
+    background: #E2E8F0;
+    border: 2px solid #64748B;
+    border-radius: 4px;
+    transition: var(--transition-fast);
+}
+
+.slot-pill-btn.slot-available:hover::before {
+    background: var(--primary);
+}
+
+.slot-pill-btn.selected::before {
+    background: rgba(255, 255, 255, 0.75);
+}
+
+.slot-pill-btn.selected::after {
+    background: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+.slot-pill-btn.slot-reserved::before {
+    background: #CBD5E1;
+}
+
+.slot-pill-btn.slot-reserved::after {
+    background: #E2E8F0;
+    border-color: #94A3B8;
+}
