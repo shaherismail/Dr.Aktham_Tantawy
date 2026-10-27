@@ -828,7 +828,7 @@ function renderServices() {
             <div style="padding-top: 12px; border-top: 1px solid var(--adm-border); display: flex; justify-content: space-between; align-items: center;">
                 <div>
                     <span style="font-size: 11px; color: var(--adm-text-muted); display: block;">سعر الخدمة:</span>
-                    <strong style="font-size: 20px; font-family: 'Outfit'; color: var(--adm-primary);">${s.price.toLocaleString('ar-EG')} ج.م</strong>
+                    <strong style="font-size: 20px; font-family: 'Outfit'; color: var(--adm-primary);">${(s.price ?? 0).toLocaleString('ar-EG')} ج.م</strong>
                 </div>
                 <div style="display: flex; gap: 6px;">
                     <button class="adm-btn adm-btn-secondary adm-btn-sm" onclick="window.adminActions.toggleService('${s.id}')" title="تبديل الحالة">
