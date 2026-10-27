@@ -3274,6 +3274,16 @@ h1, h2, h3, h4, h5, h6 {
     background: rgba(255, 255, 255, 0.75);
 }
 
+/* Reinforcement: same wire drawn on the button's own background layer (identical
+   color/geometry to ::before) so it always repaints on selection change */
+.slot-pill-btn.selected {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75)) !important;
+    background-repeat: no-repeat !important;
+    background-size: calc(100% + 4px) 3px !important;
+    background-position: -2px calc(50% + 1.5px) !important;
+    background-origin: border-box !important;
+}
+
 .slot-pill-btn.selected::after {
     background: #FFFFFF;
     border-color: #FFFFFF;
