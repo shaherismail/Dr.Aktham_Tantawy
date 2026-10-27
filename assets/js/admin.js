@@ -460,6 +460,11 @@ export function renderTab(tabId) {
             break;
         case 'bookings': 
             renderBookings(); 
+            // Refresh from Supabase in the background so external changes (e.g. a patient
+            // cancelling from the public profile page) show without a full page reload.
+            loadAdminCloudData().then(() => {
+                if (AdminState.currentTab === 'bookings') renderBookings();
+            }).catch(() => {});
             break;
         case 'patients': 
             renderPatients(); 
