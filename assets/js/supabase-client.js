@@ -24,76 +24,35 @@ export function latinDigits(value) {
         .replace(/[\u06F0-\u06F9]/g, d => d.charCodeAt(0) - 0x06F0);
 }
 
+// ==========================================================================
+// DEMO PREVIEW BUILD - no backend, no network writes, demo data only.
+// ==========================================================================
+const DEMO_TAKEN = [{ time: '06:00 م', chair: null }, { time: '08:00 م', chair: null }];
+
 export async function getSupabase() {
-    if (_client) return _client;
-    const res = await fetch('/api/config', { cache: 'no-store' });
-    if (!res.ok) throw new Error('backend config unavailable');
-    const cfg = await res.json();
-    const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm');
-    _client = createClient(cfg.supabaseUrl, cfg.supabaseKey);
-    return _client;
+    throw new Error('demo preview: backend disabled');
 }
 
-export async function insertBooking(booking) {
-    const sb = await getSupabase();
-    return sb.from('bookings').insert({
-        id: booking.id,
-        name: booking.name,
-        phone: booking.phone,
-        email: booking.email,
-        age: booking.age,
-        service: booking.service,
-        doctor: booking.doctor,
-        date: booking.date,
-        time: booking.time,
-        chair: booking.chair,
-        notes: booking.notes,
-        status: booking.status || 'pending'
-    });
+export async function insertBooking() {
+    return { data: { demo: true }, error: null };
 }
 
-export async function insertContact(msg) {
-    const sb = await getSupabase();
-    return sb.from('contacts').insert({
-        id: msg.id,
-        name: msg.name,
-        phone: msg.phone,
-        email: msg.email,
-        message: msg.message,
-        status: msg.status || 'unread'
-    });
+export async function insertContact() {
+    return { data: { demo: true }, error: null };
 }
 
-export async function insertNewsletter(email) {
-    const sb = await getSupabase();
-    return sb.from('newsletter').insert({
-        id: 'NL-' + Date.now(),
-        email
-    });
+export async function insertNewsletter() {
+    return { data: { demo: true }, error: null };
 }
 
-// Privacy-safe lookup: server returns a row only when booking ID AND phone both match
-export async function lookupBookings(query, phone) {
-    const sb = await getSupabase();
-    const { data, error } = await sb.rpc('lookup_booking', { query, ph: phone });
-    if (error) throw error;
-    return data || [];
+export async function lookupBookings() {
+    return { data: [], error: null };
 }
 
-// Slots already taken for a date (no patient data returned)
-export async function getBookedSlots(date) {
-    try {
-        const sb = await getSupabase();
-        const { data, error } = await sb.rpc('get_booked_slots', { d: date });
-        if (error) return [];
-        return (data || []).map(r => ({ time: r.slot_time, chair: r.slot_chair }));
-    } catch (e) { return []; }
+export async function getBookedSlots() {
+    return { data: DEMO_TAKEN.slice(), error: null };
 }
 
-// Patient-initiated cancel: needs booking ID + the phone used when booking
-export async function cancelBooking(id, phone) {
-    const sb = await getSupabase();
-    const { data, error } = await sb.rpc('cancel_booking', { bid: id, ph: phone });
-    if (error) throw error;
-    return data === true;
+export async function cancelBooking() {
+    return { data: null, error: { message: 'demo preview: cancellations disabled' } };
 }
