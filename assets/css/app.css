@@ -3295,16 +3295,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .slot-pill-btn.slot-available:hover {
     background-color: transparent;
-    filter: drop-shadow(0 4px 8px rgba(22, 163, 74, 0.30));
     transform: translateY(-2px);
 }
 
 .slot-pill-btn.selected {
+    box-shadow: none !important;
     background-color: transparent !important;
     background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20120%20120%22%3E%0A%3Cpath%20d%3D%22M30%208%20C16%208%208%2022%2010%2038%20C12%2052%2018%2060%2022%2076%20C25%2090%2028%20106%2036%20106%20C44%20106%2043%2092%2046%2080%20C48%2070%2054%2066%2060%2066%20C66%2066%2072%2070%2074%2080%20C77%2092%2076%20106%2084%20106%20C92%20106%2095%2090%2098%2076%20C102%2060%20108%2052%20110%2038%20C112%2022%20104%208%2090%208%20C78%208%2074%2014%2060%2014%20C46%2014%2042%208%2030%208%20Z%22%20fill%3D%22%231565FF%22%20stroke%3D%22%230F4C81%22%20stroke-width%3D%223%22/%3E%0A%3Cline%20x1%3D%2213%22%20y1%3D%2244%22%20x2%3D%22107%22%20y2%3D%2244%22%20stroke%3D%22rgba%28255%2C255%2C255%2C0.85%29%22%20stroke-width%3D%224%22/%3E%0A%3Crect%20x%3D%2252%22%20y%3D%2236%22%20width%3D%2216%22%20height%3D%2216%22%20rx%3D%224%22%20fill%3D%22%23FFFFFF%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%222%22/%3E%0A%3C/svg%3E") !important;
     border: none !important;
     box-shadow: none;
-    filter: drop-shadow(0 5px 12px rgba(21, 101, 255, 0.35));
 }
 
 .slot-pill-btn.slot-reserved {
